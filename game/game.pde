@@ -1,12 +1,12 @@
 final static int TILE_SIZE = 32;
 
+public int[] keys = {0, 0, 0, 0};
+
 public String STATE;
 public String PREV_STATE;
 
 public Engine engine;
 public GUI gui;
-
-boolean show =true;
 
 void setup() {
   size (1080, 720);
@@ -45,11 +45,16 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  
+  if(key == 'w') keys[0] = 1;
+  if(key == 'a') keys[1] = 1;
+  if(key == 's') keys[2] = 1;
+  if(key == 'd') keys[3] = 1;
 }
-
 void keyReleased() {
-  if(key == ' ') show = !show;
+  if(key == 'w') keys[0] = 0; 
+  if(key == 'a') keys[1] = 0;
+  if(key == 's') keys[2] = 0;
+  if(key == 'd') keys[3] = 0;
 }
 
 public void setState(String state) {

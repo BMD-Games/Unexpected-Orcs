@@ -6,23 +6,28 @@ class Level {
   private String name;
   public ArrayList<Enemy> enemies  = new ArrayList<Enemy>();
   
+  private float xRenderOffset, yRenderOffset;
+  private int xTileOffset, yTileOffset, renderW, renderH, buffer = 4;
+  
   PGraphics background, tiles;
   
   Level(int w, int h) {
     this.w = w;
     this.h = h;
-    background = createGraphics(w * TILE_SIZE, h * TILE_SIZE);
-    tiles = createGraphics(w * TILE_SIZE, h * TILE_SIZE);
+    renderW = width/TILE_SIZE + buffer;
+    renderH = height/TILE_SIZE + buffer;
+    background = createGraphics(width, height);
+    tiles = createGraphics(width, height);
   }
   
-  public void show() {
-    //will need to offset this by the player's position
-    image(background, 0, 0);
-    if(show) image(tiles, 0, 0);
+  public void update(float x, float y) {
+    xRenderOffset = x * TILE_SIZE - (width/2);
+    yRenderOffset = y * TILE_SIZE - (height/2);
+    xTileOffset = (int)x - (width/2)/TILE_SIZE;
+    yTileOffset = (int)y - (height/2)/TILE_SIZE;
   }
   
-  private void generateImages() {
-
+  public void show() {    
     //generate an image based off the tile map;
     background.beginDraw();
     background.background(0);
@@ -31,41 +36,35 @@ class Level {
     
     tiles.beginDraw();
     tiles.background(0, 0);
-    for(int i = 0; i < w; i ++) {
-      for(int j = 0; j < h; j ++) {
-        if(tileMap[i][j] == 0) {
-          if(isBorder(tileMap, i, j)) {
-            //Below was used to make shitty hatch pattern
-            /**background.pushMatrix();
-            background.translate(i * TILE_SIZE + TILE_SIZE/2, j * TILE_SIZE + TILE_SIZE/2);
-            background.rotate(random(PI));
-            for(int k = -9; k <= 9; k++) {
-              background.fill(50);
-              if(k%2 == 0) background.fill(255);
-              background.rect(k * TILE_SIZE/8, -TILE_SIZE * 2, TILE_SIZE/8, TILE_SIZE * 4);
-            }
-            background.popMatrix();**/
-            background.rect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-          }
-          continue;
-        } else if(tileMap[i][j] == 1) { //basic ground
+    for(int x = 0; x < renderW; x ++) {
+      for(int y = 0; y < renderH; y ++) {
+        int i = (x + xTileOffset) - buffer/2;
+        int j = (y + yTileOffset) - buffer/2;
+        int tile = 0;
+        try{ tile = tileMap[i][j]; } catch(Exception e) {}
+        if(tile == 0) continue;
+        else if(tile == 1) { //basic ground
           tiles.stroke(150);
           tiles.fill(255);
-        } else if(tileMap[i][j] == 2) { //player start
+        } else if(tile == 2) { //player start
           tiles.stroke(100);
           tiles.fill(255, 0, 0);
         }        
-        tiles.rect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        
+        tiles.rect(i * TILE_SIZE - xRenderOffset, j * TILE_SIZE - yRenderOffset, TILE_SIZE, TILE_SIZE);        
       }
     }
     background.endDraw();
     tiles.endDraw();
+    image(background, 0, 0);
+    image(tiles, 0, 0);
   }
   
   public boolean isBorder(int[][]tiles, int i, int j) {
     boolean edge = isEdge(tiles, i, j);
-    boolean border = ((numNeighbours(tiles, i, j, 1) < 8 && tiles[i][j] == 0) || (numNeighbours(tiles, i, j, 1) > 0 && tiles[i][j] != 0));
+    boolean border = false;
+    try {
+      border = ((numNeighbours(tiles, i, j, 1) < 8 && tiles[i][j] == 0) || (numNeighbours(tiles, i, j, 1) > 0 && tiles[i][j] != 0));
+    } catch(Exception e) {}
     return (!edge && border);
   }
   
@@ -91,7 +90,6 @@ class Level {
   //-----Getters and setters------
   public void setTiles(int[][] tiles) {
     tileMap = tiles;
-    generateImages();
   }
   
   public int[][] getTiles() {
@@ -100,7 +98,6 @@ class Level {
   
   public void setTile(int t, int i, int j) {
     tileMap[i][j] = t;
-    generateImages();
   }
   
   public int getTile(int i, int j) {
@@ -123,3 +120,15 @@ class Level {
     return name;
   }
 }
+
+
+//Below was used to make shitty hatch pattern
+/**background.pushMatrix();
+background.translate(i * TILE_SIZE + TILE_SIZE/2, j * TILE_SIZE + TILE_SIZE/2);
+background.rotate(random(PI));
+for(int k = -9; k <= 9; k++) {
+  background.fill(50);
+  if(k%2 == 0) background.fill(255);
+  background.rect(k * TILE_SIZE/8, -TILE_SIZE * 2, TILE_SIZE/8, TILE_SIZE * 4);
+}
+background.popMatrix();**/
