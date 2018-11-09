@@ -6,7 +6,7 @@ public String PREV_STATE;
 public Engine engine;
 public GUI gui;
 
-boolean show =true;
+boolean show = true;
 
 void setup() {
   size (1080, 720);

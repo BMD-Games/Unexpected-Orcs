@@ -22,7 +22,6 @@ class Level {
   }
   
   private void generateImages() {
-
     //generate an image based off the tile map;
     background.beginDraw();
     background.background(0);
@@ -70,27 +69,24 @@ class Level {
   }
   
   public boolean isEdge(int[][] tiles, int i, int j) {
-    return (i == 0 || j == 0 || i == tiles.length - 1 || j == tiles[0].length);
+    return (i < 1 || j < 1 || i >= w - 1 || j >= h - 1);
   }
-  
-  public int numNeighbours(int[][] tiles, int x, int y, int dist) {
-    //counts the number of walls in a square centred at x, y, spanning dist in each direction
-    int num = 0;
-    for(int i = -dist; i <= dist; i ++) {
-      for(int j = -dist; j <= dist; j ++) {
-        if(i == 0 && j == 0) continue; //skip if on the centre tile
-        try {
-          if(tiles[x + i][y + j] == 0) num ++; //if the tile is a wall
-        } catch(Exception e) {}
+  public void generateStart() {
+    while(start == null) {
+      int i = floor(random(2, w-3));
+      int j = floor(random(2, h-3));
+      if(tileMap[i][j] == 1) {
+        tileMap[i][j] = 2;
+        start = new PVector(i, j);
       }
     }
-    return num;
   }
   
   
   //-----Getters and setters------
   public void setTiles(int[][] tiles) {
     tileMap = tiles;
+    generateStart();
     generateImages();
   }
   
@@ -115,11 +111,11 @@ class Level {
     return h;
   }
   
-  public void setName(String name) {
+  public void setLevelName(String name) {
     this.name = name;
   }
   
-  public String getName() {
+  public String getLevelName() {
     return name;
   }
 }

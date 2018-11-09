@@ -11,14 +11,14 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    //currentLevel = new Cave();
-    currentLevel = new Cave(120, 90);
+    //currentLevel = new Cave(120, 90);
+    currentLevel = new Dungeon(60, 45);
   }
   
   public void update() {
     //updates all game objects
     double delta = millis() - lastUpdate;
-    println(delta, frameRate);
+    //println(delta, frameRate);
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
       if(!currentLevel.enemies.get(i).update(delta)) { //if update function returns false, the enemy is dead
         currentLevel.enemies.remove(i); //remove enemy
