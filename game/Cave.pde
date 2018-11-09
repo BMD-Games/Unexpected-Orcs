@@ -49,20 +49,5 @@ class Cave extends Level{
         }
       }
     }
-  }
-  
-  private int numNeighbours(int[][] tiles, int x, int y, int dist) {
-    //counts the number of walls in a square centred at x, y, spanning dist in each direction
-    int num = 0;
-    for(int i = -dist; i <= dist; i ++) {
-      for(int j = -dist; j <= dist; j ++) {
-        if(i == 0 && j == 0) continue; //skip if on the centre tile
-        try {
-          if(tiles[x + i][y + j] == 0) num ++; //if the tile is a wall
-        } catch(Exception e) {}
-      }
-    }
-    return num;
-  }
-  
+  }  
 }
