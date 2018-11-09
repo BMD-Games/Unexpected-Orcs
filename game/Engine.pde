@@ -12,7 +12,7 @@ class Engine {
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
     //currentLevel = new Cave();
-    currentLevel = new Level(1, 1);
+    currentLevel = new Cave(120, 90);
   }
   
   public void update() {
@@ -40,7 +40,7 @@ class Engine {
   
   public void show() {
     background(255);
-    //level.show();
+    currentLevel.show();
     //player.show();
     //enemies.show();
   }
