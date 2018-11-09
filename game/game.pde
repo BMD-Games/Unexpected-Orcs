@@ -1,9 +1,10 @@
 final static int TILE_SIZE = 32;
 
-String STATE;
+public String STATE;
+public String PREV_STATE;
 
-Engine engine;
-GUI gui;
+public Engine engine;
+public GUI gui;
 
 void setup() {
   size (1080, 720);
@@ -41,8 +42,13 @@ void mouseReleased() {
   gui.handleMouseReleased();
 }
 
-void setState(String state) {
+public void setState(String state) {
+  PREV_STATE = STATE;
   STATE = state;
+}
+
+public void revertState() {
+  STATE = PREV_STATE;
 }
 
 boolean pointInBox(float px, float py, float bx, float by, float w, float h) {
