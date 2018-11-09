@@ -23,6 +23,9 @@ class Level {
   
   private void generateImages() {
     //generate an image based off the tile map;
+    int x = TILE_SIZE;
+    int TILE_SIZE = x/2;
+    
     background.beginDraw();
     background.background(0);
     background.noStroke();

@@ -8,16 +8,21 @@ public GUI gui;
 
 boolean show = true;
 
+int[][] test = {{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}};
+
 void setup() {
   size (1080, 720);
   
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
   
-  setState("MENU");
+  setState("PLAYING");
   
   gui = new GUI();
   engine = new Engine();
+  
+  //println(getEndDirection(test, 1, 1));
+  //println(numNeighboursSimple(test, 1, 1));
 }
 
 void draw() {

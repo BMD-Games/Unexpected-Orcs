@@ -56,7 +56,7 @@ public int numNeighbours(int[][] tiles, int x, int y, int dist) {
 }
 
 public int numNeighboursSimple(int[][] tiles, int x, int y) {
-  //counts the number of walls in a square centred at x, y, spanning dist in each direction
+  //counts the number of walls in a square centred at x, y, only looks in cardianl directions
   int num = 0;
   try { if (tiles[x-1][y] == 0) num ++; } catch(Exception e) {}  
   try { if (tiles[x+1][y] == 0) num ++; } catch(Exception e) {}
@@ -67,22 +67,22 @@ public int numNeighboursSimple(int[][] tiles, int x, int y) {
 
 //------DUNGEON GENERATION---------
 
-public int[][] generateDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straight) {
+public int[][] generateDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straight, float loopChance) {
   //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
   int[][] tiles = new int[w][h];
   int[][] region = new int[w][h];
-  int regionCount = 1;
+  int regionCount = 0;
   ArrayList<int[]> rooms = new ArrayList<int[]>(); //stores all rooms
   ArrayList<int[]> stack = new ArrayList<int[]>();
 
   //generate rooms
   for (int i = 0; i < roomAttempts; i ++) {
     int x, y, xl, yl; //room position and dimensions
-    xl = floor(random(minSize, maxSize)) * 2 - 1; //always odd number
-    yl = floor(random(minSize, maxSize)) * 2 - 1; //always odd number
-    x = floor(random(edgeSize, w - xl - edgeSize)/2) * 2; //avoid edges
-    y = floor(random(edgeSize, h - yl - edgeSize)/2) * 2; //avoid edges
+    xl = floor(random(minSize, maxSize)); //room width
+    yl = floor(random(minSize, maxSize)); //room height
+    x = floor(random(edgeSize, w - xl - edgeSize)); //room x pos - avoid edges
+    y = floor(random(edgeSize, h - yl - edgeSize)); //toom y pos - avoid edges
     int[] room = {x, y, xl, yl};
     boolean hit = false;
     for (int j = 0; j < rooms.size(); j ++) {
@@ -140,27 +140,58 @@ public int[][] generateDungeon(int w, int h, int roomAttempts, int minSize, int 
             dir = d;
           }
         }
+        regionCount ++;
       }
-      regionCount ++;
     }
   }
   
   //get all connectors
-  ArrayList<int[]> connectors = new ArrayList<int[]>();
+  ArrayList<int[]> connectors = getConnectors(tiles, region);
+  ArrayList<Integer> connected = new ArrayList<Integer>(); //all regions that have been connected
+  //connect all rooms to the maze
+  connected.add(0);
+  while (connected.size() < regionCount) {
+    int n = (int)random(connectors.size());
+    int[] connector = connectors.get(n);
+    int c = 0;
+    if(!connected.contains(connector[2]) && connected.contains(connector[3])) c = 2;
+    if(connected.contains(connector[2]) && !connected.contains(connector[3])) c = 3;
+    if(c == 2 || c == 3) {
+      connectors.remove(n);
+      connected.add(connector[c]);
+      tiles[connector[0]][connector[1]] = 1;
+    }
+  }
+  
+  //remove deadends
   for (int i = edgeSize; i < w-edgeSize; i ++) {
     for (int j = edgeSize; j < h-edgeSize; j ++) {
-      if(isConnector(tiles, region, i, j)) {
-        connectors.add(new int[] {i, j});
-        
+      if(tiles[i][j] == 0) continue;
+      int x = i;
+      int y = j;
+      int dir = getEndDirection(tiles, i, j);
+      while(dir != -1) { //deadend found
+        tiles[x][y] = 0;
+        if(dir == 0) y -= 1;
+        if(dir == 2) y += 1;
+        if(dir == 3) x -= 1;
+        if(dir == 1) x += 1;
+        dir = getEndDirection(tiles, x, y);
       }
     }
   }
-  //connect all rooms to the maze
-  for(int i = 0; i < connectors.size(); i ++) {
-    tiles[connectors.get(i)[0]][connectors.get(i)[1]] = 2;
-  }
-
+  
   return tiles;
+}
+
+public int getEndDirection(int[][] tiles, int i, int j) {
+  if(numNeighboursSimple(tiles, i, j) < 3 || tiles[i][j] == 0) return -1; //not dead end
+  //returns the direction of the corridor from a dead end
+  if(tiles[i][j-1] == 1) return 0; //up
+  if(tiles[i][j+1] == 1) return 2; //down
+  if(tiles[i-1][j] == 1) return 3; //left
+  if(tiles[i+1][j] == 1) return 1; //right
+  return -1;
 }
 
 public int direction(int[] t1, int[] t2) {
@@ -198,7 +229,6 @@ public ArrayList<int[]> validNeighbours(int[][] tiles, int i, int j) {
 }
 
 public boolean validTile(int[][] tiles, int x, int y, int dx, int dy) {  
-  int num = 0;
   x -= dx;
   y -= dy;
   if(isEdgeTile(tiles, x, y)) return false;
@@ -217,9 +247,19 @@ public boolean validTile(int[][] tiles, int x, int y, int dx, int dy) {
   return true;
 }
 
-public boolean isConnector(int[][] tiles, int[][] region, int i, int j) {
-  if(tiles[i][j] != 0) return false;
-  if(numNeighboursSimple(tiles, i, j) != 2) return false;
+public ArrayList<int[]> getConnectors(int[][] tiles, int[][] region) {
+  ArrayList<int[]> connectors = new ArrayList<int[]>();
+  for (int i = edgeSize; i < tiles.length-edgeSize; i ++) {
+    for (int j = edgeSize; j < tiles[0].length-edgeSize; j ++) {
+      addConnector(connectors, tiles, region, i, j);
+    }
+  }
+  return connectors;
+}
+
+public void addConnector(ArrayList<int[]> connectors, int[][] tiles, int[][] region, int i, int j) {
+  if(tiles[i][j] != 0) return;
+  if(numNeighboursSimple(tiles, i, j) != 2) return;
   int t = -1, b = -1, l = -1, r = -1;
   int tr = -1, br = -1, lr = -1, rr = -1;
   try { t = tiles[i][j-1]; tr = region[i][j-1]; } catch(Exception e) {}  
@@ -227,7 +267,11 @@ public boolean isConnector(int[][] tiles, int[][] region, int i, int j) {
   try { l = tiles[i-1][j]; lr = region[i-1][j]; } catch(Exception e) {}
   try { r = tiles[i+1][j]; rr = region[i+1][j]; } catch(Exception e) {}
   
-  return(((t > 0 && b > 0) && tr != br) || ((l > 0 && r > 0) && lr != rr));
+  if((t > 0 && b > 0) && tr != br) {
+    connectors.add(new int[] {i, j, tr, br});
+  } else if ((l > 0 && r > 0) && lr != rr) {
+    connectors.add(new int[] {i, j, lr, rr});
+  }
 }
 
 public boolean isEdgeTile(int[][] tiles, int i, int j) {
