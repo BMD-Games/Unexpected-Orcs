@@ -1,7 +1,12 @@
-class Dungeon {
+class Dungeon extends Level{
   
-  Dungeon() {
-     
+  Dungeon(int w, int h) {
+     super(w, h);
+     generateDungeon();
+  }
+  
+  private void generateDungeon() {
+    
   }
   
 }
