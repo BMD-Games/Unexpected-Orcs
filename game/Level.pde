@@ -92,6 +92,7 @@ class Level {
   public void setTiles(int[][] tiles) {
     tileMap = tiles;
     generateStart();
+    saveLevel("out.txt");
   }
   
   public int[][] getTiles() {
@@ -120,6 +121,21 @@ class Level {
   
   public String getName() {
     return name;
+  }
+  
+  public void saveLevel(String filename) {
+    PrintWriter file = createWriter(filename);
+    for(int j = 0; j < h; j ++) {
+      for(int i = 0; i < w; i ++) {
+        if(tileMap[i][j] == WALL) file.print('#');
+        else if(tileMap[i][j] == FLOOR) file.print('.');
+        else if(tileMap[i][j] == SPAWN) file.print('X');
+        else file.print('?');
+      }
+      file.println();
+    }
+    file.flush();
+    file.close();
   }
 }
 

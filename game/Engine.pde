@@ -21,7 +21,7 @@ class Engine {
   public void update() {
     //updates all game objects
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
-    println(delta, frameRate);
+    //println(delta, frameRate);
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
     currentLevel.update(player.x, player.y);
