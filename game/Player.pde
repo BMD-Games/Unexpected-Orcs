@@ -11,16 +11,16 @@ class Player {
     this.y = y;
   }
   
-  public void move(double delta) {
+  public void move(double delta, int[] neighbours) {
     int mod = 1;
     if(slowed) mod = 2;
     x += (keys[3] - keys[1]) * (delta * speed/mod);
     y += (keys[2] - keys[0]) * (delta * speed/mod);
   }
   
-  public void update(double delta) {
+  public void update(double delta, int[] neighbours) {
     ang = atan2(mouseY - height/2, mouseX - width/2);
-    move(delta);
+    move(delta, neighbours);
   }
   
   public void show() {

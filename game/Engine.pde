@@ -23,7 +23,7 @@ class Engine {
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
     println(delta, frameRate);
     
-    player.update(delta);
+    player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
     currentLevel.update(player.x, player.y);
     
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {

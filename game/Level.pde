@@ -42,11 +42,11 @@ class Level {
         int j = (y + yTileOffset) - buffer/2;
         int tile = 0;
         try{ tile = tileMap[i][j]; } catch(Exception e) {}
-        if(tile == 0) continue;
-        else if(tile == 1) { //basic ground
+        if(tile == WALL) continue;
+        else if(tile == FLOOR) { //basic ground
           tiles.stroke(150);
           tiles.fill(255);
-        } else if(tile == 2) { //player start
+        } else if(tile == SPAWN) { //player start
           tiles.stroke(100);
           tiles.fill(255, 0, 0);
         }        
@@ -63,7 +63,7 @@ class Level {
     boolean edge = isEdge(tiles, i, j);
     boolean border = false;
     try {
-      border = ((numNeighbours(tiles, i, j, 1) < 8 && tiles[i][j] == 0) || (numNeighbours(tiles, i, j, 1) > 0 && tiles[i][j] != 0));
+      border = ((numNeighbours(tiles, i, j, 1) < 8 && tiles[i][j] == WALL) || (numNeighbours(tiles, i, j, 1) > 0 && tiles[i][j] != WALL));
     } catch(Exception e) {}
     return (!edge && border);
   }
@@ -79,11 +79,20 @@ class Level {
       for(int j = -dist; j <= dist; j ++) {
         if(i == 0 && j == 0) continue; //skip if on the centre tile
         try {
-          if(tiles[x + i][y + j] == 0) num ++; //if the tile is a wall
+          if(tiles[x + i][y + j] == WALL) num ++; //if the tile is a wall
         } catch(Exception e) {}
       }
     }
     return num;
+  }
+  
+  public int[] getNeighbours(int i, int j) {
+    int[] n = new int[4];
+    try { n[0] = tileMap[i][j-1]; } catch(Exception e) {} //up
+    try { n[2] = tileMap[i][j+1]; } catch(Exception e) {} //down
+    try { n[3] = tileMap[i-1][j]; } catch(Exception e) {} //left
+    try { n[1] = tileMap[i+1][j]; } catch(Exception e) {} //right
+    return n;
   }
   
   

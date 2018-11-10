@@ -29,7 +29,8 @@ class GUI {
   
   public void drawPaused() {
     //Draws the paused overlay
-    background(50, 50);
+    fill(0, 5);
+    rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
     menu.show();
     options.show();
     play.show();
