@@ -6,9 +6,9 @@ public int[][] generateCave(int w, int h, int iterations, float chance) {
   int[][] oldTiles = new int[w][h];
   for (int i = 0; i < w; i ++) {
     for (int j = 0; j < h; j ++) {
-      if (random(1) < chance) tiles[i][j] = 0;
+      if (random(1) < chance) tiles[i][j] = WALL;
       else { 
-        tiles[i][j] = 1;
+        tiles[i][j] = FLOOR;
       }
     }
   }
@@ -28,12 +28,12 @@ public void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boo
     for (int j = 0; j < h; j ++) {
       int num = numNeighbours(oldTiles, i, j, 1); //neighbours in one step
       int num2 = numNeighbours(oldTiles, i, j, 2); //neighbours in two steps
-      tiles[i][j] = 1;
+      tiles[i][j] = FLOOR;
       if (num >= 5 || (firstPhase && num2 <= 2)) {
-        tiles[i][j] = 0;
+        tiles[i][j] = WALL;
       }
       if (i < edgeSize || i >= w-edgeSize || j < edgeSize || j >= h-edgeSize) { //edge tiles
-        tiles[i][j] = 0;
+        tiles[i][j] = WALL;
       }
     }
   }
@@ -46,7 +46,7 @@ public int numNeighbours(int[][] tiles, int x, int y, int dist) {
     for (int j = -dist; j <= dist; j ++) {
       if (i == 0 && j == 0) continue; //skip if on the centre tile
       try {
-        if (tiles[x + i][y + j] == 0) num ++; //if the tile is a wall
+        if (tiles[x + i][y + j] == WALL) num ++; //if the tile is a wall
       } 
       catch(Exception e) {
       }
@@ -58,10 +58,10 @@ public int numNeighbours(int[][] tiles, int x, int y, int dist) {
 public int numNeighboursSimple(int[][] tiles, int x, int y) {
   //counts the number of walls in a square centred at x, y, only looks in cardianl directions
   int num = 0;
-  try { if (tiles[x-1][y] == 0) num ++; } catch(Exception e) {}  
-  try { if (tiles[x+1][y] == 0) num ++; } catch(Exception e) {}
-  try { if (tiles[x][y-1] == 0) num ++; } catch(Exception e) {}
-  try { if (tiles[x][y+1] == 0) num ++; } catch(Exception e) {} 
+  try { if (tiles[x-1][y] == WALL) num ++; } catch(Exception e) {}  
+  try { if (tiles[x+1][y] == WALL) num ++; } catch(Exception e) {}
+  try { if (tiles[x][y-1] == WALL) num ++; } catch(Exception e) {}
+  try { if (tiles[x][y+1] == WALL) num ++; } catch(Exception e) {} 
   return num;
 }
 
@@ -81,7 +81,7 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
     int[] room = rooms.get(r);
     for (int i = room[0]; i < room[0] + room[2]; i ++) {
       for (int j = room[1]; j < room[1] + room[3]; j ++) {
-        tiles[i][j] = 1;
+        tiles[i][j] = FLOOR;
         region[i][j] = regionCount;
       }
     }
@@ -91,13 +91,13 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
   //find maze seed points and run each maze to completion
   for (int i = edgeSize; i < w-edgeSize; i ++) {
     for (int j = edgeSize; j < h-edgeSize; j ++) {
-      if (numNeighbours(tiles, i, j, 1) == 8 && tiles[i][j] == 0) { //seed point found
+      if (numNeighbours(tiles, i, j, 1) == 8 && tiles[i][j] == WALL) { //seed point found
         int x, y, dir = 0;
         stack.add(0, new int[] {i, j});
         while (stack.size() > 0) { //while there are still valid points
           x = stack.get(0)[0]; //get the most recent one
           y = stack.get(0)[1];
-          tiles[x][y] = 1;
+          tiles[x][y] = FLOOR;
           region[x][y] = regionCount;
           ArrayList<int[]> valid = validNeighbours(tiles, x, y);
           if (valid.size() == 0) {
@@ -140,19 +140,27 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
     if(c == 2 || c == 3) {
       connectors.remove(n);
       connected.add(connector[c]);
-      tiles[connector[0]][connector[1]] = 1;
+      tiles[connector[0]][connector[1]] = FLOOR;
     }
+  }
+  
+  //add random connections to make dungeon more interesting
+  for(int i = 0; i < rooms.size(); i ++) {
+    int n = (int)random(connectors.size());
+    int[] connector = connectors.get(n);
+    connectors.remove(n);
+    tiles[connector[0]][connector[1]] = FLOOR;
   }
   
   //remove deadends
   for (int i = edgeSize; i < w-edgeSize; i ++) {
     for (int j = edgeSize; j < h-edgeSize; j ++) {
-      if(tiles[i][j] == 0) continue;
+      if(tiles[i][j] == WALL) continue;
       int x = i;
       int y = j;
       int dir = getEndDirection(tiles, i, j);
       while(dir != -1) { //deadend found
-        tiles[x][y] = 0;
+        tiles[x][y] = WALL;
         if(dir == 0) y -= 1;
         if(dir == 2) y += 1;
         if(dir == 3) x -= 1;
@@ -190,12 +198,12 @@ public ArrayList<int[]> placeRooms(int w, int h, int roomAttempts, int minSize, 
 }
 
 public int getEndDirection(int[][] tiles, int i, int j) {
-  if(numNeighboursSimple(tiles, i, j) < 3 || tiles[i][j] == 0) return -1; //not dead end
+  if(numNeighboursSimple(tiles, i, j) < 3 || tiles[i][j] == WALL) return -1; //not dead end
   //returns the direction of the corridor from a dead end
-  if(tiles[i][j-1] == 1) return 0; //up
-  if(tiles[i][j+1] == 1) return 2; //down
-  if(tiles[i-1][j] == 1) return 3; //left
-  if(tiles[i+1][j] == 1) return 1; //right
+  if(tiles[i][j-1] == FLOOR) return 0; //up
+  if(tiles[i][j+1] == FLOOR) return 2; //down
+  if(tiles[i-1][j] == FLOOR) return 3; //left
+  if(tiles[i+1][j] == FLOOR) return 1; //right
   return -1;
 }
 
@@ -242,7 +250,7 @@ public boolean validTile(int[][] tiles, int x, int y, int dx, int dy) {
       if (dx != 0 && dx == i) continue;      
       if (dy != 0 && dy == j) continue;
       try {
-        if (tiles[x + i][y + j] != 0) return false; //if the tile is a wall
+        if (tiles[x + i][y + j] != WALL) return false; //if the tile is a wall
       } 
       catch(Exception e) { 
         return false;
@@ -263,7 +271,7 @@ public ArrayList<int[]> getConnectors(int[][] tiles, int[][] region) {
 }
 
 public void addConnector(ArrayList<int[]> connectors, int[][] tiles, int[][] region, int i, int j) {
-  if(tiles[i][j] != 0) return;
+  if(tiles[i][j] != WALL) return;
   if(numNeighboursSimple(tiles, i, j) != 2) return;
   int t = -1, b = -1, l = -1, r = -1;
   int tr = -1, br = -1, lr = -1, rr = -1;
@@ -272,9 +280,9 @@ public void addConnector(ArrayList<int[]> connectors, int[][] tiles, int[][] reg
   try { l = tiles[i-1][j]; lr = region[i-1][j]; } catch(Exception e) {}
   try { r = tiles[i+1][j]; rr = region[i+1][j]; } catch(Exception e) {}
   
-  if((t > 0 && b > 0) && tr != br) {
+  if((t > WALL && b > WALL) && tr != br) { // >Wall is non-solid block
     connectors.add(new int[] {i, j, tr, br});
-  } else if ((l > 0 && r > 0) && lr != rr) {
+  } else if ((l > WALL && r > WALL) && lr != rr) {
     connectors.add(new int[] {i, j, lr, rr});
   }
 }
