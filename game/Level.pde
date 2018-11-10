@@ -110,6 +110,7 @@ class Level {
   //-----Getters and setters------
   public void setTiles(int[][] tiles) {
     tileMap = tiles;
+    generateStart();
   }
   
   public int[][] getTiles() {
