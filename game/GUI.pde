@@ -4,41 +4,60 @@ class GUI {
   **/
    
   private Button play, back, options, menu, pause;
+  private PGraphics screen;
   
   GUI() {
     //need to set buttons and whatnot here
-    play = new Button (width/2 - TILE_SIZE * 2, height/2 - TILE_SIZE * 4, TILE_SIZE * 4, TILE_SIZE * 2, "Play!", 255, 50);
-    back = new Button (width/2 - TILE_SIZE * 2, height/2 + TILE_SIZE * 5, TILE_SIZE * 4, TILE_SIZE * 2, "Back", 255, 50);
-    menu = new Button (width/2 - TILE_SIZE * 2, height/2 + TILE_SIZE * 2, TILE_SIZE * 4, TILE_SIZE * 2, "Menu", 255, 50);
-    options = new Button (width/2 - TILE_SIZE * 2, height/2 - TILE_SIZE, TILE_SIZE * 4, TILE_SIZE * 2, "Options", 255, 50);
-    pause = new Button(width - 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE * 2, TILE_SIZE * 2, "||", 255, 50);
+    play = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, 2, 1, "PLAY");
+    options = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 0, 2, 1, "OPTIONS");
+    menu = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, 2, 1, "MENU");
+    back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, 2, 1, "BACK");
+    pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, 1, 1, "PAUSE");
+    screen = createGraphics(width, height);
+  }
+  
+  public void clearScreen() {
+    screen.background(0, 0);
   }
   
   public void drawMenu() {
     //Draws the main menu
-    background(255);
-    play.show();
-    options.show();
+    screen.beginDraw();
+    screen.background(255);
+    play.show(screen);
+    options.show(screen);
+    screen.endDraw();
+    image(screen, 0, 0);
   }
   
   public void drawOptions() {
     //Draws the options menu
-    background(255);
-    back.show();
+    screen.beginDraw();
+    screen.background(255);
+    back.show(screen);
+    screen.endDraw();
+    image(screen, 0, 0);
   }
   
   public void drawPaused() {
     //Draws the paused overlay
-    fill(0, 5);
-    rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
-    menu.show();
-    options.show();
-    play.show();
+    screen.beginDraw();
+    screen.fill(255, 5);
+    screen.rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
+    menu.show(screen);
+    options.show(screen);
+    play.show(screen);
+    screen.endDraw();
+    image(screen, 0, 0);
   }
   
   public void drawPause() {
     //Draws the pause button during gameplay
-    pause.show();
+    screen.beginDraw();
+    clearScreen();
+    pause.show(screen);
+    screen.endDraw();
+    image(screen, 0, 0);
   }
   
   public void handleMouseReleased() {
@@ -61,30 +80,22 @@ class GUI {
 class Button {
   
   private float x, y, w, h;
-  private String txt;
-  private color bg, line;
+  private String sprite;
   
-  Button(float x, float y, float w, float h, String txt, color bg, color line) {
+  Button(float x, float y, float w, float h, String sprite) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
-    this.txt = txt;
-    this.bg = bg;
-    this.line = line;
+    this.sprite = sprite;
   }
   
   public boolean pressed(float mX, float mY) {
-    return pointInBox(mX, mY, x, y, w, h);
+    return pointInBox(mX, mY, x, y, w * TILE_SIZE, h * TILE_SIZE);
   }
   
-  public void show() {
-    fill(bg);
-    stroke(line);
-    rect(x, y, w, h);
-    noStroke();
-    fill(line);
-    text(txt, x + w/2, y + h/2);
+  public void show(PGraphics screen) {
+    screen.image(sprites.get(sprite), x, y, w * TILE_SIZE, h * TILE_SIZE);
   }
   
 }

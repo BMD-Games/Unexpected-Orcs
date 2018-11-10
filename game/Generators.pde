@@ -15,7 +15,7 @@ public int[][] generateCave(int w, int h, int iterations, float chance) {
   for (int i = 0; i < iterations; i ++) {
     iterateGeneration(tiles, oldTiles, w, h, i < iterations - 1);
   }
-  return randomizeTiles(tiles);
+  return finishingPass(tiles);
 }
 
 public void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
@@ -169,7 +169,7 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
     }
   }
   
-  return randomizeTiles(tiles);
+  return finishingPass(tiles);
 }
 
 //Generates a dungeon with corridors directly between rooms
@@ -210,7 +210,7 @@ public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSi
     }
   }
   
-  return tiles;
+  return finishingPass(tiles);
 }
 
 public int[][] connectRooms(int[][] tiles, int[] r1, int[] r2) {
@@ -360,7 +360,7 @@ public boolean isEdgeTile(int[][] tiles, int i, int j) {
   return (i < edgeSize || j < edgeSize || i >= tiles.length - edgeSize || j >= tiles[0].length - edgeSize);
 }
 
-public int[][] randomizeTiles(int[][] tiles) {
+public int[][] finishingPass(int[][] tiles) {
   int w = tiles.length;
   int h = tiles[0].length;
   int[][] newTiles = new int[w][h];
@@ -371,7 +371,8 @@ public int[][] randomizeTiles(int[][] tiles) {
       }
       else if(tiles[i][j] > WALL) {
         //use some random shit to add flavour to dungeons
-        newTiles[i][j] = tiles[i][j];
+        if(random(1) < 0.1) newTiles[i][j] = CRACK;
+        else newTiles[i][j] = tiles[i][j];
       }
     }
   }

@@ -1,5 +1,12 @@
-final static int TILE_SIZE = 32;
-final static int SCALE = 1; //will use if we end up using sprites that are not 32x32 which we probably will.
+import java.util.Map;
+HashMap<Integer, PImage> tileSprites;
+HashMap<Integer, PImage> itemSprites;
+HashMap<String, PImage> sprites;
+HashMap<Integer, Character> saveChars;
+
+final static int TILE_SIZE = 64;
+final static int SPRITE_SIZE = 16;
+final static int SCALE = TILE_SIZE/SPRITE_SIZE;
 
 public int[] keys = {0, 0, 0, 0};
 
@@ -10,12 +17,17 @@ public Engine engine;
 public GUI gui;
 
 void setup() {
-  size (1080, 720);
+  size(1080, 720, P2D);
+  noSmooth();
+  frameRate(60);
+  
+  loadAssets();
   
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
   
   setState("MENU");
+  cursor(sprites.get("CURSOR"));
   
   gui = new GUI();
   engine = new Engine();
@@ -46,16 +58,16 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  if(key == 'w') keys[0] = 1;
-  if(key == 'a') keys[1] = 1;
-  if(key == 's') keys[2] = 1;
-  if(key == 'd') keys[3] = 1;
+  if(key == 'W' || key == 'w') keys[0] = 1;
+  if(key == 'A' || key == 'a') keys[1] = 1;
+  if(key == 'S' || key == 's') keys[2] = 1;
+  if(key == 'D' || key == 'd') keys[3] = 1;
 }
 void keyReleased() {
-  if(key == 'w') keys[0] = 0; 
-  if(key == 'a') keys[1] = 0;
-  if(key == 's') keys[2] = 0;
-  if(key == 'd') keys[3] = 0;
+  if(key == 'W' || key == 'w') keys[0] = 0; 
+  if(key == 'A' || key == 'a') keys[1] = 0;
+  if(key == 'S' || key == 's') keys[2] = 0;
+  if(key == 'D' || key == 'd') keys[3] = 0;
 }
 
 public void setState(String state) {

@@ -21,10 +21,10 @@ class Engine {
   public void update() {
     //updates all game objects
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
-    //println(delta, frameRate);
+    println(delta, frameRate);
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
-    currentLevel.update(player.x, player.y);
+    //currentLevel.update(player.x, player.y);
     
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
       if(!currentLevel.enemies.get(i).update(delta)) { //if update function returns false, the enemy is dead
@@ -47,6 +47,8 @@ class Engine {
   
   public void show() {
     background(255);
+    //currentLevel.show(getRenderOffset());
+    
     currentLevel.show(getRenderOffset());
     player.show();
     //enemies.show();

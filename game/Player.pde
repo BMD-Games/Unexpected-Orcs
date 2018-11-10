@@ -1,7 +1,7 @@
 class Player {
   
   public float x, y;
-  private float speed = 4, ang;
+  private float speed = 2, ang;
   private int health = 100, size = TILE_SIZE/2;
   
   boolean slowed = false;
