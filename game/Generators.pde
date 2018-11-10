@@ -67,33 +67,14 @@ public int numNeighboursSimple(int[][] tiles, int x, int y) {
 
 //------DUNGEON GENERATION---------
 
-public int[][] generateDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straight, float loopChance) {
+public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straight, float loopChance) {
   //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
   int[][] tiles = new int[w][h];
   int[][] region = new int[w][h];
   int regionCount = 0;
-  ArrayList<int[]> rooms = new ArrayList<int[]>(); //stores all rooms
+  ArrayList<int[]> rooms = placeRooms(w, h, roomAttempts, minSize, maxSize);
   ArrayList<int[]> stack = new ArrayList<int[]>();
-
-  //generate rooms
-  for (int i = 0; i < roomAttempts; i ++) {
-    int x, y, xl, yl; //room position and dimensions
-    xl = floor(random(minSize, maxSize)); //room width
-    yl = floor(random(minSize, maxSize)); //room height
-    x = floor(random(edgeSize, w - xl - edgeSize)); //room x pos - avoid edges
-    y = floor(random(edgeSize, h - yl - edgeSize)); //toom y pos - avoid edges
-    int[] room = {x, y, xl, yl};
-    boolean hit = false;
-    for (int j = 0; j < rooms.size(); j ++) {
-      if (roomOverlap(rooms.get(j), room)) { 
-        hit = true; 
-        break;
-      }
-    }
-    if (hit) continue;
-    rooms.add(room);
-  }
 
   //add rooms to tile map
   for (int r = 0; r < rooms.size(); r ++) {
@@ -182,6 +163,30 @@ public int[][] generateDungeon(int w, int h, int roomAttempts, int minSize, int 
   }
   
   return tiles;
+}
+
+public ArrayList<int[]> placeRooms(int w, int h, int roomAttempts, int minSize, int maxSize) {
+   ArrayList<int[]> rooms = new ArrayList<int[]>(); //stores all rooms
+
+  //generate rooms
+  for (int i = 0; i < roomAttempts; i ++) {
+    int x, y, xl, yl; //room position and dimensions
+    xl = floor(random(minSize, maxSize)); //room width
+    yl = floor(random(minSize, maxSize)); //room height
+    x = floor(random(edgeSize, w - xl - edgeSize)); //room x pos - avoid edges
+    y = floor(random(edgeSize, h - yl - edgeSize)); //toom y pos - avoid edges
+    int[] room = {x, y, xl, yl};
+    boolean hit = false;
+    for (int j = 0; j < rooms.size(); j ++) {
+      if (roomOverlap(rooms.get(j), room)) { 
+        hit = true; 
+        break;
+      }
+    }
+    if (hit) continue;
+    rooms.add(room);
+  }
+  return rooms;
 }
 
 public int getEndDirection(int[][] tiles, int i, int j) {
