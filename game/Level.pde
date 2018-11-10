@@ -95,6 +95,17 @@ class Level {
     return n;
   }
   
+  public void generateStart() {
+    while(start == null) {
+      int i = floor(random(2, w-3));
+      int j = floor(random(2, h-3));
+      if(tileMap[i][j] == 1) {
+        tileMap[i][j] = 2;
+        start = new PVector(i, j);
+      }
+    }
+  }
+  
   
   //-----Getters and setters------
   public void setTiles(int[][] tiles) {
