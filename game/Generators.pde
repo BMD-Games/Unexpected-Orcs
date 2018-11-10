@@ -1,7 +1,7 @@
 public int edgeSize = 2;
 
 //------CAVE GENERATION--------
-public int[][] generateCave(int w, int h, int iterations, float chance) {
+public int[][] generateCave(int w, int h, int iterations, float chance, TileSet tileset) {
   int[][] tiles = new int[w][h];
   int[][] oldTiles = new int[w][h];
   for (int i = 0; i < w; i ++) {
@@ -15,7 +15,7 @@ public int[][] generateCave(int w, int h, int iterations, float chance) {
   for (int i = 0; i < iterations; i ++) {
     iterateGeneration(tiles, oldTiles, w, h, i < iterations - 1);
   }
-  return finishingPass(tiles);
+  return finishingPass(tiles, tileset);
 }
 
 public void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
@@ -67,7 +67,7 @@ public int numNeighboursSimple(int[][] tiles, int x, int y) {
 
 //------DUNGEON GENERATION---------
 
-public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straightChance, float loopChance) {
+public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straightChance, float loopChance, TileSet tileset) {
   //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
   int[][] tiles = new int[w][h];
@@ -169,11 +169,11 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
     }
   }
   
-  return finishingPass(tiles);
+  return finishingPass(tiles, tileset);
 }
 
 //Generates a dungeon with corridors directly between rooms
-public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSize, int maxSize) {
+public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, TileSet tileset) {
   //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
   int[][] tiles = new int[w][h];
@@ -210,7 +210,7 @@ public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSi
     }
   }
   
-  return finishingPass(tiles);
+  return finishingPass(tiles, tileset);
 }
 
 public int[][] connectRooms(int[][] tiles, int[] r1, int[] r2) {
@@ -360,25 +360,6 @@ public boolean isEdgeTile(int[][] tiles, int i, int j) {
   return (i < edgeSize || j < edgeSize || i >= tiles.length - edgeSize || j >= tiles[0].length - edgeSize);
 }
 
-public int[][] finishingPass(int[][] tiles) {
-  int w = tiles.length;
-  int h = tiles[0].length;
-  int[][] newTiles = new int[w][h];
-  for(int i = 0; i < w; i ++) {
-    for(int j = 0; j < h; j ++) {
-      if(isBorder(tiles, i, j)) {
-        newTiles[i][j] = BORDER;
-      }
-      else if(tiles[i][j] > WALL) {
-        //use some random shit to add flavour to dungeons
-        if(random(1) < 0.1) newTiles[i][j] = CRACK;
-        else newTiles[i][j] = tiles[i][j];
-      }
-    }
-  }
-  return newTiles;
-}
-
 public boolean isBorder(int[][]tiles, int i, int j) {
   boolean edge = (i < 1 || j < 1 || i >= tiles.length - 1 || j >= tiles[0].length - 1);
   boolean border = false;
@@ -386,4 +367,37 @@ public boolean isBorder(int[][]tiles, int i, int j) {
     border = ((numNeighbours(tiles, i, j, 1) < 8 && tiles[i][j] == WALL));
   } catch(Exception e) {}
   return (!edge && border);
+}
+
+public String getBorderType(int[][] tiles, int i, int j) {
+  if(tiles[i][j+1] == FLOOR) return "bottom";
+  if(tiles[i][j-1] == FLOOR) return "top";
+  if(tiles[i+1][j] == FLOOR || tiles[i-1][j] == FLOOR) return "side";
+  return "";
+}
+
+public int[][] finishingPass(int[][] tiles, TileSet tileset) {
+  int w = tiles.length;
+  int h = tiles[0].length;
+  int[][] newTiles = new int[w][h];
+  for(int i = 0; i < w; i ++) {
+    for(int j = 0; j < h; j ++) {
+      if(tiles[i][j] == WALL) {
+        if(isBorder(tiles, i, j)) {
+          String type = getBorderType(tiles, i, j);
+          if(type == "bottom") newTiles[i][j] = tileset.bottomWall;
+          else newTiles[i][j] = tileset.wall;
+        } else {
+          newTiles[i][j] = tileset.innerWall;
+        }
+      } else if(tiles[i][j] > WALL) {
+        //use some random shit to add flavour to dungeons
+        if(random(1) < 0.1) {
+          newTiles[i][j] = tileset.extras.get((int)random(tileset.extras.size()));
+        }
+        else newTiles[i][j] = tileset.floor;
+      }
+    }
+  }
+  return newTiles;
 }

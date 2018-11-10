@@ -5,6 +5,17 @@ class Cave extends Level{
   
   Cave(int w, int h) {
     super(w, h);
-    this.setTiles(generateCave(w, h, iterations, chance));
+    
+    //--set tiles in tileset--
+    tileset.floor = STONE;
+    tileset.wall = ROCK_WALL;
+    tileset.bottomWall = ROCK_BOTTOM_WALL;
+    tileset.innerWall = DARK_ROCK_WALL;
+    tileset.spawn = X_STONE;
+    tileset.extras.add(RUBBLE_STONE);
+    tileset.extras.add(SKULL_STONE);  
+    
+    this.setTiles(generateCave(w, h, iterations, chance, tileset));
   }
+  
 }

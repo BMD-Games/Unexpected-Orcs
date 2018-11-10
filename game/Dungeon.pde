@@ -4,10 +4,19 @@ class Dungeon extends Level {
   private float straightChance = 0.9, loopChance = 0.1;
   
   Dungeon(int w, int h) {
-     super(w, h);
+    super(w, h);
      
-     //this.setTiles(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance));
-     this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
+    //--set tiles in tileset--
+    tileset.floor = WOOD;
+    tileset.wall = STONE_BRICK_WALL;
+    tileset.bottomWall = STONE_BRICK_BOTTOM_WALL;
+    tileset.innerWall = DARK_STONE_BRICK_WALL;
+    tileset.spawn = STAR_WOOD;
+    tileset.extras.add(BROKEN_WOOD);
+    tileset.extras.add(LONG_WOOD);    
+    
+    //this.setTiles(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance, tileset));
+    this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, tileset));
   }
   
 }

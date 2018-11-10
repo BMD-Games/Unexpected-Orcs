@@ -5,7 +5,7 @@ class Level {
   public PVector start;
   private String name;
   public ArrayList<Enemy> enemies  = new ArrayList<Enemy>();
-  
+  public TileSet tileset  = new TileSet();
   private int xTileOffset, yTileOffset, renderW, renderH, buffer = 4, tileBuffer = width/TILE_SIZE/2;
   
   PGraphics background, tiles;
@@ -29,7 +29,7 @@ class Level {
     tiles.background(0, 0);
     for(int i = 0; i < w + tileBuffer * 2; i ++) {
       for(int j = 0; j < h + tileBuffer * 2; j ++) {
-        int tile = 0;
+        int tile = tileset.innerWall;
         try{ tile = tileMap[i - tileBuffer][j - tileBuffer]; } catch(Exception e) {}
         if(tile <= WALL) {
           background.image(tileSprites.get(tile), i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -65,8 +65,8 @@ class Level {
     while(start == null) {
       int i = floor(random(2, w-3));
       int j = floor(random(2, h-3));
-      if(tileMap[i][j] == 1) {
-        tileMap[i][j] = 2;
+      if(tileMap[i][j] == tileset.floor) {
+        tileMap[i][j] = tileset.spawn;
         start = new PVector(i, j);
       }
     }
@@ -78,7 +78,7 @@ class Level {
     tileMap = tiles;
     generateStart();
     generateImages();
-    saveLevel("out.txt");
+    //saveLevel("out.txt");
   }
   
   public int[][] getTiles() {
@@ -109,17 +109,17 @@ class Level {
     return name;
   }
   
-  public void saveLevel(String filename) {
-    PrintWriter file = createWriter(filename);
-    for(int j = 0; j < h; j ++) {
-      for(int i = 0; i < w; i ++) {
-        file.print(saveChars.get(tileMap[i][j]));
-      }
-      file.println();
-    }
-    file.flush();
-    file.close();
-  }
+  //public void saveLevel(String filename) {
+  //  PrintWriter file = createWriter(filename);
+  //  for(int j = 0; j < h; j ++) {
+  //    for(int i = 0; i < w; i ++) {
+  //      file.print(saveChars.get(tileMap[i][j]));
+  //    }
+  //    file.println();
+  //  }
+  //  file.flush();
+  //  file.close();
+  //}
 }
 
 

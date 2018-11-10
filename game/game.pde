@@ -17,7 +17,7 @@ public Engine engine;
 public GUI gui;
 
 void setup() {
-  size(1080, 720, P2D);
+  size(1080, 720, FX2D);
   noSmooth();
   frameRate(60);
   
@@ -42,8 +42,9 @@ void draw() {
       gui.drawOptions();
       break;
     case "PLAYING":
-      engine.update();
+      
       engine.show();
+      engine.update();
       gui.drawPause();
       break;
     case "PAUSED":
