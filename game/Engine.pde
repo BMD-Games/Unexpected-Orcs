@@ -47,9 +47,13 @@ class Engine {
   
   public void show() {
     background(255);
-    currentLevel.show();
+    currentLevel.show(getRenderOffset());
     player.show();
     //enemies.show();
+  }
+  
+  public PVector getRenderOffset() {
+    return new PVector(player.x * TILE_SIZE - (width/2), player.y * TILE_SIZE - (height/2));
   }
   
   public void handleMouseReleased() {

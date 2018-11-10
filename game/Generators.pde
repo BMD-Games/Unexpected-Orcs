@@ -15,7 +15,7 @@ public int[][] generateCave(int w, int h, int iterations, float chance) {
   for (int i = 0; i < iterations; i ++) {
     iterateGeneration(tiles, oldTiles, w, h, i < iterations - 1);
   }
-  return tiles;
+  return randomizeTiles(tiles);
 }
 
 public void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
@@ -162,7 +162,7 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
     }
   }
   
-  return tiles;
+  return randomizeTiles(tiles);
 }
 
 public ArrayList<int[]> placeRooms(int w, int h, int roomAttempts, int minSize, int maxSize) {
@@ -281,4 +281,31 @@ public void addConnector(ArrayList<int[]> connectors, int[][] tiles, int[][] reg
 
 public boolean isEdgeTile(int[][] tiles, int i, int j) {
   return (i < edgeSize || j < edgeSize || i >= tiles.length - edgeSize || j >= tiles[0].length - edgeSize);
+}
+
+public int[][] randomizeTiles(int[][] tiles) {
+  int w = tiles.length;
+  int h = tiles[0].length;
+  int[][] newTiles = new int[w][h];
+  for(int i = 0; i < w; i ++) {
+    for(int j = 0; j < h; j ++) {
+      if(isBorder(tiles, i, j)) {
+        newTiles[i][j] = BORDER;
+      }
+      else if(tiles[i][j] > WALL) {
+        //use some random shit to add flavour to dungeons
+        newTiles[i][j] = tiles[i][j];
+      }
+    }
+  }
+  return newTiles;
+}
+
+public boolean isBorder(int[][]tiles, int i, int j) {
+  boolean edge = (i < 1 || j < 1 || i >= tiles.length - 1 || j >= tiles[0].length - 1);
+  boolean border = false;
+  try {
+    border = ((numNeighbours(tiles, i, j, 1) < 8 && tiles[i][j] == WALL));
+  } catch(Exception e) {}
+  return (!edge && border);
 }

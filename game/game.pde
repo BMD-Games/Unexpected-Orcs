@@ -1,4 +1,5 @@
 final static int TILE_SIZE = 32;
+final static int SCALE = 1; //will use if we end up using sprites that are not 32x32 which we probably will.
 
 public int[] keys = {0, 0, 0, 0};
 
