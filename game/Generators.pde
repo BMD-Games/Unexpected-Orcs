@@ -67,7 +67,7 @@ public int numNeighboursSimple(int[][] tiles, int x, int y) {
 
 //------DUNGEON GENERATION---------
 
-public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straight, float loopChance) {
+public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straightChance, float loopChance) {
   //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
   int[][] tiles = new int[w][h];
@@ -107,7 +107,7 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
             int n = 0, d = -1;
             for(int v = 0; v < valid.size(); v ++) {
               if(dir == direction(new int[] {x, y}, new int[] {valid.get(v)[0], valid.get(v)[0]}) &&
-               random(1) < straight) {
+               random(1) < straightChance) {
                 d = dir;
                 n = v;
                 break;
@@ -145,11 +145,10 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
   }
   
   //add random connections to make dungeon more interesting
-  for(int i = 0; i < rooms.size(); i ++) {
-    int n = (int)random(connectors.size());
-    int[] connector = connectors.get(n);
-    connectors.remove(n);
-    tiles[connector[0]][connector[1]] = FLOOR;
+  for(int i = 0; i < connectors.size(); i ++) {
+    if(random(1) < loopChance) {
+      tiles[connectors.get(i)[0]][connectors.get(i)[1]] = FLOOR;
+    }
   }
   
   //remove deadends
@@ -167,6 +166,76 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
         if(dir == 1) x += 1;
         dir = getEndDirection(tiles, x, y);
       }
+    }
+  }
+  
+  return tiles;
+}
+
+//Generates a dungeon with corridors directly between rooms
+public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSize, int maxSize) {
+  //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
+
+  int[][] tiles = new int[w][h];
+  int[][] region = new int[w][h];
+  int regionCount = 0;
+  ArrayList<int[]> rooms = placeRooms(w, h, roomAttempts, minSize, maxSize);
+
+  //add rooms to tile map
+  for (int r = 0; r < rooms.size(); r ++) {
+    int[] room = rooms.get(r);
+    for (int i = room[0]; i < room[0] + room[2]; i ++) {
+      for (int j = room[1]; j < room[1] + room[3]; j ++) {
+        tiles[i][j] = FLOOR;
+        region[i][j] = regionCount;
+      }
+    }
+    regionCount ++;
+  }
+
+  ArrayList<Integer> connected = new ArrayList<Integer>(); //all regions that have been connected
+  //connect all rooms
+  connected.add(0);
+  while (connected.size() < rooms.size()) {
+    int r1 = (int)random(rooms.size());
+    int r2 = (int)random(rooms.size());
+    int[] r = {r1, r2};
+    int c = -1;
+    if(!connected.contains(r1) && connected.contains(r2)) c = 0;
+    if(connected.contains(r1) && !connected.contains(r2)) c = 1;
+    if(c == 0 || c == 1) {
+      connectRooms(tiles, rooms.get(r1), rooms.get(r2));
+      connected.add(r[c]);
+      //println(regionCount, connected.toString());
+    }
+  }
+  
+  return tiles;
+}
+
+public int[][] connectRooms(int[][] tiles, int[] r1, int[] r2) {
+  int[] start = {(int)random(r1[0], r1[0] + r1[2]), (int)random(r1[1], r1[1] + r1[3])}; //random point in r1
+  int[] stop = {(int)random(r2[0], r2[0] + r2[2]), (int)random(r2[1], r2[1] + r2[3])}; //random point in r2
+  
+  int x = start[0];
+  int y = start[1];
+  
+  int dx = 0;
+  try { dx = (stop[0] - start[0])/abs(stop[0] - start[0]); } catch(Exception e) {};
+  int dy = 0;
+  try { dy = (stop[1] - start[1])/abs(stop[1] - start[1]); } catch(Exception e) {};
+  
+  int[] dir = {dx, 0};
+  int[] dir2 = {0, dy};
+  if(random(1) < 0.5) { dir = new int[] {0, dy}; dir2 = new int[] {dx, 0}; } //random chance of starting horizontal of veritcally
+  
+  while(x != stop[0] || y != stop[1]) {
+    tiles[x][y] = FLOOR;
+    x += dir[0];
+    y += dir[1];
+    if(x == stop[0] || y == stop[1]) {
+      dir[0] = dir2[0];
+      dir[1] = dir2[1];
     }
   }
   
