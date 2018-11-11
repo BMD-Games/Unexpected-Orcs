@@ -124,6 +124,7 @@ class Level {
     for(int j = 0; j < h; j ++) {
       for(int i = 0; i < w; i ++) {
         file.print(tileMap[i][j]);
+        if(i < w -1) file.print(',');
       }
       file.println();
     }
