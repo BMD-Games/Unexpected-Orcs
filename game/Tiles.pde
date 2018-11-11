@@ -106,10 +106,14 @@ public PImage getSprite(PImage image, int x, int y, int w, int h) {
 
 class TileSet {
   //this tile holds reference to a collection of Sprites, these can be used when generating a dungeon, to make them look nice
-  
   public int innerWall, wall, bottomWall, floor, spawn;
   public ArrayList<Integer> extras = new ArrayList<Integer>();  //Extras are variations of floor tiles to spice shit up a bit
-  
+}
+
+class CharTileSet {
+  String[][] movement = new String[4][2]; //first index is for the direction they're facing, second is for frame of animation
+  String[] idle = new String[4]; //each direction
+    
 }
 
 public TileSet grassTileset() {

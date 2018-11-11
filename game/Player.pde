@@ -1,8 +1,11 @@
 class Player {
   
   public float x, y, w = 0.5, h = 0.5;
-  private float speed = 2, speedMod = 1, ang;
-  private int health = 100, size = TILE_SIZE/2;
+  private float ang;
+  private int size = TILE_SIZE/2;
+  
+  private CharTileSet sprites;
+  private PlayerStats stats = new PlayerStats();
   
   private AABB bound;
 
@@ -20,7 +23,7 @@ class Player {
   }
   
   private float getDX(double delta, int[] neighbours) {
-    float dx = (float)((keys[right] - keys[left]) * (delta * speed * speedMod));
+    float dx = (float)((keys[right] - keys[left]) * (delta * stats.getSpeed()));
     int xpos = (int)x;
     int ypos = (int)y;
     if(dx < 0 && neighbours[left] <= WALL) {
@@ -34,7 +37,7 @@ class Player {
   }
 
   private float getDY(double delta, int[] neighbours) {
-    float dy = (float)((keys[down] - keys[up]) * (delta * speed * speedMod));
+    float dy = (float)((keys[down] - keys[up]) * (delta * stats.getSpeed()));
     int xpos = (int)x;
     int ypos = (int)y;
     if(dy < 0 && neighbours[up] <= WALL) {
@@ -75,6 +78,36 @@ class Player {
     float dir = ang + (3 * PI/4);
     while(dir < 0) dir += TAU;
     return(int)(dir/(PI/2)) % 4;
+  }
+  
+}
+
+class Stats {
+  public int healthCurr, health, healthMax;
+  public int manaCurr, mana, manaMax;
+  
+  public int vitality, vitalityMax;
+  public int attack, attackMax;
+  public int wisdom, wisdomMax;
+  
+  public int defence;
+  
+  public float speed, speedMax;  
+  
+  public float getSpeed() { return speed; }
+  
+}
+
+class PlayerStats extends Stats {
+  
+  PlayerStats() {
+    healthCurr = 100; health = 100; healthMax = 300;
+    manaCurr = 100; mana = 100; manaMax = 200;
+    vitality = 10; vitalityMax = 25;
+    attack = 0; attackMax = 25;
+    wisdom = 10; wisdomMax = 25;
+    speed = 2; speedMax = 10;
+    defence = 0;
   }
   
 }

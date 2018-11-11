@@ -8,7 +8,7 @@ class Level {
   public TileSet tileset  = new TileSet();
   private int xTileOffset, yTileOffset, renderW, renderH, buffer = 4, tileBuffer = width/TILE_SIZE/2;
   
-  PGraphics background, tiles;
+  private PGraphics background, tiles;
   
   Level(int w, int h) {
     this.w = w;
