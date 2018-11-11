@@ -4,7 +4,9 @@ class GUI {
   **/
    
   private Button play, back, options, menu, exit, pause;
+  private PImage title = loadImage("/assets/sprites/title.png");
   private PGraphics screen;
+  private color c = 100;
   
   GUI() {
     //need to set buttons and whatnot here
@@ -24,7 +26,8 @@ class GUI {
   public void drawMenu() {
     //Draws the main menu
     screen.beginDraw();
-    screen.background(255);
+    screen.background(title);
+    screen.background(c);
     play.show(screen);
     options.show(screen);
     exit.show(screen);
@@ -35,7 +38,7 @@ class GUI {
   public void drawOptions() {
     //Draws the options menu
     screen.beginDraw();
-    screen.background(255);
+    screen.background(c);
     back.show(screen);
     screen.endDraw();
     image(screen, 0, 0);
@@ -44,7 +47,8 @@ class GUI {
   public void drawPaused() {
     //Draws the paused overlay
     screen.beginDraw();
-    screen.fill(255, 5);
+    clearScreen();
+    screen.fill(0, 100);
     screen.rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
     menu.show(screen);
     options.show(screen);
@@ -74,7 +78,7 @@ class GUI {
       setState("PAUSED");    
     }else if(exit.pressed(mouseX, mouseY) && STATE == "MENU") {
       quitGame();
-    } else if(back.pressed(mouseX, mouseY)) {
+    } else if(back.pressed(mouseX, mouseY) && (STATE == "OPTIONS")) {
       revertState();
     }
   }

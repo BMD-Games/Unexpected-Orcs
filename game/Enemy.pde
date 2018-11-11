@@ -12,10 +12,14 @@ class Enemy {
     this.level = level;
   }
   
-  public boolean update(double delta) {
+  public boolean update(double delta, float playerX, float playerY) {
     if(health <= 0) return false;
     
     return true;
+  }
+  
+  public void show(PVector renderOffset) {
+    
   }
   
 }

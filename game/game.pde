@@ -42,19 +42,18 @@ void draw() {
       gui.drawOptions();
       break;
     case "PLAYING":
-      
-      engine.show();
       engine.update();
+      engine.show();
       gui.drawPause();
       break;
     case "PAUSED":
+      engine.show();
       gui.drawPaused();
       break;
   }
 }
 
 void mouseReleased() {
-  if(STATE == "PLAYING") engine.handleMouseReleased();
   gui.handleMouseReleased();
 }
 

@@ -62,8 +62,8 @@ class Player {
     translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
     rotate(ang);
     fill(255, 0, 0);
-    rect(-size/2, -size/2, size, size);
     stroke(0);
+    rect(-size/2, -size/2, size, size);
     line(0, 0, size, 0);
     popMatrix();
   }
