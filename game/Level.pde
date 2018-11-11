@@ -123,9 +123,7 @@ class Level {
     PrintWriter file = createWriter("/out/" + name + ".txt");
     for(int j = 0; j < h; j ++) {
       for(int i = 0; i < w; i ++) {
-        int tile = tileMap[i][j];
-        if(tile >= WALL) file.print(" " + tileMap[i][j]); //only one character
-        else file.print(tileMap[i][j]); //only one character
+        file.print(tileMap[i][j]);
       }
       file.println();
     }
