@@ -1,3 +1,10 @@
+
+public final static int up    = 0;
+public final static int down  = 2;
+public final static int left  = 3;
+public final static int right = 1;
+
+
 class Engine {
   /**
   This class is used to update and track all the game objects (eg player, monsters, levels)
@@ -8,6 +15,8 @@ class Engine {
   
   private ArrayList<Projectile> enemyProjectiles = new ArrayList<Projectile>();
   private ArrayList<Projectile> playerProjectiles = new ArrayList<Projectile>();
+  
+  private PVector camera = new PVector(0, 0);
   
   private Player player;
   
@@ -24,6 +33,7 @@ class Engine {
     println(delta, frameRate);
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
+    updateCamera(player.x, player.y);
     currentLevel.update(player.x, player.y);
     
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
@@ -50,16 +60,21 @@ class Engine {
     //currentLevel.show(getRenderOffset());
     
     currentLevel.show(getRenderOffset());
-    player.show();
+    player.show(getRenderOffset());
     //enemies.show();
   }
   
   public PVector getRenderOffset() {
-    return new PVector(player.x * TILE_SIZE - (width/2), player.y * TILE_SIZE - (height/2));
+    return new PVector(camera.x * TILE_SIZE - (width/2), camera.y * TILE_SIZE - (height/2));
   }
   
   public void handleMouseReleased() {
     //handle mouse released
+  }
+  
+  private void updateCamera(float x, float y) {
+    camera.x = x;
+    camera.y = y;
   }
   
 }

@@ -20,13 +20,13 @@ class Player {
   }
   
   private float getDX(double delta, int[] neighbours) {
-    float dx = (float)((keys[3] - keys[1]) * (delta * speed * speedMod));
+    float dx = (float)((keys[right] - keys[left]) * (delta * speed * speedMod));
     int xpos = (int)x;
     int ypos = (int)y;
-    if(dx < 0 && neighbours[3] <= WALL) {
+    if(dx < 0 && neighbours[left] <= WALL) {
       AABB tile = new AABB(xpos - 1, ypos, 1, 1);
       if(bound.collidesWith(tile)) return 0;
-    } else if(dx > 0 && neighbours[1] <= WALL) {
+    } else if(dx > 0 && neighbours[right] <= WALL) {
       AABB tile = new AABB(xpos + 1, ypos, 1, 1);
       if(bound.collidesWith(tile)) return 0;
     }    
@@ -34,13 +34,13 @@ class Player {
   }
 
   private float getDY(double delta, int[] neighbours) {
-    float dy = (float)((keys[2] - keys[0]) * (delta * speed * speedMod));
+    float dy = (float)((keys[down] - keys[up]) * (delta * speed * speedMod));
     int xpos = (int)x;
     int ypos = (int)y;
-    if(dy < 0 && neighbours[0] <= WALL) {
+    if(dy < 0 && neighbours[up] <= WALL) {
       AABB tile = new AABB(xpos, ypos - 1, 1, 1);
       if(bound.collidesWith(tile)) return 0;
-    } else if(dy > 0 && neighbours[2] <= WALL) {
+    } else if(dy > 0 && neighbours[down] <= WALL) {
       AABB tile = new AABB(xpos, ypos + 1, 1, 1);
       if(bound.collidesWith(tile)) return 0;
     }  
@@ -49,13 +49,14 @@ class Player {
 
   public void update(double delta, int[] neighbours) {
     ang = atan2(mouseY - height/2, mouseX - width/2);
+    getFacing();
     move(delta, neighbours);
     updateBound();
   }
   
-  public void show() {
+  public void show(PVector renderOffset) {
     pushMatrix();
-    translate(width/2, height/2);
+    translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
     rotate(ang);
     fill(255, 0, 0);
     rect(-size/2, -size/2, size, size);
@@ -67,6 +68,13 @@ class Player {
   private void updateBound() {
     bound.x = x - bound.w/2;
     bound.y = y - bound.h/2; 
+  }
+  
+  private int getFacing() {
+    //gets the direction that the player is looking in -> decides which sprite to use
+    float dir = ang + (3 * PI/4);
+    while(dir < 0) dir += TAU;
+    return(int)(dir/(PI/2)) % 4;
   }
   
 }

@@ -15,6 +15,10 @@ public final static int ROCK_WALL          = -5;
 public final static int ROCK_BOTTOM_WALL   = -6; //lmao feels
 public final static int DARK_ROCK_WALL     = -7;
 
+public final static int HEDGE_WALL          = -8;
+public final static int HEDGE_BOTTOM_WALL   = -9; //lmao feels
+public final static int DARK_HEDGE_WALL     = -10;
+
 //----Floor Tiles------
 public final static int WOOD         = 3;
 public final static int STAR_WOOD    = 4;
@@ -23,11 +27,18 @@ public final static int BROKEN_WOOD  = 6;
 
 
 public final static int STONE        = 7;
-public final static int RUBBLE_STONE = 8;
 public final static int X_STONE      = 9;
+public final static int RUBBLE_STONE = 9;
 public final static int SKULL_STONE  = 10;
 
+public final static int GRASS          = 11;
+public final static int PATCH_GRASS    = 12;
+public final static int MUSHROOM_GRASS = 13;
+public final static int GRASS_TUFT     = 14;
+public final static int GRASS_LEAF     = 15;
+
 public void loadAssets() {
+  
   tileSprites = new HashMap<Integer, PImage>();
   itemSprites = new HashMap<Integer, PImage>();
   guiSprites = new HashMap<String, PImage>();
@@ -47,6 +58,10 @@ public void loadAssets() {
   tileSprites.put(ROCK_WALL, getSprite(tilesheet, 0, 2, 1, 1));
   tileSprites.put(ROCK_BOTTOM_WALL, getSprite(tilesheet, 1, 2, 1, 1));
   tileSprites.put(DARK_ROCK_WALL, getSprite(tilesheet, 2, 2, 1, 1));
+  
+  tileSprites.put(HEDGE_WALL, getSprite(tilesheet, 0, 4, 1, 1));
+  tileSprites.put(HEDGE_BOTTOM_WALL, getSprite(tilesheet, 1, 4, 1, 1));
+  tileSprites.put(DARK_HEDGE_WALL, getSprite(tilesheet, 2, 4, 1, 1));
 
   //--Floor--
   tileSprites.put(WOOD, getSprite(tilesheet, 0, 1, 1, 1));
@@ -58,6 +73,12 @@ public void loadAssets() {
   tileSprites.put(X_STONE, getSprite(tilesheet, 1, 3, 1, 1));
   tileSprites.put(RUBBLE_STONE,  getSprite(tilesheet, 2, 3, 1, 1));
   tileSprites.put(SKULL_STONE, getSprite(tilesheet, 3, 3, 1, 1));
+  
+  tileSprites.put(GRASS, getSprite(tilesheet, 0, 5, 1, 1));
+  tileSprites.put(PATCH_GRASS, getSprite(tilesheet, 1, 5, 1, 1));
+  tileSprites.put(MUSHROOM_GRASS,  getSprite(tilesheet, 2, 5, 1, 1));
+  tileSprites.put(GRASS_TUFT, getSprite(tilesheet, 3, 5, 1, 1));
+  tileSprites.put(GRASS_LEAF, getSprite(tilesheet, 4, 5, 1, 1));
   
   
   //-----ITEM SPRITES-----
@@ -90,3 +111,47 @@ class TileSet {
   public ArrayList<Integer> extras = new ArrayList<Integer>();  //Extras are variations of floor tiles to spice shit up a bit
   
 }
+
+public TileSet grassTileset() {
+  TileSet tileset = new TileSet();
+
+  tileset.floor = GRASS;
+  tileset.wall = HEDGE_WALL;
+  tileset.bottomWall = HEDGE_BOTTOM_WALL;
+  tileset.innerWall = DARK_HEDGE_WALL;
+  tileset.spawn = PATCH_GRASS;
+  tileset.extras.add(MUSHROOM_GRASS);
+  tileset.extras.add(GRASS_TUFT);
+  tileset.extras.add(GRASS_LEAF);
+   
+  return tileset;
+}
+
+public TileSet caveTileset() {
+  TileSet tileset = new TileSet();
+
+  tileset.floor = STONE;
+  tileset.wall = ROCK_WALL;
+  tileset.bottomWall = ROCK_BOTTOM_WALL;
+  tileset.innerWall = DARK_ROCK_WALL;
+  tileset.spawn = X_STONE;
+  tileset.extras.add(RUBBLE_STONE);
+  tileset.extras.add(SKULL_STONE); 
+  
+  return tileset;
+}
+
+public TileSet dungeonTileset() {
+  TileSet tileset = new TileSet();
+
+  tileset.floor = WOOD;
+  tileset.wall = STONE_BRICK_WALL;
+  tileset.bottomWall = STONE_BRICK_BOTTOM_WALL;
+  tileset.innerWall = DARK_STONE_BRICK_WALL;
+  tileset.spawn = STAR_WOOD;
+  tileset.extras.add(BROKEN_WOOD);
+  tileset.extras.add(LONG_WOOD);
+  
+  return tileset;
+}
+    

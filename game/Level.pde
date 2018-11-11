@@ -63,10 +63,10 @@ class Level {
   
   public int[] getNeighbours(int i, int j) {
     int[] n = new int[4];
-    try { n[0] = tileMap[i][j-1]; } catch(Exception e) {} //up
-    try { n[2] = tileMap[i][j+1]; } catch(Exception e) {} //down
-    try { n[3] = tileMap[i-1][j]; } catch(Exception e) {} //left
-    try { n[1] = tileMap[i+1][j]; } catch(Exception e) {} //right
+    try { n[up] = tileMap[i][j-1]; } catch(Exception e) {} //up
+    try { n[down] = tileMap[i][j+1]; } catch(Exception e) {} //down
+    try { n[left] = tileMap[i-1][j]; } catch(Exception e) {} //left
+    try { n[right] = tileMap[i+1][j]; } catch(Exception e) {} //right
     return n;
   }
   

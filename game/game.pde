@@ -59,16 +59,16 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  if(key == 'W' || key == 'w') keys[0] = 1;
-  if(key == 'A' || key == 'a') keys[1] = 1;
-  if(key == 'S' || key == 's') keys[2] = 1;
-  if(key == 'D' || key == 'd') keys[3] = 1;
+  if(key == 'W' || key == 'w') keys[up] = 1;
+  if(key == 'A' || key == 'a') keys[left] = 1;
+  if(key == 'S' || key == 's') keys[down] = 1;
+  if(key == 'D' || key == 'd') keys[right] = 1;
 }
 void keyReleased() {
-  if(key == 'W' || key == 'w') keys[0] = 0; 
-  if(key == 'A' || key == 'a') keys[1] = 0;
-  if(key == 'S' || key == 's') keys[2] = 0;
-  if(key == 'D' || key == 'd') keys[3] = 0;
+  if(key == 'W' || key == 'w') keys[up] = 0; 
+  if(key == 'A' || key == 'a') keys[left] = 0;
+  if(key == 'S' || key == 's') keys[down] = 0;
+  if(key == 'D' || key == 'd') keys[right] = 0;
 }
 
 public void quitGame() {
