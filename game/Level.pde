@@ -15,37 +15,46 @@ class Level {
     this.h = h;
     renderW = width/TILE_SIZE + buffer;
     renderH = height/TILE_SIZE + buffer;
-    background = createGraphics(TILE_SIZE * (w + tileBuffer * 2), TILE_SIZE * (h + tileBuffer * 2));
-    tiles = createGraphics(TILE_SIZE * (w + tileBuffer * 2), TILE_SIZE * (h + tileBuffer * 2));
+    
+    tiles = createGraphics(width, height);
   }
   
-    public void generateImages() {
-    background.beginDraw();
-    background.background(200);
-    background.noStroke();
-    background.fill(100);
-    
-    tiles.beginDraw();
-    tiles.background(0, 0);
+    public PGraphics generateImage() {
+    PGraphics pg = createGraphics(SPRITE_SIZE * (w + tileBuffer * 2), SPRITE_SIZE * (h + tileBuffer * 2));
+    pg.beginDraw();
+    pg.background(0, 0);
     for(int i = 0; i < w + tileBuffer * 2; i ++) {
       for(int j = 0; j < h + tileBuffer * 2; j ++) {
         int tile = tileset.innerWall;
         try{ tile = tileMap[i - tileBuffer][j - tileBuffer]; } catch(Exception e) {}
-        if(tile <= WALL) {
-          background.image(tileSprites.get(tile), i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        }
-        else {          
-          tiles.image(tileSprites.get(tile), i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        }
+        pg.image(tileSprites.get(tile), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
       }
     }
-    background.endDraw();
-    tiles.endDraw();
+    pg.endDraw();
+    return pg;
   }
   
-  public void show(PVector renderOffset) {
-    image(background.get((int)renderOffset.x + tileBuffer * TILE_SIZE, (int)renderOffset.y + tileBuffer * TILE_SIZE, width, height), 0, 0);
-    image(tiles.get((int)renderOffset.x + tileBuffer * TILE_SIZE, (int)renderOffset.y + tileBuffer * TILE_SIZE, width, height), 0, 0);
+  public void update(float x, float y) {
+    xTileOffset = (int)x - (width/2)/TILE_SIZE;
+    yTileOffset = (int)y - (height/2)/TILE_SIZE;
+  }
+  
+  public void show(PVector renderOffset) {    
+    //generate an image based off the tile map;
+    tiles.beginDraw();
+    tiles.background(0, 0);
+    for(int x = 0; x < renderW; x ++) {
+      for(int y = 0; y < renderH; y ++) {
+        int i = (x + xTileOffset) - buffer/2;
+        int j = (y + yTileOffset) - buffer/2;
+        int tile = tileset.innerWall;
+        try{ tile = tileMap[i][j]; } catch(Exception e) {}
+        PImage sprite = tileSprites.get(tile);
+        tiles.image(sprite, i * (sprite.width * SCALE) - renderOffset.x, j * (sprite.height * SCALE) - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+      }
+    }
+    tiles.endDraw();
+    image(tiles, 0, 0);
   }
   
   public boolean isEdge(int[][] tiles, int i, int j) {
@@ -77,8 +86,8 @@ class Level {
   public void setTiles(int[][] tiles) {
     tileMap = tiles;
     generateStart();
-    generateImages();
-    //saveLevel("out.txt");
+    //generateImages();
+    saveLevel();
   }
   
   public int[][] getTiles() {
@@ -109,17 +118,20 @@ class Level {
     return name;
   }
   
-  //public void saveLevel(String filename) {
-  //  PrintWriter file = createWriter(filename);
-  //  for(int j = 0; j < h; j ++) {
-  //    for(int i = 0; i < w; i ++) {
-  //      file.print(saveChars.get(tileMap[i][j]));
-  //    }
-  //    file.println();
-  //  }
-  //  file.flush();
-  //  file.close();
-  //}
+  public void saveLevel() {
+    generateImage().save("/out/image" + name + ".png");
+    PrintWriter file = createWriter("/out/" + name + ".txt");
+    for(int j = 0; j < h; j ++) {
+      for(int i = 0; i < w; i ++) {
+        int tile = tileMap[i][j];
+        if(tile >= WALL) file.print(" " + tileMap[i][j]); //only one character
+        else file.print(tileMap[i][j]); //only one character
+      }
+      file.println();
+    }
+    file.flush();
+    file.close();
+  }
 }
 
 
@@ -133,42 +145,9 @@ for(int k = -9; k <= 9; k++) {
   background.rect(k * TILE_SIZE/8, -TILE_SIZE * 2, TILE_SIZE/8, TILE_SIZE * 4);
 }
 background.popMatrix();
-
-
-
-  public void update(float x, float y) {
-    xTileOffset = (int)x - (width/2)/TILE_SIZE;
-    yTileOffset = (int)y - (height/2)/TILE_SIZE;
-  }
-  
-  public void show(PVector renderOffset) {    
-    //generate an image based off the tile map;
-    background.beginDraw();
-    background.background(200);
-    background.noStroke();
-    background.fill(100);
-    
-    tiles.beginDraw();
-    tiles.background(0, 0);
-    for(int x = 0; x < renderW; x ++) {
-      for(int y = 0; y < renderH; y ++) {
-        int i = (x + xTileOffset) - buffer/2;
-        int j = (y + yTileOffset) - buffer/2;
-        int tile = 0;
-        try{ tile = tileMap[i][j]; } catch(Exception e) {}
-        if(tile <= WALL) {
-          background.image(tileSprites.get(tile), i * TILE_SIZE - renderOffset.x, j * TILE_SIZE  - renderOffset.y, TILE_SIZE, TILE_SIZE);
-        }
-        else {          
-          tiles.image(tileSprites.get(tile), i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, TILE_SIZE, TILE_SIZE);
-        }
-      }
-    }
-    background.endDraw();
-    tiles.endDraw();
-    image(background, 0, 0);
-    image(tiles, 0, 0);
-  }
-
-
 **/
+
+/**public void show(PVector renderOffset) {
+  image(background.get((int)renderOffset.x + tileBuffer * TILE_SIZE, (int)renderOffset.y + tileBuffer * TILE_SIZE, width, height), 0, 0);
+  image(tiles.get((int)renderOffset.x + tileBuffer * TILE_SIZE, (int)renderOffset.y + tileBuffer * TILE_SIZE, width, height), 0, 0);
+}**/

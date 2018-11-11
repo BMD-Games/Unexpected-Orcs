@@ -5,6 +5,7 @@ class Cave extends Level{
   
   Cave(int w, int h) {
     super(w, h);
+    super.name = "Cave";
     
     //--set tiles in tileset--
     tileset.floor = STONE;

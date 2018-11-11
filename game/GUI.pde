@@ -3,16 +3,17 @@ class GUI {
   This class is used for drawing and handeling all UI related screens and elements  
   **/
    
-  private Button play, back, options, menu, pause;
+  private Button play, back, options, menu, exit, pause;
   private PGraphics screen;
   
   GUI() {
     //need to set buttons and whatnot here
-    play = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, 2, 1, "PLAY");
-    options = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 0, 2, 1, "OPTIONS");
-    menu = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, 2, 1, "MENU");
-    back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, 2, 1, "BACK");
-    pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, 1, 1, "PAUSE");
+    play = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "PLAY");
+    options = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 0, "OPTIONS");
+    menu = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "MENU");
+    back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
+    exit = new Button(width/2 - TILE_SIZE,  height/2 + TILE_SIZE * 1, "EXIT");
+    pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
     screen = createGraphics(width, height);
   }
   
@@ -26,6 +27,7 @@ class GUI {
     screen.background(255);
     play.show(screen);
     options.show(screen);
+    exit.show(screen);
     screen.endDraw();
     image(screen, 0, 0);
   }
@@ -69,7 +71,9 @@ class GUI {
     }else if(menu.pressed(mouseX, mouseY) && STATE == "PAUSED") {
       setState("MENU");
     }else if(pause.pressed(mouseX, mouseY) && STATE == "PLAYING") {
-      setState("PAUSED");
+      setState("PAUSED");    
+    }else if(exit.pressed(mouseX, mouseY) && STATE == "MENU") {
+      quitGame();
     } else if(back.pressed(mouseX, mouseY)) {
       revertState();
     }
@@ -80,22 +84,23 @@ class GUI {
 class Button {
   
   private float x, y, w, h;
-  private String sprite;
+  private String spriteName;
   
-  Button(float x, float y, float w, float h, String sprite) {
+  Button(float x, float y, String spriteName) {
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.h = h;
-    this.sprite = sprite;
+    this.w = guiSprites.get(spriteName).width * SCALE;
+    this.h = guiSprites.get(spriteName).height * SCALE;
+    this.spriteName = spriteName;
   }
   
   public boolean pressed(float mX, float mY) {
-    return pointInBox(mX, mY, x, y, w * TILE_SIZE, h * TILE_SIZE);
+    return pointInBox(mX, mY, x, y, w, h);
   }
   
   public void show(PGraphics screen) {
-    screen.image(sprites.get(sprite), x, y, w * TILE_SIZE, h * TILE_SIZE);
+    PImage sprite = guiSprites.get(spriteName);
+    screen.image(sprite, x, y, sprite.width * SCALE, sprite.height * SCALE);
   }
   
 }

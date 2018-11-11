@@ -13,8 +13,8 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    //currentLevel = new Dungeon(60, 45);
-    currentLevel = new Cave(120, 90);
+    currentLevel = new Dungeon(60, 45);
+    //currentLevel = new Cave(120, 90);
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
   }
   
@@ -24,7 +24,7 @@ class Engine {
     println(delta, frameRate);
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
-    //currentLevel.update(player.x, player.y);
+    currentLevel.update(player.x, player.y);
     
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
       if(!currentLevel.enemies.get(i).update(delta)) { //if update function returns false, the enemy is dead

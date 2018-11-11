@@ -384,8 +384,7 @@ public int[][] finishingPass(int[][] tiles, TileSet tileset) {
     for(int j = 0; j < h; j ++) {
       if(tiles[i][j] == WALL) {
         if(isBorder(tiles, i, j)) {
-          String type = getBorderType(tiles, i, j);
-          if(type == "bottom") newTiles[i][j] = tileset.bottomWall;
+          if(getBorderType(tiles, i, j) == "bottom") newTiles[i][j] = tileset.bottomWall;
           else newTiles[i][j] = tileset.wall;
         } else {
           newTiles[i][j] = tileset.innerWall;

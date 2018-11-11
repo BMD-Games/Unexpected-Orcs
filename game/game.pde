@@ -1,8 +1,8 @@
 import java.util.Map;
 HashMap<Integer, PImage> tileSprites;
 HashMap<Integer, PImage> itemSprites;
-HashMap<String, PImage> sprites;
-HashMap<Integer, Character> saveChars;
+HashMap<String, PImage> guiSprites;
+HashMap<String, PImage> charSprites;
 
 final static int TILE_SIZE = 64;
 final static int SPRITE_SIZE = 16;
@@ -27,7 +27,7 @@ void setup() {
   textSize(TILE_SIZE);
   
   setState("MENU");
-  cursor(sprites.get("CURSOR"));
+  cursor(guiSprites.get("CURSOR"));
   
   gui = new GUI();
   engine = new Engine();
@@ -69,6 +69,12 @@ void keyReleased() {
   if(key == 'A' || key == 'a') keys[1] = 0;
   if(key == 'S' || key == 's') keys[2] = 0;
   if(key == 'D' || key == 'd') keys[3] = 0;
+}
+
+public void quitGame() {
+  //do all savey-stuff here
+  
+  exit();
 }
 
 public void setState(String state) {

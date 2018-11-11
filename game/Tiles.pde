@@ -2,7 +2,7 @@
 //Tiles you can walk through are > 0
 //Avoid using -1 as it can mean errors
 
-//----Generic Tiles-----
+//----Generic Tiles----- Used for map generation
 public final static int WALL   = 0;
 public final static int FLOOR  = 1;
 
@@ -30,8 +30,8 @@ public final static int SKULL_STONE  = 10;
 public void loadAssets() {
   tileSprites = new HashMap<Integer, PImage>();
   itemSprites = new HashMap<Integer, PImage>();
-  sprites = new HashMap<String, PImage>();
-  saveChars = new HashMap<Integer, Character>();
+  guiSprites = new HashMap<String, PImage>();
+  charSprites = new HashMap<String, PImage>();
   
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("/assets/sprites/tilesheet.png");
@@ -40,13 +40,13 @@ public void loadAssets() {
   tileSprites.put(FLOOR, getSprite(tilesheet, 0, 1, 1, 1));
   
   //--Wall--
-  tileSprites.put(STONE_BRICK, getSprite(tilesheet, 0, 0, 1, 1));
-  tileSprites.put(STONE_BRICK_BOTTOM, getSprite(tilesheet, 1, 0, 1, 1));
-  tileSprites.put(DARK_STONE_BRICK, getSprite(tilesheet, 2, 0, 1, 1));
+  tileSprites.put(STONE_BRICK_WALL, getSprite(tilesheet, 0, 0, 1, 1));
+  tileSprites.put(STONE_BRICK_BOTTOM_WALL, getSprite(tilesheet, 1, 0, 1, 1));
+  tileSprites.put(DARK_STONE_BRICK_WALL, getSprite(tilesheet, 2, 0, 1, 1));
   
-  tileSprites.put(ROCK, getSprite(tilesheet, 0, 2, 1, 1));
-  tileSprites.put(ROCK_BOTTOM, getSprite(tilesheet, 1, 2, 1, 1));
-  tileSprites.put(DARK_ROCK, getSprite(tilesheet, 2, 2, 1, 1));
+  tileSprites.put(ROCK_WALL, getSprite(tilesheet, 0, 2, 1, 1));
+  tileSprites.put(ROCK_BOTTOM_WALL, getSprite(tilesheet, 1, 2, 1, 1));
+  tileSprites.put(DARK_ROCK_WALL, getSprite(tilesheet, 2, 2, 1, 1));
 
   //--Floor--
   tileSprites.put(WOOD, getSprite(tilesheet, 0, 1, 1, 1));
@@ -63,21 +63,19 @@ public void loadAssets() {
   //-----ITEM SPRITES-----
   PImage itemsheet = loadImage("/assets/sprites/itemsheet.png");
   
-  //-----OTHER SPRITES----
+  //-----GUI SPRITES----
   PImage sheet = loadImage("/assets/sprites/spritesheet.png");
-  sprites.put("PLAY", getSprite(sheet, 0, 0, 2, 1));  
-  sprites.put("MENU", getSprite(sheet, 2, 0, 2, 1));
-  sprites.put("BACK", getSprite(sheet, 4, 0, 2, 1));
-  sprites.put("OPTIONS", getSprite(sheet, 6, 0, 2, 1));
-  sprites.put("PAUSE", getSprite(sheet, 0, 1, 1, 1));
-  sprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2));
+  guiSprites.put("PLAY", getSprite(sheet, 0, 0, 2, 1));  
+  guiSprites.put("MENU", getSprite(sheet, 2, 0, 2, 1));
+  guiSprites.put("BACK", getSprite(sheet, 4, 0, 2, 1));
+  guiSprites.put("OPTIONS", getSprite(sheet, 6, 0, 2, 1));
+  guiSprites.put("PAUSE", getSprite(sheet, 0, 1, 1, 1));
+  guiSprites.put("EXIT", getSprite(sheet, 1, 1, 2, 1));
+  guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2));
   
-  //-----SAVECHARS-----
-  //saveChars.put(BORDER, '#');
-  //saveChars.put(WALL, '@');
-  //saveChars.put(FLOOR, '.');
-  //saveChars.put(SPAWN, 'X');
-  //saveChars.put(CRACK, '~');
+  //-----CHAR SPRITES-----
+  PImage charsheet = loadImage("/assets/sprites/charsheet.png");
+  
 }
 
 public PImage getSprite(PImage image, int x, int y, int w, int h) {
