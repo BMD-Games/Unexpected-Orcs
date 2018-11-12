@@ -84,6 +84,12 @@ public void loadAssets() {
   //-----ITEM SPRITES-----
   PImage itemsheet = loadImage("/assets/sprites/itemsheet.png");
   
+  //TODO: items and IDs
+  itemSprites.put(0, getSprite(itemsheet, 0, 0, 1, 1)); //shitty item bag
+  itemSprites.put(1, getSprite(itemsheet, 1, 0, 1, 1)); //potion item bag
+  itemSprites.put(2, getSprite(itemsheet, 2, 0, 1, 1)); //fknlit item bag
+  
+  
   //-----GUI SPRITES----
   PImage sheet = loadImage("/assets/sprites/spritesheet.png");
   guiSprites.put("PLAY", getSprite(sheet, 0, 0, 2, 1));  

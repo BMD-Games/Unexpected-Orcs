@@ -36,7 +36,7 @@ class Engine {
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
     updateCamera(player.x, player.y);
-    currentLevel.update(player.x, player.y);
+    currentLevel.update(camera.x, camera.y);
     
     updateEnemies(delta, player.x, player.y);
     updateProjectiles(delta);  
@@ -58,10 +58,11 @@ class Engine {
     }
     for(int i = playerProjectiles.size() - 1; i >= 0; i --) {
       playerProjectiles.get(i).show(getRenderOffset()); //if update function returns false, the projectile is dead
-    } 
+    }
   }
   
   public PVector getRenderOffset() {
+    //gets the position of the camera relative to the centre of the screen
     return new PVector(camera.x * TILE_SIZE - (width/2), camera.y * TILE_SIZE - (height/2));
   }
   
@@ -72,8 +73,13 @@ class Engine {
   }
   
   private void updateCamera(float x, float y) {
-    camera.x = x;
-    camera.y = y;
+    camera.x = x + cos(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.002;
+    camera.y = y + sin(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.002;
+  }
+  
+  private void showCamera() {
+    fill(0, 0, 255);
+    ellipse(camera.x * TILE_SIZE - getRenderOffset().x, camera.y * TILE_SIZE - getRenderOffset().y, 5, 5);
   }
   
   private void updateEnemies(double delta, float x, float y) {

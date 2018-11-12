@@ -6,15 +6,15 @@ class Level {
   private String name;
   public ArrayList<Enemy> enemies  = new ArrayList<Enemy>();
   public TileSet tileset  = new TileSet();
-  private int xTileOffset, yTileOffset, renderW, renderH, buffer = 4, tileBuffer = width/TILE_SIZE/2;
+  private int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
   
   private PGraphics background, tiles;
   
   Level(int w, int h) {
     this.w = w;
     this.h = h;
-    renderW = width/TILE_SIZE + buffer;
-    renderH = height/TILE_SIZE + buffer;
+    renderW = width/TILE_SIZE + 2 * buffer;
+    renderH = height/TILE_SIZE + 2 * buffer;
     
     tiles = createGraphics(width, height);
   }
@@ -45,12 +45,12 @@ class Level {
     tiles.background(0, 0);
     for(int x = 0; x < renderW; x ++) {
       for(int y = 0; y < renderH; y ++) {
-        int i = (x + xTileOffset) - buffer/2;
-        int j = (y + yTileOffset) - buffer/2;
+        int i = (x + xTileOffset) - buffer;
+        int j = (y + yTileOffset) - buffer;
         int tile = tileset.innerWall;
         try{ tile = tileMap[i][j]; } catch(Exception e) {}
         PImage sprite = tileSprites.get(tile);
-        tiles.image(sprite, i * (sprite.width * SCALE) - renderOffset.x, j * (sprite.height * SCALE) - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+        tiles.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
       }
     }
     tiles.endDraw();
@@ -99,7 +99,9 @@ class Level {
   }
   
   public int getTile(int i, int j) {
-    return tileMap[i][j];
+    int tile = WALL;
+    try { tile = tileMap[i][j]; } catch(Exception e) {}
+    return tile;
   }
   
   public int getWidth() {

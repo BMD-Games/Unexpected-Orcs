@@ -27,7 +27,7 @@ class GUI {
     //Draws the main menu
     screen.beginDraw();
     screen.background(title);
-    screen.background(c);
+    //screen.background(c);
     play.show(screen);
     options.show(screen);
     exit.show(screen);
@@ -73,6 +73,8 @@ class GUI {
     }else if(options.pressed(mouseX, mouseY) && (STATE == "MENU" || STATE == "PAUSED")) {
       setState("OPTIONS");
     }else if(menu.pressed(mouseX, mouseY) && STATE == "PAUSED") {
+      //SAVE GAME HERE!!!!
+      //saveGame();
       setState("MENU");
     }else if(pause.pressed(mouseX, mouseY) && STATE == "PLAYING") {
       setState("PAUSED");    
