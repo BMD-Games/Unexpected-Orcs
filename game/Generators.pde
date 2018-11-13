@@ -386,7 +386,7 @@ public int[][] finishingPass(int[][] tiles, TileSet tileset) {
         newTiles[i][j] = tileset.walls[getBitMaskValue(tiles, i, j)];
       } else if(tiles[i][j] > WALL) {
         //use some random shit to add flavour to dungeons
-        if(random(1) < 0.1) {
+        if(tileset.extras.size() > 0 && random(1) < 0.1) {
           newTiles[i][j] = tileset.extras.get((int)random(tileset.extras.size()));
         }
         else newTiles[i][j] = tileset.floor;
