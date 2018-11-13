@@ -22,8 +22,8 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    //currentLevel = new Dungeon(60, 45);
-    currentLevel = new Cave(120, 90);
+    currentLevel = new Dungeon(60, 45);
+    //currentLevel = new Cave(120, 90);
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
   }
   
@@ -73,8 +73,8 @@ class Engine {
   }
   
   private void updateCamera(float x, float y) {
-    camera.x = x + cos(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.002;
-    camera.y = y + sin(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.002;
+    camera.x = x + cos(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.001;
+    camera.y = y + sin(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.001;
   }
   
   private void showCamera() {

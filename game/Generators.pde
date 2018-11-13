@@ -1,7 +1,7 @@
 public int edgeSize = 2;
 
 //------CAVE GENERATION--------
-public int[][] generateCave(int w, int h, int iterations, float chance, TileSet tileset) {
+public int[][] generateCave(int w, int h, int iterations, float chance) {
   int[][] tiles = new int[w][h];
   int[][] oldTiles = new int[w][h];
   for (int i = 0; i < w; i ++) {
@@ -15,7 +15,7 @@ public int[][] generateCave(int w, int h, int iterations, float chance, TileSet 
   for (int i = 0; i < iterations; i ++) {
     iterateGeneration(tiles, oldTiles, w, h, i < iterations - 1);
   }
-  return finishingPass(tiles, tileset);
+  return tiles;
 }
 
 public void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
@@ -67,7 +67,7 @@ public int numNeighboursSimple(int[][] tiles, int x, int y) {
 
 //------DUNGEON GENERATION---------
 
-public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straightChance, float loopChance, TileSet tileset) {
+public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straightChance, float loopChance) {
   //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
   int[][] tiles = new int[w][h];
@@ -169,11 +169,11 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
     }
   }
   
-  return finishingPass(tiles, tileset);
+  return tiles;
 }
 
 //Generates a dungeon with corridors directly between rooms
-public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, TileSet tileset) {
+public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSize, int maxSize) {
   //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
   int[][] tiles = new int[w][h];
@@ -210,7 +210,7 @@ public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSi
     }
   }
   
-  return finishingPass(tiles, tileset);
+  return tiles;
 }
 
 public int[][] connectRooms(int[][] tiles, int[] r1, int[] r2) {
@@ -382,13 +382,8 @@ public int[][] finishingPass(int[][] tiles, TileSet tileset) {
   int[][] newTiles = new int[w][h];
   for(int i = 0; i < w; i ++) {
     for(int j = 0; j < h; j ++) {
-      if(tiles[i][j] == WALL) {
-        if(isBorder(tiles, i, j)) {
-          if(getBorderType(tiles, i, j) == "bottom") newTiles[i][j] = tileset.bottomWall;
-          else newTiles[i][j] = tileset.wall;
-        } else {
-          newTiles[i][j] = tileset.innerWall;
-        }
+      if(isWall(tiles, i, j)) {
+        newTiles[i][j] = tileset.walls[getBitMaskValue(tiles, i, j)];
       } else if(tiles[i][j] > WALL) {
         //use some random shit to add flavour to dungeons
         if(random(1) < 0.1) {
@@ -399,4 +394,19 @@ public int[][] finishingPass(int[][] tiles, TileSet tileset) {
     }
   }
   return newTiles;
+}
+
+public boolean isWall(int[][] tiles, int i, int j) {
+  try { return tiles[i][j] <= WALL; } catch(Exception e) { return true; }
+}
+
+public int getBitMaskValue(int[][] tiles, int i, int j) {
+  int bmValue = 0;
+  
+  if(isWall(tiles, i, j-1)) bmValue += 1;
+  if(isWall(tiles, i-1, j)) bmValue += 2;
+  if(isWall(tiles, i+1, j)) bmValue += 4;
+  if(isWall(tiles, i, j+1)) bmValue += 8;
+  
+  return bmValue;
 }

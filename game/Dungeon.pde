@@ -8,11 +8,11 @@ class Dungeon extends Level {
     super.name = "DungeonWindy"; 
      
     //--set tiles in tileset--
-    tileset = grassTileset();
-    //tileset = dungeonTileset();
+    //tileset = grassTileset();
+    tileset = dungeonTileset();
     
-    this.setTiles(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance, tileset));
-    //this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, tileset));
+    this.setTiles(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance));
+    //this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
   }
   
 }

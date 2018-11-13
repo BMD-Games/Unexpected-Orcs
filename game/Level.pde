@@ -1,5 +1,6 @@
 class Level {
   
+  private int[][] tilesRaw;
   private int[][] tileMap;
   public int w, h;
   public PVector start;
@@ -25,7 +26,7 @@ class Level {
     pg.background(0, 0);
     for(int i = 0; i < w + tileBuffer * 2; i ++) {
       for(int j = 0; j < h + tileBuffer * 2; j ++) {
-        int tile = tileset.innerWall;
+        int tile = tileset.walls[15];
         try{ tile = tileMap[i - tileBuffer][j - tileBuffer]; } catch(Exception e) {}
         pg.image(tileSprites.get(tile), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
       }
@@ -47,7 +48,7 @@ class Level {
       for(int y = 0; y < renderH; y ++) {
         int i = (x + xTileOffset) - buffer;
         int j = (y + yTileOffset) - buffer;
-        int tile = tileset.innerWall;
+        int tile = tileset.walls[15];
         try{ tile = tileMap[i][j]; } catch(Exception e) {}
         PImage sprite = tileSprites.get(tile);
         tiles.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
@@ -74,19 +75,22 @@ class Level {
     while(start == null) {
       int i = floor(random(2, w-3));
       int j = floor(random(2, h-3));
-      if(tileMap[i][j] == tileset.floor) {
-        tileMap[i][j] = tileset.spawn;
+      if(tilesRaw[i][j] > WALL) {
+        tilesRaw[i][j] = tileset.spawn;
         start = new PVector(i, j);
       }
     }
   }
   
+  private void applyTileSet() {
+    tileMap = finishingPass(tilesRaw, tileset);
+  }
   
   //-----Getters and setters------
   public void setTiles(int[][] tiles) {
-    tileMap = tiles;
+    tilesRaw = tiles;
     generateStart();
-    //generateImages();
+    applyTileSet();
     saveLevel();
   }
   
