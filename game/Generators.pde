@@ -13,7 +13,7 @@ public int[][] generateCave(int w, int h, int iterations, float chance) {
     }
   }
   for (int i = 0; i < iterations; i ++) {
-    iterateGeneration(tiles, oldTiles, w, h, i < iterations - 1);
+    iterateGeneration(tiles, oldTiles, w, h, i < iterations - 2);
   }
   return tiles;
 }

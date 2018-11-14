@@ -83,7 +83,7 @@ public final static int BROKEN_WOOD  = 6;
 
 
 public final static int STONE        = 7;
-public final static int X_STONE      = 9;
+public final static int X_STONE      = 8;
 public final static int RUBBLE_STONE = 9;
 public final static int SKULL_STONE  = 10;
 

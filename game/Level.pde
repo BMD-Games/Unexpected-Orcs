@@ -73,9 +73,10 @@ class Level {
   
   public void generateStart() {
     while(start == null) {
-      int i = floor(random(2, w-3));
-      int j = floor(random(2, h-3));
+      int i = floor(random(edgeSize, w-edgeSize));
+      int j = floor(random(edgeSize, h-edgeSize));
       if(tilesRaw[i][j] > WALL) {
+        tileMap[i][j] = tileset.spawn;
         tilesRaw[i][j] = tileset.spawn;
         start = new PVector(i, j);
       }
@@ -89,8 +90,8 @@ class Level {
   //-----Getters and setters------
   public void setTiles(int[][] tiles) {
     tilesRaw = tiles;
-    generateStart();
     applyTileSet();
+    generateStart();
     saveLevel();
   }
   

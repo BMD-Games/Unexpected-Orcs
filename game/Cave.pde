@@ -1,6 +1,6 @@
 class Cave extends Level{
   
-  float chance = 0.5; //chance the a cell will be a wall
+  float chance = 0.4; //chance the a cell will be a wall
   int iterations = 5;
   
   Cave(int w, int h) {
