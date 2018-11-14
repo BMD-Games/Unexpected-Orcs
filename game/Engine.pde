@@ -30,7 +30,7 @@ class Engine {
   public void update() {
     //updates all game objects
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
-    //println(delta, frameRate);
+    println(delta, frameRate);
     
     if(mousePressed) handleMouse();
     

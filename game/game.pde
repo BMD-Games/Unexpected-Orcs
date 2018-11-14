@@ -21,7 +21,7 @@ void setup() {
   noSmooth();
   frameRate(60);
   
-  loadAssets();
+  thread("loadAssets");
   
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
@@ -42,7 +42,8 @@ void draw() {
       gui.drawOptions();
       break;
     case "PLAYING":
-      engine.update();
+      thread("update");
+      //engine.update();
       engine.show();
       gui.drawPause();
       break;
@@ -51,6 +52,10 @@ void draw() {
       gui.drawPaused();
       break;
   }
+}
+
+public void update() {
+  engine.update();
 }
 
 void mouseReleased() {
