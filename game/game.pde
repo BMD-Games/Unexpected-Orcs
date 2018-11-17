@@ -4,11 +4,11 @@ HashMap<Integer, PImage> itemSprites;
 HashMap<String, PImage> guiSprites;
 HashMap<String, PImage> charSprites;
 
-final static int TILE_SIZE = 64;
-final static int SPRITE_SIZE = 16;
-final static int SCALE = TILE_SIZE/SPRITE_SIZE;
+final int TILE_SIZE = 64;
+final int SPRITE_SIZE = 16;
+final int SCALE = TILE_SIZE/SPRITE_SIZE;
 
-public int[] keys = {0, 0, 0, 0};
+public int[] keys = {0, 0, 0, 0, 0};
 
 public String STATE;
 public String PREV_STATE;
@@ -22,6 +22,7 @@ void setup() {
   frameRate(60);
   
   thread("loadAssets");
+  thread("loadSettings");
   
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
@@ -63,16 +64,17 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  if(key == 'W' || key == 'w') keys[up] = 1;
-  if(key == 'A' || key == 'a') keys[left] = 1;
-  if(key == 'S' || key == 's') keys[down] = 1;
-  if(key == 'D' || key == 'd') keys[right] = 1;
+  if(keyCode == UP_KEY) keys[up] = 1;
+  if(keyCode == LEFT_KEY) keys[left] = 1;
+  if(keyCode == DOWN_KEY) keys[down] = 1;
+  if(keyCode == RIGHT_KEY) keys[right] = 1;
+  if(keyCode == RIGHT_KEY) keys[right] = 1;
 }
 void keyReleased() {
-  if(key == 'W' || key == 'w') keys[up] = 0; 
-  if(key == 'A' || key == 'a') keys[left] = 0;
-  if(key == 'S' || key == 's') keys[down] = 0;
-  if(key == 'D' || key == 'd') keys[right] = 0;
+  if(keyCode == UP_KEY) keys[up] = 0;
+  if(keyCode == LEFT_KEY) keys[left] = 0;
+  if(keyCode == DOWN_KEY) keys[down] = 0;
+  if(keyCode == RIGHT_KEY) keys[right] = 0;
 }
 
 public void quitGame() {

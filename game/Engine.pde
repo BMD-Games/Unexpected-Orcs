@@ -1,10 +1,3 @@
-
-public final static int up    = 0;
-public final static int down  = 2;
-public final static int left  = 3;
-public final static int right = 1;
-
-
 class Engine {
   /**
   This class is used to update and track all the game objects (eg player, monsters, levels)
@@ -73,8 +66,8 @@ class Engine {
   }
   
   private void updateCamera(float x, float y) {
-    camera.x = x + cos(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.001;
-    camera.y = y + sin(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.001;
+    camera.x = x;// + cos(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.001;
+    camera.y = y;// + sin(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.001;
   }
   
   private void showCamera() {
