@@ -46,7 +46,7 @@ void draw() {
       thread("update");
       //engine.update();
       engine.show();
-      gui.drawPause();
+      gui.drawUnpaused(engine.getPlayer());
       break;
     case "PAUSED":
       engine.show();
