@@ -7,6 +7,8 @@ class Player {
   private CharTileSet sprites;
   private PlayerStats stats = new PlayerStats();
   
+  private InventoryObject currentInventory;
+  
   private AABB bound;
 
   boolean slowed = false;
@@ -88,6 +90,35 @@ class Player {
     return this.stats.health;
   }
   
+  public int getFireCount() {
+    return stats.fireCount;
+  }
+  
+  public void increaseFireCount() {
+    stats.fireCount++;
+  }
+  
+  public void resetFireCount() {
+    stats.fireCount = 0;
+  }
+  
+  public Boolean hasWeapon() {
+    return currentInventory instanceof Weapon;
+  }
+  
+  public Weapon getWeapon() {
+    if(this.hasWeapon()) {
+      return (Weapon)currentInventory;
+    } else {
+      return null;
+    }
+  }
+  
+  public void setWeapon(Weapon weapon) {
+    currentInventory = weapon;
+  }
+  
+  
 }
 
 class Stats {
@@ -99,6 +130,8 @@ class Stats {
   public int wisdom, wisdomMax;
   
   public int defence;
+  
+  public int fireCount;
   
   public float speed, speedMax;  
   
@@ -112,10 +145,10 @@ class PlayerStats extends Stats {
     healthCurr = 10; health = 100; healthMax = 300;
     manaCurr = 100; mana = 100; manaMax = 200;
     vitality = 10; vitalityMax = 25;
-    attack = 0; attackMax = 25;
+    attack = 1; attackMax = 25;
     wisdom = 10; wisdomMax = 25;
-    speed = 2; speedMax = 10;
-    defence = 0;
+    speed = 4; speedMax = 10;
+    defence = 0; fireCount = 0;
   }
   
 }
