@@ -145,7 +145,7 @@ class DisplayBar {
     screen.fill(c);
     screen.noStroke();
     screen.rect(x,y, w * percentHealth, h);
-    screen.stroke(12);
+    screen.stroke(230);
     screen.strokeWeight(4);
     screen.noFill();
     screen.rect(x, y, w, h);
@@ -154,11 +154,7 @@ class DisplayBar {
   }
   
   public void updateBar(float current, float total) {
-    percentHealth = current / total;
-    println(current);
-    println(total);
-    System.out.println(percentHealth);
-    
+    percentHealth = current / total;    
     
     
   }
