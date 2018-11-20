@@ -23,7 +23,6 @@ class Engine {
   public void update() {
     //updates all game objects
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
-    println(delta, frameRate);
     
     if(mousePressed) handleMouse();
     
@@ -107,6 +106,10 @@ class Engine {
   private boolean projectileIsDead(Projectile proj) {
     boolean hitWall = currentLevel.getTile((int)proj.x, (int)proj.y) <= WALL;
     return !proj.alive() || hitWall;
+  }
+  
+  public Player getPlayer() {
+    return player;
   }
   
 }
