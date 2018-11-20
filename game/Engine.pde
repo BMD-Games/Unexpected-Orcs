@@ -18,6 +18,8 @@ class Engine {
     //currentLevel = new Dungeon(60, 45);
     currentLevel = new Cave(120, 90);
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
+    player.setWeapon(new Shotgun());
+    
   }
   
   public void update() {
@@ -26,7 +28,10 @@ class Engine {
     
     if(mousePressed) handleMouse();
     
+    player.stats.healthCurr++;
+    
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
+    player.increaseFireCount();
     updateCamera(player.x, player.y);
     currentLevel.update(camera.x, camera.y);
     
@@ -61,7 +66,35 @@ class Engine {
   public void handleMouse() {
     //handle mouse released
     //need to do something like add(player.getCurrentWeapon().newProjectile());
-    playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang), 10, 6, 10));
+    // PVector.fromAngle(player.ang)
+    
+    if (player.hasWeapon()) {
+      Weapon weapon = player.getWeapon();
+      if (player.getFireCount() >= weapon.fireRate) {
+        
+        for (int i = 0; i < weapon.numBullets; i++) {
+          playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), weapon.bulletSpeed, weapon.range, weapon.damageMulti * player.stats.attack));
+        }
+        player.resetFireCount();
+      }
+      
+      
+    }
+    
+    /*
+    if (player.getFireCount() >= 10) {
+      
+      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
+      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
+      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
+      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
+      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
+      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
+      player.resetFireCount();
+      
+    }
+    */
+    
   }
   
   private void updateCamera(float x, float y) {
