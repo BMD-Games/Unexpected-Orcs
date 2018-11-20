@@ -4,6 +4,7 @@ class GUI {
   **/
    
   private Button play, back, options, menu, exit, pause;
+  private DisplayBar healthBar;
   private PImage title = loadImage("/assets/sprites/title.png");
   private PGraphics screen;
   private color c = 100;
@@ -16,6 +17,9 @@ class GUI {
     back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
     exit = new Button(width/2 - TILE_SIZE,  height/2 + TILE_SIZE * 1, "EXIT");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+    
+    
+    healthBar = new DisplayBar(100,40,100,30, color(255,0,0));
     screen = createGraphics(width, height);
   }
   
@@ -57,13 +61,19 @@ class GUI {
     image(screen, 0, 0);
   }
   
-  public void drawPause() {
+  public void drawUnpaused(Player player) {
+    
     //Draws the pause button during gameplay
+    
+    healthBar.updateBar(player.getHealthCurr(), player.getHealthTotal());
     screen.beginDraw();
     clearScreen();
     pause.show(screen);
+    fill(255,0,0);
+    healthBar.show(screen);
     screen.endDraw();
     image(screen, 0, 0);
+    
   }
   
   public void handleMouseReleased() {
@@ -83,6 +93,11 @@ class GUI {
     } else if(back.pressed(mouseX, mouseY) && (STATE == "OPTIONS")) {
       revertState();
     }
+  }
+  
+  public void drawHealth() {
+    
+    
   }
   
 }
@@ -108,5 +123,45 @@ class Button {
     PImage sprite = guiSprites.get(spriteName);
     screen.image(sprite, x, y, sprite.width * SCALE, sprite.height * SCALE);
   }
+  
+}
+
+class DisplayBar {
+  
+  private float x, y, w, h, percentHealth;
+  private color c;
+  
+  DisplayBar(float x, float y, float w, float h, color c) {
+    this.x = x;
+    this.y = y;
+    this.h = h;
+    this.w = w;
+    this.c = c;
+    percentHealth = 1.0;
+  }
+  
+  public void show(PGraphics screen) {
+    
+    screen.fill(c);
+    screen.noStroke();
+    screen.rect(x,y, w * percentHealth, h);
+    screen.stroke(12);
+    screen.strokeWeight(4);
+    screen.noFill();
+    screen.rect(x, y, w, h);
+    
+    
+  }
+  
+  public void updateBar(float current, float total) {
+    percentHealth = current / total;
+    println(current);
+    println(total);
+    System.out.println(percentHealth);
+    
+    
+    
+  }
+  
   
 }
