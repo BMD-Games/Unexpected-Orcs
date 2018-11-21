@@ -28,8 +28,6 @@ class Engine {
     
     if(mousePressed) handleMouse();
     
-    player.stats.healthCurr++;
-    
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
     player.increaseFireCount();
     updateCamera(player.x, player.y);
