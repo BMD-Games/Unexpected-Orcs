@@ -28,8 +28,6 @@ class Engine {
     
     if(mousePressed) handleMouse();
     
-    player.stats.healthCurr++;
-    
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
     player.increaseFireCount();
     updateCamera(player.x, player.y);
@@ -52,13 +50,6 @@ class Engine {
     
     for(int i = enemyProjectiles.size() - 1; i >= 0; i --) {
       enemyProjectiles.get(i).show(getRenderOffset());
-    }
-    for(int i = playerProjectiles.size() - 1; i >= 0; i --) {
-      playerProjectiles.get(i).show(getRenderOffset()); //if update function returns false, the projectile is dead
-    }
-  }
-  
-  public PVector getRenderOffset() {
     //gets the position of the camera relative to the centre of the screen
     return new PVector(camera.x * TILE_SIZE - (width/2), camera.y * TILE_SIZE - (height/2));
   }
