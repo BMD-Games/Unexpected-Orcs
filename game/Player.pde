@@ -97,7 +97,7 @@ class Player {
     return(int)(dir/(PI/2)) % 4;
   }
   
-  public int getHealthCurr() {
+  public int getHealth() {
     return this.stats.healthCurr;
   }
   
@@ -166,13 +166,16 @@ class Stats {
 class PlayerStats extends Stats {
   
   PlayerStats() {
-    healthCurr = 10; health = 100; healthMax = 300;
-    manaCurr = 100; mana = 100; manaMax = 200;
-    vitality = 10; vitalityMax = 25;
-    attack = 1; attackMax = 25;
-    wisdom = 10; wisdomMax = 25;
-    speed = 2; speedMax = 10;
-    defence = 0; fireCount = 0;
+
+    health = 100; healthMax = 300;
+    mana = 100; manaMax = 200;
+    vitality = 10;
+    attack = 1;
+    wisdom = 10;
+    speed = 4;
+    defence = 0;
+    fireCount = 0;
+
   }
   
 }
