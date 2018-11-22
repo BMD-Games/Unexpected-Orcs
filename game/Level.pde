@@ -35,12 +35,12 @@ class Level {
     return pg;
   }
   
-  public void update(float x, float y) {
-    xTileOffset = (int)x - (width/2)/TILE_SIZE;
-    yTileOffset = (int)y - (height/2)/TILE_SIZE;
+  public void update(PGraphics screen, float x, float y) {
+    xTileOffset = (int)x - (screen.width/2)/TILE_SIZE;
+    yTileOffset = (int)y - (screen.height/2)/TILE_SIZE;
   }
   
-  public void show(PVector renderOffset) {    
+  public void show(PGraphics screen, PVector renderOffset) {    
     //generate an image based off the tile map;
     tiles.beginDraw();
     tiles.background(0, 0);
@@ -55,7 +55,7 @@ class Level {
       }
     }
     tiles.endDraw();
-    image(tiles, 0, 0);
+    screen.image(tiles, 0, 0);
   }
   
   public boolean isEdge(int[][] tiles, int i, int j) {

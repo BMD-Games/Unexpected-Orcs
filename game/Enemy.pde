@@ -18,7 +18,7 @@ class Enemy {
     return true;
   }
   
-  public void show(PVector renderOffset) {
+  public void show(PGraphics screen, PVector renderOffset) {
     
   }
   

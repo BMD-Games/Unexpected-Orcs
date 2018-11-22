@@ -9,6 +9,7 @@ class Cave extends Level{
     
     //--set tiles in tileset--
     tileset = caveTileset();
+    //tileset = testTileset();
     
     this.setTiles(generateCave(w, h, iterations, chance));
   }

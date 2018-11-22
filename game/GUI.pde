@@ -74,8 +74,7 @@ class GUI {
     healthBar.show(screen);
     health.show(screen);
     screen.endDraw();
-    image(screen, 0, 0);
-    
+    image(screen, 0, 0);    
   }
   
   public void handleMouseReleased() {

@@ -11,6 +11,8 @@ class Engine {
   
   private PVector camera = new PVector(0, 0);
   
+  private PGraphics screen;
+  
   private Player player;
   
   Engine() {
@@ -21,8 +23,7 @@ class Engine {
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
     player.setWeapon(new Shotgun());
     
-    
-    
+    screen = createGraphics(width - GUI_WIDTH, height);
   }
   
   public void update() {
@@ -34,7 +35,7 @@ class Engine {
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
     player.increaseFireCount();
     updateCamera(player.x, player.y);
-    currentLevel.update(camera.x, camera.y);
+    currentLevel.update(screen, camera.x, camera.y);
     
     updateEnemies(delta, player.x, player.y);
     updateProjectiles(delta);  
@@ -47,26 +48,29 @@ class Engine {
     }
   }
   
-  public void show() {    
-    currentLevel.show(getRenderOffset());
-    player.show(getRenderOffset());
+  public void show() {
+    screen.beginDraw();
+    currentLevel.show(screen, getRenderOffset());
+    player.show(screen, getRenderOffset());
     
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-      currentLevel.enemies.get(i).show(getRenderOffset());
+      currentLevel.enemies.get(i).show(screen, getRenderOffset());
     }
     
     for(int i = enemyProjectiles.size() - 1; i >= 0; i --) {
-      enemyProjectiles.get(i).show(getRenderOffset());
+      enemyProjectiles.get(i).show(screen, getRenderOffset());
     }
     for(int i = playerProjectiles.size() - 1; i >= 0; i --) {
-      playerProjectiles.get(i).show(getRenderOffset()); //if update function returns false, the projectile is dead
+      playerProjectiles.get(i).show(screen, getRenderOffset()); //if update function returns false, the projectile is dead
     }
+    screen.endDraw();
+    image(screen, GUI_WIDTH, 0);
   }
   
   public PVector getRenderOffset() {
     //gets the position of the camera relative to the centre of the screen
-    return new PVector(camera.x * TILE_SIZE - (width/2), camera.y * TILE_SIZE - (height/2));
+    return new PVector(camera.x * TILE_SIZE - (screen.width/2), camera.y * TILE_SIZE - (screen.height/2));
   }
   
   public void handleMouse() {
@@ -105,8 +109,8 @@ class Engine {
   }
   
   private void updateCamera(float x, float y) {
-    camera.x = x;// + cos(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.001;
-    camera.y = y;// + sin(player.ang) * dist(mouseX, mouseY, width/2, height/2) * 0.001;
+    camera.x = x;
+    camera.y = y;
   }
   
   private void showCamera() {
