@@ -47,5 +47,32 @@ class Shotgun extends Weapon{
     this.bulletSpeed = 10;
     
   }
+}
+
+class Pistol extends Weapon{
   
+  Pistol() {
+    
+    this.damageMulti = 10;
+    this.fireRate = 10;
+    this.numBullets = 1;
+    this.range = 6;
+    this.accuracy = 0.05;
+    this.bulletSpeed = 15;
+    
+  }
+}
+
+class Sniper extends Weapon{
+  
+  Sniper() {
+    
+    this.damageMulti = 20;
+    this.fireRate = 50;
+    this.numBullets = 1;
+    this.range = 10;
+    this.accuracy = 0.01;
+    this.bulletSpeed = 20;
+    
+  }
 }
