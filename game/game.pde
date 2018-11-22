@@ -68,13 +68,14 @@ void keyPressed() {
   if(keyCode == LEFT_KEY) keys[left] = 1;
   if(keyCode == DOWN_KEY) keys[down] = 1;
   if(keyCode == RIGHT_KEY) keys[right] = 1;
-  if(keyCode == RIGHT_KEY) keys[right] = 1;
+  if(keyCode == ABILITY_KEY) keys[ability] = 1;
 }
 void keyReleased() {
   if(keyCode == UP_KEY) keys[up] = 0;
   if(keyCode == LEFT_KEY) keys[left] = 0;
   if(keyCode == DOWN_KEY) keys[down] = 0;
   if(keyCode == RIGHT_KEY) keys[right] = 0;
+  if(keyCode == ABILITY_KEY) keys[ability] = 0;
 }
 
 public void quitGame() {
