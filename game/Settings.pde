@@ -39,8 +39,6 @@ public void loadControls() {
   LEFT_KEY = controls.getInt("LEFT");
   RIGHT_KEY = controls.getInt("RIGHT");
   ABILITY_KEY = controls.getInt("ABILITY");
-  
-  printArray(getKeys());
 }
 
 public void remapKey(int action, int code) {

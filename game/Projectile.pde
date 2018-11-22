@@ -22,10 +22,10 @@ class Projectile {
     y += direction.y * speed * delta;
   }
   
-  public void show(PVector renderOffset) {
-    fill(255, 0, 0);
-    noStroke();
-    ellipse(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y, 6, 6);
+  public void show(PGraphics screen, PVector renderOffset) {
+    screen.fill(255, 0, 0);
+    screen.noStroke();
+    screen.ellipse(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y, 6, 6);
   }
   
   private boolean alive() {

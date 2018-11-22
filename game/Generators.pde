@@ -402,7 +402,6 @@ public boolean isWall(int[][] tiles, int i, int j) {
 
 public int getBitMaskValue(int[][] tiles, int i, int j) {
   int bmValue = 0;
-  
   if(isWall(tiles, i, j-1)) bmValue += 1;
   if(isWall(tiles, i-1, j)) bmValue += 2;
   if(isWall(tiles, i+1, j)) bmValue += 4;

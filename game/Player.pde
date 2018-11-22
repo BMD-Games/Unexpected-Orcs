@@ -53,23 +53,24 @@ class Player {
   }
 
   public void update(double delta, int[] neighbours) {
+    ang = atan2(mouseY - height/2, mouseX - (width/2 + GUI_WIDTH/2));
+
     ability();
-    ang = atan2(mouseY - height/2, mouseX - width/2);
     getFacing();
     move(delta, neighbours);
     updateBound();
     
   }
   
-  public void show(PVector renderOffset) {
-    pushMatrix();
-    translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
-    rotate(ang);
-    fill(255, 0, 0);
-    stroke(0);
-    rect(-size/2, -size/2, size, size);
-    line(0, 0, size, 0);
-    popMatrix();
+  public void show(PGraphics screen, PVector renderOffset) {
+    screen.pushMatrix();
+    screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
+    screen.rotate(ang);
+    screen.fill(255, 0, 0);
+    screen.stroke(0);
+    screen.rect(-size/2, -size/2, size, size);
+    screen.line(0, 0, size, 0);
+    screen.popMatrix();
   }
   
   private void updateBound() {

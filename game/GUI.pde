@@ -80,8 +80,7 @@ class GUI {
     manaBar.show(screen);
     mana.show(screen);
     screen.endDraw();
-    image(screen, 0, 0);
-    
+    image(screen, 0, 0);    
   }
   
   public void handleMouseReleased() {
