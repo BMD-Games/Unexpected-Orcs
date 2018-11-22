@@ -124,7 +124,9 @@ public void loadAssets() {
   
   //-----CHAR SPRITES-----
   PImage charsheet = loadImage("/assets/sprites/charsheet.png");
-  
+  charSprites.put("CHOMP_WHITE", getSprite(charsheet, 0, 0, 1, 1, SPRITE_SIZE));
+  charSprites.put("CHOMP_BLACK", getSprite(charsheet, 1, 0, 1, 1, SPRITE_SIZE));
+  charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 1, 2, 2, SPRITE_SIZE));
   
   //-----BULLET SPRITES-----
   PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");

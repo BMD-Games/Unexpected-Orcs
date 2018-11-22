@@ -33,7 +33,7 @@ class Engine {
     if(mousePressed) handleMouse();
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
-    player.increaseFireCount();
+    player.increaseFireTimer();
     updateCamera(player.x, player.y);
     currentLevel.update(screen, camera.x, camera.y);
     
@@ -42,9 +42,8 @@ class Engine {
     
     lastUpdate = millis();
     
-    if (player.stats.healthCurr < player.stats.health) {
-   
-      player.stats.healthCurr++;
+    if (player.stats.getHealth() < player.stats.getHealthMax()) {
+      player.stats.setHealth(player.stats.getHealth() + 1);
     }
   }
   
@@ -59,7 +58,7 @@ class Engine {
     
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-      //currentLevel.enemies.get(i).show(getRenderOffset());
+      currentLevel.enemies.get(i).show(screen, getRenderOffset());
     }
     
     for(int i = enemyProjectiles.size() - 1; i >= 0; i --) {
@@ -84,13 +83,13 @@ class Engine {
     
     if (player.hasWeapon()) {
       Weapon weapon = player.getWeapon();
-      if (player.getFireCount() >= weapon.fireRate) {
+      if (player.stats.getFireTimer() >= weapon.fireRate) {
         
         for (int i = 0; i < weapon.numBullets; i++) {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
-              weapon.bulletSpeed, weapon.range, weapon.damageMulti * player.stats.attack, "SNIPER"));
+              weapon.bulletSpeed, weapon.range, weapon.damageMulti * player.stats.getAttack(), "SNIPER"));
         }
-        player.resetFireCount();
+        player.stats.setFireTimer(0);
       }
       
       

@@ -1,42 +1,44 @@
 class Chomp implements Enemy {
   
   public int tier = 0;
-  public int xPos = 0;
-  public int yPos = 0;
+  public int x = 0;
+  public int y = 0;
   
-  private EnemyStats stats;
+  protected Stats stats;
+  protected PImage sprite = charSprites.get("CHOMP_WHITE");
   
   public Chomp(int x, int y, int tier) {
     this.tier = tier;
-    xPos = x;
-    yPos = y;
-    stats = new EnemyStats();
+    this.x = x;
+    this.y = y;
+    stats = new Stats();
+    stats.setHealth(2);
+    stats.setAttack(1);
+    stats.setSpeed(2);
+    stats.setDefence(1);
   }
   
   /* Enemies need to update on tics */
-  void update() {}
+  void update(Player player) {}
   
   /* Displays enemy to screen */
-  void show(){}
+  void show(PGraphics screen, PVector renderOffset){
+    screen.image(sprite, x - sprite.width * SCALE/2, y - sprite.height * SCALE/2, x + sprite.width * SCALE, y + sprite.height * SCALE);
+  }
   
   /* This mob takes damage */
   void damage(int amount){}
   
 }
 
-class BossChomp implements Enemy {
+class BossChomp extends Chomp {
   
   public BossChomp(int x, int y, int tier) {
-    
+    super(x, y, tier);
+    stats.setHealth(4);
+    stats.setAttack(3);
+    stats.setSpeed(1.5);
+    stats.setDefence(3); 
   }
-  
-  /* Enemies need to update on tics */
-  void update() {}
-  
-  /* Displays enemy to screen */
-  void show(){}
-  
-  /* This mob takes damage */
-  void damage(int amount){}
   
 }

@@ -5,7 +5,7 @@ class Player {
   private int size = TILE_SIZE/2;
   
   private CharTileSet sprites;
-  private PlayerStats stats = new PlayerStats();
+  public Stats stats = new Stats();
   
   private InventoryObject currentInventory;
   
@@ -17,6 +17,7 @@ class Player {
     this.x = x; //in tile space, not screen space;
     this.y = y;
     bound = new AABB(x, y, w, h);
+    setStats(5, 10, 2, 6, 1, 1, 0, 0, 2);
   }
   
   public void move(double delta, int[] neighbours) {
@@ -79,13 +80,13 @@ class Player {
   }
   
   private void ability() {
-    if (keys[ability] == 1 && this.stats.manaCurr >= 0) {
-      this.stats.speed = 4;
-      this.stats.manaCurr--;
+    if (keys[ability] == 1 && stats.getMana() >= 0) {
+      stats.setSpeed(4);
+      stats.setMana(stats.getMana() - 1);
     } else {
-      this.stats.speed = 2;
-      if (this.stats.manaCurr < this.stats.mana ) {
-        this.stats.manaCurr++;
+      stats.setSpeed(2);
+      if (stats.getMana() < stats.getManaMax() ) {
+        stats.setMana(stats.getMana() + 1);
       }
     }
       
@@ -98,34 +99,21 @@ class Player {
     return(int)(dir/(PI/2)) % 4;
   }
   
-  public int getHealth() {
-    return this.stats.healthCurr;
+  private void setStats(int health, int healthMax, int mana, int manaMax, int vitality, int attack, int defence, int wisdom, float speed) {
+    stats.setHealth(health); 
+    stats.setHealthMax(healthMax);
+    stats.setMana(mana);
+    stats.setManaMax(manaMax);
+    stats.setVitality(vitality);
+    stats.setAttack(attack);
+    stats.setDefence(defence);
+    stats.setWisdom(wisdom);
+    stats.setSpeed(speed);
   }
   
-  public int getHealthTotal() {
-    return this.stats.health;
+  public void increaseFireTimer() {
+    stats.setFireTimer(stats.getFireTimer() + 1);
   }
-  
-  public int getFireCount() {
-    return stats.fireCount;
-  }
-  
-  public void increaseFireCount() {
-    stats.fireCount++;
-  }
-  
-  public void resetFireCount() {
-    stats.fireCount = 0;
-  }
-  
-  public int getMana() {
-    return this.stats.manaCurr;
-  }
-  
-  public int getManaMax() {
-    return this.stats.mana;
-  }
-    
   
   public Boolean hasWeapon() {
     return currentInventory instanceof Weapon;
@@ -192,21 +180,5 @@ class Stats {
   public void setDefence(int value) { defence = value; }
   public void setFireTimer(int value) { fireTimer = value; }
   public void setSpeed(float value) { speed = value; }
-  
-}
-
-class PlayerStats extends Stats {
-  
-  PlayerStats() {
-    super();
-    setHealth(10); 
-    setHealthMax(30);
-    setMana(10);
-    setManaMax(20);
-    setVitality(1);
-    setAttack(1);
-    setWisdom(3);
-    setSpeed(4);
-  }
   
 }
