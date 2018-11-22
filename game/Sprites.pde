@@ -127,9 +127,10 @@ public void loadAssets() {
   
   
   //-----BULLET SPRITES-----
-  //PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
-  //projectileSprites.put("BULLET", getSprite(bulletsheet, 0, 0, 1, 1, SPRITE_SIZE/2));
-  projectileSprites.put("BULLET", getSprite(sheet, 0, 1, 1, 1, SPRITE_SIZE));
+  PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
+  projectileSprites.put("SNIPER", getSprite(bulletsheet, 0, 0, 1, 1, SPRITE_SIZE/2));
+  projectileSprites.put("PISTOL", getSprite(bulletsheet, 1, 0, 1, 1, SPRITE_SIZE/2));
+  projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, SPRITE_SIZE/2));
   
 }
 

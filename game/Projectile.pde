@@ -15,7 +15,7 @@ class Projectile {
     this.speed = speed;
     this.range = range;
     this.damage = damage;
-    this.sprite = projectileSprites.get(sprite);//projectileSprites.get(sprite);
+    this.sprite = projectileSprites.get(sprite);
   }
   
   public void update(double delta) {
