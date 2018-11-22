@@ -82,6 +82,7 @@ class GUI {
     //used for checking input
     if(play.pressed(mouseX, mouseY) && (STATE == "MENU" || STATE == "PAUSED")) {
       setState("PLAYING");
+      engine.updateMillis();
     }else if(options.pressed(mouseX, mouseY) && (STATE == "MENU" || STATE == "PAUSED")) {
       setState("OPTIONS");
     }else if(menu.pressed(mouseX, mouseY) && STATE == "PAUSED") {

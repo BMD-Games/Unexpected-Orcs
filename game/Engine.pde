@@ -48,6 +48,10 @@ class Engine {
     }
   }
   
+  public void updateMillis() {
+    lastUpdate = millis();
+  }
+  
   public void show() {
     screen.beginDraw();
     currentLevel.show(screen, getRenderOffset());
