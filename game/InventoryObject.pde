@@ -23,6 +23,8 @@ class Weapon extends InventoryObject {
   
   public float accuracy;
   
+  public String bulletSprite;
+  
   /*
   Weapon(int damageMulti, int fireRate, int numBullets, int range, float accuracy) {
     this.damageMulti = damageMulti;
@@ -45,6 +47,7 @@ class Shotgun extends Weapon{
     this.range = 4;
     this.accuracy = 0.15;
     this.bulletSpeed = 10;
+    this.bulletSprite = "SHOTGUN";
     
   }
 }
@@ -59,6 +62,7 @@ class Pistol extends Weapon{
     this.range = 6;
     this.accuracy = 0.05;
     this.bulletSpeed = 15;
+    this.bulletSprite = "PISTOL";
     
   }
 }
@@ -73,6 +77,7 @@ class Sniper extends Weapon{
     this.range = 10;
     this.accuracy = 0.01;
     this.bulletSpeed = 20;
+    this.bulletSprite = "SNIPER";
     
   }
 }
