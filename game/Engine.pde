@@ -16,9 +16,12 @@ class Engine {
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
     //currentLevel = new Dungeon(60, 45);
+    
     currentLevel = new Cave(120, 90);
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
     player.setWeapon(new Shotgun());
+    
+    
     
   }
   
@@ -37,6 +40,11 @@ class Engine {
     updateProjectiles(delta);  
     
     lastUpdate = millis();
+    
+    if (player.stats.healthCurr < player.stats.health) {
+   
+      player.stats.healthCurr++;
+    }
   }
   
   public void show() {    
