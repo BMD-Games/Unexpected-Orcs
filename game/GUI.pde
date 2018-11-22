@@ -4,9 +4,9 @@ class GUI {
   **/
    
   private Button play, back, options, menu, exit, pause;
-  private DisplayBar healthBar;
+  private DisplayBar healthBar, manaBar;
   private PImage title = loadImage("/assets/sprites/title.png");
-  private HUDElement health;
+  private HUDElement health, mana;
   private PGraphics screen;
   private color c = 100;
   
@@ -18,9 +18,12 @@ class GUI {
     back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
     exit = new Button(width/2 - TILE_SIZE,  height/2 + TILE_SIZE * 1, "EXIT");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
-    health = new HUDElement(width/2 - TILE_SIZE * 1.5, TILE_SIZE/2, "HEALTH");
     
-    healthBar = new DisplayBar(width/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, TILE_SIZE * 3 - 8, TILE_SIZE, color(230,100,100));
+    health = new HUDElement(width/2 - TILE_SIZE * 1.5, TILE_SIZE/2, "HEALTH");
+    mana = new HUDElement(width/4 - TILE_SIZE * 1.5, TILE_SIZE/2, "MANA");
+    
+    healthBar = new DisplayBar(width/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, TILE_SIZE * 3 - 8, TILE_SIZE / 2, color(230,100,100));
+    manaBar = new DisplayBar(width/4 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, TILE_SIZE * 3 - 8, TILE_SIZE / 2, color(30, 30, 230));
     
     screen = createGraphics(width, height);
   }
@@ -67,12 +70,15 @@ class GUI {
     
     //Draws the pause button during gameplay
     
-    healthBar.updateBar(player.getHealthCurr(), player.getHealthTotal());
+    healthBar.updateBar(player.getHealth(), player.getHealthTotal());
+    manaBar.updateBar(player.getMana(), player.getManaMax());
     screen.beginDraw();
     clearScreen();
     pause.show(screen);
     healthBar.show(screen);
     health.show(screen);
+    manaBar.show(screen);
+    mana.show(screen);
     screen.endDraw();
     image(screen, 0, 0);    
   }
@@ -142,7 +148,7 @@ class Button extends HUDElement{
 
 class DisplayBar {
   
-  private float x, y, w, h, percentHealth;
+  private float x, y, w, h, percentFull;
   private color c;
   
   DisplayBar(float x, float y, float w, float h, color c) {
@@ -151,20 +157,19 @@ class DisplayBar {
     this.h = h;
     this.w = w;
     this.c = c;
-    percentHealth = 1.0;
+    percentFull = 1.0;
   }
   
   public void show(PGraphics screen) {
     
     screen.fill(c);
     screen.noStroke();
-    screen.rect(x,y, w * percentHealth, h);    
+    screen.rect(x,y, w * percentFull, h);    
     
   }
   
   public void updateBar(float current, float total) {
-    percentHealth = current / total;    
-    
+    percentFull = current / total;    
     
   }
   

@@ -54,9 +54,12 @@ class Player {
 
   public void update(double delta, int[] neighbours) {
     ang = atan2(mouseY - height/2, mouseX - (width/2 + GUI_WIDTH/2));
+
+    ability();
     getFacing();
     move(delta, neighbours);
     updateBound();
+    
   }
   
   public void show(PGraphics screen, PVector renderOffset) {
@@ -75,6 +78,19 @@ class Player {
     bound.y = y - bound.h/2; 
   }
   
+  private void ability() {
+    if (keys[ability] == 1 && this.stats.manaCurr >= 0) {
+      this.stats.speed = 4;
+      this.stats.manaCurr--;
+    } else {
+      this.stats.speed = 2;
+      if (this.stats.manaCurr < this.stats.mana ) {
+        this.stats.manaCurr++;
+      }
+    }
+      
+  }
+  
   private int getFacing() {
     //gets the direction that the player is looking in -> decides which sprite to use
     float dir = ang + (3 * PI/4);
@@ -82,7 +98,7 @@ class Player {
     return(int)(dir/(PI/2)) % 4;
   }
   
-  public int getHealthCurr() {
+  public int getHealth() {
     return this.stats.healthCurr;
   }
   
@@ -101,6 +117,15 @@ class Player {
   public void resetFireCount() {
     stats.fireCount = 0;
   }
+  
+  public int getMana() {
+    return this.stats.manaCurr;
+  }
+  
+  public int getManaMax() {
+    return this.stats.mana;
+  }
+    
   
   public Boolean hasWeapon() {
     return currentInventory instanceof Weapon;
@@ -142,13 +167,16 @@ class Stats {
 class PlayerStats extends Stats {
   
   PlayerStats() {
-    healthCurr = 10; health = 100; healthMax = 300;
-    manaCurr = 100; mana = 100; manaMax = 200;
-    vitality = 10; vitalityMax = 25;
-    attack = 1; attackMax = 25;
-    wisdom = 10; wisdomMax = 25;
-    speed = 4; speedMax = 10;
-    defence = 0; fireCount = 0;
+
+    health = 100; healthMax = 300;
+    mana = 100; manaMax = 200;
+    vitality = 10;
+    attack = 1;
+    wisdom = 10;
+    speed = 4;
+    defence = 0;
+    fireCount = 0;
+
   }
   
 }

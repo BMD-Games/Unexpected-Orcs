@@ -2,7 +2,7 @@ public int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY;
 public JSONObject settings, controls;
 
 
-public final int up = 0, down = 1, left = 2, right = 3, ability = 4;
+public final int up = 0, down = 1, left = 2, right = 3, ability = 4, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
 
 public void loadSettings() {
   settings = loadJSONObject("/assets/settings/settings.json");
@@ -55,8 +55,8 @@ public void remapKey(int action, int code) {
     RIGHT_KEY = code;
     controls.setInt("RIGHT", code);
   } else if(action == ability) {
-    RIGHT_KEY = code;
-    controls.setInt("RIGHT", code);
+    ABILITY_KEY = code;
+    controls.setInt("ABILITY", code);
   }
   saveSettings();
 }

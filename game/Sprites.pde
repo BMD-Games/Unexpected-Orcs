@@ -119,7 +119,8 @@ public void loadAssets() {
   guiSprites.put("PAUSE", getSprite(sheet, 0, 1, 1, 1));
   guiSprites.put("EXIT", getSprite(sheet, 1, 1, 2, 1));
   guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2));
-  guiSprites.put("HEALTH", getSprite(sheet, 0, 2, 3, 1));
+  guiSprites.put("HEALTH", getSprite(sheet, 0, 4, 3, 1));
+  guiSprites.put("MANA", getSprite(sheet, 0, 4, 3, 1));
   
   //-----CHAR SPRITES-----
   PImage charsheet = loadImage("/assets/sprites/charsheet.png");
