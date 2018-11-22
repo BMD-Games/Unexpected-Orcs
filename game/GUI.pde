@@ -65,7 +65,7 @@ class GUI {
     
     //Draws the pause button during gameplay
     
-    healthBar.updateBar(player.getHealthCurr(), player.getHealthTotal());
+    healthBar.updateBar(player.getHealth(), player.getHealthTotal());
     screen.beginDraw();
     clearScreen();
     pause.show(screen);
