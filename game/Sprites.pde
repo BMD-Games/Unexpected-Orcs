@@ -4,131 +4,137 @@ public void loadAssets() {
   itemSprites = new HashMap<Integer, PImage>();
   guiSprites = new HashMap<String, PImage>();
   charSprites = new HashMap<String, PImage>();
+  projectileSprites = new HashMap<String, PImage>();
   
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("/assets/sprites/tilesheet.png");
   
-  tileSprites.put(WALL, getSprite(tilesheet, 0, 0, 1, 1));
-  tileSprites.put(FLOOR, getSprite(tilesheet, 1, 0, 1, 1));
+  tileSprites.put(WALL, getSprite(tilesheet, 0, 0, 1, 1, SPRITE_SIZE));
+  tileSprites.put(FLOOR, getSprite(tilesheet, 1, 0, 1, 1, SPRITE_SIZE));
   
   //--TEST--
-  tileSprites.put(TEST_00, getSprite(tilesheet, 0, 31, 1, 1));
-  tileSprites.put(TEST_01, getSprite(tilesheet, 1, 31, 1, 1));
-  tileSprites.put(TEST_02, getSprite(tilesheet, 2, 31, 1, 1));
-  tileSprites.put(TEST_03, getSprite(tilesheet, 3, 31, 1, 1));
-  tileSprites.put(TEST_04, getSprite(tilesheet, 4, 31, 1, 1));
-  tileSprites.put(TEST_05, getSprite(tilesheet, 5, 31, 1, 1));
-  tileSprites.put(TEST_06, getSprite(tilesheet, 6, 31, 1, 1));
-  tileSprites.put(TEST_07, getSprite(tilesheet, 7, 31, 1, 1));
-  tileSprites.put(TEST_08, getSprite(tilesheet, 8, 31, 1, 1));
-  tileSprites.put(TEST_09, getSprite(tilesheet, 9, 31, 1, 1));
-  tileSprites.put(TEST_10, getSprite(tilesheet, 10, 31, 1, 1));
-  tileSprites.put(TEST_11, getSprite(tilesheet, 11, 31, 1, 1));
-  tileSprites.put(TEST_12, getSprite(tilesheet, 12, 31, 1, 1));
-  tileSprites.put(TEST_13, getSprite(tilesheet, 13, 31, 1, 1));
-  tileSprites.put(TEST_14, getSprite(tilesheet, 14, 31, 1, 1));
-  tileSprites.put(TEST_15, getSprite(tilesheet, 15, 31, 1, 1));
+  tileSprites.put(TEST_00, getSprite(tilesheet, 0, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_01, getSprite(tilesheet, 1, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_02, getSprite(tilesheet, 2, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_03, getSprite(tilesheet, 3, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_04, getSprite(tilesheet, 4, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_05, getSprite(tilesheet, 5, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_06, getSprite(tilesheet, 6, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_07, getSprite(tilesheet, 7, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_08, getSprite(tilesheet, 8, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_09, getSprite(tilesheet, 9, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_10, getSprite(tilesheet, 10, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_11, getSprite(tilesheet, 11, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_12, getSprite(tilesheet, 12, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_13, getSprite(tilesheet, 13, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_14, getSprite(tilesheet, 14, 31, 1, 1, SPRITE_SIZE));
+  tileSprites.put(TEST_15, getSprite(tilesheet, 15, 31, 1, 1, SPRITE_SIZE));
   
   //--STONE BRICK--
-  tileSprites.put(STONE_BRICK_00, getSprite(tilesheet, 0, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_01, getSprite(tilesheet, 1, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_02, getSprite(tilesheet, 2, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_03, getSprite(tilesheet, 3, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_04, getSprite(tilesheet, 4, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_05, getSprite(tilesheet, 5, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_06, getSprite(tilesheet, 6, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_07, getSprite(tilesheet, 7, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_08, getSprite(tilesheet, 8, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_09, getSprite(tilesheet, 9, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_10, getSprite(tilesheet, 10, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_11, getSprite(tilesheet, 11, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_12, getSprite(tilesheet, 12, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_13, getSprite(tilesheet, 13, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_14, getSprite(tilesheet, 14, 30, 1, 1));
-  tileSprites.put(STONE_BRICK_15, getSprite(tilesheet, 15, 30, 1, 1));
+  tileSprites.put(STONE_BRICK_00, getSprite(tilesheet, 0, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_01, getSprite(tilesheet, 1, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_02, getSprite(tilesheet, 2, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_03, getSprite(tilesheet, 3, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_04, getSprite(tilesheet, 4, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_05, getSprite(tilesheet, 5, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_06, getSprite(tilesheet, 6, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_07, getSprite(tilesheet, 7, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_08, getSprite(tilesheet, 8, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_09, getSprite(tilesheet, 9, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_10, getSprite(tilesheet, 10, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_11, getSprite(tilesheet, 11, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_12, getSprite(tilesheet, 12, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_13, getSprite(tilesheet, 13, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_14, getSprite(tilesheet, 14, 30, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STONE_BRICK_15, getSprite(tilesheet, 15, 30, 1, 1, SPRITE_SIZE));
   
   //--ROCK--
-  tileSprites.put(ROCK_00, getSprite(tilesheet, 0, 29, 1, 1));
-  tileSprites.put(ROCK_01, getSprite(tilesheet, 1, 29, 1, 1));
-  tileSprites.put(ROCK_02, getSprite(tilesheet, 2, 29, 1, 1));
-  tileSprites.put(ROCK_03, getSprite(tilesheet, 3, 29, 1, 1));
-  tileSprites.put(ROCK_04, getSprite(tilesheet, 4, 29, 1, 1));
-  tileSprites.put(ROCK_05, getSprite(tilesheet, 5, 29, 1, 1));
-  tileSprites.put(ROCK_06, getSprite(tilesheet, 6, 29, 1, 1));
-  tileSprites.put(ROCK_07, getSprite(tilesheet, 7, 29, 1, 1));
-  tileSprites.put(ROCK_08, getSprite(tilesheet, 8, 29, 1, 1));
-  tileSprites.put(ROCK_09, getSprite(tilesheet, 9, 29, 1, 1));
-  tileSprites.put(ROCK_10, getSprite(tilesheet, 10, 29, 1, 1));
-  tileSprites.put(ROCK_11, getSprite(tilesheet, 11, 29, 1, 1));
-  tileSprites.put(ROCK_12, getSprite(tilesheet, 12, 29, 1, 1));
-  tileSprites.put(ROCK_13, getSprite(tilesheet, 13, 29, 1, 1));
-  tileSprites.put(ROCK_14, getSprite(tilesheet, 14, 29, 1, 1));
-  tileSprites.put(ROCK_15, getSprite(tilesheet, 15, 29, 1, 1));
+  tileSprites.put(ROCK_00, getSprite(tilesheet, 0, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_01, getSprite(tilesheet, 1, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_02, getSprite(tilesheet, 2, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_03, getSprite(tilesheet, 3, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_04, getSprite(tilesheet, 4, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_05, getSprite(tilesheet, 5, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_06, getSprite(tilesheet, 6, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_07, getSprite(tilesheet, 7, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_08, getSprite(tilesheet, 8, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_09, getSprite(tilesheet, 9, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_10, getSprite(tilesheet, 10, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_11, getSprite(tilesheet, 11, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_12, getSprite(tilesheet, 12, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_13, getSprite(tilesheet, 13, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_14, getSprite(tilesheet, 14, 29, 1, 1, SPRITE_SIZE));
+  tileSprites.put(ROCK_15, getSprite(tilesheet, 15, 29, 1, 1, SPRITE_SIZE));
   
   //--HEDGE--
-  tileSprites.put(HEDGE_00, getSprite(tilesheet, 0, 28, 1, 1));
-  tileSprites.put(HEDGE_01, getSprite(tilesheet, 1, 28, 1, 1));
-  tileSprites.put(HEDGE_02, getSprite(tilesheet, 2, 28, 1, 1));
-  tileSprites.put(HEDGE_03, getSprite(tilesheet, 3, 28, 1, 1));
-  tileSprites.put(HEDGE_04, getSprite(tilesheet, 4, 28, 1, 1));
-  tileSprites.put(HEDGE_05, getSprite(tilesheet, 5, 28, 1, 1));
-  tileSprites.put(HEDGE_06, getSprite(tilesheet, 6, 28, 1, 1));
-  tileSprites.put(HEDGE_07, getSprite(tilesheet, 7, 28, 1, 1));
-  tileSprites.put(HEDGE_08, getSprite(tilesheet, 8, 28, 1, 1));
-  tileSprites.put(HEDGE_09, getSprite(tilesheet, 9, 28, 1, 1));
-  tileSprites.put(HEDGE_10, getSprite(tilesheet, 10, 28, 1, 1));
-  tileSprites.put(HEDGE_11, getSprite(tilesheet, 11, 28, 1, 1));
-  tileSprites.put(HEDGE_12, getSprite(tilesheet, 12, 28, 1, 1));
-  tileSprites.put(HEDGE_13, getSprite(tilesheet, 13, 28, 1, 1));
-  tileSprites.put(HEDGE_14, getSprite(tilesheet, 14, 28, 1, 1));
-  tileSprites.put(HEDGE_15, getSprite(tilesheet, 15, 28, 1, 1));
+  tileSprites.put(HEDGE_00, getSprite(tilesheet, 0, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_01, getSprite(tilesheet, 1, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_02, getSprite(tilesheet, 2, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_03, getSprite(tilesheet, 3, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_04, getSprite(tilesheet, 4, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_05, getSprite(tilesheet, 5, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_06, getSprite(tilesheet, 6, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_07, getSprite(tilesheet, 7, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_08, getSprite(tilesheet, 8, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_09, getSprite(tilesheet, 9, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_10, getSprite(tilesheet, 10, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_11, getSprite(tilesheet, 11, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_12, getSprite(tilesheet, 12, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_13, getSprite(tilesheet, 13, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_14, getSprite(tilesheet, 14, 28, 1, 1, SPRITE_SIZE));
+  tileSprites.put(HEDGE_15, getSprite(tilesheet, 15, 28, 1, 1, SPRITE_SIZE));
 
   //--Floor--
-  tileSprites.put(WOOD, getSprite(tilesheet, 0, 1, 1, 1));
-  tileSprites.put(STAR_WOOD, getSprite(tilesheet, 1, 1, 1, 1));
-  tileSprites.put(BROKEN_WOOD,  getSprite(tilesheet, 2, 1, 1, 1));
-  tileSprites.put(LONG_WOOD, getSprite(tilesheet, 3, 1, 1, 1));
+  tileSprites.put(WOOD, getSprite(tilesheet, 0, 1, 1, 1, SPRITE_SIZE));
+  tileSprites.put(STAR_WOOD, getSprite(tilesheet, 1, 1, 1, 1, SPRITE_SIZE));
+  tileSprites.put(BROKEN_WOOD,  getSprite(tilesheet, 2, 1, 1, 1, SPRITE_SIZE));
+  tileSprites.put(LONG_WOOD, getSprite(tilesheet, 3, 1, 1, 1, SPRITE_SIZE));
   
-  tileSprites.put(STONE, getSprite(tilesheet, 0, 2, 1, 1));
-  tileSprites.put(X_STONE, getSprite(tilesheet, 1, 2, 1, 1));
-  tileSprites.put(RUBBLE_STONE,  getSprite(tilesheet, 2, 2, 1, 1));
-  tileSprites.put(SKULL_STONE, getSprite(tilesheet, 3, 2, 1, 1));
+  tileSprites.put(STONE, getSprite(tilesheet, 0, 2, 1, 1, SPRITE_SIZE));
+  tileSprites.put(X_STONE, getSprite(tilesheet, 1, 2, 1, 1, SPRITE_SIZE));
+  tileSprites.put(RUBBLE_STONE,  getSprite(tilesheet, 2, 2, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SKULL_STONE, getSprite(tilesheet, 3, 2, 1, 1, SPRITE_SIZE));
   
-  tileSprites.put(GRASS, getSprite(tilesheet, 0, 3, 1, 1));
-  tileSprites.put(PATCH_GRASS, getSprite(tilesheet, 1, 3, 1, 1));
-  tileSprites.put(MUSHROOM_GRASS,  getSprite(tilesheet, 2, 3, 1, 1));
-  tileSprites.put(GRASS_TUFT, getSprite(tilesheet, 3, 3, 1, 1));
-  tileSprites.put(GRASS_LEAF, getSprite(tilesheet, 4, 3, 1, 1));
+  tileSprites.put(GRASS, getSprite(tilesheet, 0, 3, 1, 1, SPRITE_SIZE));
+  tileSprites.put(PATCH_GRASS, getSprite(tilesheet, 1, 3, 1, 1, SPRITE_SIZE));
+  tileSprites.put(MUSHROOM_GRASS,  getSprite(tilesheet, 2, 3, 1, 1, SPRITE_SIZE));
+  tileSprites.put(GRASS_TUFT, getSprite(tilesheet, 3, 3, 1, 1, SPRITE_SIZE));
+  tileSprites.put(GRASS_LEAF, getSprite(tilesheet, 4, 3, 1, 1, SPRITE_SIZE));
   
   
   //-----ITEM SPRITES-----
   PImage itemsheet = loadImage("/assets/sprites/itemsheet.png");
   
   //TODO: items and IDs
-  itemSprites.put(0, getSprite(itemsheet, 0, 0, 1, 1)); //shitty item bag
-  itemSprites.put(1, getSprite(itemsheet, 1, 0, 1, 1)); //potion item bag
-  itemSprites.put(2, getSprite(itemsheet, 2, 0, 1, 1)); //fknlit item bag
+  itemSprites.put(0, getSprite(itemsheet, 0, 0, 1, 1, SPRITE_SIZE)); //shitty item bag
+  itemSprites.put(1, getSprite(itemsheet, 1, 0, 1, 1, SPRITE_SIZE)); //potion item bag
+  itemSprites.put(2, getSprite(itemsheet, 2, 0, 1, 1, SPRITE_SIZE)); //fknlit item bag
   
   
   //-----GUI SPRITES----
   PImage sheet = loadImage("/assets/sprites/spritesheet.png");
-  guiSprites.put("PLAY", getSprite(sheet, 0, 0, 2, 1));  
-  guiSprites.put("MENU", getSprite(sheet, 2, 0, 2, 1));
-  guiSprites.put("BACK", getSprite(sheet, 4, 0, 2, 1));
-  guiSprites.put("OPTIONS", getSprite(sheet, 6, 0, 2, 1));
-  guiSprites.put("PAUSE", getSprite(sheet, 0, 1, 1, 1));
-  guiSprites.put("EXIT", getSprite(sheet, 1, 1, 2, 1));
-  guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2));
-  guiSprites.put("HEALTH", getSprite(sheet, 0, 4, 3, 1));
-  guiSprites.put("MANA", getSprite(sheet, 0, 4, 3, 1));
+  guiSprites.put("PLAY", getSprite(sheet, 0, 0, 2, 1, SPRITE_SIZE));  
+  guiSprites.put("MENU", getSprite(sheet, 2, 0, 2, 1, SPRITE_SIZE));
+  guiSprites.put("BACK", getSprite(sheet, 4, 0, 2, 1, SPRITE_SIZE));
+  guiSprites.put("OPTIONS", getSprite(sheet, 6, 0, 2, 1, SPRITE_SIZE));
+  guiSprites.put("PAUSE", getSprite(sheet, 0, 1, 1, 1, SPRITE_SIZE));
+  guiSprites.put("EXIT", getSprite(sheet, 1, 1, 2, 1, SPRITE_SIZE));
+  guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2, SPRITE_SIZE));
+  guiSprites.put("BAR", getSprite(sheet, 0, 4, 3, 1, SPRITE_SIZE));
   
   //-----CHAR SPRITES-----
   PImage charsheet = loadImage("/assets/sprites/charsheet.png");
   
+  
+  //-----BULLET SPRITES-----
+  //PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
+  //projectileSprites.put("BULLET", getSprite(bulletsheet, 0, 0, 1, 1, SPRITE_SIZE/2));
+  projectileSprites.put("BULLET", getSprite(sheet, 0, 1, 1, 1, SPRITE_SIZE));
+  
 }
 
-public PImage getSprite(PImage image, int x, int y, int w, int h) {
-  return image.get(x * SPRITE_SIZE, y * SPRITE_SIZE, w * SPRITE_SIZE, h * SPRITE_SIZE);
+public PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {
+  return image.get(x * spriteSize, y * spriteSize, w * spriteSize, h * spriteSize);
 }
 
 class TileSet {

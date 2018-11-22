@@ -18,12 +18,9 @@ class GUI {
     back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
     exit = new Button(width/2 - TILE_SIZE,  height/2 + TILE_SIZE * 1, "EXIT");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
-    
-    health = new HUDElement(width/2 - TILE_SIZE * 1.5, TILE_SIZE/2, "HEALTH");
-    mana = new HUDElement(width/4 - TILE_SIZE * 1.5, TILE_SIZE/2, "MANA");
-    
-    healthBar = new DisplayBar(width/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, TILE_SIZE * 3 - 8, TILE_SIZE / 2, color(230,100,100));
-    manaBar = new DisplayBar(width/4 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, TILE_SIZE * 3 - 8, TILE_SIZE / 2, color(30, 30, 230));
+        
+    healthBar = new DisplayBar(width/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(230,100,100));
+    manaBar = new DisplayBar(width/4 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(153, 217, 234));
     
     screen = createGraphics(width, height);
   }
@@ -76,9 +73,7 @@ class GUI {
     clearScreen();
     pause.show(screen);
     healthBar.show(screen);
-    health.show(screen);
     manaBar.show(screen);
-    mana.show(screen);
     screen.endDraw();
     image(screen, 0, 0);    
   }
@@ -140,37 +135,35 @@ class Button extends HUDElement{
   
   public boolean pressed(float mX, float mY) {
     return pointInBox(mX, mY, x, y, w, h);
-  }
-  
-  
-  
+  }  
 }
 
 class DisplayBar {
   
   private float x, y, w, h, percentFull;
   private color c;
+  private HUDElement element;
   
-  DisplayBar(float x, float y, float w, float h, color c) {
+  DisplayBar(float x, float y, color c) {
     this.x = x;
     this.y = y;
-    this.h = h;
-    this.w = w;
+    this.h = TILE_SIZE / 2;
+    this.w = TILE_SIZE * 3 - 8;
     this.c = c;
     percentFull = 1.0;
+    
+    element = new HUDElement(x, y, "BAR");
   }
   
   public void show(PGraphics screen) {
-    
     screen.fill(c);
     screen.noStroke();
-    screen.rect(x,y, w * percentFull, h);    
-    
+    screen.rect(x,y, w * percentFull, h);
+    element.show(screen);    
   }
   
   public void updateBar(float current, float total) {
-    percentFull = current / total;    
-    
+    percentFull = current / total;
   }
   
   

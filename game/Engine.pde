@@ -84,7 +84,7 @@ class Engine {
         
         for (int i = 0; i < weapon.numBullets; i++) {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
-              weapon.bulletSpeed, weapon.range, weapon.damageMulti * player.stats.attack));
+              weapon.bulletSpeed, weapon.range, weapon.damageMulti * player.stats.attack, "BULLET"));
         }
         player.resetFireCount();
       }
