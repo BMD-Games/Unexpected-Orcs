@@ -27,7 +27,7 @@ class Projectile {
   public void show(PGraphics screen, PVector renderOffset) {
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
-    screen.rotate(PVector.angleBetween(direction, PVector.fromAngle(0)));
+    screen.rotate(atan2(direction.y, direction.x));
     screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     screen.popMatrix();
   }
