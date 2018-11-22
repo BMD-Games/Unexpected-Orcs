@@ -147,7 +147,7 @@ class PlayerStats extends Stats {
     vitality = 10; vitalityMax = 25;
     attack = 1; attackMax = 25;
     wisdom = 10; wisdomMax = 25;
-    speed = 4; speedMax = 10;
+    speed = 2; speedMax = 10;
     defence = 0; fireCount = 0;
   }
   
