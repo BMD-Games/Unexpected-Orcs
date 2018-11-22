@@ -1,20 +1,28 @@
 interface Enemy {
   
+  public int tier = 0;
+  public int xPos = 0;
+  public int yPos = 0;
   
+  /* Enemies need to update on tics */
+  void update();
+  
+  /* Displays enemy to screen */
+  void show();
+  
+  /* This mob takes damage */
+  void damage(int amount);
   
 }
 
 class EnemyStats extends Stats {
   
   EnemyStats() {
-    healthCurr = 10; health = 100;
-    manaCurr = 100; mana = 100;
-    vitality = 2;
-    attack = 1;
-    wisdom = 10;
-    speed = 1;
-    defence = 0; 
-    fireCount = 0;
+    super();
+    setHealth(2);
+    setAttack(1);
+    setSpeed(2);
+    setDefence(1); 
   }
   
 }

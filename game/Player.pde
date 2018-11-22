@@ -147,36 +147,66 @@ class Player {
 }
 
 class Stats {
-  public int healthCurr, health, healthMax;
-  public int manaCurr, mana, manaMax;
+  private int health, healthMax;
+  private int mana, manaMax;
   
-  public int vitality, vitalityMax;
-  public int attack, attackMax;
-  public int wisdom, wisdomMax;
+  private int vitality;
+  private int attack;
+  private int wisdom;
+  private int defence;
+  private int fireTimer;
   
-  public int defence;
+  private float speed;
   
-  public int fireCount;
+  public Stats() {
+    health = 0;
+    healthMax = 0;
+    mana = 0;
+    manaMax = 0;
+    vitality = 0;
+    attack = 0;
+    wisdom = 0;
+    defence = 0;
+    fireTimer = 0;
+    speed = 0;
+  }
   
-  public float speed, speedMax;  
-  
+  public int getHealth() { return health; }
+  public int getHealthMax() { return healthMax; }
+  public int getMana() { return mana; }
+  public int getManaMax() { return manaMax; }
+  public int getVitality() { return vitality; }
+  public int getAttack() { return attack; }
+  public int getWisdom() { return wisdom; }
+  public int getDefence() { return defence; }
+  public int getFireTimer() { return fireTimer; }
   public float getSpeed() { return speed; }
+  
+  public void setHealth(int value) { health = value; }
+  public void setHealthMax(int value) { healthMax = value; }
+  public void setMana(int value) { mana = value; }
+  public void setManaMax(int value) { manaMax = value; }
+  public void setVitality(int value) { vitality = value; }
+  public void setAttack(int value) { attack = value; }
+  public void setWisdom(int value) { wisdom = value; }
+  public void setDefence(int value) { defence = value; }
+  public void setFireTimer(int value) { fireTimer = value; }
+  public void setSpeed(float value) { speed = value; }
   
 }
 
 class PlayerStats extends Stats {
   
   PlayerStats() {
-
-    health = 100; healthMax = 300;
-    mana = 100; manaMax = 200;
-    vitality = 10;
-    attack = 1;
-    wisdom = 10;
-    speed = 4;
-    defence = 0;
-    fireCount = 0;
-
+    super();
+    setHealth(10); 
+    setHealthMax(30);
+    setMana(10);
+    setManaMax(20);
+    setVitality(1);
+    setAttack(1);
+    setWisdom(3);
+    setSpeed(4);
   }
   
 }
