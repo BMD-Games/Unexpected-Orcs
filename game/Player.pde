@@ -53,10 +53,12 @@ class Player {
   }
 
   public void update(double delta, int[] neighbours) {
+    ability();
     ang = atan2(mouseY - height/2, mouseX - width/2);
     getFacing();
     move(delta, neighbours);
     updateBound();
+    
   }
   
   public void show(PVector renderOffset) {
@@ -73,6 +75,19 @@ class Player {
   private void updateBound() {
     bound.x = x - bound.w/2;
     bound.y = y - bound.h/2; 
+  }
+  
+  private void ability() {
+    if (keys[ability] == 1 && this.stats.manaCurr >= 0) {
+      this.stats.speed = 4;
+      this.stats.manaCurr--;
+    } else {
+      this.stats.speed = 2;
+      if (this.stats.manaCurr < this.stats.mana ) {
+        this.stats.manaCurr++;
+      }
+    }
+      
   }
   
   private int getFacing() {
@@ -101,6 +116,15 @@ class Player {
   public void resetFireCount() {
     stats.fireCount = 0;
   }
+  
+  public int getMana() {
+    return this.stats.manaCurr;
+  }
+  
+  public int getManaMax() {
+    return this.stats.mana;
+  }
+    
   
   public Boolean hasWeapon() {
     return currentInventory instanceof Weapon;
