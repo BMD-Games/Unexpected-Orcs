@@ -21,7 +21,7 @@ class Engine {
     
     currentLevel = new Cave(120, 90);
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
-    player.setWeapon(new Shotgun());
+    player.setWeapon(new Sniper());
     
     screen = createGraphics(width - GUI_WIDTH, height);
   }
