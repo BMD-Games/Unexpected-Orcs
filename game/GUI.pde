@@ -19,8 +19,8 @@ class GUI {
     exit = new Button(width/2 - TILE_SIZE,  height/2 + TILE_SIZE * 1, "EXIT");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
         
-    healthBar = new DisplayBar(width/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(230,100,100));
-    manaBar = new DisplayBar(width/4 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(153, 217, 234));
+    healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(230,100,100));
+    manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, 3 * TILE_SIZE/2, color(153, 217, 234));
     
     screen = createGraphics(width, height);
   }
@@ -71,6 +71,9 @@ class GUI {
     manaBar.updateBar(player.getMana(), player.getManaMax());
     screen.beginDraw();
     clearScreen();
+    screen.fill(217);
+    screen.rect(0, 0, GUI_WIDTH, height);
+    
     pause.show(screen);
     healthBar.show(screen);
     manaBar.show(screen);
@@ -97,15 +100,7 @@ class GUI {
       revertState();
     }
   }
-  
-  public void drawHealth() {
-    
-    
-  }
-  
 }
-
-
 
 class HUDElement {
   
@@ -153,7 +148,7 @@ class DisplayBar {
     this.c = c;
     percentFull = 1.0;
     
-    element = new HUDElement(x, y, "BAR");
+    element = new HUDElement(x - TILE_SIZE/16, y, "BAR");
   }
   
   public void show(PGraphics screen) {
