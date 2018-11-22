@@ -23,7 +23,7 @@ class Chomp implements Enemy {
   
   /* Displays enemy to screen */
   void show(PGraphics screen, PVector renderOffset){
-    screen.image(sprite, x - sprite.width * SCALE/2, y - sprite.height * SCALE/2, x + sprite.width * SCALE, y + sprite.height * SCALE);
+    screen.image(sprite, x * TILE_SIZE - renderOffset.x - sprite.width * SCALE/2, y * TILE_SIZE - renderOffset.y - sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
   }
   
   /* This mob takes damage */

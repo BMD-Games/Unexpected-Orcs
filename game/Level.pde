@@ -16,7 +16,9 @@ class Level {
     this.h = h;
     renderW = width/TILE_SIZE + 2 * buffer;
     renderH = height/TILE_SIZE + 2 * buffer;
-    enemies.add(new Chomp(w/2, h/2, 1));
+    for(int i = 0; i < 100; i ++) {
+      enemies.add(new Chomp((int)random(w), (int)random(h), 1));
+    }
     tiles = createGraphics(width, height);
   }
   
