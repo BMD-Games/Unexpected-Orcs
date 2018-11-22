@@ -6,6 +6,7 @@ class GUI {
   private Button play, back, options, menu, exit, pause;
   private DisplayBar healthBar;
   private PImage title = loadImage("/assets/sprites/title.png");
+  private HUDElement health;
   private PGraphics screen;
   private color c = 100;
   
@@ -17,9 +18,10 @@ class GUI {
     back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
     exit = new Button(width/2 - TILE_SIZE,  height/2 + TILE_SIZE * 1, "EXIT");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+    health = new HUDElement(width/2 - TILE_SIZE * 1.5, TILE_SIZE/2, "HEALTH");
     
+    healthBar = new DisplayBar(width/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, TILE_SIZE * 3 - 8, TILE_SIZE, color(230,100,100));
     
-    healthBar = new DisplayBar(100,40,100,30, color(255,0,0));
     screen = createGraphics(width, height);
   }
   
@@ -69,8 +71,8 @@ class GUI {
     screen.beginDraw();
     clearScreen();
     pause.show(screen);
-    fill(255,0,0);
     healthBar.show(screen);
+    health.show(screen);
     screen.endDraw();
     image(screen, 0, 0);
     
@@ -102,12 +104,14 @@ class GUI {
   
 }
 
-class Button {
+
+
+class HUDElement {
   
-  private float x, y, w, h;
-  private String spriteName;
+  public float x, y, w, h;
+  public String spriteName;
   
-  Button(float x, float y, String spriteName) {
+  HUDElement(float x, float y, String spriteName) {
     this.x = x;
     this.y = y;
     this.w = guiSprites.get(spriteName).width * SCALE;
@@ -115,14 +119,25 @@ class Button {
     this.spriteName = spriteName;
   }
   
-  public boolean pressed(float mX, float mY) {
-    return pointInBox(mX, mY, x, y, w, h);
-  }
-  
   public void show(PGraphics screen) {
     PImage sprite = guiSprites.get(spriteName);
     screen.image(sprite, x, y, sprite.width * SCALE, sprite.height * SCALE);
   }
+  
+}
+
+class Button extends HUDElement{
+  
+  
+  Button(float x, float y, String spriteName) {
+    super(x, y, spriteName);
+  }
+  
+  public boolean pressed(float mX, float mY) {
+    return pointInBox(mX, mY, x, y, w, h);
+  }
+  
+  
   
 }
 
@@ -144,12 +159,7 @@ class DisplayBar {
     
     screen.fill(c);
     screen.noStroke();
-    screen.rect(x,y, w * percentHealth, h);
-    screen.stroke(230);
-    screen.strokeWeight(4);
-    screen.noFill();
-    screen.rect(x, y, w, h);
-    
+    screen.rect(x,y, w * percentHealth, h);    
     
   }
   
