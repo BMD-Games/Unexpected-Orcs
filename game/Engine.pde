@@ -21,7 +21,7 @@ class Engine {
     
     currentLevel = new Cave(120, 90);
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
-    player.setWeapon(new Shotgun());
+    player.setWeapon(new Sniper());
     
     screen = createGraphics(width - GUI_WIDTH, height);
   }
@@ -46,6 +46,10 @@ class Engine {
    
       player.stats.healthCurr++;
     }
+  }
+  
+  public void updateMillis() {
+    lastUpdate = millis();
   }
   
   public void show() {
@@ -84,7 +88,7 @@ class Engine {
         
         for (int i = 0; i < weapon.numBullets; i++) {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
-              weapon.bulletSpeed, weapon.range, weapon.damageMulti * player.stats.attack));
+              weapon.bulletSpeed, weapon.range, weapon.damageMulti * player.stats.attack, "BULLET"));
         }
         player.resetFireCount();
       }
