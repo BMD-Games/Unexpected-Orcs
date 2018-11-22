@@ -20,7 +20,7 @@ class GUI {
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
     health = new HUDElement(width/2 - TILE_SIZE * 1.5, TILE_SIZE/2, "HEALTH");
     
-    healthBar = new DisplayBar(width/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, TILE_SIZE * 3 - 8, TILE_SIZE, color(230,100,100));
+    healthBar = new DisplayBar(width/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, TILE_SIZE * 3 - 8, TILE_SIZE / 2, color(230,100,100));
     
     screen = createGraphics(width, height);
   }
