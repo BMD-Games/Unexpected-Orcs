@@ -1,6 +1,6 @@
 import java.util.Map;
 HashMap<Integer, PImage> tileSprites;
-HashMap<Integer, PImage> itemSprites;
+HashMap<String, PImage> itemSprites;
 HashMap<String, PImage> guiSprites;
 HashMap<String, PImage> charSprites;
 HashMap<String, PImage> projectileSprites;

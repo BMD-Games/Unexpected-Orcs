@@ -63,31 +63,18 @@ class Inventory {
 
 class Item {
   
-  private int itemID;
-  public String type, name;
+  public String type, name, sprite;
   
-  Item(int itemID, String name) {
-   this.itemID = itemID; 
+  Item(String sprite, String name) {
+   this.sprite = sprite; 
    this.name = name;
-  }
-  
-  Item() {
-    this.itemID = 4;
-  }
-  
-  public int getItemID() {
-    return itemID;
-  }  
-  
-  public String type() {
-    return type;
   }
 }
 
 class Ability extends Item {
   
-  Ability(int itemID, String name) {
-    super(itemID, name);
+  Ability(String sprite, String name) {
+    super(sprite, name);
     this.type = "Ability";
   }
 }
@@ -96,8 +83,8 @@ class Armour extends Item {
   
   public int defence;
   
-  Armour(int itemID, String name) {
-    super(itemID, name);
+  Armour(String sprite, String name) {
+    super(sprite, name);
     this.type = "Armour";
   }
 }
@@ -110,8 +97,8 @@ class Weapon extends Item {
   
   public String bulletSprite;
   
-  Weapon(int itemID, String name) {
-    super(itemID, name);
+  Weapon(String sprite, String name) {
+    super(sprite, name);
     this.type = "Weapon";
   }
   
@@ -130,7 +117,7 @@ class Weapon extends Item {
 class Shotgun extends Weapon{
   
   Shotgun() {
-    super(0, "Shotgun");
+    super("SHOTGUN", "Shotgun");
     this.damage = 4;
     this.fireRate = 40;
     this.numBullets = 5;
@@ -145,7 +132,7 @@ class Shotgun extends Weapon{
 class Pistol extends Weapon{
   
   Pistol() {
-    super(1, "Pistol");
+    super("PISTOL", "Pistol");
     this.damage = 10;
     this.fireRate = 10;
     this.numBullets = 1;
@@ -160,7 +147,7 @@ class Pistol extends Weapon{
 class Sniper extends Weapon{
   
   Sniper() {
-    super(2, "Sniper");
+    super("SNIPER", "Sniper");
     this.damage = 20;
     this.fireRate = 50;
     this.numBullets = 1;

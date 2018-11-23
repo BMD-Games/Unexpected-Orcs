@@ -1,7 +1,7 @@
 public void loadAssets() {
   
   tileSprites = new HashMap<Integer, PImage>();
-  itemSprites = new HashMap<Integer, PImage>();
+  itemSprites = new HashMap<String, PImage>();
   guiSprites = new HashMap<String, PImage>();
   charSprites = new HashMap<String, PImage>();
   projectileSprites = new HashMap<String, PImage>();
@@ -106,9 +106,13 @@ public void loadAssets() {
   PImage itemsheet = loadImage("/assets/sprites/itemsheet.png");
   
   //TODO: items and IDs
-  itemSprites.put(0, getSprite(itemsheet, 0, 0, 1, 1, SPRITE_SIZE)); //shitty item bag
-  itemSprites.put(1, getSprite(itemsheet, 1, 0, 1, 1, SPRITE_SIZE)); //potion item bag
-  itemSprites.put(2, getSprite(itemsheet, 2, 0, 1, 1, SPRITE_SIZE)); //fknlit item bag
+  itemSprites.put("BAG_BROWN", getSprite(itemsheet, 0, 0, 1, 1, SPRITE_SIZE));
+  itemSprites.put("BAG_BLUE", getSprite(itemsheet, 1, 0, 1, 1, SPRITE_SIZE));
+  itemSprites.put("BAG_WHITE", getSprite(itemsheet, 2, 0, 1, 1, SPRITE_SIZE));
+  itemSprites.put("SCROLL_1", getSprite(itemsheet, 0, 1, 1, 1, SPRITE_SIZE));
+  itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 2, 1, 1, SPRITE_SIZE));
+  itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, SPRITE_SIZE));
+  itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, SPRITE_SIZE));
   
   
   //-----GUI SPRITES----

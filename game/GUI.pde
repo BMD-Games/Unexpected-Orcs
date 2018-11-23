@@ -10,7 +10,7 @@ class GUI {
   private color c = 100;
 
   //Inventory drag and drop stuff
-  private final int invBuff = 10, invScale = 2, invSize = SPRITE_SIZE * invScale;
+  private final int invBuff = 10, invScale = 2, invSize = SPRITE_SIZE * invScale + 2;
   private final int invX = (GUI_WIDTH - ((invSize * 3) + (invBuff * 4)))/2, invY = 7* TILE_SIZE/2;
   private boolean prevSelection = false, currSelection = false;
   private boolean b1Active = false, b2Active = false, menuType; // if inv box is in active or not
@@ -154,12 +154,10 @@ class GUI {
         screen.stroke(0);
         screen.strokeWeight(1);
         if (currSelection && b1Active && b1 == i) { 
-          screen.fill(255);
-          screen.rect(mouseX - invSize/2, mouseY - invSize/2, invSize, invSize);
+          screen.image(itemSprites.get(engine.player.active()[i].sprite), mouseX - invSize/2 + 1, mouseY - invSize/2 + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         } else {
-          screen.fill(255);
-          screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
+          screen.image(itemSprites.get(engine.player.active()[i].sprite), invBuff + invX + i * (invSize + invBuff) + 1, invBuff + invY + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         }
       }
@@ -173,12 +171,10 @@ class GUI {
         screen.stroke(0);
         screen.strokeWeight(1);
         if (currSelection && !b1Active && b1 == i) { 
-          screen.fill(255);
-          screen.rect(mouseX - invSize/2, mouseY - invSize/2, invSize, invSize);
+          screen.image(itemSprites.get(engine.player.inv()[i].sprite), mouseX - invSize/2 + 1, mouseY - invSize/2 + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         } else {
-          screen.fill(255);
-          screen.rect(invBuff + invX + (i%3) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
+          screen.image(itemSprites.get(engine.player.inv()[i].sprite),invBuff + invX + (i%3) * (invSize + invBuff) + 1, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         }
       }
@@ -219,7 +215,7 @@ class GUI {
     screen.textSize(12);
     screen.fill(100);
     if (act && engine.player.active()[i] != null) {
-      String type = engine.player.active()[i].type();
+      String type = engine.player.active()[i].type;
       if (type == "Weapon") {
         screen.rect(x, y, 100, 127);
         screen.fill(255);
@@ -241,7 +237,7 @@ class GUI {
       screen.textSize(15);
       screen.text(engine.player.active()[i].name, x + 5, y + 20);
     } else if (!act && engine.player.inv()[i] != null) {
-      String type = engine.player.inv()[i].type();
+      String type = engine.player.inv()[i].type;
 
       if (type == "Weapon") {
         screen.rect(x, y, 100, 127);
