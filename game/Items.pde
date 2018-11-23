@@ -8,7 +8,7 @@ class Inventory {
   
   /*
          _____________________
-  ACTIVE:|Weap|Abil|Arm |SCRL|
+  ACTIVE:|Weap|Abil|Arm |Scrl|
          _____________________
   INVENT:|____|____|____|____|
          |____|____|____|____|
@@ -38,6 +38,7 @@ class Inventory {
         if(act == 0 && inv[in].type != "Weapon") return;
         if(act == 1 && inv[in].type != "Ability") return;
         if(act == 2 && inv[in].type != "Armour") return;
+        if(act == 3 && inv[in].type != "Scroll") return;
       }
       Item save = active[act];
       active[act] = inv[in];
@@ -60,6 +61,7 @@ class Inventory {
   Weapon currentWeapon() { return (Weapon)active[0]; }
   Ability currentAbility() { return (Ability)active[1]; }
   Armour currentArmour() { return (Armour)active[2]; }
+  Scroll currentScroll() { return (Scroll)active[3]; }
   
 }
 
@@ -70,6 +72,14 @@ class Item {
   Item(String sprite, String name) {
    this.sprite = sprite; 
    this.name = name;
+  }
+}
+
+class Scroll extends Item {
+  
+  Scroll(String sprite, String name) {
+    super(sprite, name);
+    this.type = "Scroll";
   }
 }
 

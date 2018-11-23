@@ -10,7 +10,7 @@ class GUI {
   private color c = 100;
 
   //Inventory drag and drop stuff
-  private final int invBuff = 10, invScale = 2, invSize = SPRITE_SIZE * invScale + 2;
+  private final int invBuff = 5, invScale = 2, invSize = SPRITE_SIZE * invScale + 2;
   private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH + 1)))/2, invY = 7* TILE_SIZE/2;
   private boolean prevSelection = false, currSelection = false;
   private boolean b1Active = false, b2Active = false, menuType; // if inv box is in active or not
