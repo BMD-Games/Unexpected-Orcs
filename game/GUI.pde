@@ -84,6 +84,8 @@ class GUI {
     healthBar.show(screen);
     manaBar.show(screen);
     renderInv();
+    screen.image(engine.currentLevel.getMiniMap(), 0, height - engine.currentLevel.getMiniMap().height * 2, engine.currentLevel.getMiniMap().width * 2, engine.currentLevel.getMiniMap().height * 2);
+    screen.image(engine.currentLevel.getOverlay(), 0, height - engine.currentLevel.getOverlay().height * 2, engine.currentLevel.getOverlay().width * 2, engine.currentLevel.getOverlay().height * 2);
     screen.endDraw();
     image(screen, 0, 0);
     
