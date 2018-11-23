@@ -5,12 +5,12 @@ interface Enemy {
   public int y = 0;
   
   /* Enemies need to update on tics */
-  void update(Player player);
+  public boolean update(double delta, float playerX, float playerY);
   
   /* Displays enemy to screen */
-  void show(PGraphics screen, PVector renderOffset);
+  public void show(PGraphics screen, PVector renderOffset);
   
   /* This mob takes damage */
-  void damage(int amount);
+  public void damage(int amount);
   
 }

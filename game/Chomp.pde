@@ -4,6 +4,8 @@ class Chomp implements Enemy {
   public int x = 0;
   public int y = 0;
   
+  private float angle;
+  
   protected Stats stats;
   protected PImage sprite = charSprites.get("CHOMP_WHITE");
   
@@ -12,22 +14,39 @@ class Chomp implements Enemy {
     this.x = x;
     this.y = y;
     stats = new Stats();
-    stats.setHealth(2);
-    stats.setAttack(1);
-    stats.setSpeed(2);
-    stats.setDefence(1);
+    stats.setHealth(2 * tier);
+    stats.setAttack(1 * tier);
+    stats.setSpeed(2 * tier);
+    stats.setDefence(1 * tier);
   }
   
   /* Enemies need to update on tics */
-  void update(Player player) {}
+  public boolean update(double delta, float playerX, float playerY) {
+    //If player in range attack.
+    if(sqrt(pow(x - playerX, 2) + pow(y - playerY, 2)) < 400) {
+      angle = atan2(playerY - height/2, playerX - (width/2 + GUI_WIDTH/2));
+      move(delta);
+    }
+    
+    //Return true if chomp is alive
+    return stats.getHealth() > 0;
+  }
   
   /* Displays enemy to screen */
-  void show(PGraphics screen, PVector renderOffset){
+  public void show(PGraphics screen, PVector renderOffset){
+    screen.pushMatrix();
+    screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
+    screen.rotate(angle);
     screen.image(sprite, x * TILE_SIZE - renderOffset.x - sprite.width * SCALE/2, y * TILE_SIZE - renderOffset.y - sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+    screen.popMatrix();
   }
   
   /* This mob takes damage */
-  void damage(int amount){}
+  public void damage(int amount){}
+  
+  private void move(double delta) {
+    
+  }
   
 }
 
