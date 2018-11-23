@@ -38,7 +38,7 @@ class GUI {
   public void drawMenu() {
     //Draws the main menu
     screen.beginDraw();
-    screen.background(title);
+    screen.image(title, 0, 0, width, height);
     //screen.background(c);
     play.show(screen);
     options.show(screen);
