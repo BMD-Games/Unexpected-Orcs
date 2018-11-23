@@ -32,7 +32,6 @@ class Engine {
     if(mousePressed && !inMenu) handleMouse();
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
-    player.increaseFireTimer();
     updateCamera(player.x, player.y);
     currentLevel.update(screen, camera.x, camera.y);
     
@@ -40,10 +39,6 @@ class Engine {
     updateProjectiles(delta);  
     
     lastUpdate = millis();
-    
-    if (player.stats.getHealth() < player.stats.getHealthMax()) {
-      player.stats.setHealth(player.stats.getHealth() + 1);
-    }
   }
   
   public void updateMillis() {

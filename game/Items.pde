@@ -1,16 +1,18 @@
 class Inventory {
   
-  private int MAX_SIZE = 9;
-  private Item[] active = new Item[3];
+  private int MAX_SIZE = 12;
+  private Item[] active = new Item[4];
   private Item[] inv = new Item[MAX_SIZE];
   
+  public final static int WIDTH = 4;
+  
   /*
-         ________________
-  ACTIVE:|Weap|Abil|Arm |
-         ________________
-  INVENT:|____|____|____|
-         |____|____|____|
-         |____|____|____|  
+         _____________________
+  ACTIVE:|Weap|Abil|Arm |SCRL|
+         _____________________
+  INVENT:|____|____|____|____|
+         |____|____|____|____|
+         |____|____|____|____|
   */
   
   
@@ -91,9 +93,9 @@ class Armour extends Item {
 
 class Weapon extends Item {
   
-  public int damage, fireRate, numBullets, range, bulletSpeed;
+  public int damage, numBullets, range, bulletSpeed;
   
-  public float accuracy;
+  public float fireRate, accuracy;
   
   public String bulletSprite;
   
@@ -119,7 +121,7 @@ class Shotgun extends Weapon{
   Shotgun() {
     super("SHOTGUN", "Shotgun");
     this.damage = 4;
-    this.fireRate = 40;
+    this.fireRate = 0.6;
     this.numBullets = 5;
     this.range = 4;
     this.accuracy = 0.15;
@@ -134,7 +136,7 @@ class Pistol extends Weapon{
   Pistol() {
     super("PISTOL", "Pistol");
     this.damage = 10;
-    this.fireRate = 10;
+    this.fireRate = 0.15;
     this.numBullets = 1;
     this.range = 6;
     this.accuracy = 0.05;
@@ -149,7 +151,7 @@ class Sniper extends Weapon{
   Sniper() {
     super("SNIPER", "Sniper");
     this.damage = 20;
-    this.fireRate = 50;
+    this.fireRate = 1;
     this.numBullets = 1;
     this.range = 10;
     this.accuracy = 0.01;

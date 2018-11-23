@@ -62,6 +62,12 @@ class Player {
     move(delta, neighbours);
     updateBound();
     
+    if (stats.getHealth() < stats.getHealthMax()) {
+      stats.setHealth(stats.getHealth() + 1);
+    }
+    
+    stats.setFireTimer((float)(stats.getFireTimer() + delta));
+    
   }
   
   public void show(PGraphics screen, PVector renderOffset) {
@@ -112,10 +118,6 @@ class Player {
     stats.setSpeed(speed);
   }
   
-  public void increaseFireTimer() {
-    stats.setFireTimer(stats.getFireTimer() + 1);
-  }
-  
   public Boolean hasWeapon() {
     return currentInventory instanceof Weapon;
   }
@@ -141,7 +143,7 @@ class Stats {
   private int attack;
   private int wisdom;
   private int defence;
-  private int fireTimer;
+  private float fireTimer;
   
   private float speed;
   
@@ -166,7 +168,7 @@ class Stats {
   public int getAttack() { return attack; }
   public int getWisdom() { return wisdom; }
   public int getDefence() { return defence; }
-  public int getFireTimer() { return fireTimer; }
+  public float getFireTimer() { return fireTimer; }
   public float getSpeed() { return speed; }
   
   public void setHealth(int value) { health = value; }
@@ -177,7 +179,7 @@ class Stats {
   public void setAttack(int value) { attack = value; }
   public void setWisdom(int value) { wisdom = value; }
   public void setDefence(int value) { defence = value; }
-  public void setFireTimer(int value) { fireTimer = value; }
+  public void setFireTimer(float value) { fireTimer = value; }
   public void setSpeed(float value) { speed = value; }
   
 }

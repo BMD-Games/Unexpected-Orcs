@@ -11,7 +11,7 @@ class GUI {
 
   //Inventory drag and drop stuff
   private final int invBuff = 10, invScale = 2, invSize = SPRITE_SIZE * invScale + 2;
-  private final int invX = (GUI_WIDTH - ((invSize * 3) + (invBuff * 4)))/2, invY = 7* TILE_SIZE/2;
+  private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH + 1)))/2, invY = 7* TILE_SIZE/2;
   private boolean prevSelection = false, currSelection = false;
   private boolean b1Active = false, b2Active = false, menuType; // if inv box is in active or not
   private int b1 = -1, b2 = -1, itemOver; //inv box 1 and 2 for drag and swap
@@ -164,9 +164,7 @@ class GUI {
     }
     int j = 0;
     for (int i = 0; i < engine.player.inv().length; i++) {
-      if (i < 3) j = 0;
-      else if (i < 6) j = 1;
-      else if (i < 9) j = 2;
+      j = (int)(i/Inventory.WIDTH);
       if (engine.player.inv()[i] != null) {
         screen.stroke(0);
         screen.strokeWeight(1);
@@ -174,7 +172,7 @@ class GUI {
           screen.image(itemSprites.get(engine.player.inv()[i].sprite), mouseX - invSize/2 + 1, mouseY - invSize/2 + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         } else {
-          screen.image(itemSprites.get(engine.player.inv()[i].sprite),invBuff + invX + (i%3) * (invSize + invBuff) + 1, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+          screen.image(itemSprites.get(engine.player.inv()[i].sprite),invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + 1, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         }
       }
@@ -186,7 +184,7 @@ class GUI {
 
   void drawBack() {
     screen.fill(51);
-    screen.rect(invX, invY, 3 * (invSize + invBuff) + invBuff, 4 * (invSize + invBuff) + invBuff * 2);
+    screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, Inventory.WIDTH * (invSize + invBuff) + invBuff * 2);
 
     itemOver = -1;
     for (int i = 0; i < engine.player.active().length; i++) {
@@ -199,12 +197,10 @@ class GUI {
     }
     int j = 0;
     for (int i = 0; i < engine.player.inv().length; i++) {
-      if (i < 3) j = 0;
-      else if (i < 6) j = 1;
-      else if (i < 9) j = 2;
+      j = (int)(i/Inventory.WIDTH);
       screen.fill(150);
-      screen.rect(invBuff + invX + (i%3) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
-      if (pointInBox(mouseX, mouseY, invBuff + invX + (i%3) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) { 
+      screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
+      if (pointInBox(mouseX, mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) { 
         itemOver = i; 
         menuType = false;
       }
