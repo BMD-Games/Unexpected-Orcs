@@ -7,7 +7,8 @@ class Player {
   private CharTileSet sprites;
   public Stats stats = new Stats();
   
-  private InventoryObject currentInventory;
+  private Item currentInventory;
+  private Inventory inv = new Inventory();
   
   private AABB bound;
 
@@ -119,18 +120,16 @@ class Player {
     return currentInventory instanceof Weapon;
   }
   
-  public Weapon getWeapon() {
-    if(this.hasWeapon()) {
-      return (Weapon)currentInventory;
-    } else {
-      return null;
-    }
-  }
-  
   public void setWeapon(Weapon weapon) {
     currentInventory = weapon;
   }
   
+  Weapon currentWeapon() { return inv.currentWeapon(); }
+  Ability currentSpecial() { return inv.currentAbility(); }
+  Armour currentArmour() { return inv.currentArmour(); }
+  
+  Item[] active() { return inv.active(); }
+  Item[] inv() { return inv.inv(); }
   
 }
 

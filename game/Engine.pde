@@ -21,7 +21,6 @@ class Engine {
     
     currentLevel = new Cave(120, 90);
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
-    player.setWeapon(new Sniper());
     
     screen = createGraphics(width - GUI_WIDTH, height);
   }
@@ -30,7 +29,7 @@ class Engine {
     //updates all game objects
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
     
-    if(mousePressed) handleMouse();
+    if(mousePressed && !inMenu) handleMouse();
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
     player.increaseFireTimer();
@@ -81,13 +80,13 @@ class Engine {
     //need to do something like add(player.getCurrentWeapon().newProjectile());
     // PVector.fromAngle(player.ang)
     
-    if (player.hasWeapon()) {
-      Weapon weapon = player.getWeapon();
+    Weapon weapon = player.currentWeapon();
+    if (weapon != null) {
       if (player.stats.getFireTimer() >= weapon.fireRate) {
         
         for (int i = 0; i < weapon.numBullets; i++) {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
-              weapon.bulletSpeed, weapon.range, weapon.damageMulti * player.stats.getAttack(), "SNIPER"));
+              weapon.bulletSpeed, weapon.range, weapon.damage * player.stats.getAttack(), weapon.bulletSprite));
         }
         player.stats.setFireTimer(0);
       }
