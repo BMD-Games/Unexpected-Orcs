@@ -1,8 +1,8 @@
 class Chomp implements Enemy {
   
   public int tier = 0;
-  public int x = 0;
-  public int y = 0;
+  public float x = 0;
+  public float y = 0;
   
   private float angle;
   private boolean isLeft;
@@ -10,7 +10,7 @@ class Chomp implements Enemy {
   protected Stats stats;
   protected PImage sprite = charSprites.get("CHOMP_WHITE");
   
-  public Chomp(int x, int y, int tier) {
+  public Chomp(float x, float y, int tier) {
     this.tier = tier;
     this.x = x;
     this.y = y;
