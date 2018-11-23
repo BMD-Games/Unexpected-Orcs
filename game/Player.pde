@@ -22,8 +22,10 @@ class Player {
   }
   
   public void move(double delta, int[] neighbours) {
-    x += getDX(delta, neighbours); 
-    y += getDY(delta, neighbours);
+    PVector movement = new PVector(getDX(delta, neighbours), getDY(delta, neighbours));
+    movement.normalize().mult((float)delta * stats.getSpeed());
+    x += movement.x; 
+    y += movement.y;
   }
   
   private float getDX(double delta, int[] neighbours) {

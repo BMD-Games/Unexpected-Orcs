@@ -32,7 +32,6 @@ void setup() {
   textSize(TILE_SIZE);
   
   setState("MENU");
-  cursor(guiSprites.get("CURSOR"));
   
   gui = new GUI();
   engine = new Engine();

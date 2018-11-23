@@ -2,6 +2,10 @@ class Level {
   
   private int[][] tilesRaw;
   private int[][] tileMap;
+  
+  private boolean[][] visited;  
+  private int visitRadius = 6, miniMapSize = 4;
+  
   public int w, h;
   public PVector start;
   private String name;
@@ -9,7 +13,7 @@ class Level {
   public TileSet tileset  = new TileSet();
   private int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
   
-  private PGraphics background, tiles;
+  private PGraphics tiles, miniMap;
   
   Level(int w, int h) {
     this.w = w;
@@ -19,10 +23,11 @@ class Level {
     for(int i = 0; i < 100; i ++) {
       enemies.add(new Chomp((int)random(w), (int)random(h), 1));
     }
-    tiles = createGraphics(width, height);
+    tiles = createGraphics(width - GUI_WIDTH, height);
+    miniMap = createGraphics(GUI_WIDTH/2, GUI_WIDTH/2);
   }
   
-    public PGraphics generateImage() {
+  public PGraphics generateImage() {
     PGraphics pg = createGraphics(SPRITE_SIZE * (w + tileBuffer * 2), SPRITE_SIZE * (h + tileBuffer * 2));
     pg.beginDraw();
     pg.background(0, 0);
@@ -40,6 +45,7 @@ class Level {
   public void update(PGraphics screen, float x, float y) {
     xTileOffset = (int)x - (screen.width/2)/TILE_SIZE;
     yTileOffset = (int)y - (screen.height/2)/TILE_SIZE;
+    //updateVisited((int)x, (int)y);
   }
   
   public void show(PGraphics screen, PVector renderOffset) {    
@@ -58,6 +64,31 @@ class Level {
     }
     tiles.endDraw();
     screen.image(tiles, 0, 0);
+    
+    //updateMiniMap();
+    screen.image(miniMap, 0, 0);
+  }
+  
+  public void updateMiniMap() {
+    miniMap.beginDraw();
+    miniMap.background(0);
+    miniMap.noStroke();
+    for(int i = 0; i < w; i ++) {
+      for(int j = 0; j < h; j ++) {
+        int tile = tileset.walls[15];
+        try{ tile = tileMap[j][j]; } catch(Exception e) {}
+        boolean visit = false;
+        try { visit = visited[j][j]; } catch(Exception e) {}
+        if(visit) {
+          miniMap.fill(255);
+          if(tile <= WALL) {
+            miniMap.fill(200);
+          }
+          miniMap.rect(i * miniMapSize, j * miniMapSize, miniMapSize, miniMapSize);
+        }
+      }
+    }    
+    miniMap.endDraw();
   }
   
   public boolean isEdge(int[][] tiles, int i, int j) {
@@ -92,6 +123,22 @@ class Level {
   
   private void applyTileSet() {
     tileMap = finishingPass(tilesRaw, tileset);
+  }
+  
+  private void updateVisited(int x, int y) {
+    
+    for (int j = y - visitRadius; j < y + visitRadius; j ++) {
+      for (int i = x; sq(i - x) + sq(j - y) <= sq(visitRadius); i --) {
+          try {
+            visited[i][j] = true;
+          } catch (Exception e) {}
+      }
+      for (int i = x+1; sq(i - x) + sq(j - y) <= sq(visitRadius); i++) {
+          try {
+            visited[i][j] = true;
+          } catch (Exception e) {}
+      }
+    }
   }
   
   //-----Getters and setters------

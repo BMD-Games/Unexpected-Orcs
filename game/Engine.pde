@@ -28,7 +28,7 @@ class Engine {
   public void update() {
     //updates all game objects
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
-    
+    println(frameRate);
     if(mousePressed && !inMenu) handleMouse();
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));

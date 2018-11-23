@@ -177,7 +177,7 @@ class GUI {
         }
       }
     }
-    if (itemOver != -1 && ((menuType && engine.player.active()[itemOver] != null) || (!menuType && engine.player.inv()[itemOver] != null))) { 
+    if (inMenu && itemOver != -1 && ((menuType && engine.player.active()[itemOver] != null) || (!menuType && engine.player.inv()[itemOver] != null))) { 
       mouseOver(mouseX, mouseY, itemOver, menuType);
     }
   }
