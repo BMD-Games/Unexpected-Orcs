@@ -5,6 +5,7 @@ class Chomp implements Enemy {
   public int y = 0;
   
   private float angle;
+  private boolean isLeft;
   
   protected Stats stats;
   protected PImage sprite = charSprites.get("CHOMP_WHITE");
@@ -23,11 +24,8 @@ class Chomp implements Enemy {
   /* Enemies need to update on tics */
   public boolean update(double delta, float playerX, float playerY) {
     //If player in range attack.
-    float dist = sqrt(pow(x - playerX, 2) + pow(y - playerY, 2));
-    print("Distance: ");
-    println(dist);
-    if(dist < 6) {
-      angle = atan2(playerY - y, playerX - (x + GUI_WIDTH/2));
+    if(sqrt(pow(x - playerX, 2) + pow(y - playerY, 2)) < 6) {
+      angle = atan2(playerY - y, playerX - x);
       print("Angle: ");
       println(angle);
       move(delta);
@@ -50,7 +48,8 @@ class Chomp implements Enemy {
   public void damage(int amount){}
   
   private void move(double delta) {
-    
+    x += stats.getSpeed() * cos(angle) * delta;
+    y += stats.getSpeed() * sin(angle) * delta;
   }
   
 }
