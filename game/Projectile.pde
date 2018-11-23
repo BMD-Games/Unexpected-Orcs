@@ -36,4 +36,8 @@ class Projectile {
     if(dist(startX, startY, x, y) >= range) return false;
     return true;
   }
+  
+  private int getDamage() {
+    return damage;
+  }
 }

@@ -15,8 +15,8 @@ class Chomp implements Enemy {
     this.x = x;
     this.y = y;
     stats = new Stats();
-    stats.setHealth(2 * tier);
-    stats.setAttack(1 * tier);
+    stats.setHealth(14 * tier);
+    stats.setAttack(5 * tier);
     stats.setSpeed(1.3 * tier);
     stats.setDefence(1 * tier);
   }
@@ -50,8 +50,8 @@ class Chomp implements Enemy {
   }
   
   /* Checks collision with point */
-  public boolean pointCollides(float pointX, float pointY){
-    return (sqrt(pow(), pow()) < );
+  public boolean pointCollides(float pointX, float pointY) {
+    return (distanceFrom(pointX, pointY) < 0.5);
   }
   
   /* Checks collision with area  */

@@ -35,8 +35,8 @@ class Engine {
     updateCamera(player.x, player.y);
     currentLevel.update(screen, camera.x, camera.y);
     
-    updateEnemies(delta, player.x, player.y);
-    updateProjectiles(delta);  
+    updateProjectiles(delta); 
+    updateEnemies(delta, player.x, player.y); 
     
     lastUpdate = millis();
   }
@@ -84,25 +84,8 @@ class Engine {
               weapon.bulletSpeed, weapon.range, weapon.damage * player.stats.getAttack(), weapon.bulletSprite));
         }
         player.stats.setFireTimer(0);
-      }
-      
-      
+      } 
     }
-    
-    /*
-    if (player.getFireCount() >= 10) {
-      
-      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
-      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
-      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
-      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
-      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
-      playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-0.10, 0.10)), 10, 6, 10));
-      player.resetFireCount();
-      
-    }
-    */
-    
   }
   
   private void updateCamera(float x, float y) {
@@ -115,17 +98,7 @@ class Engine {
     ellipse(camera.x * TILE_SIZE - getRenderOffset().x, camera.y * TILE_SIZE - getRenderOffset().y, 5, 5);
   }
   
-  private void updateEnemies(double delta, float x, float y) {
-    for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
-      //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-      if(!currentLevel.enemies.get(i).update(delta, x, y)) { //if update function returns false, the enemy is dead
-        currentLevel.enemies.remove(i); //remove enemy
-      }
-    }
-  }
-  
   private void updateProjectiles(double delta) {
-    
     //---enemy projectiles
     for(int i = enemyProjectiles.size() - 1; i >= 0; i --) {
       enemyProjectiles.get(i).update(delta);
@@ -134,12 +107,27 @@ class Engine {
       }
     }
     
-    
     //---player projectiles
     for(int i = playerProjectiles.size() - 1; i >= 0; i --) {
-      playerProjectiles.get(i).update(delta);
+      Projectile projectile = playerProjectiles.get(i);
+      projectile.update(delta);
+      for(Enemy enemy : currentLevel.enemies) {
+        if(enemy.pointCollides(projectile.x, projectile.y)) {
+          enemy.damage(projectile.getDamage());
+          playerProjectiles.remove(i);
+        }
+      }
       if(projectileIsDead(playerProjectiles.get(i))) { //if the projectile is dead
         playerProjectiles.remove(i); //remove projectile
+      }
+    }
+  }
+  
+  private void updateEnemies(double delta, float x, float y) {
+    for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
+      //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
+      if(!currentLevel.enemies.get(i).update(delta, x, y)) { //if update function returns false, the enemy is dead
+        currentLevel.enemies.remove(i); //remove enemy
       }
     }
   }
