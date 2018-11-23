@@ -132,7 +132,7 @@ class Level {
     try {
       if(!visited[i][j]) drawVisitedTile(i, j);
       visited[i][j] = true;
-    } catch (Exception e) { println("cunt"); }
+    } catch (Exception e) {}
   }
   
   private void drawVisitedTile(int i, int j) {

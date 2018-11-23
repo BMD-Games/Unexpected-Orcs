@@ -18,7 +18,7 @@ class Player {
     this.x = x; //in tile space, not screen space;
     this.y = y;
     bound = new AABB(x, y, w, h);
-    setStats(5, 10, 2, 6, 1, 1, 0, 0, 2);
+    setStats(5, 100, 2, 60, 1, 1, 0, 0, 2);
   }
   
   public void move(double delta, int[] neighbours) {

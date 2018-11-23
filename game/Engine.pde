@@ -28,7 +28,6 @@ class Engine {
   public void update() {
     //updates all game objects
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
-    println(frameRate);
     if(mousePressed && !inMenu) handleMouse();
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
@@ -111,15 +110,18 @@ class Engine {
     for(int i = playerProjectiles.size() - 1; i >= 0; i --) {
       Projectile projectile = playerProjectiles.get(i);
       projectile.update(delta);
+      if(projectileIsDead(playerProjectiles.get(i))) { //if the projectile is dead
+        playerProjectiles.remove(i); //remove projectile
+        break;
+      }
       for(Enemy enemy : currentLevel.enemies) {
         if(enemy.pointCollides(projectile.x, projectile.y)) {
           enemy.damage(projectile.getDamage());
           playerProjectiles.remove(i);
+          break;
         }
       }
-      if(projectileIsDead(playerProjectiles.get(i))) { //if the projectile is dead
-        playerProjectiles.remove(i); //remove projectile
-      }
+      
     }
   }
   
