@@ -27,7 +27,7 @@ class Chomp implements Enemy {
     print("Distance: ");
     println(dist);
     if(dist < 6) {
-      angle = atan2(playerY - y/2, playerX - (x/2 + GUI_WIDTH/2));
+      angle = atan2(playerY - y, playerX - (x + GUI_WIDTH/2));
       print("Angle: ");
       println(angle);
       move(delta);
