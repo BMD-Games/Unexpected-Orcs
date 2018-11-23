@@ -17,17 +17,15 @@ class Chomp implements Enemy {
     stats = new Stats();
     stats.setHealth(2 * tier);
     stats.setAttack(1 * tier);
-    stats.setSpeed(2 * tier);
+    stats.setSpeed(1.3 * tier);
     stats.setDefence(1 * tier);
   }
   
   /* Enemies need to update on tics */
   public boolean update(double delta, float playerX, float playerY) {
     //If player in range attack.
-    if(sqrt(pow(x - playerX, 2) + pow(y - playerY, 2)) < 6) {
+    if(distanceFrom(playerX, playerY) < 6) {
       angle = atan2(playerY - y, playerX - x);
-      print("Angle: ");
-      println(angle);
       move(delta);
     }
     
@@ -45,11 +43,29 @@ class Chomp implements Enemy {
   }
   
   /* This mob takes damage */
-  public void damage(int amount){}
+  public void damage(int amount){
+    if(amount > stats.getDefence()) {
+      stats.setHealth(stats.getHealth() - (amount - stats.getDefence()));
+    }
+  }
+  
+  /* Checks collision with point */
+  public boolean pointCollides(float pointX, float pointY){
+    return (sqrt(pow(), pow()) < );
+  }
+  
+  /* Checks collision with area  */
+  public boolean AABBCollides(AABB box){
+    return false;
+  }
   
   private void move(double delta) {
     x += stats.getSpeed() * cos(angle) * delta;
     y += stats.getSpeed() * sin(angle) * delta;
+  }
+  
+  private float distanceFrom(float pointX, float pointY) {
+    return sqrt(pow(x - pointX, 2) + pow(y - pointY, 2));
   }
   
 }

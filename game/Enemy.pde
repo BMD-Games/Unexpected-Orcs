@@ -13,4 +13,10 @@ interface Enemy {
   /* This mob takes damage */
   public void damage(int amount);
   
+  /* Checks collision with point */
+  public boolean pointCollides(float pointX, float pointY);
+  
+  /* Checks collision with area  */
+  public boolean AABBCollides(AABB box);
+  
 }

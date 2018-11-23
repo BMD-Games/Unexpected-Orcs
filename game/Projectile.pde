@@ -36,5 +36,4 @@ class Projectile {
     if(dist(startX, startY, x, y) >= range) return false;
     return true;
   }
-  
 }
