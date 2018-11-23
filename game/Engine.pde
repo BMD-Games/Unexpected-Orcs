@@ -118,9 +118,9 @@ class Engine {
   private void updateEnemies(double delta, float x, float y) {
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-      /*if(!currentLevel.enemies.get(i).update(delta, x, y)) { //if update function returns false, the enemy is dead
+      if(!currentLevel.enemies.get(i).update(delta, x, y)) { //if update function returns false, the enemy is dead
         currentLevel.enemies.remove(i); //remove enemy
-      }*/
+      }
     }
   }
   

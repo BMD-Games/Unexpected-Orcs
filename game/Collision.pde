@@ -17,8 +17,8 @@ class AABB {
                 this.y +  this.h >= box.y && this.y <= box.y + box.h);    
     }
 
-    public boolean collidesWith(Point point) {
-        return pointInBox(point.x, point.y, this.x, this.y, this.w, this.h);
+    public boolean collidesWith(float pointX, float pointY) {
+        return pointInBox(pointX, pointY, this.x, this.y, this.w, this.h);
     }
     
     void show() {
@@ -26,21 +26,4 @@ class AABB {
       rect(x * TILE_SIZE/s, y * TILE_SIZE/s, w * TILE_SIZE/s, h * TILE_SIZE/s);
     }
     
-}
-
-class Point {
-//Point
-//Used for collision detection (projectiles)
-//Should use Tile co-ordinates and scale
-
-    private float x, y;
-
-    Point(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-    
-    public boolean collidesWith(AABB box) {
-        return pointInBox(this.x, this.y, box.x, box.y, box.w, box.h);
-    }
 }
