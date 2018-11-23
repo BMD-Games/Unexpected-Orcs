@@ -23,8 +23,13 @@ class Chomp implements Enemy {
   /* Enemies need to update on tics */
   public boolean update(double delta, float playerX, float playerY) {
     //If player in range attack.
-    if(sqrt(pow(x - playerX, 2) + pow(y - playerY, 2)) < 400) {
-      angle = atan2(playerY - height/2, playerX - (width/2 + GUI_WIDTH/2));
+    float dist = sqrt(pow(x - playerX, 2) + pow(y - playerY, 2));
+    print("Distance: ");
+    println(dist);
+    if(dist < 6) {
+      angle = atan2(playerY - y/2, playerX - (x/2 + GUI_WIDTH/2));
+      print("Angle: ");
+      println(angle);
       move(delta);
     }
     
@@ -37,7 +42,7 @@ class Chomp implements Enemy {
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
     screen.rotate(angle);
-    screen.image(sprite, x * TILE_SIZE - renderOffset.x - sprite.width * SCALE/2, y * TILE_SIZE - renderOffset.y - sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+    screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     screen.popMatrix();
   }
   
