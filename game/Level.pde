@@ -4,7 +4,7 @@ class Level {
   private int[][] tileMap;
   
   private boolean[][] visited;  
-  private int visitRadius = 6, miniMapSize = 4;
+  private int visitRadius = 7;
   
   public int w, h;
   public PVector start;
@@ -13,18 +13,26 @@ class Level {
   public TileSet tileset  = new TileSet();
   private int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
   
-  private PGraphics tiles, miniMap;
+  private PGraphics tiles, miniMap, miniMapOverlay;
   
   Level(int w, int h) {
     this.w = w;
     this.h = h;
+    
+    visited = new boolean[w][h];
+    
     renderW = width/TILE_SIZE + 2 * buffer;
     renderH = height/TILE_SIZE + 2 * buffer;
     for(int i = 0; i < 100; i ++) {
       enemies.add(new Chomp((int)random(w), (int)random(h), 1));
     }
     tiles = createGraphics(width - GUI_WIDTH, height);
-    miniMap = createGraphics(GUI_WIDTH/2, GUI_WIDTH/2);
+    miniMapOverlay = createGraphics(w, h);
+    miniMap = createGraphics(w, h);
+    miniMap.beginDraw();
+    miniMap.background(0);
+    miniMap.noStroke();
+    miniMap.endDraw();
   }
   
   public PGraphics generateImage() {
@@ -45,7 +53,8 @@ class Level {
   public void update(PGraphics screen, float x, float y) {
     xTileOffset = (int)x - (screen.width/2)/TILE_SIZE;
     yTileOffset = (int)y - (screen.height/2)/TILE_SIZE;
-    //updateVisited((int)x, (int)y);
+    updateVisited((int)x, (int)y);
+    updateMapEntities((int)x, (int)y);
   }
   
   public void show(PGraphics screen, PVector renderOffset) {    
@@ -64,31 +73,6 @@ class Level {
     }
     tiles.endDraw();
     screen.image(tiles, 0, 0);
-    
-    //updateMiniMap();
-    screen.image(miniMap, 0, 0);
-  }
-  
-  public void updateMiniMap() {
-    miniMap.beginDraw();
-    miniMap.background(0);
-    miniMap.noStroke();
-    for(int i = 0; i < w; i ++) {
-      for(int j = 0; j < h; j ++) {
-        int tile = tileset.walls[15];
-        try{ tile = tileMap[j][j]; } catch(Exception e) {}
-        boolean visit = false;
-        try { visit = visited[j][j]; } catch(Exception e) {}
-        if(visit) {
-          miniMap.fill(255);
-          if(tile <= WALL) {
-            miniMap.fill(200);
-          }
-          miniMap.rect(i * miniMapSize, j * miniMapSize, miniMapSize, miniMapSize);
-        }
-      }
-    }    
-    miniMap.endDraw();
   }
   
   public boolean isEdge(int[][] tiles, int i, int j) {
@@ -125,20 +109,42 @@ class Level {
     tileMap = finishingPass(tilesRaw, tileset);
   }
   
+  private void updateMapEntities(int x, int y) {
+    miniMapOverlay.beginDraw();
+    miniMapOverlay.background(0, 0);
+    miniMapOverlay.stroke(255, 0, 255);
+    miniMapOverlay.point(x, y);
+    miniMapOverlay.endDraw();
+  }
+  
   private void updateVisited(int x, int y) {
-    
     for (int j = y - visitRadius; j < y + visitRadius; j ++) {
       for (int i = x; sq(i - x) + sq(j - y) <= sq(visitRadius); i --) {
-          try {
-            visited[i][j] = true;
-          } catch (Exception e) {}
+          visitTile(i, j);
       }
-      for (int i = x+1; sq(i - x) + sq(j - y) <= sq(visitRadius); i++) {
-          try {
-            visited[i][j] = true;
-          } catch (Exception e) {}
+      for (int i = x + 1; sq(i - x) + sq(j - y) <= sq(visitRadius); i ++) {
+          visitTile(i, j);
       }
     }
+  }
+  
+  private void visitTile(int i, int j) {
+    try {
+      if(!visited[i][j]) drawVisitedTile(i, j);
+      visited[i][j] = true;
+    } catch (Exception e) { println("cunt"); }
+  }
+  
+  private void drawVisitedTile(int i, int j) {
+    miniMap.beginDraw();
+    int tile = WALL;
+    try{ tile = tileMap[i][j]; } catch(Exception e) {}
+    miniMap.stroke(200);
+    if(tile <= WALL) {
+      miniMap.stroke(100);
+    }
+    miniMap.point(i, j);
+    miniMap.endDraw();
   }
   
   //-----Getters and setters------
@@ -177,6 +183,14 @@ class Level {
   
   public String getName() {
     return name;
+  }
+  
+  public PGraphics getMiniMap() {
+    return miniMap;
+  }
+  
+  public PGraphics getOverlay() {
+    return miniMapOverlay;
   }
   
   public void saveLevel() {
