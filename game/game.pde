@@ -4,6 +4,7 @@ HashMap<String, PImage> itemSprites;
 HashMap<String, PImage> guiSprites;
 HashMap<String, PImage> charSprites;
 HashMap<String, PImage> projectileSprites;
+HashMap<String, PImage> dropSprites;
 
 final int GUI_WIDTH = 240;
 
@@ -52,7 +53,7 @@ void draw() {
       thread("update");
       //engine.update();
       engine.show();
-      gui.drawUnpaused(engine.getPlayer());
+      gui.drawUnpaused(engine.player);
       break;
     case "PAUSED":
       engine.show();

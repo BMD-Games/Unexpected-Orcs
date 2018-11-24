@@ -56,7 +56,13 @@ class Player {
     }  
     return dy;
   }
-
+  
+  public void damage(int amount){
+    if(amount > stats.getDefence()) {
+      stats.setHealth(stats.getHealth() - (amount - stats.getDefence()));
+    }
+  }
+  
   public void update(double delta, int[] neighbours) {
     ang = atan2(mouseY - height/2, mouseX - (width/2 + GUI_WIDTH/2));
 
@@ -94,8 +100,7 @@ class Player {
       if (stats.getMana() < stats.getManaMax() ) {
         stats.setMana(stats.getMana() + 1);
       }
-    }
-      
+    }      
   }
   
   private int getFacing() {
@@ -103,14 +108,6 @@ class Player {
     float dir = ang + (3 * PI/4);
     while(dir < 0) dir += TAU;
     return(int)(dir/(PI/2)) % 4;
-  }
-  
-  public Boolean hasWeapon() {
-    return currentInventory instanceof Weapon;
-  }
-  
-  public void setWeapon(Weapon weapon) {
-    currentInventory = weapon;
   }
   
   Weapon currentWeapon() { return inv.currentWeapon(); }

@@ -80,7 +80,7 @@ class PlayerStats extends Stats {
     setSpeed(2);
   }
   
-  public void addKill(ArrayList<String> stats, int tier) {
+  public void addKill(String[] stats, int tier) {
     totalKills ++;
     for(String stat : stats) {
       switch(stat) {

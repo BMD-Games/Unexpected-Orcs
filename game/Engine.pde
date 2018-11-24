@@ -9,6 +9,8 @@ class Engine {
   private ArrayList<Projectile> enemyProjectiles = new ArrayList<Projectile>();
   private ArrayList<Projectile> playerProjectiles = new ArrayList<Projectile>();
   
+  private ArrayList<Drop> drops = new ArrayList<Drop>();
+  
   private PVector camera = new PVector(0, 0);
   
   private PGraphics screen;
@@ -23,6 +25,13 @@ class Engine {
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
     
     screen = createGraphics(width - GUI_WIDTH, height);
+    
+    for(int i = 0; i < 50; i ++) {
+      drops.add(new ItemBag(random(currentLevel.w), random(currentLevel.h), (int)random(3))); 
+    }
+    
+    println(drops.size());
+    
   }
   
   public void update() {
@@ -36,6 +45,7 @@ class Engine {
     
     updateProjectiles(delta); 
     updateEnemies(delta, player.x, player.y); 
+    updateDrops(delta);
     
     lastUpdate = millis();
   }
@@ -47,7 +57,6 @@ class Engine {
   public void show() {
     screen.beginDraw();
     currentLevel.show(screen, getRenderOffset());
-    player.show(screen, getRenderOffset());
     
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
@@ -58,8 +67,15 @@ class Engine {
       enemyProjectiles.get(i).show(screen, getRenderOffset());
     }
     for(int i = playerProjectiles.size() - 1; i >= 0; i --) {
-      playerProjectiles.get(i).show(screen, getRenderOffset()); //if update function returns false, the projectile is dead
+      playerProjectiles.get(i).show(screen, getRenderOffset());
     }
+    
+    for(int i = drops.size() - 1; i >= 0; i --) {
+      drops.get(i).show(screen, getRenderOffset());
+    }
+    
+    player.show(screen, getRenderOffset());
+    
     screen.endDraw();
     image(screen, GUI_WIDTH, 0);
   }
@@ -139,8 +155,13 @@ class Engine {
     return !proj.alive() || hitWall;
   }
   
-  public Player getPlayer() {
-    return player;
+  private void updateDrops(double delta) {
+    for(int i = drops.size() - 1; i >= 0; i --) {
+      //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
+      if(!drops.get(i).update(delta)) { //if update function returns false, the drop is dead
+        drops.remove(i); //remove drop
+      }
+    }
   }
   
 }

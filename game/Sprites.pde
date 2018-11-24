@@ -5,6 +5,7 @@ public void loadAssets() {
   guiSprites = new HashMap<String, PImage>();
   charSprites = new HashMap<String, PImage>();
   projectileSprites = new HashMap<String, PImage>();
+  dropSprites = new HashMap<String, PImage>();
   
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("/assets/sprites/tilesheet.png");
@@ -104,39 +105,50 @@ public void loadAssets() {
   
   //-----ITEM SPRITES-----
   PImage itemsheet = loadImage("/assets/sprites/itemsheet.png");
+  int itemSize = 16;
   
-  //TODO: items and IDs
-  itemSprites.put("BAG_BROWN", getSprite(itemsheet, 0, 0, 1, 1, SPRITE_SIZE));
-  itemSprites.put("BAG_BLUE", getSprite(itemsheet, 1, 0, 1, 1, SPRITE_SIZE));
-  itemSprites.put("BAG_WHITE", getSprite(itemsheet, 2, 0, 1, 1, SPRITE_SIZE));
-  itemSprites.put("SCROLL_1", getSprite(itemsheet, 0, 1, 1, 1, SPRITE_SIZE));
-  itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 2, 1, 1, SPRITE_SIZE));
-  itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, SPRITE_SIZE));
-  itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, SPRITE_SIZE));
+  itemSprites.put("SCROLL_1", getSprite(itemsheet, 0, 1, 1, 1, itemSize));
+  itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 2, 1, 1, itemSize));
+  itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
+  itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
+  itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
   
+  //-----DROP SPRITES-----
+  PImage dropsheet = loadImage("/assets/sprites/dropsheet.png");
+  int dropSize = 8;
+
+  dropSprites.put("BAG_BROWN", getSprite(dropsheet, 0, 0, 1, 1, dropSize));
+  dropSprites.put("BAG_BLUE", getSprite(dropsheet, 1, 0, 1, 1, dropSize));
+  dropSprites.put("BAG_WHITE", getSprite(dropsheet, 2, 0, 1, 1, dropSize));
   
   //-----GUI SPRITES----
   PImage sheet = loadImage("/assets/sprites/spritesheet.png");
-  guiSprites.put("PLAY", getSprite(sheet, 0, 0, 2, 1, SPRITE_SIZE));  
-  guiSprites.put("MENU", getSprite(sheet, 2, 0, 2, 1, SPRITE_SIZE));
-  guiSprites.put("BACK", getSprite(sheet, 4, 0, 2, 1, SPRITE_SIZE));
-  guiSprites.put("OPTIONS", getSprite(sheet, 6, 0, 2, 1, SPRITE_SIZE));
-  guiSprites.put("PAUSE", getSprite(sheet, 0, 1, 1, 1, SPRITE_SIZE));
-  guiSprites.put("EXIT", getSprite(sheet, 1, 1, 2, 1, SPRITE_SIZE));
-  guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2, SPRITE_SIZE));
-  guiSprites.put("BAR", getSprite(sheet, 0, 4, 3, 1, SPRITE_SIZE));
+  int guiSize = 16;
+  
+  guiSprites.put("PLAY", getSprite(sheet, 0, 0, 2, 1, guiSize));  
+  guiSprites.put("MENU", getSprite(sheet, 2, 0, 2, 1, guiSize));
+  guiSprites.put("BACK", getSprite(sheet, 4, 0, 2, 1, guiSize));
+  guiSprites.put("OPTIONS", getSprite(sheet, 6, 0, 2, 1, guiSize));
+  guiSprites.put("PAUSE", getSprite(sheet, 0, 1, 1, 1, guiSize));
+  guiSprites.put("EXIT", getSprite(sheet, 1, 1, 2, 1, guiSize));
+  guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2, guiSize));
+  guiSprites.put("BAR", getSprite(sheet, 0, 4, 3, 1, guiSize));
   
   //-----CHAR SPRITES-----
   PImage charsheet = loadImage("/assets/sprites/charsheet.png");
-  charSprites.put("CHOMP_WHITE", getSprite(charsheet, 0, 0, 1, 1, SPRITE_SIZE));
-  charSprites.put("CHOMP_BLACK", getSprite(charsheet, 1, 0, 1, 1, SPRITE_SIZE));
-  charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 1, 2, 2, SPRITE_SIZE));
+  int charSize = 16;//This should be 8 reeeeeeeeeeeee
+  
+  charSprites.put("CHOMP_WHITE", getSprite(charsheet, 0, 0, 1, 1, charSize));
+  charSprites.put("CHOMP_BLACK", getSprite(charsheet, 1, 0, 1, 1, charSize));
+  charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 1, 2, 2, charSize));
   
   //-----BULLET SPRITES-----
   PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
-  projectileSprites.put("SNIPER", getSprite(bulletsheet, 0, 0, 1, 1, SPRITE_SIZE/2));
-  projectileSprites.put("PISTOL", getSprite(bulletsheet, 1, 0, 1, 1, SPRITE_SIZE/2));
-  projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, SPRITE_SIZE/2));
+  int bulletSize = 8;
+  
+  projectileSprites.put("SNIPER", getSprite(bulletsheet, 0, 0, 1, 1, bulletSize));
+  projectileSprites.put("PISTOL", getSprite(bulletsheet, 1, 0, 1, 1, bulletSize));
+  projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, bulletSize));
   
   cursor(guiSprites.get("CURSOR"));
   assetsLoaded = true;
