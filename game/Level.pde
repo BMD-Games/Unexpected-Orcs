@@ -4,7 +4,7 @@ class Level {
   private int[][] tileMap;
   
   private boolean[][] visited;  
-  private int visitRadius = 7;
+  private int visitRadius = 10;
   
   public int w, h;
   public PVector start;
@@ -60,15 +60,19 @@ class Level {
   public void show(PGraphics screen, PVector renderOffset) {    
     //generate an image based off the tile map;
     tiles.beginDraw();
-    tiles.background(0, 0);
+    tiles.background(0);
     for(int x = 0; x < renderW; x ++) {
       for(int y = 0; y < renderH; y ++) {
         int i = (x + xTileOffset) - buffer;
         int j = (y + yTileOffset) - buffer;
         int tile = tileset.walls[15];
-        try{ tile = tileMap[i][j]; } catch(Exception e) {}
-        PImage sprite = tileSprites.get(tile);
-        tiles.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+        boolean visit = false;
+        try { visit = visited[i][j]; } catch(Exception e) {}
+        if(visit) {
+          try{ tile = tileMap[i][j]; } catch(Exception e) {}
+          PImage sprite = tileSprites.get(tile);
+          tiles.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+        }
       }
     }
     tiles.endDraw();
@@ -118,14 +122,46 @@ class Level {
   }
   
   private void updateVisited(int x, int y) {
-    for (int j = y - visitRadius; j < y + visitRadius; j ++) {
-      for (int i = x; sq(i - x) + sq(j - y) <= sq(visitRadius); i --) {
-          visitTile(i, j);
-      }
-      for (int i = x + 1; sq(i - x) + sq(j - y) <= sq(visitRadius); i ++) {
-          visitTile(i, j);
+    ArrayList<PVector> circle = tilesAroundPoint(x, y, visitRadius);
+    
+    for (int i = 0; i < circle.size(); i ++) {
+      ArrayList<PVector> tiles = getTilesInLine(x, y, (int)circle.get(i).x, (int)circle.get(i).y);
+      for (int j = 0; j < tiles.size(); j ++) {
+        visitTile((int)tiles.get(j).x, (int)tiles.get(j).y);
       }
     }
+  }
+  
+  private ArrayList<PVector> tilesAroundPoint(int x0, int y0, int radius) {
+    ArrayList<PVector> tiles = new ArrayList<PVector>();
+    int x = radius-1;
+    int y = 0;
+    int dx = 1;
+    int dy = 1;
+    int err = dx - (radius << 1);
+
+    while (x >= y) {
+      tiles.add(new PVector(x0 + x, y0 + y)); 
+      tiles.add(new PVector(x0 + y, y0 + x));
+      tiles.add(new PVector(x0 - y, y0 + x));
+      tiles.add(new PVector(x0 - x, y0 + y));
+      tiles.add(new PVector(x0 - x, y0 - y));
+      tiles.add(new PVector(x0 - y, y0 - x));
+      tiles.add(new PVector(x0 + y, y0 - x));
+      tiles.add(new PVector(x0 + x, y0 - y));
+
+      if (err <= 0) {
+        y++;
+        err += dy;
+        dy += 2;
+      }
+      if (err > 0) {
+        x--;
+        dx += 2;
+        err += dx - (radius << 1);
+      }
+    }
+    return tiles;
   }
   
   private void visitTile(int i, int j) {
@@ -139,12 +175,45 @@ class Level {
     miniMap.beginDraw();
     int tile = WALL;
     try{ tile = tileMap[i][j]; } catch(Exception e) {}
-    miniMap.stroke(200);
-    if(tile <= WALL) {
-      miniMap.stroke(100);
-    }
+    miniMap.stroke(tileSprites.get(tile).get(1, 1)); //set the colour to a pixel from the tile
+
     miniMap.point(i, j);
     miniMap.endDraw();
+  }
+  
+  public boolean canSee(int x1, int y1, int x2, int y2) {
+    int dist = max(abs(x2 - x1), abs(y2 - y1));
+    for(int i = 0; i < dist; i ++) {
+      int tX = (int)map(i, 0, dist, x1, x2);
+      int tY = (int)map(i, 0, dist, y1, y2);
+      int tile = WALL;
+      try{ tile = tileMap[tX][tY]; } catch(Exception e) {}
+      if(tile <= WALL) return false;
+    }    
+    return true;
+  }
+  
+  public ArrayList<PVector> getTilesInLine(int x1, int y1, int x2, int y2) {
+    ArrayList<PVector> tiles = new ArrayList<PVector>();
+        int dist = max(abs(x2 - x1), abs(y2 - y1));
+    for(int i = 0; i < dist; i ++) {
+      int tX = (int)map(i, 0, dist, x1, x2);
+      int tY = (int)map(i, 0, dist, y1, y2);
+      
+      int tile = WALL;
+      try{ tile = tileMap[tX][tY]; } catch(Exception e) {}
+      
+      boolean visit = false;
+      try{ visit = visited[tX][tY]; } catch(Exception e) {}
+      
+      if(!visit) {
+        tiles.add(new PVector(tX, tY));
+      }
+      if(tile <= WALL) {
+        break;
+      }
+    }
+    return tiles;
   }
   
   //-----Getters and setters------

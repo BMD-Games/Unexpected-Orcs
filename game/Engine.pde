@@ -17,9 +17,9 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    //currentLevel = new Dungeon(60, 45);
+    currentLevel = new Dungeon(60, 45);
+    //currentLevel = new Cave(120, 90);
     
-    currentLevel = new Cave(120, 90);
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
     
     screen = createGraphics(width - GUI_WIDTH, height);
