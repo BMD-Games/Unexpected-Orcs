@@ -121,34 +121,22 @@ class Level {
     miniMapOverlay.endDraw();
   }
   
-  private void updateVisited(int x, int y) {
-    ArrayList<PVector> circle = tilesAroundPoint(x, y, visitRadius);
-    
-    for (int i = 0; i < circle.size(); i ++) {
-      ArrayList<PVector> tiles = getTilesInLine(x, y, (int)circle.get(i).x, (int)circle.get(i).y);
-      for (int j = 0; j < tiles.size(); j ++) {
-        visitTile((int)tiles.get(j).x, (int)tiles.get(j).y);
-      }
-    }
-  }
-  
-  private ArrayList<PVector> tilesAroundPoint(int x0, int y0, int radius) {
-    ArrayList<PVector> tiles = new ArrayList<PVector>();
-    int x = radius-1;
+  private void updateVisited(int x0, int y0) {
+    int x = visitRadius - 1;
     int y = 0;
     int dx = 1;
     int dy = 1;
-    int err = dx - (radius << 1);
+    int err = dx - (visitRadius << 1);
 
     while (x >= y) {
-      tiles.add(new PVector(x0 + x, y0 + y)); 
-      tiles.add(new PVector(x0 + y, y0 + x));
-      tiles.add(new PVector(x0 - y, y0 + x));
-      tiles.add(new PVector(x0 - x, y0 + y));
-      tiles.add(new PVector(x0 - x, y0 - y));
-      tiles.add(new PVector(x0 - y, y0 - x));
-      tiles.add(new PVector(x0 + y, y0 - x));
-      tiles.add(new PVector(x0 + x, y0 - y));
+      visitTilesInLine(x0, y0, x0 + x, y0 + y); 
+      visitTilesInLine(x0, y0, x0 + y, y0 + x);
+      visitTilesInLine(x0, y0, x0 - y, y0 + x);
+      visitTilesInLine(x0, y0, x0 - x, y0 + y);
+      visitTilesInLine(x0, y0, x0 - x, y0 - y);
+      visitTilesInLine(x0, y0, x0 - y, y0 - x);
+      visitTilesInLine(x0, y0, x0 + y, y0 - x);
+      visitTilesInLine(x0, y0, x0 + x, y0 - y);
 
       if (err <= 0) {
         y++;
@@ -158,10 +146,9 @@ class Level {
       if (err > 0) {
         x--;
         dx += 2;
-        err += dx - (radius << 1);
+        err += dx - (visitRadius << 1);
       }
     }
-    return tiles;
   }
   
   private void visitTile(int i, int j) {
@@ -193,9 +180,8 @@ class Level {
     return true;
   }
   
-  public ArrayList<PVector> getTilesInLine(int x1, int y1, int x2, int y2) {
-    ArrayList<PVector> tiles = new ArrayList<PVector>();
-        int dist = max(abs(x2 - x1), abs(y2 - y1));
+  public void visitTilesInLine(int x1, int y1, int x2, int y2) {
+    int dist = max(abs(x2 - x1), abs(y2 - y1));
     for(int i = 0; i < dist; i ++) {
       int tX = (int)map(i, 0, dist, x1, x2);
       int tY = (int)map(i, 0, dist, y1, y2);
@@ -207,13 +193,12 @@ class Level {
       try{ visit = visited[tX][tY]; } catch(Exception e) {}
       
       if(!visit) {
-        tiles.add(new PVector(tX, tY));
+        visitTile(tX, tY);
       }
       if(tile <= WALL) {
         break;
       }
     }
-    return tiles;
   }
   
   //-----Getters and setters------
