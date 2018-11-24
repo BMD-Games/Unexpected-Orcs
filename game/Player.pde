@@ -3,7 +3,10 @@ class Player {
   public float x, y, w = 0.5, h = 0.5;
   private float ang;
   private int size = TILE_SIZE/2;
-
+  
+  private PImage sprite;
+  private String[] sprites = {"PLAYER_BACK", "PLAYER_RIGHT", "PLAYER_FRONT", "PLAYER_LEFT"};
+  
   public PlayerStats stats = new PlayerStats();
   
   private Item currentInventory;
@@ -77,11 +80,7 @@ class Player {
   public void show(PGraphics screen, PVector renderOffset) {
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
-    screen.rotate(ang);
-    screen.fill(255, 0, 0);
-    screen.stroke(0);
-    screen.rect(-size/2, -size/2, size, size);
-    screen.line(0, 0, size, 0);
+    screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     screen.popMatrix();
   }
   
@@ -106,7 +105,9 @@ class Player {
     //gets the direction that the player is looking in -> decides which sprite to use
     float dir = ang + (3 * PI/4);
     while(dir < 0) dir += TAU;
-    return(int)(dir/(PI/2)) % 4;
+    int face = (int)(dir/(PI/2)) % 4;
+    sprite = charSprites.get(sprites[face]);
+    return face;
   }
   
   Weapon currentWeapon() { return inv.currentWeapon(); }
