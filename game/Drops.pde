@@ -31,7 +31,7 @@ class StatOrb extends Drop {
   int tier;
   
   StatOrb(float x, float y, int tier, String stat) {
-    super(x, y, 4, 60);
+    super(x, y, 4, 10);
     this.stat = stat;
     this.tier = tier;
     this.sprite = applyColourToImage(dropSprites.get("ORB").copy(), statColours.get(stat));

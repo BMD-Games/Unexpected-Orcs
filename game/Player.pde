@@ -9,7 +9,6 @@ class Player {
   
   public PlayerStats stats = new PlayerStats();
   
-  private Item currentInventory;
   private Inventory inv = new Inventory();
   
   private AABB bound;
