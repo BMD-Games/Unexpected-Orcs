@@ -20,6 +20,7 @@ class Inventory {
     active[0] = new Sniper();
     inv[0] = new Pistol();
     inv[1] = new Shotgun();
+    inv[2] = new MachineGun();
   }
   
   void swapItemsInv(int i, int j) {
@@ -150,6 +151,21 @@ class Pistol extends Weapon{
     this.numBullets = 1;
     this.range = 6;
     this.accuracy = 0.05;
+    this.bulletSpeed = 15;
+    this.bulletSprite = "PISTOL";
+    
+  }
+}
+
+class MachineGun extends Weapon{
+  
+  MachineGun() {
+    super("SNIPER", "Machine Gun");
+    this.damage = 4;
+    this.fireRate = 0.05;
+    this.numBullets = 1;
+    this.range = 8;
+    this.accuracy = 0.1;
     this.bulletSpeed = 15;
     this.bulletSprite = "PISTOL";
     

@@ -113,11 +113,12 @@ class Level {
     tileMap = finishingPass(tilesRaw, tileset);
   }
   
-  private void updateMapEntities(int x, int y) {
+  private void updateMapEntities(int playerX, int playerY) {
     miniMapOverlay.beginDraw();
     miniMapOverlay.background(0, 0);
     miniMapOverlay.stroke(255, 0, 255);
-    miniMapOverlay.point(x, y);
+    miniMapOverlay.point(playerX, playerY);
+    //can add monsters here too;
     miniMapOverlay.endDraw();
   }
   
@@ -127,7 +128,6 @@ class Level {
     int dx = 1;
     int dy = 1;
     int err = dx - (visitRadius << 1);
-
     while (x >= y) {
       visitTilesInLine(x0, y0, x0 + x, y0 + y); 
       visitTilesInLine(x0, y0, x0 + y, y0 + x);

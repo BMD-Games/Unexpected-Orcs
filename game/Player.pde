@@ -5,7 +5,7 @@ class Player {
   private int size = TILE_SIZE/2;
   
   private CharTileSet sprites;
-  public Stats stats = new Stats();
+  public PlayerStats stats = new PlayerStats();
   
   private Item currentInventory;
   private Inventory inv = new Inventory();
@@ -18,7 +18,7 @@ class Player {
     this.x = x; //in tile space, not screen space;
     this.y = y;
     bound = new AABB(x, y, w, h);
-    setStats(5, 100, 2, 60, 1, 1, 0, 0, 2);
+    stats.addStatusEffect("BEZERK", 4);
   }
   
   public void move(double delta, int[] neighbours) {
@@ -65,11 +65,7 @@ class Player {
     move(delta, neighbours);
     updateBound();
     
-    if (stats.getHealth() < stats.getHealthMax()) {
-      stats.setHealth(stats.getHealth() + 1);
-    }
-    
-    stats.setFireTimer((float)(stats.getFireTimer() + delta));
+    stats.update(delta);
     
   }
   
@@ -109,18 +105,6 @@ class Player {
     return(int)(dir/(PI/2)) % 4;
   }
   
-  private void setStats(int health, int healthMax, int mana, int manaMax, int vitality, int attack, int defence, int wisdom, float speed) {
-    stats.setHealth(health); 
-    stats.setHealthMax(healthMax);
-    stats.setMana(mana);
-    stats.setManaMax(manaMax);
-    stats.setVitality(vitality);
-    stats.setAttack(attack);
-    stats.setDefence(defence);
-    stats.setWisdom(wisdom);
-    stats.setSpeed(speed);
-  }
-  
   public Boolean hasWeapon() {
     return currentInventory instanceof Weapon;
   }
@@ -135,54 +119,5 @@ class Player {
   
   Item[] active() { return inv.active(); }
   Item[] inv() { return inv.inv(); }
-  
-}
-
-class Stats {
-  private int health, healthMax;
-  private int mana, manaMax;
-  
-  private int vitality;
-  private int attack;
-  private int wisdom;
-  private int defence;
-  private float fireTimer;
-  
-  private float speed;
-  
-  public Stats() {
-    health = 0;
-    healthMax = 0;
-    mana = 0;
-    manaMax = 0;
-    vitality = 0;
-    attack = 0;
-    wisdom = 0;
-    defence = 0;
-    fireTimer = 0;
-    speed = 0;
-  }
-  
-  public int getHealth() { return health; }
-  public int getHealthMax() { return healthMax; }
-  public int getMana() { return mana; }
-  public int getManaMax() { return manaMax; }
-  public int getVitality() { return vitality; }
-  public int getAttack() { return attack; }
-  public int getWisdom() { return wisdom; }
-  public int getDefence() { return defence; }
-  public float getFireTimer() { return fireTimer; }
-  public float getSpeed() { return speed; }
-  
-  public void setHealth(int value) { health = value; }
-  public void setHealthMax(int value) { healthMax = value; }
-  public void setMana(int value) { mana = value; }
-  public void setManaMax(int value) { manaMax = value; }
-  public void setVitality(int value) { vitality = value; }
-  public void setAttack(int value) { attack = value; }
-  public void setWisdom(int value) { wisdom = value; }
-  public void setDefence(int value) { defence = value; }
-  public void setFireTimer(float value) { fireTimer = value; }
-  public void setSpeed(float value) { speed = value; }
   
 }

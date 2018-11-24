@@ -12,7 +12,9 @@ final int SPRITE_SIZE = 16;
 final int SCALE = TILE_SIZE/SPRITE_SIZE;
 
 public int[] keys = {0, 0, 0, 0, 0};
-boolean inMenu = false;
+public boolean inMenu = false;
+
+public boolean assetsLoaded = false;
 
 public String STATE;
 public String PREV_STATE;
@@ -38,6 +40,7 @@ void setup() {
 }
 
 void draw() {
+  if(!assetsLoaded) return;
   switch(STATE) {
     case "MENU":
       gui.drawMenu();

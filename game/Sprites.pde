@@ -138,9 +138,9 @@ public void loadAssets() {
   projectileSprites.put("PISTOL", getSprite(bulletsheet, 1, 0, 1, 1, SPRITE_SIZE/2));
   projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, SPRITE_SIZE/2));
   
-  
-  
   cursor(guiSprites.get("CURSOR"));
+  assetsLoaded = true;
+  loadStatuses();
 }
 
 public PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {
