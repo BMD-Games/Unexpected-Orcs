@@ -1,8 +1,7 @@
 class Drop {
   
-  public float x, y, radius;
-  public String sprite;
-  public float lifeTime;
+  public float x, y, radius, lifeTime;
+  public PImage sprite;
   
   Drop(float x, float y, float radius, float lifeTime) {
     this.x = x;
@@ -17,12 +16,25 @@ class Drop {
   }
   
   public void show(PGraphics screen, PVector renderOffset) {
-    PImage sp = dropSprites.get(sprite);
-    screen.image(sp, x * TILE_SIZE - renderOffset.x - (sp.width * SCALE/2), y * TILE_SIZE - renderOffset.y - (sp.height * SCALE/2), sp.width * SCALE, sp.height * SCALE);
+    screen.image(sprite, x * TILE_SIZE - renderOffset.x - (sprite.width * SCALE/2), y * TILE_SIZE - renderOffset.y - (sprite.height * SCALE/2), sprite.width * SCALE, sprite.height * SCALE);
   }
   
   public boolean inRange(float xPos, float yPos) {
     return(dist(xPos, yPos, x, y) < radius);
+  }
+  
+}
+
+class StatOrb extends Drop {
+  
+  String stat;
+  int tier;
+  
+  StatOrb(float x, float y, int tier, String stat) {
+    super(x, y, 4, 60);
+    this.stat = stat;
+    this.tier = tier;
+    this.sprite = applyColourToImage(dropSprites.get("ORB").copy(), statColours.get(stat));
   }
   
 }
@@ -33,11 +45,7 @@ class ItemBag extends Drop {
   
   ItemBag(float x, float y, int tier) {
     super(x, y, 2, 20);
-    
-    String spriteTMP = "BAG_BROWN";
-    if(tier == 1) spriteTMP = "BAG_BLUE";
-    if(tier == 2) spriteTMP = "BAG_WHITE"; 
-    this.sprite = spriteTMP;
+    this.sprite = dropSprites.get("BAG_" + tier);
   } 
   
   public Item takeItem(int pos) {

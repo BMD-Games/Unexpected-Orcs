@@ -80,39 +80,40 @@ class PlayerStats extends Stats {
     setSpeed(2);
   }
   
-  public void addKill(String[] stats, int tier) {
+  public void addKill() {
     totalKills ++;
-    for(String stat : stats) {
-      switch(stat) {
-        case("HEALTH"):
-          healthKills.put(tier, healthKills.getOrDefault(tier, 0) + 1);
-          setHealthMax(calcStatValue(healthKills, 5, 0.5));
-          break;
-        case("MANA"):
-          manaKills.put(tier, manaKills.getOrDefault(tier, 0) + 1);
-          setManaMax(calcStatValue(manaKills, 5, 0.2));
-          break;
-        case("VITALITY"):
-          vitalityKills.put(tier, vitalityKills.getOrDefault(tier, 0) + 1);
-          setVitality(calcStatValue(vitalityKills, 1, 0.1));
-          break;
-        case("ATTACK"):
-          attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
-          setAttack(calcStatValue(attackKills, 1, 0.1));
-          break;
-        case("WISDOM"):
-          wisdomKills.put(tier, wisdomKills.getOrDefault(tier, 0) + 1);
-          setWisdom(calcStatValue(wisdomKills, 1, 0.1));
-          break;
-        case("DEFENCE"):
-          defenceKills.put(tier, defenceKills.getOrDefault(tier, 0) + 1);
-          setDefence(calcStatValue(defenceKills, 1, 0.1));
-          break;
-        case("SPEED"):
-          speedKills.put(tier, speedKills.getOrDefault(tier, 0) + 1);
-          setSpeed(calcStatValue(speedKills, 1, 0.1));
-          break;
-      }
+  }
+  
+  public void addOrbStat(String stat, int tier) {
+    switch(stat) {
+      case("HEALTH"):
+        healthKills.put(tier, healthKills.getOrDefault(tier, 0) + 1);
+        setHealthMax(calcStatValue(healthKills, 5, 0.5));
+        break;
+      case("MANA"):
+        manaKills.put(tier, manaKills.getOrDefault(tier, 0) + 1);
+        setManaMax(calcStatValue(manaKills, 5, 0.2));
+        break;
+      case("VITALITY"):
+        vitalityKills.put(tier, vitalityKills.getOrDefault(tier, 0) + 1);
+        setVitality(calcStatValue(vitalityKills, 1, 0.1));
+        break;
+      case("ATTACK"):
+        attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
+        setAttack(calcStatValue(attackKills, 1, 0.1));
+        break;
+      case("WISDOM"):
+        wisdomKills.put(tier, wisdomKills.getOrDefault(tier, 0) + 1);
+        setWisdom(calcStatValue(wisdomKills, 1, 0.1));
+        break;
+      case("DEFENCE"):
+        defenceKills.put(tier, defenceKills.getOrDefault(tier, 0) + 1);
+        setDefence(calcStatValue(defenceKills, 1, 0.1));
+        break;
+      case("SPEED"):
+        speedKills.put(tier, speedKills.getOrDefault(tier, 0) + 1);
+        setSpeed(calcStatValue(speedKills, 1, 0.1));
+        break;
     }
   }  
   
@@ -135,7 +136,9 @@ class PlayerStats extends Stats {
 }
 
 public HashMap<String, String> STATUSES = new HashMap<String, String>();
-public void loadStatuses() {
+public HashMap<String, Integer> statColours = new HashMap<String, Integer>();
+
+public void loadStats() {
   STATUSES.put("SICK", "SICK");
   STATUSES.put("HEALING", "HEALING");
   STATUSES.put("WEAK", "WEAK");
@@ -148,4 +151,22 @@ public void loadStatuses() {
   STATUSES.put("BEZERK", "BEZERK");
   STATUSES.put("SLOWED", "SLOWED");
   STATUSES.put("SPEEDY", "SPEEDY");
+  
+  statColours.put("HEALTH", color(230, 100, 100));
+  statColours.put("MANA", color(153, 217, 234));
+  statColours.put("SPEED", color(100, 230, 100));
+  statColours.put("WIDSOM", color(140, 50, 230));
+  statColours.put("DEFENCE", color(0, 15, 230));
+  statColours.put("ATTACK", color(230, 150, 0));
 }
+
+public PImage applyColourToImage(PImage img, color c) {
+  img.loadPixels();
+  for(int i = 0; i < img.pixels.length; i ++) {
+    img.pixels[i] = color(red(c), green(c), blue(c), alpha(img.pixels[i]));
+  }
+  img.updatePixels();
+  return img;
+}
+
+String[] stats = {"HEALTH", "MANA", "SPEED", "WIDSOM", "DEFENCE", "ATTACK"};

@@ -117,9 +117,10 @@ public void loadAssets() {
   PImage dropsheet = loadImage("/assets/sprites/dropsheet.png");
   int dropSize = 8;
 
-  dropSprites.put("BAG_BROWN", getSprite(dropsheet, 0, 0, 1, 1, dropSize));
-  dropSprites.put("BAG_BLUE", getSprite(dropsheet, 1, 0, 1, 1, dropSize));
-  dropSprites.put("BAG_WHITE", getSprite(dropsheet, 2, 0, 1, 1, dropSize));
+  dropSprites.put("BAG_0", getSprite(dropsheet, 0, 0, 1, 1, dropSize));
+  dropSprites.put("BAG_1", getSprite(dropsheet, 1, 0, 1, 1, dropSize));
+  dropSprites.put("BAG_2", getSprite(dropsheet, 2, 0, 1, 1, dropSize));
+  dropSprites.put("ORB", getSprite(dropsheet, 0, 1, 1, 1, dropSize));
   
   //-----GUI SPRITES----
   PImage sheet = loadImage("/assets/sprites/spritesheet.png");
@@ -152,7 +153,7 @@ public void loadAssets() {
   
   cursor(guiSprites.get("CURSOR"));
   assetsLoaded = true;
-  loadStatuses();
+  loadStats();
 }
 
 public PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {
@@ -164,11 +165,6 @@ class TileSet {
   public int floor, spawn;
   public ArrayList<Integer> extras = new ArrayList<Integer>();  //Extras are variations of floor tiles to spice shit up a bit
   public int[] walls = new int[16];
-}
-
-class CharTileSet {
-  String[][] movement = new String[4][2]; //first index is for the direction they're facing, second is for frame of animation
-  String[] idle = new String[4]; //each direction
 }
 
 public int[] testWalls() {

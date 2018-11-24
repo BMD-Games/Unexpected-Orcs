@@ -3,8 +3,7 @@ class Player {
   public float x, y, w = 0.5, h = 0.5;
   private float ang;
   private int size = TILE_SIZE/2;
-  
-  private CharTileSet sprites;
+
   public PlayerStats stats = new PlayerStats();
   
   private Item currentInventory;
