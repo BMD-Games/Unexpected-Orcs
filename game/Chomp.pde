@@ -8,12 +8,17 @@ class Chomp implements Enemy {
   private boolean isLeft;
   
   protected Stats stats;
-  protected PImage sprite = charSprites.get("CHOMP_WHITE");
+  protected PImage sprite;
   
   public Chomp(float x, float y, int tier) {
     this.tier = tier;
     this.x = x;
     this.y = y;
+    if(random(2) < 1) {
+      sprite = charSprites.get("CHOMP_WHITE_SMALL");
+    } else {
+      sprite = charSprites.get("CHOMP_BLACK_SMALL");
+    }
     stats = new Stats();
     stats.setHealth(14 * tier);
     stats.setAttack(5 * tier);
@@ -51,7 +56,7 @@ class Chomp implements Enemy {
   
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    return (distanceFrom(pointX, pointY) < 0.5);
+    return (distanceFrom(pointX, pointY) < 0.25);
   }
   
   /* Checks collision with area  */
@@ -64,8 +69,30 @@ class Chomp implements Enemy {
     y += stats.getSpeed() * sin(angle) * delta;
   }
   
-  private float distanceFrom(float pointX, float pointY) {
+  protected float distanceFrom(float pointX, float pointY) {
     return sqrt(pow(x - pointX, 2) + pow(y - pointY, 2));
+  }
+  
+}
+
+class BigChomp extends Chomp {
+  
+  public BigChomp(int x, int y, int tier) {
+    super(x, y, tier);
+    if(random(2) < 1) {
+      sprite = charSprites.get("CHOMP_WHITE");
+    } else {
+      sprite = charSprites.get("CHOMP_BLACK");
+    }
+    stats.setHealth(25 * tier);
+    stats.setAttack(11 * tier);
+    stats.setSpeed(1.2 * tier);
+    stats.setDefence(3 * tier); 
+  }
+  
+  /* Checks collision with point */
+  public boolean pointCollides(float pointX, float pointY) {
+    return (distanceFrom(pointX, pointY) < 0.5);
   }
   
 }
@@ -74,10 +101,11 @@ class BossChomp extends Chomp {
   
   public BossChomp(int x, int y, int tier) {
     super(x, y, tier);
-    stats.setHealth(4);
-    stats.setAttack(3);
-    stats.setSpeed(1.5);
-    stats.setDefence(3); 
+    sprite = charSprites.get("CHOMP_BOSS");
+    stats.setHealth(45 * tier);
+    stats.setAttack(20 * tier);
+    stats.setSpeed(1.1 * tier);
+    stats.setDefence(8 * tier); 
   }
   
 }

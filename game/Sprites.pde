@@ -136,11 +136,20 @@ public void loadAssets() {
   
   //-----CHAR SPRITES-----
   PImage charsheet = loadImage("/assets/sprites/charsheet.png");
-  int charSize = 16;//This should be 8 reeeeeeeeeeeee
+  int charSize = 8;
   
-  charSprites.put("CHOMP_WHITE", getSprite(charsheet, 0, 0, 1, 1, charSize));
-  charSprites.put("CHOMP_BLACK", getSprite(charsheet, 1, 0, 1, 1, charSize));
-  charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 1, 2, 2, charSize));
+  //Load player sprites
+  charSprites.put("PLAYER_FRONT", getSprite(charsheet, 6, 0, 1, 1, charSize));
+  charSprites.put("PLAYER_BACK", getSprite(charsheet, 7, 0, 1, 1, charSize));
+  charSprites.put("PLAYER_LEFT", getSprite(charsheet, 6, 1, 1, 1, charSize));
+  charSprites.put("PLAYER_RIGHT", getSprite(charsheet, 7, 1, 1, 1, charSize));
+  
+  //Load chomp sprites
+  charSprites.put("CHOMP_WHITE_SMALL", getSprite(charsheet, 4, 0, 1, 1, charSize));
+  charSprites.put("CHOMP_BLACK_SMALL", getSprite(charsheet, 5, 0, 1, 1, charSize));
+  charSprites.put("CHOMP_WHITE", getSprite(charsheet, 0, 0, 2, 2, charSize));
+  charSprites.put("CHOMP_BLACK", getSprite(charsheet, 2, 0, 2, 2, charSize));
+  charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 2, 4, 4, charSize));
   
   //-----BULLET SPRITES-----
   PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
