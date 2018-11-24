@@ -108,4 +108,9 @@ class BossChomp extends Chomp {
     stats.setDefence(8 * tier); 
   }
   
+  /* Checks collision with point */
+  public boolean pointCollides(float pointX, float pointY) {
+    return (distanceFrom(pointX, pointY) < 1);
+  }
+  
 }

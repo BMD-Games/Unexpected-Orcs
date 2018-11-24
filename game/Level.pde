@@ -23,9 +23,17 @@ class Level {
     
     renderW = width/TILE_SIZE + 2 * buffer;
     renderH = height/TILE_SIZE + 2 * buffer;
+    
+    //Add enemies to level
     for(int i = 0; i < 50; i ++) {
       enemies.add(new Chomp((int)random(w), (int)random(h), 1));
     }
+    for(int i = 0; i < 10; ++i) {
+      enemies.add(new BigChomp((int)random(w), (int)random(h), 1));
+    }
+    enemies.add(new BossChomp((int)random(w), (int)random(h), 1));
+    
+    //Initialise minimap
     tiles = createGraphics(width - GUI_WIDTH, height);
     miniMapOverlay = createGraphics(w, h);
     miniMap = createGraphics(w, h);
