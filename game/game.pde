@@ -50,8 +50,8 @@ void draw() {
       gui.drawOptions();
       break;
     case "PLAYING":
-      thread("update");
-      //engine.update();
+      //thread("update");
+      engine.update();
       engine.show();
       gui.drawUnpaused(engine.player);
       break;
