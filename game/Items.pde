@@ -49,10 +49,20 @@ class Inventory {
     }
   }
   
-  void addItemInv(Item item) {
-    for(int i = 0; i < MAX_SIZE; i++) {
-      if(inv[i] == null) { inv[i] = item; return; }
-    }
+  public Item addItemInv(Item item, int pos) {
+    Item old = inv[pos];
+    inv[pos] = item;
+    return old;
+  }
+  
+  public Item addItemActive(Item item, int pos) {
+    if(pos == 0 && item.type != "Weapon") return item;
+    if(pos == 1 && item.type != "Ability") return item;
+    if(pos == 2 && item.type != "Armour") return item;
+    if(pos == 3 && item.type != "Scroll") return item;
+    Item old = active[pos];
+    active[pos] = item;
+    return old;
   }
   
   

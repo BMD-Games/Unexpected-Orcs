@@ -155,7 +155,7 @@ public void loadStats() {
   statColours.put("HEALTH", color(230, 100, 100));
   statColours.put("MANA", color(153, 217, 234));
   statColours.put("SPEED", color(100, 230, 100));
-  statColours.put("WIDSOM", color(140, 50, 230));
+  statColours.put("WISDOM", color(140, 50, 230));
   statColours.put("DEFENCE", color(0, 15, 230));
   statColours.put("ATTACK", color(230, 150, 0));
 }
@@ -169,4 +169,4 @@ public PImage applyColourToImage(PImage img, color c) {
   return img;
 }
 
-String[] stats = {"HEALTH", "MANA", "SPEED", "WIDSOM", "DEFENCE", "ATTACK"};
+String[] stats = {"HEALTH", "MANA", "SPEED", "WISDOM", "DEFENCE", "ATTACK"};

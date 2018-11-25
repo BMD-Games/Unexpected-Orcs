@@ -10,11 +10,12 @@ class GUI {
   private color c = 100;
 
   //Inventory drag and drop stuff
-  private final int invBuff = 5, invScale = 2, invSize = SPRITE_SIZE * invScale + 2;
-  private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH + 1)))/2, invY = 7* TILE_SIZE/2;
+  private final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
+  private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 7* TILE_SIZE/2;
   private boolean prevSelection = false, currSelection = false;
-  private boolean b1Active = false, b2Active = false, menuType; // if inv box is in active or not
+  private int b1Type, b2Type, menuType; // if inv box is in active or not
   private int b1 = -1, b2 = -1, itemOver; //inv box 1 and 2 for drag and swap
+  private Item mouseOverItem;
 
   GUI() {
     //need to set buttons and whatnot here
@@ -84,8 +85,7 @@ class GUI {
     healthBar.show(screen);
     manaBar.show(screen);
     renderInv();
-    screen.image(engine.currentLevel.getMiniMap(), 0, height - engine.currentLevel.getMiniMap().height * 2, engine.currentLevel.getMiniMap().width * 2, engine.currentLevel.getMiniMap().height * 2);
-    screen.image(engine.currentLevel.getOverlay(), 0, height - engine.currentLevel.getOverlay().height * 2, engine.currentLevel.getOverlay().width * 2, engine.currentLevel.getOverlay().height * 2);
+    renderMiniMap();
     screen.endDraw();
     image(screen, 0, 0);
     
@@ -117,29 +117,53 @@ class GUI {
     }
   }
 
-  void renderInv() {
+  private void renderMiniMap() {
+    
+    float w = engine.currentLevel.getMiniMap().width;
+    float h = engine.currentLevel.getMiniMap().height;
+    
+    float scale = (GUI_WIDTH - (2 * invBuff))/w;
+    
+    screen.image(engine.currentLevel.getMiniMap(), invBuff, height - h * scale - invBuff, w * scale, h * scale);
+    screen.image(engine.currentLevel.getOverlay(), invBuff, height - h * scale - invBuff, w * scale, h * scale);
+  }
+
+  private void renderInv() {
     
     prevSelection = currSelection;
     currSelection = mousePressed;
     
-    drawBack();
+    ItemBag itemBag = engine.getClosestBag();
+    Item[] items = engine.getClosestBagItems();
+    
+    drawBack(items != null, items);
     
     if (itemOver != -1) { 
       if (currSelection && !prevSelection) { 
         b1 = itemOver; 
-        b1Active = menuType;
+        b1Type = menuType;
       }
       if (!currSelection && prevSelection) {
         b2 = itemOver; 
-        b2Active = menuType;
-        if (b1Active && b2Active) {
-          //doNothing
-        } else if (b1Active) {
+        b2Type = menuType;
+        if (b1Type == active && b2Type == inv) { //----INV/ACTIVE
           engine.player.inv.swapItemsActive(b1, b2);
-        } else if (b2Active) {
+        } else if (b2Type == active && b1Type == inv) {
           engine.player.inv.swapItemsActive(b2, b1);
-        } else {
+        } else if(b1Type == inv && b2Type == inv) {
           engine.player.inv.swapItemsInv(b1, b2);
+        } else if(b1Type == inv && b2Type == bag) { //----INV/BAG
+          Item bagItem = itemBag.takeItem(b2);
+          itemBag.addItem(engine.player.inv.addItemInv(bagItem, b1));
+        } else if(b1Type == bag && b2Type == inv) {
+          Item bagItem = itemBag.takeItem(b1);
+          itemBag.addItem(engine.player.inv.addItemInv(bagItem, b2));
+        } else if(b1Type == active && b2Type == bag) { //-----ACTIVE/BAG
+          Item bagItem = itemBag.takeItem(b2);
+          itemBag.addItem(engine.player.inv.addItemActive(bagItem, b1));
+        } else if(b1Type == bag && b2Type == active) {
+          Item bagItem = itemBag.takeItem(b1);
+          itemBag.addItem(engine.player.inv.addItemActive(bagItem, b2));
         }
         b1 = -1;
         b2 = -1;
@@ -155,11 +179,11 @@ class GUI {
       if (engine.player.active()[i] != null) {
         screen.stroke(0);
         screen.strokeWeight(1);
-        if (currSelection && b1Active && b1 == i) { 
-          screen.image(itemSprites.get(engine.player.active()[i].sprite), mouseX - invSize/2 + 1, mouseY - invSize/2 + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+        if (currSelection && b1Type == active && b1 == i) { 
+          screen.image(itemSprites.get(engine.player.active()[i].sprite), mouseX - invSize/2+ itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         } else {
-          screen.image(itemSprites.get(engine.player.active()[i].sprite), invBuff + invX + i * (invSize + invBuff) + 1, invBuff + invY + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+          screen.image(itemSprites.get(engine.player.active()[i].sprite), invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         }
       }
@@ -170,31 +194,52 @@ class GUI {
       if (engine.player.inv()[i] != null) {
         screen.stroke(0);
         screen.strokeWeight(1);
-        if (currSelection && !b1Active && b1 == i) { 
-          screen.image(itemSprites.get(engine.player.inv()[i].sprite), mouseX - invSize/2 + 1, mouseY - invSize/2 + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+        if (currSelection && b1Type == inv && b1 == i) { 
+          screen.image(itemSprites.get(engine.player.inv()[i].sprite), mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         } else {
-          screen.image(itemSprites.get(engine.player.inv()[i].sprite),invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + 1, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + 1, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+          screen.image(itemSprites.get(engine.player.inv()[i].sprite),invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         }
       }
     }
-    if (inMenu && itemOver != -1 && ((menuType && engine.player.active()[itemOver] != null) || (!menuType && engine.player.inv()[itemOver] != null))) { 
-      mouseOver(mouseX, mouseY, itemOver, menuType);
+    
+    if(items != null) {
+      for (int i = 0; i < items.length; i++) {
+        if (items[i] != null) {
+          screen.stroke(0);
+          screen.strokeWeight(1);
+          if (currSelection && b1Type == bag && b1 == i) { 
+            screen.image(itemSprites.get(items[i].sprite), mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+            screen.noStroke();
+          } else {
+            screen.image(itemSprites.get(items[i].sprite), invBuff + invX + i * (invSize + invBuff) + itemOffset, 3 * invBuff + invY + 4 * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+            screen.noStroke();
+          }
+        }
+      }
+    }
+    if (inMenu && itemOver != -1 && mouseOverItem != null) { 
+      mouseOver(mouseX, mouseY, mouseOverItem);
     }
   }
 
-  void drawBack() {
+  void drawBack(boolean showBag, Item[] items) {
     screen.fill(51);
-    screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, Inventory.WIDTH * (invSize + invBuff) + invBuff * 2);
-
+    if(showBag) {
+      screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, (Inventory.WIDTH + 1) * (invSize + invBuff) + invBuff * 3);
+    } else {
+      screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, Inventory.WIDTH * (invSize + invBuff) + invBuff * 2);
+    }
+    
     itemOver = -1;
     for (int i = 0; i < engine.player.active().length; i++) {
       screen.fill(150);
       screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
       if (pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
-        itemOver = i; 
-        menuType = true;
+        itemOver = i;
+        mouseOverItem = engine.player.active()[i];
+        menuType = active;
       }
     }
     int j = 0;
@@ -203,61 +248,48 @@ class GUI {
       screen.fill(150);
       screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
       if (pointInBox(mouseX, mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) { 
-        itemOver = i; 
-        menuType = false;
+        itemOver = i;        
+        mouseOverItem = engine.player.inv()[i];
+        menuType = inv;
+      }
+    }
+    if(showBag) {
+      for (int i = 0; i < engine.player.active().length; i++) {
+        screen.fill(150);
+        screen.rect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
+        if (pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
+          itemOver = i;
+          mouseOverItem = items[i];
+          menuType = bag;
+        }
       }
     }
   }
 
-  void mouseOver(float x, float y, int i, boolean act) {
+  void mouseOver(float x, float y, Item item) {
     screen.textSize(12);
     screen.fill(100);
-    if (act && engine.player.active()[i] != null) {
-      String type = engine.player.active()[i].type;
-      if (type == "Weapon") {
-        screen.rect(x, y, 100, 127);
-        screen.fill(255);
-        screen.text("Fire rate:" + ((Weapon)engine.player.active()[i]).fireRate, x + 5, y + 54);
-        screen.text("Range:" + ((Weapon)engine.player.active()[i]).range, x + 5, y + 71);
-        screen.text("Accuracy:" + ((Weapon)engine.player.active()[i]).accuracy, x + 5, y + 88);
-        screen.text("Damage:" + ((Weapon)engine.player.active()[i]).damage, x + 5, y + 105);
-      } else if (type == "Special") {
-        screen.rect(x, y, 100, 110);
-        screen.fill(255);
-        screen.text("Ability", x + 5, y + 54);
-      } else if (type == "Armour") {
-        screen.rect(x, y, 100, 59);
-        screen.fill(255);
-        screen.text("Defense:" + ((Armour)engine.player.active()[i]).defence, x + 5, y + 54);
-      }
-      screen.fill(200);
-      screen.text(type, x + 5, y + 37);
-      screen.textSize(15);
-      screen.text(engine.player.active()[i].name, x + 5, y + 20);
-    } else if (!act && engine.player.inv()[i] != null) {
-      String type = engine.player.inv()[i].type;
-
-      if (type == "Weapon") {
-        screen.rect(x, y, 100, 127);
-        screen.fill(255);
-        screen.text("Fire rate:" + ((Weapon)engine.player.inv()[i]).fireRate, x + 5, y + 54);
-        screen.text("Range:" + ((Weapon)engine.player.inv()[i]).range, x + 5, y + 71);
-        screen.text("Accuracy:" + ((Weapon)engine.player.inv()[i]).accuracy, x + 5, y + 88);
-        screen.text("Damage:" + ((Weapon)engine.player.inv()[i]).damage, x + 5, y + 105);
-      } else if (type == "Ability") {
-        screen.rect(x, y, 100, 110);
-        screen.fill(255);
-        screen.text("Ability", x + 5, y + 54);
-      } else if (type == "Armour") {
-        screen.rect(x, y, 100, 59);
-        screen.fill(255);
-        screen.text("Defense:" + ((Armour)engine.player.inv()[i]).defence, x + 5, y + 54);
-      }
-      screen.fill(200);
-      screen.text(type, x + 5, y + 37);
-      screen.textSize(15);
-      screen.text(engine.player.inv()[i].name, x + 5, y + 20);
+    String type = item.type;
+    if (type == "Weapon") {
+      screen.rect(x, y, 100, 127);
+      screen.fill(255);
+      screen.text("Fire rate:" + ((Weapon)item).fireRate, x + 5, y + 54);
+      screen.text("Range:" + ((Weapon)item).range, x + 5, y + 71);
+      screen.text("Accuracy:" + ((Weapon)item).accuracy, x + 5, y + 88);
+      screen.text("Damage:" + ((Weapon)item).damage, x + 5, y + 105);
+    } else if (type == "Special") {
+      screen.rect(x, y, 100, 110);
+      screen.fill(255);
+      screen.text("Ability", x + 5, y + 54);
+    } else if (type == "Armour") {
+      screen.rect(x, y, 100, 59);
+      screen.fill(255);
+      screen.text("Defense:" + ((Armour)item).defence, x + 5, y + 54);
     }
+    screen.fill(200);
+    screen.text(type, x + 5, y + 37);
+    screen.textSize(15);
+    screen.text(item.name, x + 5, y + 20);
   }
 }
 
@@ -320,3 +352,5 @@ class DisplayBar {
     percentFull = current / total;
   }
 }
+
+int active = 0, inv = 1, bag = 2, out = 3;

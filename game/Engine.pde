@@ -11,6 +11,9 @@ class Engine {
   
   private ArrayList<Drop> drops = new ArrayList<Drop>();
   
+  public int closestBag = -1;
+  private int closestBagDist = (int)Double.POSITIVE_INFINITY;
+  
   private PVector camera = new PVector(0, 0);
   
   private PGraphics screen;
@@ -43,8 +46,8 @@ class Engine {
     currentLevel.update(screen, camera.x, camera.y);
     
     updateProjectiles(delta); 
-    updateEnemies(delta, player.x, player.y); 
-    updateDrops(delta);
+    updateEnemies(delta, player.x, player.y);
+    updateDrops(delta, player.x, player.y);
     
     lastUpdate = millis();
   }
@@ -156,17 +159,35 @@ class Engine {
     return !proj.alive() || hitWall;
   }
   
-  private void updateDrops(double delta) {
+  private void updateDrops(double delta, float px, float py) {
+    closestBag = -1;
+    closestBagDist = (int)Double.POSITIVE_INFINITY;
+    
     for(int i = drops.size() - 1; i >= 0; i --) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
       if(!drops.get(i).update(delta)) { //if update function returns false, the drop is dead
         drops.remove(i); //remove drop
+        continue;
+      } else if(drops.get(i) instanceof ItemBag) {
+        if(drops.get(i).inRange(px, py) && drops.get(i).getDist(px, py) < closestBagDist) {
+          closestBag = i;
+        }
       }
     }
   }
-  
+
   public void addDrop(Drop drop) {
     drops.add(drop); 
+  }
+  
+  public Item[] getClosestBagItems() {
+    if(closestBag >= 0) try { return ((ItemBag)drops.get(closestBag)).items; } catch(Exception e) { return null; }
+    return null;
+  }
+  
+  public ItemBag getClosestBag() {
+    if(closestBag >= 0) try { return (ItemBag)drops.get(closestBag); } catch(Exception e) { return null; }
+    return null;
   }
   
 }

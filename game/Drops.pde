@@ -2,6 +2,7 @@ class Drop {
   
   public float x, y, radius, lifeTime;
   public PImage sprite;
+  public boolean alive = true;
   
   Drop(float x, float y, float radius, float lifeTime) {
     this.x = x;
@@ -12,7 +13,7 @@ class Drop {
   
   public boolean update(double delta) {
     lifeTime -= delta;
-    return lifeTime > 0;
+    return (lifeTime > 0) && alive;
   }
   
   public void show(PGraphics screen, PVector renderOffset) {
@@ -21,6 +22,10 @@ class Drop {
   
   public boolean inRange(float xPos, float yPos) {
     return(dist(xPos, yPos, x, y) < radius);
+  }
+  
+  public float getDist(float xPos, float yPos) {
+    return dist(xPos, yPos, x, y);
   }
   
 }
@@ -41,11 +46,12 @@ class StatOrb extends Drop {
 
 class ItemBag extends Drop {
   
-  Item[] items = new Item[4];
+  public Item[] items = new Item[4];
   
   ItemBag(float x, float y, int tier) {
-    super(x, y, 2, 20);
+    super(x, y, 0.5, 120);
     this.sprite = dropSprites.get("BAG_" + tier);
+    items[0] = new Sniper();
   } 
   
   public Item takeItem(int pos) {
@@ -53,11 +59,13 @@ class ItemBag extends Drop {
     else {
       Item item = items[pos];
       items[pos] = null;
+      checkEmpty();
       return item;
     }
   }
   
   public boolean addItem(Item item) {
+    if(item != null) alive = true;
     for(int i = 0; i < items.length; i ++) {
       if(items[i] == null) {
         items[i] = item;
@@ -65,6 +73,15 @@ class ItemBag extends Drop {
       }
     }
     return false;
+  }
+  
+  private void checkEmpty() {
+    for(int i = 0; i < items.length; i ++) {
+      if(items[i] != null) {
+        return;
+      }
+    }
+    alive = false;
   }
   
 }
