@@ -29,11 +29,6 @@ class Engine {
     
     screen = createGraphics(width - GUI_WIDTH, height);
     
-    for(int i = 0; i < 20; i ++) {
-      drops.add(new ItemBag(random(currentLevel.w), random(currentLevel.h), (int)random(3)));
-      drops.add(new StatOrb(random(currentLevel.w), random(currentLevel.h), (int)random(10), stats[(int)random(stats.length)])); 
-    }
-    
   }
   
   public void update() {

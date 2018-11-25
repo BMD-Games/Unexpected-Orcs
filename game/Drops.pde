@@ -51,7 +51,6 @@ class ItemBag extends Drop {
   ItemBag(float x, float y, int tier) {
     super(x, y, 0.5, 120);
     this.sprite = dropSprites.get("BAG_" + tier);
-    items[0] = new Sniper();
   } 
   
   public Item takeItem(int pos) {
