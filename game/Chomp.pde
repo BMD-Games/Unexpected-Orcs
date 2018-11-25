@@ -54,6 +54,10 @@ class Chomp implements Enemy {
     }
   }
   
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
+  }
+  
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
     return (distanceFrom(pointX, pointY) < 0.25);
@@ -95,6 +99,10 @@ class BigChomp extends Chomp {
     return (distanceFrom(pointX, pointY) < 0.5);
   }
   
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+  }
+  
 }
 
 class BossChomp extends Chomp {
@@ -111,6 +119,10 @@ class BossChomp extends Chomp {
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
     return (distanceFrom(pointX, pointY) < 1);
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "HEALTHdddd"));
   }
   
 }

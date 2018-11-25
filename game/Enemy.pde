@@ -13,6 +13,9 @@ interface Enemy {
   /* This mob takes damage */
   public void damage(int amount);
   
+  /* Drop what on death */
+  public void onDeath();
+  
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY);
   
