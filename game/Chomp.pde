@@ -1,4 +1,4 @@
-class Chomp implements Enemy {
+ class Chomp implements Enemy {
   
   public int tier = 0;
   public float x = 0;
@@ -41,10 +41,12 @@ class Chomp implements Enemy {
   public void show(PGraphics screen, PVector renderOffset){
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
-    if((angle < PI/2) || (angle > -PI/2)) {
+    if((angle < PI/2) && (angle > -PI/2)) {
       screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
+      screen.scale(-1.0, 1.0);
+      screen.rotate(PI - angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
