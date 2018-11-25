@@ -109,6 +109,10 @@ class Player {
     return face;
   }
   
+  public AABB getAABB() {
+    return bound;
+  }
+  
   Weapon currentWeapon() { return inv.currentWeapon(); }
   Ability currentSpecial() { return inv.currentAbility(); }
   Armour currentArmour() { return inv.currentArmour(); }

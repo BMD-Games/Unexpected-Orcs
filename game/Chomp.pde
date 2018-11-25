@@ -5,7 +5,6 @@ class Chomp implements Enemy {
   public float y = 0;
   
   private float angle;
-  private boolean isLeft;
   
   protected Stats stats;
   protected PImage sprite;
@@ -42,8 +41,12 @@ class Chomp implements Enemy {
   public void show(PGraphics screen, PVector renderOffset){
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
-    screen.rotate(angle);
-    screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+    if((angle < PI/2) || (angle > -PI/2)) {
+      screen.rotate(angle);
+      screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+    } else {
+      screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
+    }
     screen.popMatrix();
   }
   
@@ -122,7 +125,7 @@ class BossChomp extends Chomp {
   }
   
   public void onDeath() {
-    engine.addDrop(new StatOrb(x, y, tier, "HEALTHdddd"));
+    engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
   }
   
 }
