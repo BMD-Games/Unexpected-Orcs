@@ -84,4 +84,11 @@ class ItemBag extends Drop {
     alive = false;
   }
   
+  private boolean isFull() {
+    for(int i = 0; i < items.length; i ++) {
+      if(items[i] == null) return false;
+    }
+    return true;
+  }
+  
 }

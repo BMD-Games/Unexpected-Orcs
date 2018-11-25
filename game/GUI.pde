@@ -138,7 +138,7 @@ class GUI {
     
     drawBack(items != null, items);
     
-    if (itemOver != -1) { 
+    if (itemOver != -1 || b1 != -1) { 
       if (currSelection && !prevSelection) { 
         b1 = itemOver; 
         b1Type = menuType;
@@ -164,6 +164,22 @@ class GUI {
         } else if(b1Type == bag && b2Type == active) {
           Item bagItem = itemBag.takeItem(b1);
           itemBag.addItem(engine.player.inv.addItemActive(bagItem, b2));
+        } else if(b1Type == active && b2Type == out && !inMenu) { //----ACTIVE/GROUND
+          if(itemBag == null || itemBag.isFull()) {
+            ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
+            newBag.addItem(engine.player.inv.addItemActive(null, b1));
+            engine.addDrop(newBag);
+          } else {
+            itemBag.addItem(engine.player.inv.addItemActive(null, b1));
+          }
+        } else if(b1Type == inv && b2Type == out && !inMenu) { //----INV/GROUND
+          if(itemBag == null || itemBag.isFull()) {
+            ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
+            newBag.addItem(engine.player.inv.addItemInv(null, b1));
+            engine.addDrop(newBag);
+          } else {
+            itemBag.addItem(engine.player.inv.addItemInv(null, b1));
+          }
         }
         b1 = -1;
         b2 = -1;
@@ -225,6 +241,7 @@ class GUI {
   }
 
   void drawBack(boolean showBag, Item[] items) {
+    menuType = out;
     screen.fill(51);
     if(showBag) {
       screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, (Inventory.WIDTH + 1) * (invSize + invBuff) + invBuff * 3);
