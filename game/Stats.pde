@@ -20,11 +20,10 @@ class Stats {
     }
     
     if(getHealth() < getHealthMax()) {
-      setHealth(getHealth() + (float)(getVitality() * delta));
-      println(health, getHealth());
+      setHealth((health + (float)(getVitality() * delta)));
     }
     if(getMana() < getManaMax()) {
-      setMana(getMana() + (float)(getWisdom() * delta));
+      setMana(mana + (float)(getWisdom() * delta));
     }
     setFireTimer((float)(getFireTimer() + delta));
   }
@@ -77,8 +76,8 @@ class PlayerStats extends Stats {
   private int totalKills = 0;
   
   PlayerStats() {
-    setHealth(5);
-    setMana(5);
+    setHealth(baseHealth);
+    setMana(baseMana);
     calcAllStats();
   }
   

@@ -338,7 +338,7 @@ class GUI {
       screen.text("Range:" + ((Weapon)item).range, x + 5, y + 71);
       screen.text("Accuracy:" + ((Weapon)item).accuracy, x + 5, y + 88);
       screen.text("Damage:" + ((Weapon)item).damage, x + 5, y + 105);
-    } else if (type == "Special") {
+    } else if (type == "Ability") {
       screen.rect(x, y, 100, 110);
       screen.fill(255);
       screen.text("Ability", x + 5, y + 54);
