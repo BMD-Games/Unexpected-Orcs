@@ -1,4 +1,5 @@
 import java.util.Map;
+
 HashMap<Integer, PImage> tileSprites;
 HashMap<String, PImage> itemSprites;
 HashMap<String, PImage> guiSprites;
@@ -30,6 +31,9 @@ void setup() {
   
   thread("loadAssets");
   thread("loadSettings");
+  
+  textAlign(CENTER, CENTER);
+  textSize(TILE_SIZE);
   
   setState("MENU");
   

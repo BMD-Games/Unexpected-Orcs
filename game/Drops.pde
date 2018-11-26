@@ -11,10 +11,12 @@ class Drop {
     this.lifeTime = lifeTime;
   }
   
-  public boolean update(double delta) {
-    lifeTime -= delta;
-    return (lifeTime > 0) && alive;
+  public boolean update(double delta, float px, float py) {
+    lifeTime -= delta;    
+    return extraUpdate(px, py) && (lifeTime > 0) && alive;
   }
+  
+  protected boolean extraUpdate(float px, float py) { return true; }
   
   public void show(PGraphics screen, PVector renderOffset) {
     screen.image(sprite, x * TILE_SIZE - renderOffset.x - (sprite.width * SCALE/2), y * TILE_SIZE - renderOffset.y - (sprite.height * SCALE/2), sprite.width * SCALE, sprite.height * SCALE);
@@ -34,12 +36,33 @@ class StatOrb extends Drop {
   
   String stat;
   int tier;
+  float pickUpRadius = 0.5;
+  
+  float vel = 0, acc = 0.003;
   
   StatOrb(float x, float y, int tier, String stat) {
-    super(x, y, 4, 10);
+    super(x, y, 3, 10);
     this.stat = stat;
     this.tier = tier;
     this.sprite = applyColourToImage(dropSprites.get("ORB").copy(), statColours.get(stat));
+  }
+  
+  
+  @Override
+  protected boolean extraUpdate(float px, float py) {
+    if(getDist(px, py) < pickUpRadius) {
+      engine.player.stats.addOrbStat(stat, tier);
+      return false;
+    } else if(inRange(px, py)) {
+      PVector dir = new PVector(px - x, py - y).normalize();
+      dir.mult(vel);
+      x += dir.x;
+      y += dir.y;
+      vel += acc;
+    } else {
+      vel = 0;
+    }
+    return true;
   }
   
 }
