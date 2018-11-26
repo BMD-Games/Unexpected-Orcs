@@ -4,6 +4,7 @@ class GUI {
    **/
 
   private Button play, back, options, menu, exit, pause;
+  private Button keyUp, keyDown, keyLeft, keyRight, keyAbility;
   private DisplayBar healthBar, manaBar;
   private PImage title = loadImage("/assets/sprites/title.png");
   private PGraphics screen;
@@ -18,13 +19,20 @@ class GUI {
   private Item mouseOverItem;
 
   GUI() {
-    //need to set buttons and whatnot here
+    //-----Main Buttons
     play = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "PLAY");
     options = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 0, "OPTIONS");
-    menu = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "MENU");
-    back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
+    menu = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "MENU");    
     exit = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "EXIT");
+    back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+    
+    //-----Settings buttons
+    keyUp = new Button(width/2, height/2 - TILE_SIZE * 4, "BLANK_1x1");
+    keyDown = new Button(width/2, height/2 - TILE_SIZE * 3, "BLANK_1x1");
+    keyLeft = new Button(width/2, height/2 - TILE_SIZE * 2, "BLANK_1x1");
+    keyRight = new Button(width/2, height/2 - TILE_SIZE * 1, "BLANK_1x1");
+    keyAbility = new Button(width/2, height/2 - TILE_SIZE * 0, "BLANK_1x1");
 
     healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(230, 100, 100));
     manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, 3 * TILE_SIZE/2, color(153, 217, 234));
@@ -51,8 +59,29 @@ class GUI {
   public void drawOptions() {
     //Draws the options menu
     screen.beginDraw();
+    screen.textAlign(CENTER, CENTER);
+    screen.textSize(TILE_SIZE/2);
     screen.background(c);
     back.show(screen);
+    keyUp.show(screen);
+    keyDown.show(screen);
+    keyLeft.show(screen);
+    keyRight.show(screen);
+    keyAbility.show(screen);
+    screen.fill(0, 112, 188);
+    if(!remapNextKey || remapAction != up) screen.text(getKeyString(up), keyUp.x + keyUp.w/2, keyUp.y + keyUp.h/2);
+    if(!remapNextKey || remapAction != down) screen.text(getKeyString(down), keyDown.x + keyDown.w/2, keyDown.y + keyDown.h/2);
+    if(!remapNextKey || remapAction != left) screen.text(getKeyString(left), keyLeft.x + keyLeft.w/2, keyLeft.y + keyLeft.h/2);
+    if(!remapNextKey || remapAction != right) screen.text(getKeyString(right), keyRight.x + keyRight.w/2, keyRight.y + keyRight.h/2);
+    if(!remapNextKey || remapAction != ability) screen.text(getKeyString(ability), keyAbility.x + keyAbility.w/2, keyAbility.y + keyAbility.h/2);
+    screen.fill(255);
+    screen.textAlign(RIGHT, CENTER);
+    screen.text("Forward", keyUp.x, keyUp.y + keyUp.h/2);
+    screen.text("Back", keyDown.x, keyDown.y + keyDown.h/2);
+    screen.text("Left", keyLeft.x, keyLeft.y + keyLeft.h/2);
+    screen.text("Right",  keyRight.x, keyRight.y + keyRight.h/2);
+    screen.text("Ability", keyAbility.x, keyAbility.y + keyAbility.h/2);
+    
     screen.endDraw();
     image(screen, 0, 0);
   }
@@ -98,22 +127,31 @@ class GUI {
   }
 
   public void handleMouseReleased() {
-    //used for checking input
-    if (play.pressed(mouseX, mouseY) && (STATE == "MENU" || STATE == "PAUSED")) {
+    //------Main Buttons
+    if (play.pressed() && (STATE == "MENU" || STATE == "PAUSED")) {
       setState("PLAYING");
       engine.updateMillis();
-    } else if (options.pressed(mouseX, mouseY) && (STATE == "MENU" || STATE == "PAUSED")) {
+    } else if (options.pressed() && (STATE == "MENU" || STATE == "PAUSED")) {
       setState("OPTIONS");
-    } else if (menu.pressed(mouseX, mouseY) && STATE == "PAUSED") {
+    } else if (menu.pressed() && STATE == "PAUSED") {
       //SAVE GAME HERE!!!!
       //saveGame();
       setState("MENU");
-    } else if (pause.pressed(mouseX, mouseY) && STATE == "PLAYING") {
+    } else if (pause.pressed() && STATE == "PLAYING") {
       setState("PAUSED");
-    } else if (exit.pressed(mouseX, mouseY) && STATE == "MENU") {
+    } else if (exit.pressed() && STATE == "MENU") {
       quitGame();
-    } else if (back.pressed(mouseX, mouseY) && (STATE == "OPTIONS")) {
+    } else if (back.pressed() && (STATE == "OPTIONS")) {
       revertState();
+    }
+    
+    //-----Settings Buttons
+    else if(STATE == "OPTIONS") {
+      if(keyUp.pressed())      { remapNextKey = true; remapAction = up; }
+      if(keyDown.pressed())    { remapNextKey = true; remapAction = down; }
+      if(keyLeft.pressed())    { remapNextKey = true; remapAction = left; }
+      if(keyRight.pressed())   { remapNextKey = true; remapAction = right; }
+      if(keyAbility.pressed()) { remapNextKey = true; remapAction = ability; } 
     }
   }
 
@@ -336,8 +374,8 @@ class Button extends HUDElement {
     super(x, y, spriteName);
   }
 
-  public boolean pressed(float mX, float mY) {
-    return pointInBox(mX, mY, x, y, w, h);
+  public boolean pressed() {
+    return pointInBox(mouseX, mouseY, x, y, w, h);
   }
 }
 

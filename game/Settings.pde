@@ -1,6 +1,8 @@
 public int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY;
 public JSONObject settings, controls;
 
+public boolean remapNextKey = false;
+public int remapAction = -1;
 
 public final int up = 0, down = 1, left = 2, right = 3, ability = 4, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
 
@@ -15,9 +17,9 @@ public String getKeyFromCode(int code) {
   if(code == DOWN) code = 8595;
   if(code == RIGHT) code = 8594;
   if(code == LEFT) code = 8592;
+  if(code == 32) code = '_'; //Space key
   
   String keyChar = Character.toString((char)code);
-  if(keyChar.equals(" ")) keyChar = "SPACE";
   
   return keyChar;
 }
@@ -32,6 +34,11 @@ public String[] getKeys() {
   return keys;
 }
 
+public String getKeyString(int action) {
+  //lmao so lazy
+  return getKeys()[action];
+}
+
 public void loadControls() {
   controls = settings.getJSONObject("controls");
   UP_KEY = controls.getInt("UP");
@@ -42,6 +49,7 @@ public void loadControls() {
 }
 
 public void remapKey(int action, int code) {
+  remapNextKey = false;
   if(action == up) {
     UP_KEY = code;
     controls.setInt("UP", code);

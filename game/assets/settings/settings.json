@@ -1,9 +1,7 @@
-{
-	"controls" : {
-		"UP": 87,
-		"DOWN": 83,
-		"LEFT": 65,
-		"RIGHT": 68,
-		"ABILITY": 32
-	}
-}
+{"controls": {
+  "DOWN": 83,
+  "LEFT": 65,
+  "ABILITY": 32,
+  "RIGHT": 68,
+  "UP": 87
+}}

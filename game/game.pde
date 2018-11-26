@@ -31,9 +31,6 @@ void setup() {
   thread("loadAssets");
   thread("loadSettings");
   
-  textAlign(CENTER, CENTER);
-  textSize(TILE_SIZE);
-  
   setState("MENU");
   
   gui = new GUI();
@@ -71,6 +68,7 @@ void mouseReleased() {
 }
 
 void keyPressed() {
+  if(remapNextKey) remapKey(remapAction, keyCode);
   if(keyCode == UP_KEY) keys[up] = 1;
   if(keyCode == LEFT_KEY) keys[left] = 1;
   if(keyCode == DOWN_KEY) keys[down] = 1;
@@ -92,6 +90,7 @@ public void quitGame() {
 }
 
 public void setState(String state) {
+  remapNextKey = false;
   PREV_STATE = STATE;
   STATE = state;
 }
