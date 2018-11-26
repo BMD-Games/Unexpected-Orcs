@@ -74,53 +74,29 @@
   public boolean AABBCollides(AABB box){
     return false;
   }
-  
-  private void move(double delta) {
+    
+    private void move(double delta) {
     float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
     float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
     x += moveX;
     y += moveY;
     moveX = sign(moveX);
     moveY = sign(moveY);
-    if(moveX != 0 && moveY != 0) {
-      print("X: ");
-      println(moveX);
-      print("Y: ");
-      println(moveY);
-    }
-    while(!validPosition(engine.currentLevel, x, y)) {
-      float tempX;
-      float tempY;
-      if(validCentre(engine.currentLevel, x, y)) {
-        println("I hit my edge!");
-        if(moveX == -1) {
-          tempX = floor(x) - (moveX * (radius + 0.01));
-        } else {
-          tempX = ceil(x) - (moveX * (radius + 0.01));
-        }
-        if(moveY == -1) {
-          tempY = floor(y) - (moveY * (radius + 0.01));
-        } else {
-          tempY = ceil(y) - (moveY * (radius + 0.01));
-        }
+    if(!validPosition(engine.currentLevel, x, y)) {
+      if(!validCentre(engine.currentLevel, x, y)) {
+        x -= moveX;
+        y -= moveY;
       } else {
-        println("I hit my centre");
-        tempX = floor(x) - (moveX * (1 + radius));
-        if(moveY == -1) {
-          tempY = floor(y) - (moveY * (1 + radius));
-        } else {
-          tempY = ceil(y) - (moveY * (1 + radius));
+        if(!validLeft(engine.currentLevel, x, y)) {
+          x += radius;
+        } else if(!validRight(engine.currentLevel, x, y)) {
+          x -= radius;
         }
-      }
-      if(validPosition(engine.currentLevel, tempY, x)) {
-        y = tempY;
-        break;
-      } else if(validPosition(engine.currentLevel, x, tempY)) {
-        x = tempX;
-        break;
-      } else {
-        x = tempX;
-        y = tempY;
+        if(!validTop(engine.currentLevel, x, y)) {
+          y += radius;
+        } else if(!validBottom(engine.currentLevel, x, y)) {
+          y -= radius;
+        }
       }
     }
   }
@@ -135,8 +111,24 @@
         (level.getTile((int)(xPos - radius), (int)yPos) > WALL);
   }
   
-  public boolean validCentre(Level level, float xPos, float yPos) {
+  private boolean validCentre(Level level, float xPos, float yPos) {
     return level.getTile((int)xPos, (int)yPos) > WALL;
+  }
+  
+  private boolean validLeft(Level level, float xPos, float yPos) {
+    return level.getTile((int)(xPos - radius), (int)yPos) > WALL;
+  }
+  
+  private boolean validRight(Level level, float xPos, float yPos) {
+    return level.getTile((int)(xPos + radius), (int)yPos) > WALL;
+  }
+  
+  private boolean validTop(Level level, float xPos, float yPos) {
+    return level.getTile((int)xPos, (int)(yPos - radius)) > WALL;
+  }
+  
+  private boolean validBottom(Level level, float xPos, float yPos) {
+    return level.getTile((int)xPos, (int)(yPos + radius)) > WALL;
   }
   
   protected float distanceFrom(float pointX, float pointY) {
