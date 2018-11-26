@@ -8,11 +8,13 @@
   
   protected Stats stats;
   protected PImage sprite;
+  protected float radius;
   
   public Chomp(float x, float y, int tier) {
     this.tier = tier;
     this.x = x;
     this.y = y;
+    radius = 0.25;
     if(random(2) < 1) {
       sprite = charSprites.get("CHOMP_WHITE_SMALL");
     } else {
@@ -65,7 +67,7 @@
   
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    return (distanceFrom(pointX, pointY) < 0.25);
+    return (distanceFrom(pointX, pointY) < radius);
   }
   
   /* Checks collision with area  */
@@ -78,6 +80,14 @@
     y += stats.getSpeed() * sin(angle) * delta;
   }
   
+  public boolean validPosition(Level level, float xPos, float yPos) {
+    return (level.getTile((int)xPos, (int)yPos) > WALL) &&
+        (level.getTile((int)xPos, (int)(yPos + radius)) > WALL) &&
+        (level.getTile((int)xPos, (int)(yPos - radius)) > WALL) && 
+        (level.getTile((int)(xPos + radius), (int)yPos) > WALL) && 
+        (level.getTile((int)(xPos - radius), (int)yPos) > WALL);
+  }
+  
   protected float distanceFrom(float pointX, float pointY) {
     return sqrt(pow(x - pointX, 2) + pow(y - pointY, 2));
   }
@@ -86,8 +96,9 @@
 
 class BigChomp extends Chomp {
   
-  public BigChomp(int x, int y, int tier) {
+  public BigChomp(float x, float y, int tier) {
     super(x, y, tier);
+    radius = 0.5;
     if(random(2) < 1) {
       sprite = charSprites.get("CHOMP_WHITE");
     } else {
@@ -112,8 +123,9 @@ class BigChomp extends Chomp {
 
 class BossChomp extends Chomp {
   
-  public BossChomp(int x, int y, int tier) {
+  public BossChomp(float x, float y, int tier) {
     super(x, y, tier);
+    radius = 1;
     sprite = charSprites.get("CHOMP_BOSS");
     stats.setHealth(45 * tier);
     stats.setAttack(20 * tier);
