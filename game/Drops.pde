@@ -4,6 +4,8 @@ class Drop {
   public PImage sprite;
   public boolean alive = true;
   
+  private int alpha = 255;
+  
   Drop(float x, float y, float radius, float lifeTime) {
     this.x = x;
     this.y = y;
@@ -12,14 +14,17 @@ class Drop {
   }
   
   public boolean update(double delta, float px, float py) {
-    lifeTime -= delta;    
-    return extraUpdate(px, py) && (lifeTime > 0) && alive;
+    lifeTime -= delta;
+    alpha = (int)map(lifeTime, 1, 0, 255, 0);
+    return extraUpdate(delta, px, py) && (lifeTime > 0) && alive;
   }
   
-  protected boolean extraUpdate(float px, float py) { return true; }
+  protected boolean extraUpdate(double delta, float px, float py) { return true; }
   
   public void show(PGraphics screen, PVector renderOffset) {
+    screen.tint(255, 255, 255, alpha);
     screen.image(sprite, x * TILE_SIZE - renderOffset.x - (sprite.width * SCALE/2), y * TILE_SIZE - renderOffset.y - (sprite.height * SCALE/2), sprite.width * SCALE, sprite.height * SCALE);
+    screen.tint(255);
   }
   
   public boolean inRange(float xPos, float yPos) {
@@ -36,9 +41,9 @@ class StatOrb extends Drop {
   
   String stat;
   int tier;
-  float pickUpRadius = 0.5;
+  float pickUpRadius = 0.3;
   
-  float vel = 0, acc = 0.003;
+  float vel = 0, acc = 1.5;
   
   StatOrb(float x, float y, int tier, String stat) {
     super(x, y, 3, 10);
@@ -49,16 +54,17 @@ class StatOrb extends Drop {
   
   
   @Override
-  protected boolean extraUpdate(float px, float py) {
+  protected boolean extraUpdate(double delta, float px, float py) {
     if(getDist(px, py) < pickUpRadius) {
       engine.player.stats.addOrbStat(stat, tier);
       return false;
-    } else if(inRange(px, py)) {
+    } else if(engine.currentLevel.canSee((int)x, (int)y, (int)px, (int)py) && inRange(px, py)) {
       PVector dir = new PVector(px - x, py - y).normalize();
-      dir.mult(vel);
+      dir.mult((float)(vel * delta));
       x += dir.x;
       y += dir.y;
-      vel += acc;
+      vel += acc * delta;
+      lifeTime += delta;
     } else {
       vel = 0;
     }
@@ -72,7 +78,7 @@ class ItemBag extends Drop {
   public Item[] items = new Item[4];
   
   ItemBag(float x, float y, int tier) {
-    super(x, y, 0.5, 120);
+    super(x, y, 0.5, 60);
     this.sprite = dropSprites.get("BAG_" + tier);
   } 
   
