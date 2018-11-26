@@ -66,18 +66,17 @@ class PlayerStats extends Stats {
   private HashMap<Integer, Integer> defenceKills = new HashMap<Integer, Integer>();
   private HashMap<Integer, Integer> speedKills = new HashMap<Integer, Integer>();
   
+  private int baseHealthMax = 100, baseManaMax = 100;
+  private int baseVitality = 1, baseAttack = 1, baseWisdom = 1, baseDefence = 1;
+  
+  private float baseSpeed = 2;
+  
   private int totalKills = 0;
   
   PlayerStats() {
-    setHealth(5); 
-    setHealthMax(100);
+    setHealth(5);
     setMana(5);
-    setManaMax(100);
-    setVitality(1);
-    setAttack(1);
-    setDefence(1);
-    setWisdom(1);
-    setSpeed(2);
+    calcAllStats();
   }
   
   public void addKill() {
@@ -117,10 +116,20 @@ class PlayerStats extends Stats {
     }
   }  
   
+  private void calcAllStats() {
+    setHealthMax(calcStatValue(healthKills, 5, 0.5));
+    setManaMax(calcStatValue(manaKills, 5, 0.2));
+    setVitality(calcStatValue(vitalityKills, 1, 0.1));
+    setAttack(calcStatValue(attackKills, 1, 0.1));
+    setWisdom(calcStatValue(wisdomKills, 1, 0.1));
+    setDefence(calcStatValue(defenceKills, 1, 0.1));
+    setSpeed(calcStatValue(speedKills, 1, 0.1));
+  }
+  
   private int calcStatValue(HashMap<Integer, Integer> stat, int max, float rate) {
     int value = 0;
     for(int tier : stat.keySet()) {
-      value += calcStatTierValue(max, rate, stat.get(tier)) * tier;
+      value += calcStatTierValue(max, rate, stat.get(tier)) * (tier + 1);
     }
     return value;
   }

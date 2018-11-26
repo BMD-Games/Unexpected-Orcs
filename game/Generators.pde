@@ -68,7 +68,6 @@ public int numNeighboursSimple(int[][] tiles, int x, int y) {
 //------DUNGEON GENERATION---------
 
 public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straightChance, float loopChance) {
-  //http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
   int[][] tiles = new int[w][h];
   int[][] region = new int[w][h];

@@ -1,4 +1,5 @@
 import java.util.Map;
+
 HashMap<Integer, PImage> tileSprites;
 HashMap<String, PImage> itemSprites;
 HashMap<String, PImage> guiSprites;
@@ -71,6 +72,7 @@ void mouseReleased() {
 }
 
 void keyPressed() {
+  if(remapNextKey) remapKey(remapAction, keyCode);
   if(keyCode == UP_KEY) keys[up] = 1;
   if(keyCode == LEFT_KEY) keys[left] = 1;
   if(keyCode == DOWN_KEY) keys[down] = 1;
@@ -92,6 +94,7 @@ public void quitGame() {
 }
 
 public void setState(String state) {
+  remapNextKey = false;
   PREV_STATE = STATE;
   STATE = state;
 }

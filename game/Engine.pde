@@ -93,7 +93,7 @@ class Engine {
         
         for (int i = 0; i < weapon.numBullets; i++) {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
-              weapon.bulletSpeed, weapon.range, weapon.damage * player.stats.getAttack(), weapon.bulletSprite));
+              weapon.bulletSpeed, weapon.range, weapon.damage + player.stats.getAttack(), weapon.bulletSprite));
         }
         player.stats.setFireTimer(0);
       } 
@@ -160,7 +160,7 @@ class Engine {
     
     for(int i = drops.size() - 1; i >= 0; i --) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-      if(!drops.get(i).update(delta)) { //if update function returns false, the drop is dead
+      if(!drops.get(i).update(delta, player.x, player.y)) { //if update function returns false, the drop is dead
         drops.remove(i); //remove drop
         continue;
       } else if(drops.get(i) instanceof ItemBag) {
