@@ -21,6 +21,7 @@ class Inventory {
     inv[0] = new Pistol();
     inv[1] = new Shotgun();
     inv[2] = new MachineGun();
+    active[1] = new SpeedBuff();
   }
   
   void swapItemsInv(int i, int j) {

@@ -124,6 +124,7 @@ class GUI {
       inMenu = false;
     }
     
+    drawCooldown();
   }
 
   public void handleMouseReleased() {
@@ -153,6 +154,11 @@ class GUI {
       if(keyRight.pressed())   { remapNextKey = true; remapAction = right; }
       if(keyAbility.pressed()) { remapNextKey = true; remapAction = ability; } 
     }
+  }
+  
+  private void drawCooldown(){
+    float percentFull = engine.player.inv.currentAbility().updateCooldown();
+    arc(GUI_WIDTH / 2, 165, 60, 60, 0, 2 * PI * percentFull, PIE);
   }
 
   private void renderMiniMap() {
