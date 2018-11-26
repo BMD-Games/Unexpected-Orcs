@@ -157,8 +157,10 @@ class GUI {
   }
   
   private void drawCooldown(){
-    float percentFull = engine.player.inv.currentAbility().updateCooldown();
-    arc(GUI_WIDTH / 2, 165, 60, 60, 0, 2 * PI * percentFull, PIE);
+    if (engine.player.inv.currentAbility() != null ) {
+      float percentFull = engine.player.inv.currentAbility().updateCooldown();
+      arc(GUI_WIDTH / 2, 165, 60, 60, 0, 2 * PI * percentFull, PIE);
+    }
   }
 
   private void renderMiniMap() {
