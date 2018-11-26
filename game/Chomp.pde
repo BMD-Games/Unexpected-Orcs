@@ -76,10 +76,30 @@
   }
   
   private void move(double delta) {
-    x += stats.getSpeed() * cos(angle) * delta;
-    y += stats.getSpeed() * sin(angle) * delta;
+    float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
+    float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
+    x += moveX;
+    y += moveY;
+    moveX = sign(moveX);
+    moveY = sign(moveY);
+    while(!validPosition(engine.currentLevel, x, y)) {
+      float tempX = floor(x) - (moveX * (1 + radius));
+      float tempY = floor(y) - (moveY * (1 + radius));
+      if(validPosition(engine.currentLevel, tempY, x)) {
+        y = tempY;
+        break;
+      } else if(validPosition(engine.currentLevel, x, tempY)) {
+        x = tempX;
+        break;
+      } else {
+        x = tempX;
+        y = tempY;
+      }
+    }
   }
   
+  //Calculates if coordinates mean chomp is not in a wall
+  //Needs level because it's used in setup
   public boolean validPosition(Level level, float xPos, float yPos) {
     return (level.getTile((int)xPos, (int)yPos) > WALL) &&
         (level.getTile((int)xPos, (int)(yPos + radius)) > WALL) &&
@@ -90,6 +110,14 @@
   
   protected float distanceFrom(float pointX, float pointY) {
     return sqrt(pow(x - pointX, 2) + pow(y - pointY, 2));
+  }
+  
+  protected int sign(float value){
+    if((int)value == 0) {
+      return 1;
+    } else {
+      return ((int)value / abs((int)value));
+    }
   }
   
 }
@@ -118,7 +146,6 @@ class BigChomp extends Chomp {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
   }
-  
 }
 
 class BossChomp extends Chomp {
