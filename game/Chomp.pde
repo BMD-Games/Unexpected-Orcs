@@ -82,9 +82,36 @@
     y += moveY;
     moveX = sign(moveX);
     moveY = sign(moveY);
+    if(moveX != 0 && moveY != 0) {
+      print("X: ");
+      println(moveX);
+      print("Y: ");
+      println(moveY);
+    }
     while(!validPosition(engine.currentLevel, x, y)) {
-      float tempX = floor(x) - (moveX * (1 + radius));
-      float tempY = floor(y) - (moveY * (1 + radius));
+      float tempX;
+      float tempY;
+      if(validCentre(engine.currentLevel, x, y)) {
+        println("I hit my edge!");
+        if(moveX == -1) {
+          tempX = floor(x) - (moveX * (radius + 0.01));
+        } else {
+          tempX = ceil(x) - (moveX * (radius + 0.01));
+        }
+        if(moveY == -1) {
+          tempY = floor(y) - (moveY * (radius + 0.01));
+        } else {
+          tempY = ceil(y) - (moveY * (radius + 0.01));
+        }
+      } else {
+        println("I hit my centre");
+        tempX = floor(x) - (moveX * (1 + radius));
+        if(moveY == -1) {
+          tempY = floor(y) - (moveY * (1 + radius));
+        } else {
+          tempY = ceil(y) - (moveY * (1 + radius));
+        }
+      }
       if(validPosition(engine.currentLevel, tempY, x)) {
         y = tempY;
         break;
@@ -101,11 +128,15 @@
   //Calculates if coordinates mean chomp is not in a wall
   //Needs level because it's used in setup
   public boolean validPosition(Level level, float xPos, float yPos) {
-    return (level.getTile((int)xPos, (int)yPos) > WALL) &&
+    return validCentre(level, xPos, yPos) &&
         (level.getTile((int)xPos, (int)(yPos + radius)) > WALL) &&
         (level.getTile((int)xPos, (int)(yPos - radius)) > WALL) && 
         (level.getTile((int)(xPos + radius), (int)yPos) > WALL) && 
         (level.getTile((int)(xPos - radius), (int)yPos) > WALL);
+  }
+  
+  public boolean validCentre(Level level, float xPos, float yPos) {
+    return level.getTile((int)xPos, (int)yPos) > WALL;
   }
   
   protected float distanceFrom(float pointX, float pointY) {
@@ -113,11 +144,12 @@
   }
   
   protected int sign(float value){
-    if((int)value == 0) {
+    if(value < 0) {
+      return -1;
+    } else if(value > 0) {
       return 1;
-    } else {
-      return ((int)value / abs((int)value));
     }
+    return 0;
   }
   
 }

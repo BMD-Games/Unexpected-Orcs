@@ -21,7 +21,7 @@ class Dungeon extends Level {
   void generateEnemies() {
    //Add enemies to level
     Chomp chomp;
-    for(int i = 0; i < 50; i ++) {
+    for(int i = 0; i < 20; i ++) {
       chomp = new Chomp(random(w), random(h), 1);
       validSpawn(chomp);
       enemies.add(chomp);
@@ -31,9 +31,9 @@ class Dungeon extends Level {
       validSpawn(chomp);
       enemies.add(chomp);
     }
-    chomp = new BossChomp(random(w), random(h), 1);
-    validSpawn(chomp);
-    enemies.add(chomp);
+    //chomp = new BossChomp(random(w), random(h), 1);
+    //validSpawn(chomp);
+    //enemies.add(chomp);
   }
   
   void validSpawn(Chomp enemy) {
