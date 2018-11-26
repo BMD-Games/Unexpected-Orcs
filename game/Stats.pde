@@ -9,7 +9,9 @@ class Stats {
   private HashMap<String, Float> statusEffects = new HashMap<String, Float>();
   
   public void update(double delta) {
-    for(String s : statusEffects.keySet()) {
+    String s;
+    for(int i = 0; i < statusEffects.keySet().size(); i++) {
+      s = (String)statusEffects.keySet().toArray()[i];
       if(statusEffects.get(s) - delta < 0) {
         statusEffects.remove(s);
       } else {
