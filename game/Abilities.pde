@@ -1,9 +1,6 @@
 class Ability extends Item {
   
-  float cooldown;
-  float lastUse;
-  float timeSinceLast;
-  float percentCooldown;
+  float cooldown, cooldownTimer = 0;
   int manaCost;
   
   Ability(String sprite, String name) {
@@ -11,20 +8,15 @@ class Ability extends Item {
     this.type = "Ability";
   }
   
-  public float updateCooldown() {
-    
-    timeSinceLast = millis() - lastUse;
-    if (timeSinceLast >= cooldown) {
-      percentCooldown = 0;
-    } else {
-      percentCooldown = timeSinceLast / cooldown;
-    }
-    return percentCooldown;
+  public void updateCooldown(double delta) {
+    cooldownTimer -= delta;
   }
   
-  public void buff(Player player) {
-    println("ayo");
+  public float getPercentCooldown() {
+    return cooldownTimer/cooldown;
   }
+  
+  protected void buff() {}
   
   
 }
@@ -33,17 +25,16 @@ class SpeedBuff extends Ability {
   
   SpeedBuff() {
     super("MACHINE_GUN", "SPEEDBUFF");
-    this.cooldown = 1000;
+    this.cooldown = 4;
     this.manaCost = 60;
   }
   
-  public void buff(Player player) {
-    if (timeSinceLast >= cooldown && manaCost <= player.stats.getMana()){
-      player.stats.addStatusEffect("SPEEDY", 0.5);
-      this.lastUse = millis();
-      updateCooldown();
-      println(percentCooldown);
-      player.stats.setMana(player.stats.getMana() - manaCost);
+  @Override
+  public void buff() {
+    if (cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
+      cooldownTimer = cooldown;
+      engine.player.stats.addStatusEffect("SPEEDY", 3);
+      engine.player.stats.setMana(engine.player.stats.getMana() - manaCost);
     }
   }
   

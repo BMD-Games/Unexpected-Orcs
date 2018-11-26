@@ -115,7 +115,7 @@ class Level {
   private void updateMapEntities(int playerX, int playerY) {
     miniMapOverlay.beginDraw();
     miniMapOverlay.background(0, 0);
-    miniMapOverlay.stroke(255, 0, 255);
+    miniMapOverlay.stroke(0, 0, 255);
     miniMapOverlay.point(playerX, playerY);
     //can add monsters here too;
     miniMapOverlay.endDraw();

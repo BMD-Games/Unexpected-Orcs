@@ -46,7 +46,7 @@ class MachineGun extends Weapon{
   
   MachineGun() {
     super("MACHINE_GUN", "Machine Gun");
-    this.damage = 4;
+    this.damage = 400;
     this.fireRate = 0.05;
     this.numBullets = 1;
     this.range = 8;

@@ -27,11 +27,11 @@ class Dungeon extends Level {
       enemies.add(chomp);
     }
     for(int i = 0; i < 10; ++i) {
-      chomp = new BigChomp(random(w), random(h), 1);
+      chomp = new BigChomp(random(w), random(h), 2);
       validSpawn(chomp);
       enemies.add(chomp);
     }
-    chomp = new BossChomp(random(w), random(h), 1);
+    chomp = new BossChomp(random(w), random(h), 5);
     validSpawn(chomp);
     enemies.add(chomp);
   }

@@ -43,7 +43,7 @@ class StatOrb extends Drop {
   int tier;
   float pickUpRadius = 0.3;
   
-  float vel = 0, acc = 1.5;
+  float vel = 0, acc = 2;
   
   StatOrb(float x, float y, int tier, String stat) {
     super(x, y, 3, 10);
@@ -58,7 +58,7 @@ class StatOrb extends Drop {
     if(getDist(px, py) < pickUpRadius) {
       engine.player.stats.addOrbStat(stat, tier);
       return false;
-    } else if(engine.currentLevel.canSee((int)x, (int)y, (int)px, (int)py) && inRange(px, py)) {
+    } else if(inRange(px, py)) { //engine.currentLevel.canSee((int)x, (int)y, (int)px, (int)py) && 
       PVector dir = new PVector(px - x, py - y).normalize();
       dir.mult((float)(vel * delta));
       x += dir.x;

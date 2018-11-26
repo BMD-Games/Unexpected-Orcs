@@ -68,8 +68,9 @@ class Player {
     ang = atan2(mouseY - height/2, mouseX - (width/2 + GUI_WIDTH/2));
 
     if (inv.active[1] != null ){
-      inv.currentAbility().updateCooldown();
+      inv.currentAbility().updateCooldown(delta);
     }
+    
     ability();
     getFacing();
     move(delta, neighbours);
@@ -93,7 +94,7 @@ class Player {
   
   private void ability() {
     if (keys[ability] == 1) {
-      inv.currentAbility().buff(this);
+      inv.currentAbility().buff();
     }
   }
   

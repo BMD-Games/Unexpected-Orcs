@@ -69,7 +69,7 @@ class PlayerStats extends Stats {
   private HashMap<Integer, Integer> speedKills = new HashMap<Integer, Integer>();
   
   private int baseHealth = 100, baseMana = 100;
-  private int baseVitality = 1, baseAttack = 1, baseWisdom = 1, baseDefence = 1;
+  private int baseVitality = 5, baseAttack = 1, baseWisdom = 5, baseDefence = 1;
   
   private float baseSpeed = 2;
   
