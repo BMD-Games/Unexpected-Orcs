@@ -1,8 +1,9 @@
-interface Enemy {
+public interface Enemy {
   
   public int tier = 0;
-  public int x = 0;
-  public int y = 0;
+  public float x = 0;
+  public float y = 0;
+  public int health = 1;
   
   /* Enemies need to update on tics */
   public boolean update(double delta, float playerX, float playerY);
@@ -21,5 +22,8 @@ interface Enemy {
   
   /* Checks collision with area  */
   public boolean AABBCollides(AABB box);
+  
+  /* Checks if mob collides with any walls */
+  public boolean validPosition(Level level, float xPos, float yPos);
   
 }

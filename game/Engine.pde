@@ -4,7 +4,7 @@ class Engine {
   **/
   private double lastUpdate = 0;
   
-  private Level currentLevel;
+  public Level currentLevel;
   
   private ArrayList<Projectile> enemyProjectiles = new ArrayList<Projectile>();
   private ArrayList<Projectile> playerProjectiles = new ArrayList<Projectile>();

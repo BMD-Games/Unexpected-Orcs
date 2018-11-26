@@ -24,15 +24,6 @@ class Level {
     renderW = width/TILE_SIZE + 2 * buffer;
     renderH = height/TILE_SIZE + 2 * buffer;
     
-    //Add enemies to level
-    for(int i = 0; i < 50; i ++) {
-      enemies.add(new Chomp((int)random(w), (int)random(h), 1));
-    }
-    for(int i = 0; i < 10; ++i) {
-      enemies.add(new BigChomp((int)random(w), (int)random(h), 1));
-    }
-    enemies.add(new BossChomp((int)random(w), (int)random(h), 1));
-    
     //Initialise minimap
     tiles = createGraphics(width - GUI_WIDTH, height);
     miniMapOverlay = createGraphics(w, h);
@@ -76,7 +67,7 @@ class Level {
         int tile = tileset.walls[15];
         boolean visit = false;
         try { visit = visited[i][j]; } catch(Exception e) {}
-        if(visit) {
+        if(true) {
           try{ tile = tileMap[i][j]; } catch(Exception e) {}
           PImage sprite = tileSprites.get(tile);
           tiles.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
