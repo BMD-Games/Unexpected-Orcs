@@ -67,6 +67,9 @@ class Player {
   public void update(double delta, int[] neighbours) {
     ang = atan2(mouseY - height/2, mouseX - (width/2 + GUI_WIDTH/2));
 
+    if (inv.active[1] != null ){
+      inv.currentAbility().updateCooldown();
+    }
     ability();
     getFacing();
     move(delta, neighbours);
@@ -89,15 +92,9 @@ class Player {
   }
   
   private void ability() {
-    if (keys[ability] == 1 && stats.getMana() >= 0) {
-      stats.setSpeed(4);
-      stats.setMana(stats.getMana() - 1);
-    } else {
-      stats.setSpeed(2);
-      if (stats.getMana() < stats.getManaMax() ) {
-        stats.setMana(stats.getMana() + 1);
-      }
-    }      
+    if (keys[ability] == 1) {
+      inv.currentAbility().buff(this);
+    }
   }
   
   private int getFacing() {
