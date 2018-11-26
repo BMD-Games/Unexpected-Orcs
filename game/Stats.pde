@@ -1,6 +1,6 @@
 class Stats {
-  private int health = 0, healthMax = 0;
-  private int mana = 0, manaMax = 0;
+  private int healthMax = 0, manaMax = 0;
+  private float mana = 0, health = 0;
   
   private int vitality = 0, attack = 0, wisdom = 0, defence = 0;
   
@@ -18,10 +18,11 @@ class Stats {
     }
     
     if(getHealth() < getHealthMax()) {
-      setHealth(getHealth() + getVitality());
+      setHealth(getHealth() + (float)(getVitality() * delta));
+      println(health, getHealth());
     }
     if(getMana() < getManaMax()) {
-      setMana(getMana() + getWisdom());
+      setMana(getMana() + (float)(getWisdom() * delta));
     }
     setFireTimer((float)(getFireTimer() + delta));
   }
@@ -31,9 +32,9 @@ class Stats {
     statusEffects.put(name, duration);
   }
   
-  public int getHealth() { return health; }
+  public int getHealth() { return (int)health; }
   public int getHealthMax() { return healthMax; }
-  public int getMana() { return mana; }
+  public int getMana() { return (int)mana; }
   public int getManaMax() { return manaMax; }
   public int getVitality() { return (statusEffects.containsKey("SICK") ? 0 : statusEffects.containsKey("HEALING") ? vitality * 2 : vitality); }
   public int getAttack() { return (statusEffects.containsKey("WEAK") ? 0 : statusEffects.containsKey("DAMAGING") ? attack * 2 : attack); }
@@ -42,9 +43,9 @@ class Stats {
   public float getFireTimer() { return (statusEffects.containsKey("DAZED") ? fireTimer/2 : statusEffects.containsKey("BEZERK") ? fireTimer * 2 : fireTimer); }
   public float getSpeed() { return (statusEffects.containsKey("SLOWED") ? speed/2 : statusEffects.containsKey("SPEEDY") ? speed * 2 : speed); }
   
-  public void setHealth(int value) { health = value; }
+  public void setHealth(float value) { health = value; }
   public void setHealthMax(int value) { healthMax = value; }
-  public void setMana(int value) { mana = value; }
+  public void setMana(float value) { mana = value; }
   public void setManaMax(int value) { manaMax = value; }
   public void setVitality(int value) { vitality = value; }
   public void setAttack(int value) { attack = value; }
