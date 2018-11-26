@@ -1,6 +1,6 @@
 class Drop {
   
-  public float x, y, radius, lifeTime;
+  public float x, y, radius, lifeTime, fadeTime = 1.5;
   public PImage sprite;
   public boolean alive = true;
   
@@ -15,7 +15,7 @@ class Drop {
   
   public boolean update(double delta, float px, float py) {
     lifeTime -= delta;
-    alpha = (int)map(lifeTime, 1, 0, 255, 0);
+    if(lifeTime <= fadeTime) alpha = (int)map(lifeTime, fadeTime, 0, 255, 0);
     return extraUpdate(delta, px, py) && (lifeTime > 0) && alive;
   }
   
