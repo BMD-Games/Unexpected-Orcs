@@ -67,7 +67,7 @@ class Level {
         int tile = tileset.walls[15];
         boolean visit = false;
         try { visit = visited[i][j]; } catch(Exception e) {}
-        if(true) {
+        if(visit) {
           try{ tile = tileMap[i][j]; } catch(Exception e) {}
           PImage sprite = tileSprites.get(tile);
           tiles.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
