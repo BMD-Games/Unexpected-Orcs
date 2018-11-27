@@ -192,8 +192,8 @@ class Engine {
   }
   
   public void addDamageText(float damage, float xp, float yp, float life) {
-    text.add( new DamageText(damage, xp, yp, life)); 
-    println(damage);
+    xp += random(-0.1, 0.1);
+    text.add( new DamageText(damage, xp, yp, life));
   }
   
   public Item[] getClosestBagItems() {

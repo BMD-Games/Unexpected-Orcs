@@ -129,11 +129,11 @@ class PlayerStats extends Stats {
   }
   
   private int calcStatValue(HashMap<Integer, Integer> stat, float base, int max, float rate) {
-    int value = (int)base;
+    float value = base;
     for(int tier : stat.keySet()) {
       value += calcStatTierValue(max, rate, stat.get(tier)) * (tier + 1);
     }
-    return value;
+    return (int)value;
   }
   
   private float calcStatTierValue(int max, float rate, int num) {
