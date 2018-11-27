@@ -57,8 +57,13 @@ void draw() {
       gui.drawUnpaused(engine.player);
       break;
     case "PAUSED":
+      gui.drawUnpaused(engine.player);
       engine.show();
       gui.drawPaused();
+      
+      break;
+    case "DEAD":
+      gui.drawDead();
       break;
   }
 }

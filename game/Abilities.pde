@@ -1,6 +1,6 @@
 class Ability extends Item {
   
-  protected float cooldown, cooldownTimer = 0;
+  protected float cooldown, cooldownTimer = 0, textTimer;
   protected int manaCost;
   
   Ability(String sprite, String name) {
@@ -10,6 +10,7 @@ class Ability extends Item {
   
   public void updateCooldown(double delta) {
     cooldownTimer -= delta;
+    textTimer += delta;
   }
   
   public float getPercentCooldown() {
@@ -35,6 +36,16 @@ class SwiftBoots extends Ability {
       cooldownTimer = cooldown;
       engine.player.stats.addStatusEffect("SPEEDY", 3);
       engine.player.stats.setMana(engine.player.stats.getMana() - manaCost);
+      String cooldownText = "Speed Buff";
+      engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+      textTimer = 0;
+    } else {
+      if (textTimer >= 0.5) {
+        String cooldownText = "";
+        cooldownText = String.format("%.3gs%n", cooldownTimer);
+        engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+        textTimer = 0;
+      }
     }
   }
   

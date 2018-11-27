@@ -3,7 +3,7 @@ class GUI {
    This class is used for drawing and handeling all UI related screens and elements  
    **/
 
-  private Button play, back, options, menu, exit, pause;
+  private Button play, back, options, menu, exit, pause, newGame, load;
   private Button keyUp, keyDown, keyLeft, keyRight, keyAbility;
   private DisplayBar healthBar, manaBar;
   private PImage title = loadImage("/assets/sprites/title.png");
@@ -26,6 +26,10 @@ class GUI {
     exit = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "EXIT");
     back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+    newGame = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "NEW");
+    load = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE, "LOAD");
+    
+    
     
     //-----Settings buttons
     keyUp = new Button(width/2, height/2 - TILE_SIZE * 4, "BLANK_1x1");
@@ -47,9 +51,11 @@ class GUI {
   public void drawMenu() {
     //Draws the main menu
     screen.beginDraw();
+    clearScreen();
     screen.image(title, 0, 0, width, height);
     //screen.background(c);
     play.show(screen);
+    load.show(screen);
     options.show(screen);
     exit.show(screen);
     screen.endDraw();
@@ -126,6 +132,25 @@ class GUI {
     } else {
       inMenu = false;
     }
+    
+  }
+  
+  public void drawDead() {
+    
+    screen.beginDraw();
+    clearScreen();
+    
+    screen.image(title, 0, 0, width, height);
+    
+    play.show(screen);
+    options.show(screen);
+    exit.show(screen);
+    screen.endDraw();
+    image(screen, 0, 0);
+    
+  }
+  
+  public void drawLoad() {
     
   }
 
