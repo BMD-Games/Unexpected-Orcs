@@ -11,7 +11,8 @@ class Engine {
   
   private ArrayList<Drop> drops = new ArrayList<Drop>();  
   
-  private ArrayList<DamageText> text = new ArrayList<DamageText>();
+  private ArrayList<DamageText> damageText = new ArrayList<DamageText>();
+  private ArrayList<CooldownText> cooldownText = new ArrayList<CooldownText>();
   
   public int closestBag = -1;
   private int closestBagDist = (int)Double.POSITIVE_INFINITY;
@@ -47,6 +48,7 @@ class Engine {
     updateDrops(delta, player.x, player.y);
     
     updateDamageText(delta);
+    updateCooldownText(delta);
     
     lastUpdate = millis();
   }
@@ -77,8 +79,12 @@ class Engine {
     
     player.show(screen, getRenderOffset());
 
-    for(int i = text.size() - 1; i >= 0; i --) {
-      text.get(i).show(screen, getRenderOffset());
+    for(int i = damageText.size() - 1; i >= 0; i --) {
+      damageText.get(i).show(screen, getRenderOffset());
+    }
+    
+    for(int i = cooldownText.size() - 1; i >= 0; i --) {
+      cooldownText.get(i).show(screen, getRenderOffset());
     }
     
     screen.endDraw();
@@ -180,9 +186,17 @@ class Engine {
   }
 
   private void updateDamageText(double delta) {
-    for(int i = text.size() - 1; i >= 0; i --) {
-      if(!text.get(i).update(delta)) {
-        text.remove(i);
+    for(int i = damageText.size() - 1; i >= 0; i --) {
+      if(!damageText.get(i).update(delta)) {
+        damageText.remove(i);
+      }
+    }
+  }
+  
+  private void updateCooldownText(double delta) {
+    for(int i = cooldownText.size() - 1; i >= 0; i --) {
+      if(!cooldownText.get(i).update(delta)) {
+        cooldownText.remove(i);
       }
     }
   }
@@ -192,8 +206,11 @@ class Engine {
   }
   
   public void addDamageText(float damage, float xp, float yp, float life) {
-    text.add( new DamageText(damage, xp, yp, life)); 
-    println(damage);
+    damageText.add( new DamageText(damage, xp, yp, life)); 
+  }
+  
+   public void addCooldownText(String cooldown, float xp, float yp, float life) {
+    cooldownText.add( new CooldownText(cooldown, xp, yp, life));
   }
   
   public Item[] getClosestBagItems() {
@@ -227,10 +244,38 @@ class DamageText {
   }
   
   public void show(PGraphics screen, PVector renderOffset) {
-    float a = map(time, 0, life, 255, 0);
+    float a = 255 - (255 * time / life);
     screen.fill(200, 0, 0, a);
     screen.textSize(SPRITE_SIZE);
     screen.text(damage, x * TILE_SIZE - renderOffset.x, (y - (time/life)) * TILE_SIZE - renderOffset.y);
+  }
+  
+}
+
+class CooldownText {
+    
+  float x, y, life, time = 0;
+  String cooldown;
+  
+  CooldownText(String cooldown, float xp, float yp, float lifeTime) {
+    this.cooldown = cooldown;
+    this.life = lifeTime;
+    x = xp;
+    y = yp;
+  }
+  
+  public boolean update(double delta) {
+    time += delta;
+    return time < life;
+  }
+  
+  public void show(PGraphics screen, PVector renderOffset) {
+    
+    float a = 255 - (255 * time / life);
+    screen.fill(0, 0, 200, a);
+    screen.textSize(SPRITE_SIZE);
+    screen.text(cooldown, x * TILE_SIZE - renderOffset.x, (y - (time/life)) * TILE_SIZE - renderOffset.y);
+    
   }
   
 }
