@@ -4,8 +4,12 @@ class Player {
   private float ang;
   private int size = TILE_SIZE/2;
   
-  private PImage sprite;
-  private String[] sprites = {"PLAYER_BACK", "PLAYER_RIGHT", "PLAYER_FRONT", "PLAYER_LEFT"};
+  //private PImage sprite;
+  //private String[] sprites = {"PLAYER_BACK", "PLAYER_RIGHT", "PLAYER_FRONT", "PLAYER_LEFT"};
+  private PImage headSprite;
+  private PImage bodySprite;
+  private String[] headSprites = {"FACE_BACK", "FACE_RIGHT", "FACE_FRONT", "FACE_LEFT"};
+  private String[] bodySprites = {"BODY_FRONT", "BODY_BACK", "BODY_LEFT", "BODY_RIGHT"};
   
   public PlayerStats stats = new PlayerStats();
   
@@ -28,6 +32,7 @@ class Player {
     movement.mult((float)delta * stats.getSpeed());
     x += movement.x; 
     y += movement.y;
+    getMoving(movement);
   }
   
   private float getDX(double delta, int[] neighbours) {
@@ -83,7 +88,10 @@ class Player {
   public void show(PGraphics screen, PVector renderOffset) {
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
-    screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+    //screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+    screen.image(bodySprite, -bodySprite.width * SCALE/2, -bodySprite.height * SCALE/2, bodySprite.width * SCALE, bodySprite.height * SCALE);
+    screen.image(headSprite, -headSprite.width * SCALE/2, -headSprite.height * SCALE/2, headSprite.width * SCALE, headSprite.height * SCALE);
+    
     screen.popMatrix();
   }
   
@@ -103,8 +111,22 @@ class Player {
     float dir = ang + (3 * PI/4);
     while(dir < 0) dir += TAU;
     int face = (int)(dir/(PI/2)) % 4;
-    sprite = charSprites.get(sprites[face]);
+    //sprite = charSprites.get(sprites[face]);
+    headSprite = charSprites.get(headSprites[face]);
     return face;
+  }
+  
+  private void getMoving(PVector direction) {
+    bodySprite = charSprites.get(bodySprites[0]);
+    if(direction.y == 0) {
+      if(direction.x > 0) {
+        bodySprite = charSprites.get(bodySprites[3]);
+      } else if(direction.x < 0) {
+        bodySprite = charSprites.get(bodySprites[2]);
+      } 
+    } else if(direction.y < 0) {
+      bodySprite = charSprites.get(bodySprites[1]);
+    }
   }
   
   public AABB getAABB() {
