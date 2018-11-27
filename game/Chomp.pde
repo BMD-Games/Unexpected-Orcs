@@ -80,22 +80,20 @@
     float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
     x += moveX;
     y += moveY;
-    moveX = sign(moveX);
-    moveY = sign(moveY);
     if(!validPosition(engine.currentLevel, x, y)) {
       if(!validCentre(engine.currentLevel, x, y)) {
         x -= moveX;
         y -= moveY;
       } else {
         if(!validLeft(engine.currentLevel, x, y)) {
-          x += radius;
+          x = floor(x) + radius;
         } else if(!validRight(engine.currentLevel, x, y)) {
-          x -= radius;
+          x = ceil(x) - radius;
         }
         if(!validTop(engine.currentLevel, x, y)) {
-          y += radius;
+          y = floor(y) + radius;
         } else if(!validBottom(engine.currentLevel, x, y)) {
-          y -= radius;
+          y = ceil(y) - radius;
         }
       }
     }
