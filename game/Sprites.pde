@@ -108,6 +108,9 @@ public void loadAssets() {
   int itemSize = 16;
   
   itemSprites.put("SCROLL_1", getSprite(itemsheet, 0, 1, 1, 1, itemSize));
+  itemSprites.put("SCROLL_2", getSprite(itemsheet, 1, 1, 1, 1, itemSize));
+  itemSprites.put("SCROLL_3", getSprite(itemsheet, 2, 1, 1, 1, itemSize));
+  itemSprites.put("SCROLL_4", getSprite(itemsheet, 3, 1, 1, 1, itemSize));
   itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 2, 1, 1, itemSize));
   itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
   itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, itemSize));

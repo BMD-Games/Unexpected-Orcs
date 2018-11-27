@@ -206,6 +206,7 @@ class Engine {
   }
   
   public void addDamageText(float damage, float xp, float yp, float life) {
+    xp += random(-0.1, 0.1);
     damageText.add( new DamageText(damage, xp, yp, life)); 
   }
   
