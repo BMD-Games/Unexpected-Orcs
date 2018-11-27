@@ -112,6 +112,8 @@ public void loadAssets() {
   itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
   itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
   itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
+  itemSprites.put("BOOTS", getSprite(itemsheet, 0, 3, 1, 1, itemSize));
+  itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
   
   //-----DROP SPRITES-----
   PImage dropsheet = loadImage("/assets/sprites/dropsheet.png");

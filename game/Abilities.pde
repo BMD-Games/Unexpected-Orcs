@@ -1,7 +1,7 @@
 class Ability extends Item {
   
-  float cooldown, cooldownTimer = 0;
-  int manaCost;
+  protected float cooldown, cooldownTimer = 0;
+  protected int manaCost;
   
   Ability(String sprite, String name) {
     super(sprite, name);
@@ -21,10 +21,10 @@ class Ability extends Item {
   
 }
 
-class SpeedBuff extends Ability {
+class SwiftBoots extends Ability {
   
-  SpeedBuff() {
-    super("MACHINE_GUN", "SPEEDBUFF");
+  SwiftBoots() {
+    super("BOOTS", "Boots of Swiftness");
     this.cooldown = 4;
     this.manaCost = 60;
   }

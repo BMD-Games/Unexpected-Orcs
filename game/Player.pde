@@ -93,7 +93,7 @@ class Player {
   }
   
   private void ability() {
-    if (keys[ability] == 1) {
+    if (keys[ability] == 1 && inv.currentAbility() != null) {
       inv.currentAbility().buff();
     }
   }

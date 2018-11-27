@@ -12,7 +12,7 @@ class GUI {
 
   //Inventory drag and drop stuff
   private final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
-  private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 7* TILE_SIZE/2;
+  private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 8 * TILE_SIZE/2;
   private boolean prevSelection = false, currSelection = false;
   private int b1Type, b2Type, menuType; // if inv box is in active or not
   private int b1 = -1, b2 = -1, itemOver; //inv box 1 and 2 for drag and swap
@@ -116,6 +116,7 @@ class GUI {
     renderInv();
     renderMiniMap();
     drawCooldown();
+    drawStats();
     screen.endDraw();
     image(screen, 0, 0);
     
@@ -163,6 +164,10 @@ class GUI {
       screen.noStroke();
       screen.arc(invBuff + invX + (invSize + invBuff) + itemOffset + SPRITE_SIZE * invScale/2, invBuff + invY + itemOffset + SPRITE_SIZE * invScale/2, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale, -PI/2, 2 * PI * percentFull - PI/2, PIE);
     }
+  }
+  
+  private void drawStats() {
+    
   }
 
   private void renderMiniMap() {
@@ -332,29 +337,34 @@ class GUI {
   }
 
   void mouseOver(float x, float y, Item item) {
-    screen.textSize(12);
-    screen.fill(100);
+   
+    String desc = "";
     String type = item.type;
     if (type == "Weapon") {
-      screen.rect(x, y, 100, 127);
-      screen.fill(255);
-      screen.text("Fire rate:" + ((Weapon)item).fireRate, x + 5, y + 54);
-      screen.text("Range:" + ((Weapon)item).range, x + 5, y + 71);
-      screen.text("Accuracy:" + ((Weapon)item).accuracy, x + 5, y + 88);
-      screen.text("Damage:" + ((Weapon)item).damage, x + 5, y + 105);
+      desc += "Fire rate:" + ((Weapon)item).fireRate + "\n";
+      desc += "Range:" + ((Weapon)item).range + "\n";
+      desc += "Accuracy:" + ((Weapon)item).accuracy + "\n";
+      desc += "Damage:" + ((Weapon)item).damage + "\n";
     } else if (type == "Ability") {
       screen.rect(x, y, 100, 110);
-      screen.fill(255);
-      screen.text("Ability", x + 5, y + 54);
+      desc += "Does nothing" + "\n";
     } else if (type == "Armour") {
-      screen.rect(x, y, 100, 59);
-      screen.fill(255);
-      screen.text("Defense:" + ((Armour)item).defence, x + 5, y + 54);
+      desc += "Defense:" + ((Armour)item).defence + "\n";
+    } else if (type == "Scroll") {
+      desc += "Does nothing" + "\n";
     }
-    screen.fill(200);
-    screen.text(type, x + 5, y + 37);
     screen.textSize(15);
-    screen.text(item.name, x + 5, y + 20);
+    screen.textAlign(LEFT);
+    int mouseOverWidth = max((int)(screen.textWidth(item.name) + 20), 100), mouseOverHeight = 120;
+    screen.fill(100);
+    screen.rect(x, y, mouseOverWidth, mouseOverHeight);
+    screen.fill(200);
+    screen.text(item.name, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
+    screen.textSize(12);
+    screen.textLeading(12);
+    screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
+    screen.fill(255);
+    screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
   }
 }
 
@@ -392,6 +402,7 @@ class Button extends HUDElement {
 class DisplayBar {
 
   private float x, y, w, h, percentFull;
+  int current, total;
   private color c;
   private HUDElement element;
 
@@ -408,12 +419,17 @@ class DisplayBar {
 
   public void show(PGraphics screen) {
     screen.fill(c);
+    screen.textAlign(CENTER, CENTER);
     screen.noStroke();
     screen.rect(x, y, w * percentFull, h);
+    screen.fill(255);
+    screen.text(current + "/" + total, x + w/2, y + h/2);
     element.show(screen);
   }
 
   public void updateBar(float current, float total) {
+    this.current = (int)current;
+    this.total = (int)total;
     percentFull = current / total;
   }
 }

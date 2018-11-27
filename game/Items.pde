@@ -18,10 +18,13 @@ class Inventory {
   
   Inventory() {
     active[0] = new Sniper();
+    active[1] = new SwiftBoots();
+    active[2] = new LeatherArmour();
+    active[3] = new LitScroll();
+    
     inv[0] = new Pistol();
     inv[1] = new Shotgun();
     inv[2] = new MachineGun();
-    active[1] = new SpeedBuff();
   }
   
   void swapItemsInv(int i, int j) {
