@@ -167,6 +167,17 @@ class GUI {
   }
   
   private void drawStats() {
+    String wisdom = "Wisdom: " + engine.player.stats.wisdom;
+    String vitality = "Vitality: " + engine.player.stats.vitality;
+    String defence = "Defence: " + engine.player.stats.defence;
+    String attack = "Attack: " + engine.player.stats.attack;
+    String speed = "Speed: " + engine.player.stats.speed;
+    String stats = wisdom + " | " + vitality + "\n" + attack + " | " + defence + "\n" + speed;
+    
+    screen.textAlign(LEFT, CENTER);
+    screen.textSize(15);
+    screen.fill(50);
+    screen.text(stats, invBuff * 3, 5 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 7 * TILE_SIZE);
     
   }
 
@@ -347,9 +358,10 @@ class GUI {
       desc += "Damage:" + ((Weapon)item).damage + "\n";
     } else if (type == "Ability") {
       screen.rect(x, y, 100, 110);
-      desc += "Does nothing" + "\n";
+      desc += "Mana cost:" + ((Ability)item).manaCost + "\n";
+      desc += "Cooldown:" + ((Ability)item).cooldown + "s\n";
     } else if (type == "Armour") {
-      desc += "Defense:" + ((Armour)item).defence + "\n";
+      desc += "Defence:" + ((Armour)item).defence + "\n";
     } else if (type == "Scroll") {
       desc += "Does nothing" + "\n";
     }
@@ -419,6 +431,7 @@ class DisplayBar {
 
   public void show(PGraphics screen) {
     screen.fill(c);
+    screen.textSize(15);
     screen.textAlign(CENTER, CENTER);
     screen.noStroke();
     screen.rect(x, y, w * percentFull, h);

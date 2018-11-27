@@ -2,9 +2,9 @@ class Stats {
   private int healthMax = 0, manaMax = 0;
   private float mana = 0, health = 0;
   
-  private int vitality = 0, attack = 0, wisdom = 0, defence = 0;
+  public int vitality = 0, attack = 0, wisdom = 0, defence = 0;
   
-  private float speed = 0, fireTimer = 0;
+  public float speed = 0, fireTimer = 0;
   
   private HashMap<String, Float> statusEffects = new HashMap<String, Float>();
   
