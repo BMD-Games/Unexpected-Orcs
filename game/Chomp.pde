@@ -74,22 +74,72 @@
   public boolean AABBCollides(AABB box){
     return false;
   }
-  
-  private void move(double delta) {
-    x += stats.getSpeed() * cos(angle) * delta;
-    y += stats.getSpeed() * sin(angle) * delta;
+    
+    private void move(double delta) {
+    float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
+    float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
+    x += moveX;
+    y += moveY;
+    if(!validPosition(engine.currentLevel, x, y)) {
+      if(!validCentre(engine.currentLevel, x, y)) {
+        x -= moveX;
+        y -= moveY;
+      } else {
+        if(!validLeft(engine.currentLevel, x, y)) {
+          x = floor(x) + radius;
+        } else if(!validRight(engine.currentLevel, x, y)) {
+          x = ceil(x) - radius;
+        }
+        if(!validTop(engine.currentLevel, x, y)) {
+          y = floor(y) + radius;
+        } else if(!validBottom(engine.currentLevel, x, y)) {
+          y = ceil(y) - radius;
+        }
+      }
+    }
   }
   
+  //Calculates if coordinates mean chomp is not in a wall
+  //Needs level because it's used in setup
   public boolean validPosition(Level level, float xPos, float yPos) {
-    return (level.getTile((int)xPos, (int)yPos) > WALL) &&
+    return validCentre(level, xPos, yPos) &&
         (level.getTile((int)xPos, (int)(yPos + radius)) > WALL) &&
         (level.getTile((int)xPos, (int)(yPos - radius)) > WALL) && 
         (level.getTile((int)(xPos + radius), (int)yPos) > WALL) && 
         (level.getTile((int)(xPos - radius), (int)yPos) > WALL);
   }
   
+  private boolean validCentre(Level level, float xPos, float yPos) {
+    return level.getTile((int)xPos, (int)yPos) > WALL;
+  }
+  
+  private boolean validLeft(Level level, float xPos, float yPos) {
+    return level.getTile((int)(xPos - radius), (int)yPos) > WALL;
+  }
+  
+  private boolean validRight(Level level, float xPos, float yPos) {
+    return level.getTile((int)(xPos + radius), (int)yPos) > WALL;
+  }
+  
+  private boolean validTop(Level level, float xPos, float yPos) {
+    return level.getTile((int)xPos, (int)(yPos - radius)) > WALL;
+  }
+  
+  private boolean validBottom(Level level, float xPos, float yPos) {
+    return level.getTile((int)xPos, (int)(yPos + radius)) > WALL;
+  }
+  
   protected float distanceFrom(float pointX, float pointY) {
     return sqrt(pow(x - pointX, 2) + pow(y - pointY, 2));
+  }
+  
+  protected int sign(float value){
+    if(value < 0) {
+      return -1;
+    } else if(value > 0) {
+      return 1;
+    }
+    return 0;
   }
   
 }
@@ -118,7 +168,6 @@ class BigChomp extends Chomp {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
   }
-  
 }
 
 class BossChomp extends Chomp {
