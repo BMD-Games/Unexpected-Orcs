@@ -1,4 +1,4 @@
- class Chomp implements Enemy {
+class Chomp implements Enemy {
   
   public int tier = 0;
   public float x = 0;
@@ -65,6 +65,7 @@
   public void damage(int amount){
     if(amount > stats.getDefence()) {
       stats.setHealth(stats.getHealth() - (amount - stats.getDefence()));
+      engine.addDamageText(amount - stats.getDefence(), x, y, 0.5);
     }
   }
   

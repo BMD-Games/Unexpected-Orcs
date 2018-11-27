@@ -136,8 +136,8 @@ class PlayerStats extends Stats {
     return value;
   }
   
-  private int calcStatTierValue(int max, float rate, int num) {
-    return (int)(-max * exp(-rate * num) + max); 
+  private float calcStatTierValue(int max, float rate, int num) {
+    return (-max * exp(-rate * num) + max); 
   }
   
   public int getTotalKills() {

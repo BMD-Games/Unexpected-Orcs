@@ -15,7 +15,7 @@ class GUI {
   private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 8 * TILE_SIZE/2;
   private boolean prevSelection = false, currSelection = false;
   private int b1Type, b2Type, menuType; // if inv box is in active or not
-  private int b1 = -1, b2 = -1, itemOver; //inv box 1 and 2 for drag and swap
+  private int b1 = -1, b2 = -1, itemOver, active = 0, inv = 1, bag = 2, out = 3;; //inv box 1 and 2 for drag and swap
   private Item mouseOverItem;
 
   GUI() {
@@ -88,8 +88,9 @@ class GUI {
 
   public void drawPaused() {
     //Draws the paused overlay
+    drawUnpaused(engine.player);
     screen.beginDraw();
-    clearScreen();
+    //clearScreen();
     screen.fill(0, 100);
     screen.rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
     menu.show(screen);
@@ -172,14 +173,16 @@ class GUI {
     String defence = "Defence: " + engine.player.stats.defence;
     String attack = "Attack: " + engine.player.stats.attack;
     String speed = "Speed: " + engine.player.stats.speed;
-    String stats = wisdom + " | " + vitality + "\n" + attack + " | " + defence + "\n" + speed;
+    String stats = wisdom + " \t| " + vitality + "\n" + attack + " \t| " + defence + "\n" + speed;
     
-    screen.textAlign(LEFT, CENTER);
+    screen.textAlign(LEFT);
     screen.textSize(15);
     screen.fill(50);
-    screen.text(stats, invBuff * 3, 5 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 7 * TILE_SIZE);
+    screen.text(stats, invBuff * 3, 5 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 5 * TILE_SIZE);
     
   }
+
+
 
   private void renderMiniMap() {
     
@@ -446,5 +449,3 @@ class DisplayBar {
     percentFull = current / total;
   }
 }
-
-int active = 0, inv = 1, bag = 2, out = 3;
