@@ -5,6 +5,7 @@
   public float y = 0;
   
   private float angle;
+  private float attackWait;
   
   protected Stats stats;
   protected PImage sprite;
@@ -15,6 +16,7 @@
     this.x = x;
     this.y = y;
     radius = 0.25;
+    attackWait = 0;
     if(random(2) < 1) {
       sprite = charSprites.get("CHOMP_WHITE_SMALL");
     } else {
@@ -32,7 +34,12 @@
     //If player in range attack.
     if(distanceFrom(playerX, playerY) < 6) {
       angle = atan2(playerY - y, playerX - x);
-      move(delta);
+      attackWait += delta;
+      if(distanceFrom(playerX, playerY) < radius) {
+        attack();
+      } else {
+        move(delta);
+      }
     }
     
     //Return true if chomp is alive
@@ -58,6 +65,13 @@
   public void damage(int amount){
     if(amount > stats.getDefence()) {
       stats.setHealth(stats.getHealth() - (amount - stats.getDefence()));
+    }
+  }
+  
+  private void attack() {
+    if(attackWait > 1) {
+      attackWait = 0;
+      engine.player.damage(stats.getAttack() * 2);
     }
   }
   
