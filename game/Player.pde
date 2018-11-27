@@ -4,6 +4,8 @@ class Player {
   private float ang;
   private int size = TILE_SIZE/2;
   
+  private float cooldown, cooldownTimer = 0, textTimer;
+  
   //private PImage sprite;
   //private String[] sprites = {"PLAYER_BACK", "PLAYER_RIGHT", "PLAYER_FRONT", "PLAYER_LEFT"};
   private PImage headSprite;
@@ -73,8 +75,9 @@ class Player {
     ang = atan2(mouseY - height/2, mouseX - (width/2 + GUI_WIDTH/2));
 
     if (inv.active[1] != null ){
-      inv.currentAbility().updateCooldown(delta);
+      updateCooldown(delta);
     }
+    println(cooldownTimer);
     
     ability();
     getFacing();
@@ -102,8 +105,20 @@ class Player {
   
   private void ability() {
     if (keys[ability] == 1 && inv.currentAbility() != null) {
-      inv.currentAbility().buff();
+      inv.currentAbility().ability();
+      inv.currentAbility().makeText();
     }
+  }
+  
+  public void updateCooldown(double delta) {
+    
+    cooldownTimer -= delta;
+    textTimer += delta;
+    
+  }
+  
+  public float getPercentCooldown() {
+    return cooldownTimer/inv.currentAbility().cooldown;
   }
   
   private int getFacing() {

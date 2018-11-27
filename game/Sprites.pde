@@ -117,6 +117,7 @@ public void loadAssets() {
   itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
   itemSprites.put("BOOTS", getSprite(itemsheet, 0, 3, 1, 1, itemSize));
   itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
+  itemSprites.put("FIREBOMB", getSprite(itemsheet, 1, 3, 1, 1, itemSize));
   
   //-----DROP SPRITES-----
   PImage dropsheet = loadImage("/assets/sprites/dropsheet.png");
@@ -178,6 +179,7 @@ public void loadAssets() {
   projectileSprites.put("SNIPER", getSprite(bulletsheet, 0, 0, 1, 1, bulletSize));
   projectileSprites.put("PISTOL", getSprite(bulletsheet, 1, 0, 1, 1, bulletSize));
   projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, bulletSize));
+  projectileSprites.put("FIREBALL", getSprite(bulletsheet, 3, 0, 1, 1, bulletSize));
   
   cursor(guiSprites.get("CURSOR"));
   assetsLoaded = true;

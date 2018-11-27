@@ -13,6 +13,7 @@ class Engine {
   
   private ArrayList<DamageText> damageText = new ArrayList<DamageText>();
   private ArrayList<CooldownText> cooldownText = new ArrayList<CooldownText>();
+  private ArrayList<Text> text = new ArrayList<Text>();
   
   public int closestBag = -1;
   private int closestBagDist = (int)Double.POSITIVE_INFINITY;
