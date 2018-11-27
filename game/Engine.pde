@@ -279,3 +279,33 @@ class CooldownText {
   }
   
 }
+
+class Text {
+  
+  float x, y, life, time = 0;
+  String message;
+  color c;
+  
+  Text(String message, float xp, float yp, float lifeTime, color c) {
+    this.message = message;
+    this.life = lifeTime;
+    x = xp;
+    y = yp;
+    this.c = c;
+  }
+  
+  public boolean update(double delta) {
+    time += delta;
+    return time < life;
+  }
+  
+  public void show(PGraphics screen, PVector renderOffset) {
+    
+    float a = 255 - (255 * time / life);
+    screen.fill(red(c), green(c), blue(c), a);
+    screen.textSize(SPRITE_SIZE);
+    screen.text(message, x * TILE_SIZE - renderOffset.x, (y - (time/life)) * TILE_SIZE - renderOffset.y);
+    
+  }
+  
+}

@@ -32,6 +32,13 @@ class SwiftBoots extends Ability {
   
   @Override
   public void buff() {
+    
+    if (manaCost > engine.player.stats.getMana() && textTimer >= 0.5){
+      String cooldownText = "Not Enough Mana";
+      engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+      textTimer = 0;
+    }
+    
     if (cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       cooldownTimer = cooldown;
       engine.player.stats.addStatusEffect("SPEEDY", 3);
@@ -40,7 +47,7 @@ class SwiftBoots extends Ability {
       engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
       textTimer = 0;
     } else {
-      if (textTimer >= 0.5) {
+      if (textTimer >= 0.5 && manaCost < engine.player.stats.getMana()) {
         String cooldownText = "";
         cooldownText = String.format("%.3gs%n", cooldownTimer);
         engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
