@@ -186,7 +186,7 @@ class GUI {
   private void drawCooldown(){
     if (engine.player.inv.currentAbility() != null ) {
       float percentFull = engine.player.inv.currentAbility().getPercentCooldown();
-      screen.fill(0, 50);
+      screen.fill(0, 100);
       screen.noStroke();
       screen.arc(invBuff + invX + (invSize + invBuff) + itemOffset + SPRITE_SIZE * invScale/2, invBuff + invY + itemOffset + SPRITE_SIZE * invScale/2, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale, -PI/2, 2 * PI * percentFull - PI/2, PIE);
     }
