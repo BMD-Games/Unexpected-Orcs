@@ -3,7 +3,7 @@ class GUI {
    This class is used for drawing and handeling all UI related screens and elements  
    **/
 
-  private Button play, back, options, menu, exit, pause;
+  private Button play, back, options, menu, exit, pause, newGame, load;
   private Button keyUp, keyDown, keyLeft, keyRight, keyAbility;
   private DisplayBar healthBar, manaBar;
   private PImage title = loadImage("/assets/sprites/title.png");
@@ -15,7 +15,7 @@ class GUI {
   private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 8 * TILE_SIZE/2;
   private boolean prevSelection = false, currSelection = false;
   private int b1Type, b2Type, menuType; // if inv box is in active or not
-  private int b1 = -1, b2 = -1, itemOver; //inv box 1 and 2 for drag and swap
+  private int b1 = -1, b2 = -1, itemOver, active = 0, inv = 1, bag = 2, out = 3;; //inv box 1 and 2 for drag and swap
   private Item mouseOverItem;
 
   GUI() {
@@ -26,6 +26,10 @@ class GUI {
     exit = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "EXIT");
     back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+    newGame = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "NEW");
+    load = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE, "LOAD");
+    
+    
     
     //-----Settings buttons
     keyUp = new Button(width/2, height/2 - TILE_SIZE * 4, "BLANK_1x1");
@@ -47,9 +51,11 @@ class GUI {
   public void drawMenu() {
     //Draws the main menu
     screen.beginDraw();
+    clearScreen();
     screen.image(title, 0, 0, width, height);
     //screen.background(c);
     play.show(screen);
+    load.show(screen);
     options.show(screen);
     exit.show(screen);
     screen.endDraw();
@@ -88,8 +94,9 @@ class GUI {
 
   public void drawPaused() {
     //Draws the paused overlay
+    drawUnpaused(engine.player);
     screen.beginDraw();
-    clearScreen();
+    //clearScreen();
     screen.fill(0, 100);
     screen.rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
     menu.show(screen);
@@ -125,6 +132,25 @@ class GUI {
     } else {
       inMenu = false;
     }
+    
+  }
+  
+  public void drawDead() {
+    
+    screen.beginDraw();
+    clearScreen();
+    
+    screen.image(title, 0, 0, width, height);
+    
+    play.show(screen);
+    options.show(screen);
+    exit.show(screen);
+    screen.endDraw();
+    image(screen, 0, 0);
+    
+  }
+  
+  public void drawLoad() {
     
   }
 
@@ -172,14 +198,16 @@ class GUI {
     String defence = "Defence: " + engine.player.stats.defence;
     String attack = "Attack: " + engine.player.stats.attack;
     String speed = "Speed: " + engine.player.stats.speed;
-    String stats = wisdom + " | " + vitality + "\n" + attack + " | " + defence + "\n" + speed;
+    String stats = wisdom + " \t| " + vitality + "\n" + attack + " \t| " + defence + "\n" + speed;
     
-    screen.textAlign(LEFT, CENTER);
+    screen.textAlign(LEFT);
     screen.textSize(15);
     screen.fill(50);
-    screen.text(stats, invBuff * 3, 5 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 7 * TILE_SIZE);
+    screen.text(stats, invBuff * 3, 5 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 5 * TILE_SIZE);
     
   }
+
+
 
   private void renderMiniMap() {
     
@@ -446,5 +474,3 @@ class DisplayBar {
     percentFull = current / total;
   }
 }
-
-int active = 0, inv = 1, bag = 2, out = 3;
