@@ -9,7 +9,9 @@ class Engine {
   private ArrayList<Projectile> enemyProjectiles = new ArrayList<Projectile>();
   private ArrayList<Projectile> playerProjectiles = new ArrayList<Projectile>();
   
-  private ArrayList<Drop> drops = new ArrayList<Drop>();
+  private ArrayList<Drop> drops = new ArrayList<Drop>();  
+  
+  private ArrayList<DamageText> text = new ArrayList<DamageText>();
   
   public int closestBag = -1;
   private int closestBagDist = (int)Double.POSITIVE_INFINITY;
@@ -44,6 +46,8 @@ class Engine {
     updateEnemies(delta, player.x, player.y);
     updateDrops(delta, player.x, player.y);
     
+    updateDamageText(delta);
+    
     lastUpdate = millis();
   }
   
@@ -72,6 +76,10 @@ class Engine {
     }
     
     player.show(screen, getRenderOffset());
+
+    for(int i = text.size() - 1; i >= 0; i --) {
+      text.get(i).show(screen, getRenderOffset());
+    }
     
     screen.endDraw();
     image(screen, GUI_WIDTH, 0);
@@ -171,8 +179,21 @@ class Engine {
     }
   }
 
+  private void updateDamageText(double delta) {
+    for(int i = text.size() - 1; i >= 0; i --) {
+      if(!text.get(i).update(delta)) {
+        text.remove(i);
+      }
+    }
+  }
+
   public void addDrop(Drop drop) {
     drops.add(drop); 
+  }
+  
+  public void addDamageText(float damage, float xp, float yp, float life) {
+    text.add( new DamageText(damage, xp, yp, life)); 
+    println(damage);
   }
   
   public Item[] getClosestBagItems() {
@@ -183,6 +204,33 @@ class Engine {
   public ItemBag getClosestBag() {
     if(closestBag >= 0) try { return (ItemBag)drops.get(closestBag); } catch(Exception e) { return null; }
     return null;
+  }
+  
+}
+
+
+class DamageText {
+
+  int damage;
+  float x, y, life, time = 0;
+  
+  DamageText(float damage, float xp, float yp, float lifeTime) {
+    this.damage = (int) damage;
+    this.life = lifeTime;
+    x = xp;
+    y = yp;
+  }
+  
+  public boolean update(double delta) {
+    time += delta;    
+    return time < life;
+  }
+  
+  public void show(PGraphics screen, PVector renderOffset) {
+    float a = map(time, 0, life, 255, 0);
+    screen.fill(200, 0, 0, a);
+    screen.textSize(SPRITE_SIZE);
+    screen.text(damage, x * TILE_SIZE - renderOffset.x, (y - (time/life)) * TILE_SIZE - renderOffset.y);
   }
   
 }

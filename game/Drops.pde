@@ -43,7 +43,7 @@ class StatOrb extends Drop {
   int tier;
   float pickUpRadius = 0.3;
   
-  float vel = 0, acc = 2;
+  float vel = 0, acc = 2.5;
   
   StatOrb(float x, float y, int tier, String stat) {
     super(x, y, 3, 10);

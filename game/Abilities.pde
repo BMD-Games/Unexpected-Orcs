@@ -26,7 +26,7 @@ class SwiftBoots extends Ability {
   SwiftBoots() {
     super("BOOTS", "Boots of Swiftness");
     this.cooldown = 4;
-    this.manaCost = 60;
+    this.manaCost = 30;
   }
   
   @Override
