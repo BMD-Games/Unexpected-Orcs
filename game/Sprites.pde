@@ -151,6 +151,16 @@ public void loadAssets() {
   charSprites.put("PLAYER_LEFT", getSprite(charsheet, 6, 1, 1, 1, charSize));
   charSprites.put("PLAYER_RIGHT", getSprite(charsheet, 7, 1, 1, 1, charSize));
   
+  charSprites.put("FACE_FRONT", getSprite(charsheet, 8, 0, 1, 1, charSize));
+  charSprites.put("FACE_BACK", getSprite(charsheet, 9, 0, 1, 1, charSize));
+  charSprites.put("FACE_LEFT", getSprite(charsheet, 8, 1, 1, 1, charSize));
+  charSprites.put("FACE_RIGHT", getSprite(charsheet, 9, 1, 1, 1, charSize));
+  
+  charSprites.put("BODY_FRONT", getSprite(charsheet, 10, 0, 1, 1, charSize));
+  charSprites.put("BODY_BACK", getSprite(charsheet, 11, 0, 1, 1, charSize));
+  charSprites.put("BODY_LEFT", getSprite(charsheet, 10, 1, 1, 1, charSize));
+  charSprites.put("BODY_RIGHT", getSprite(charsheet, 11, 1, 1, 1, charSize));
+  
   //Load chomp sprites
   charSprites.put("CHOMP_WHITE_SMALL", getSprite(charsheet, 4, 0, 1, 1, charSize));
   charSprites.put("CHOMP_BLACK_SMALL", getSprite(charsheet, 5, 0, 1, 1, charSize));
