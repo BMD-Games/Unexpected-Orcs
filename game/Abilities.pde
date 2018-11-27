@@ -2,10 +2,12 @@ class Ability extends Item {
   
   protected int manaCost;
   float cooldown;
+  String useText;
   
-  Ability(String sprite, String name) {
+  Ability(String sprite, String name, String useText) {
     super(sprite, name);
     this.type = "Ability";
+    this.useText = useText;
   }
   
   public void makeText() {
@@ -40,7 +42,7 @@ class Ability extends Item {
 class SwiftBoots extends Ability {
   
   SwiftBoots() {
-    super("BOOTS", "Boots of Swiftness");
+    super("BOOTS", "Boots of Swiftness", "Speed Buff");
     this.cooldown = 4;
     this.manaCost = 30;
   }
@@ -58,8 +60,8 @@ class SwiftBoots extends Ability {
 class FireBomb extends Ability {
   
   FireBomb() {
-    super("FIREBOMB", "Fire Bomb");
-    this.cooldown = 4;
+    super("FIREBOMB", "Fire Bomb", "Fire Bomb");
+    this.cooldown = 0.5;
     this.manaCost = 30;
   }
   
