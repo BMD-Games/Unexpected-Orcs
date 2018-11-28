@@ -13,23 +13,21 @@ class Ability extends Item {
   public void makeText() {
     
     if (manaCost > engine.player.stats.getMana() && engine.player.textTimer >= 0.5){
-      String cooldownText = "Not Enough Mana";
-      engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+      String cooldownText = "Low Mana";
+      engine.addText(cooldownText, engine.player.x, engine.player.y, 0.5, color(0, 0, 200));
       engine.player.textTimer = 0;
     }
     
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       engine.player.cooldownTimer = cooldown;
-      
-      engine.player.stats.setMana(engine.player.stats.getMana() - manaCost);
-      String cooldownText = "Speed Buff";
-      engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+      engine.player.stats.mana -= manaCost;
+      engine.addText(useText, engine.player.x, engine.player.y, 0.5, color(0, 0, 200));
       engine.player.textTimer = 0;
     } else {
       if (engine.player.textTimer >= 0.5 && manaCost < engine.player.stats.getMana()) {
         String cooldownText = "";
         cooldownText = String.format("%.3gs%n", engine.player.cooldownTimer);
-        engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+        engine.addText(cooldownText, engine.player.x, engine.player.y, 0.5, color(0,0,200));
         engine.player.textTimer = 0;
       }
     }

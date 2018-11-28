@@ -67,7 +67,7 @@ class Player {
   
   public void damage(int amount){
     if(amount > stats.getDefence()) {
-      stats.setHealth(stats.getHealth() - (amount - stats.getDefence()));
+      stats.health -= amount - stats.getDefence();
     }
   }
   
