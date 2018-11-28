@@ -9,6 +9,13 @@ class GUI {
   private PImage title = loadImage("/assets/sprites/title.png");
   private PGraphics screen;
   private color c = 100;
+  
+  //Stat sprites
+  private PImage attackSprite = itemSprites.get("ATTACK_ICON");
+  private PImage defenceSprite = itemSprites.get("DEFENCE_ICON");
+  private PImage vitalitySprite = itemSprites.get("VITALITY_ICON");
+  private PImage wisdomSprite = itemSprites.get("WISDOM_ICON");
+  private PImage speedSprite = itemSprites.get("SPEED_ICON");
 
   //Inventory drag and drop stuff
   private final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
@@ -195,7 +202,7 @@ class GUI {
   }
   
   private void drawStats() {
-    String wisdom = "Wisdom: " + engine.player.stats.wisdom;
+    /*String wisdom = "Wisdom: " + engine.player.stats.wisdom;
     String vitality = "Vitality: " + engine.player.stats.vitality;
     String defence = "Defence: " + engine.player.stats.defence;
     String attack = "Attack: " + engine.player.stats.attack;
@@ -205,8 +212,27 @@ class GUI {
     screen.textAlign(LEFT);
     screen.textSize(15);
     screen.fill(50);
-    screen.text(stats, invBuff * 3, 5 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 5 * TILE_SIZE);
+    screen.text(stats, invBuff * 3, 5 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 5 * TILE_SIZE);*/
     
+    screen.pushMatrix();
+    screen.scale(2);    
+    
+    screen.textAlign(LEFT);
+    screen.textSize(12);
+    screen.fill(30);
+    
+    screen.text(engine.player.stats.attack, GUI_WIDTH * 2 / 10 - TILE_SIZE / 16, TILE_SIZE * 5 / 4 + 2);
+    screen.text(engine.player.stats.defence, GUI_WIDTH * 4 / 10 - TILE_SIZE / 16, TILE_SIZE * 5 / 4 + 2);
+    screen.text(engine.player.stats.vitality, GUI_WIDTH * 2 / 10 - TILE_SIZE / 16, TILE_SIZE * 6 / 4 + 5);
+    screen.text(engine.player.stats.wisdom, GUI_WIDTH * 4 / 10 - TILE_SIZE / 16, TILE_SIZE * 6 / 4 + 5);
+    screen.text((int)(engine.player.stats.speed * 100), GUI_WIDTH * 2 / 10 - TILE_SIZE / 16, TILE_SIZE * 7 / 4 + 8);
+    
+    screen.image(attackSprite, GUI_WIDTH / 10 - TILE_SIZE / 16, TILE_SIZE + 4);
+    screen.image(defenceSprite, GUI_WIDTH * 3 / 10 - TILE_SIZE / 16, TILE_SIZE + 4 );
+    screen.image(vitalitySprite, GUI_WIDTH / 10 - TILE_SIZE / 16, TILE_SIZE * 5 / 4 + 8);
+    screen.image(wisdomSprite, GUI_WIDTH * 3 / 10 - TILE_SIZE / 16, TILE_SIZE * 5 / 4 + 8);
+    screen.image(speedSprite, GUI_WIDTH / 10 - TILE_SIZE / 16, TILE_SIZE * 3 / 2 + 12);
+    screen.popMatrix();
   }
 
 

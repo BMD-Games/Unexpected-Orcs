@@ -107,14 +107,26 @@ public void loadAssets() {
   PImage itemsheet = loadImage("/assets/sprites/itemsheet.png");
   int itemSize = 16;
   
+  //Stats
+  itemSprites.put("SPEED_ICON", getSprite(itemsheet, 0, 0, 1, 1, itemSize));
+  itemSprites.put("DEFENCE_ICON", getSprite(itemsheet, 1, 0, 1, 1, itemSize));
+  itemSprites.put("ATTACK_ICON", getSprite(itemsheet, 2, 0, 1, 1, itemSize));
+  itemSprites.put("VITALITY_ICON", getSprite(itemsheet, 3, 0, 1, 1, itemSize));
+  itemSprites.put("WISDOM_ICON", getSprite(itemsheet, 4, 0, 1, 1, itemSize));
+  
+  //Scrolls
   itemSprites.put("SCROLL_1", getSprite(itemsheet, 0, 1, 1, 1, itemSize));
   itemSprites.put("SCROLL_2", getSprite(itemsheet, 1, 1, 1, 1, itemSize));
   itemSprites.put("SCROLL_3", getSprite(itemsheet, 2, 1, 1, 1, itemSize));
   itemSprites.put("SCROLL_4", getSprite(itemsheet, 3, 1, 1, 1, itemSize));
+  
+  //Weapons
   itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 2, 1, 1, itemSize));
   itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
   itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
   itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
+  
+  //Armour and abilities
   itemSprites.put("BOOTS", getSprite(itemsheet, 0, 3, 1, 1, itemSize));
   itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
   itemSprites.put("FIREBOMB", getSprite(itemsheet, 1, 3, 1, 1, itemSize));
