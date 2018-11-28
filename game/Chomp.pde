@@ -1,8 +1,8 @@
-class Chomp extends MeleeEnemy implements Enemy {
+class Chomp extends StandardEnemy implements Enemy {
   
-  public int tier = 0;
-  public float x = 0;
-  public float y = 0;
+  //public int tier = 0;
+  //public float x = 0;
+  //public float y = 0;
   
   private float angle;
   private float attackWait;

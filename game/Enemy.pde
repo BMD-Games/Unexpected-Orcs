@@ -1,9 +1,5 @@
 public interface Enemy {
   
-  public int tier = 0;
-  public float x = 0;
-  public float y = 0;
-  
   /* Enemies need to update on tics */
   public boolean update(double delta, float playerX, float playerY);
   
@@ -27,7 +23,7 @@ public interface Enemy {
   
 }
 
-abstract class StandardEnemy {
+abstract class StandardEnemy implements Enemy {
   
   public int tier;
   public float x;
@@ -59,7 +55,6 @@ abstract class StandardEnemy {
       stats.health -= damage;
       engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0 , 0));
     }
-    
   }
   
   /* Checks collision with point */
@@ -78,7 +73,7 @@ abstract class StandardEnemy {
   }
 }
 
-abstract class MeleeEnemy extends StandardEnemy {
+abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   
   public MeleeEnemy(float x, float y, int tier) {
     super(x, y, tier);
