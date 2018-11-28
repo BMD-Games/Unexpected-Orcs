@@ -1,6 +1,6 @@
 class Stats {
-  private int healthMax = 0, manaMax = 0;
-  private float mana = 0, health = 0;
+  public int healthMax = 0, manaMax = 0;
+  public float mana = 0, health = 0;
   
   public int vitality = 0, attack = 0, wisdom = 0, defence = 0;
   
@@ -19,13 +19,13 @@ class Stats {
       }
     }
     
-    if(getHealth() < getHealthMax()) {
-      setHealth((health + (float)(getVitality() * delta)));
+    if(health < healthMax) {
+      health = health + (float)(getVitality() * delta);
     }
-    if(getMana() < getManaMax()) {
-      setMana(mana + (float)(getWisdom() * delta));
+    if(mana < manaMax) {
+      mana = mana + (float)(getWisdom() * delta);
     }
-    setFireTimer((float)(getFireTimer() + delta));
+    fireTimer = (float)(getFireTimer() + delta);
   }
   
   public void addStatusEffect(String name, float duration) {
@@ -42,19 +42,7 @@ class Stats {
   public int getWisdom() { return (statusEffects.containsKey("DUMB") ? 0 : statusEffects.containsKey("SMART") ? wisdom * 2 : wisdom); }
   public int getDefence() { return (statusEffects.containsKey("ARMOURBREAK") ? 0 : statusEffects.containsKey("STRONG") ? defence * 2 : defence); }
   public float getFireTimer() { return (statusEffects.containsKey("DAZED") ? fireTimer/2 : statusEffects.containsKey("BEZERK") ? fireTimer * 2 : fireTimer); }
-  public float getSpeed() { return (statusEffects.containsKey("SLOWED") ? speed/2 : statusEffects.containsKey("SPEEDY") ? speed * 2 : speed); }
-  
-  public void setHealth(float value) { health = value; }
-  public void setHealthMax(int value) { healthMax = value; }
-  public void setMana(float value) { mana = value; }
-  public void setManaMax(int value) { manaMax = value; }
-  public void setVitality(int value) { vitality = value; }
-  public void setAttack(int value) { attack = value; }
-  public void setWisdom(int value) { wisdom = value; }
-  public void setDefence(int value) { defence = value; }
-  public void setFireTimer(float value) { fireTimer = value; }
-  public void setSpeed(float value) { speed = value; }
-  
+  public float getSpeed() { return (statusEffects.containsKey("SLOWED") ? speed/2 : statusEffects.containsKey("SPEEDY") ? speed * 2 : speed); }  
 }
 
 class PlayerStats extends Stats {
@@ -76,8 +64,8 @@ class PlayerStats extends Stats {
   private int totalKills = 0;
   
   PlayerStats() {
-    setHealth(baseHealth);
-    setMana(baseMana);
+    health = baseHealth;
+    mana = baseMana;
     calcAllStats();
   }
   
@@ -89,43 +77,43 @@ class PlayerStats extends Stats {
     switch(stat) {
       case("HEALTH"):
         healthKills.put(tier, healthKills.getOrDefault(tier, 0) + 1);
-        setHealthMax(calcStatValue(healthKills, baseHealth, 5, 0.5));
+        healthMax = calcStatValue(healthKills, baseHealth, 5, 0.5);
         break;
       case("MANA"):
         manaKills.put(tier, manaKills.getOrDefault(tier, 0) + 1);
-        setManaMax(calcStatValue(manaKills, baseMana, 5, 0.2));
+        manaMax = calcStatValue(manaKills, baseMana, 5, 0.2);
         break;
       case("VITALITY"):
         vitalityKills.put(tier, vitalityKills.getOrDefault(tier, 0) + 1);
-        setVitality(calcStatValue(vitalityKills, baseVitality, 1, 0.1));
+        vitality = calcStatValue(vitalityKills, baseVitality, 1, 0.1);
         break;
       case("ATTACK"):
         attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
-        setAttack(calcStatValue(attackKills, baseAttack, 1, 0.1));
+        attack = calcStatValue(attackKills, baseAttack, 1, 0.1);
         break;
       case("WISDOM"):
         wisdomKills.put(tier, wisdomKills.getOrDefault(tier, 0) + 1);
-        setWisdom(calcStatValue(wisdomKills, baseWisdom, 1, 0.1));
+        wisdom = calcStatValue(wisdomKills, baseWisdom, 1, 0.1);
         break;
       case("DEFENCE"):
         defenceKills.put(tier, defenceKills.getOrDefault(tier, 0) + 1);
-        setDefence(calcStatValue(defenceKills, baseDefence, 1, 0.1));
+        defence = calcStatValue(defenceKills, baseDefence, 1, 0.1);
         break;
       case("SPEED"):
         speedKills.put(tier, speedKills.getOrDefault(tier, 0) + 1);
-        setSpeed(calcStatValue(speedKills, baseSpeed, 1, 0.1));
+        speed = calcStatValue(speedKills, baseSpeed, 1, 0.1);
         break;
     }
   }  
   
   private void calcAllStats() {
-    setHealthMax(calcStatValue(healthKills, baseHealth, 5, 0.5));
-    setManaMax(calcStatValue(manaKills, baseMana, 5, 0.2));
-    setVitality(calcStatValue(vitalityKills, baseVitality, 1, 0.1));
-    setAttack(calcStatValue(attackKills, baseAttack, 1, 0.1));
-    setWisdom(calcStatValue(wisdomKills, baseWisdom, 1, 0.1));
-    setDefence(calcStatValue(defenceKills, baseDefence, 1, 0.1));
-    setSpeed(calcStatValue(speedKills, baseSpeed, 1, 0.1));
+    healthMax = calcStatValue(healthKills, baseHealth, 5, 0.5);
+    manaMax = calcStatValue(manaKills, baseMana, 5, 0.2);
+    vitality = calcStatValue(vitalityKills, baseVitality, 1, 0.1);
+    attack = calcStatValue(attackKills, baseAttack, 1, 0.1);
+    wisdom = calcStatValue(wisdomKills, baseWisdom, 1, 0.1);
+    defence = calcStatValue(defenceKills, baseDefence, 1, 0.1);
+    speed = calcStatValue(speedKills, baseSpeed, 1, 0.1);
   }
   
   private int calcStatValue(HashMap<Integer, Integer> stat, float base, int max, float rate) {

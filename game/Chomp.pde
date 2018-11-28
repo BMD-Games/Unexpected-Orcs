@@ -23,10 +23,10 @@ class Chomp implements Enemy {
       sprite = charSprites.get("CHOMP_BLACK_SMALL");
     }
     stats = new Stats();
-    stats.setHealth(14 * tier);
-    stats.setAttack(5 * tier);
-    stats.setSpeed(1.3 * tier);
-    stats.setDefence(1 * tier);
+    stats.health = 14 * tier;
+    stats.attack = 5 * tier;
+    stats.speed = 1.3 * tier;
+    stats.defence = 2 * tier;
   }
   
   /* Enemies need to update on tics */
@@ -63,8 +63,8 @@ class Chomp implements Enemy {
   
   /* This mob takes damage */
   public void damage(int amount){
-    if(amount > stats.getDefence()) {
-      stats.setHealth(stats.getHealth() - (amount - stats.getDefence()));
+    if(amount > stats.defence) {
+      stats.health -= amount - stats.defence;
     }
     engine.addDamageText(amount > stats.getDefence() ? amount - stats.getDefence() : 0, x, y - radius, 0.5);
   }
@@ -72,7 +72,7 @@ class Chomp implements Enemy {
   private void attack() {
     if(attackWait > 1) {
       attackWait = 0;
-      engine.player.damage(stats.getAttack() * 2);
+      engine.player.damage(stats.attack * 2);
     }
   }
   
@@ -169,10 +169,10 @@ class BigChomp extends Chomp {
     } else {
       sprite = charSprites.get("CHOMP_BLACK");
     }
-    stats.setHealth(25 * tier);
-    stats.setAttack(11 * tier);
-    stats.setSpeed(1.2 * tier);
-    stats.setDefence(3 * tier); 
+    stats.health = 25 * tier;
+    stats.attack = 11 * tier;
+    stats.speed = 1.2 * tier;
+    stats.defence = 3 * tier; 
   }
   
   /* Checks collision with point */
@@ -191,10 +191,10 @@ class BossChomp extends Chomp {
     super(x, y, tier);
     radius = 1;
     sprite = charSprites.get("CHOMP_BOSS");
-    stats.setHealth(45 * tier);
-    stats.setAttack(20 * tier);
-    stats.setSpeed(1.1 * tier);
-    stats.setDefence(8 * tier); 
+    stats.health = 45 * tier;
+    stats.attack = 20 * tier;
+    stats.speed = 1.1 * tier;
+    stats.defence = 8 * tier; 
   }
   
   /* Checks collision with point */

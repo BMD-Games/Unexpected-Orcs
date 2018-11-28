@@ -110,7 +110,7 @@ class Engine {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
               weapon.bulletSpeed, weapon.range, weapon.damage + player.stats.getAttack(), weapon.bulletSprite));
         }
-        player.stats.setFireTimer(0);
+        player.stats.fireTimer = 0;
       } 
     }
   }

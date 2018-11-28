@@ -3,7 +3,6 @@ public interface Enemy {
   public int tier = 0;
   public float x = 0;
   public float y = 0;
-  public int health = 1;
   
   /* Enemies need to update on tics */
   public boolean update(double delta, float playerX, float playerY);
