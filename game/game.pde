@@ -1,5 +1,4 @@
 import java.util.Map;
-import java.util.PriorityQueue;
 
 HashMap<Integer, PImage> tileSprites;
 HashMap<String, PImage> itemSprites;

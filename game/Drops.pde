@@ -16,10 +16,8 @@ class Drop {
   public boolean update(double delta, float px, float py) {
     lifeTime -= delta;
     if(lifeTime <= fadeTime) alpha = (int)map(lifeTime, fadeTime, 0, 255, 0);
-    return extraUpdate(delta, px, py) && (lifeTime > 0) && alive;
+    return (lifeTime > 0) && alive;
   }
-  
-  protected boolean extraUpdate(double delta, float px, float py) { return true; }
   
   public void show(PGraphics screen, PVector renderOffset) {
     screen.tint(255, 255, 255, alpha);
@@ -39,11 +37,12 @@ class Drop {
 
 class StatOrb extends Drop {
   
-  String stat;
-  int tier;
-  float pickUpRadius = 0.3;
+  private String stat;
+  private int tier;
+  private float pickUpRadius = 0.3;
   
-  float vel = 0, acc = 2.5;
+  private boolean playerWasInRange = false;
+  private float vel = 0, acc = 2.5;
   
   StatOrb(float x, float y, int tier, String stat) {
     super(x, y, 3, 10);
@@ -54,11 +53,15 @@ class StatOrb extends Drop {
   
   
   @Override
-  protected boolean extraUpdate(double delta, float px, float py) {
+  public boolean update(double delta, float px, float py) {
+    boolean up = super.update(delta, px, py);
     if(getDist(px, py) < pickUpRadius) {
       engine.player.stats.addOrbStat(stat, tier);
       return false;
     } else if(inRange(px, py)) { //engine.currentLevel.canSee((int)x, (int)y, (int)px, (int)py) && 
+      playerWasInRange = true;
+    }
+    if(playerWasInRange) {
       PVector dir = new PVector(px - x, py - y).normalize();
       dir.mult((float)(vel * delta));
       x += dir.x;
@@ -68,7 +71,7 @@ class StatOrb extends Drop {
     } else {
       vel = 0;
     }
-    return true;
+    return up;
   }
   
 }
