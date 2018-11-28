@@ -54,7 +54,6 @@ class SwiftBoots extends Ability {
   
 }
 
-
 class Telescope extends Ability {
   
   Telescope() {
@@ -66,7 +65,7 @@ class Telescope extends Ability {
   @Override
   public void ability() {
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
-      engine.currentLevel.updateVisited((int)engine.player.x, (int)engine.player.y, 20, true);
+      engine.currentLevel.newSmoothUncover((int)engine.player.x, (int)engine.player.y, 30);
     }
   
   }

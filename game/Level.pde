@@ -14,6 +14,10 @@ class Level {
   public TileSet tileset  = new TileSet();
   protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
 
+
+  private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
+  private ArrayList<PVector> smoothQueue = new ArrayList<PVector>();
+
   private PGraphics tiles, miniMap, miniMapOverlay;
 
   Level(int w, int h) {
@@ -59,6 +63,7 @@ class Level {
     xTileOffset = (int)x - (screen.width/2)/TILE_SIZE;
     yTileOffset = (int)y - (screen.height/2)/TILE_SIZE;
     updateVisited((int)x, (int)y, visitRadius, false);
+    updateVisitedSmooth();
     updateMapEntities((int)x, (int)y);
   }
 
@@ -167,6 +172,38 @@ class Level {
     miniMapOverlay.endDraw();
   }
 
+  public void newSmoothUncover(int i, int j, int radius) {
+    smoothQueue = new ArrayList<PVector>();
+    smoothBeenVisited = new HashMap<PVector, Boolean>();
+    smoothQueue.add(new PVector(i, j, radius));
+  }
+
+  protected void updateVisitedSmooth() {
+    for(int i = 0; i < 10; i ++ ) {
+      if (smoothQueue.size() > 0) {
+        visitTileSmooth((int)smoothQueue.get(0).x, (int)smoothQueue.get(0).y, (int)smoothQueue.get(0).z);
+      } else {
+        return;
+      }
+    }
+  }
+
+  protected void visitTileSmooth(int i, int j, int level) {
+    if (!smoothBeenVisited.getOrDefault(new PVector(i, j), false)) {
+      visitTileFull(i, j);
+      smoothBeenVisited.put(new PVector(i, j), true);
+
+      if (level != 0) {
+        int[] nb = getNeighbours(i, j);
+        if (nb[up] > WALL) smoothQueue.add(new PVector(i, j - 1, level - 1));
+        if (nb[down] > WALL) smoothQueue.add(new PVector(i, j + 1, level - 1));
+        if (nb[left] > WALL) smoothQueue.add(new PVector(i - 1, j, level - 1));
+        if (nb[right] > WALL) smoothQueue.add(new PVector(i + 1, j, level - 1));
+      }
+    }
+    smoothQueue.remove(0);
+  }
+
   protected void updateVisited(int x0, int y0, int radius, boolean force) {
 
     boolean calcLocation = true; //default to true so if out-of-bounds we will still skip the calcs
@@ -175,7 +212,7 @@ class Level {
     } 
     catch(Exception e) {
     };
-    if(!calcLocation || force) {
+    if (!calcLocation || force) {
       HashMap<PVector, Boolean> beenVisited = new HashMap<PVector, Boolean>();
       ArrayList<PVector> queue = new ArrayList<PVector>();
       queue.add(new PVector(x0, y0, radius));
@@ -187,10 +224,10 @@ class Level {
   ///*FLOOD FILL
   protected void visitTile(int i, int j, int level, HashMap<PVector, Boolean> beenVisited, ArrayList<PVector> queue) {
 
-    if(!beenVisited.getOrDefault(new PVector(i, j), false)) {
+    if (!beenVisited.getOrDefault(new PVector(i, j), false)) {
       visitTileFull(i, j);
       beenVisited.put(new PVector(i, j), true);
-      
+
       if (level != 0) {
         int[] nb = getNeighbours(i, j);
         if (nb[up] > WALL) queue.add(new PVector(i, j - 1, level - 1));
@@ -200,7 +237,7 @@ class Level {
       }
     }
     queue.remove(0);
-    if (queue.size() != 0) {
+    if (queue.size() > 0) {
       visitTile((int)queue.get(0).x, (int)queue.get(0).y, (int)queue.get(0).z, beenVisited, queue);
     }
   }//*/
@@ -376,5 +413,4 @@ int x = visitRadius - 1;
  }
  }
  try { visitedCalcLocations[x0][y0] = true; } catch(Exception e) {} //should always work but good to be safe
-*/
-       
+ */
