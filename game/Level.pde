@@ -5,7 +5,7 @@ class Level {
 
   protected boolean[][] visited;
   protected boolean[][] visitedCalcLocations;
-  protected int visitRadius = 10;
+  protected int visitRadius = 8;
 
   public int w, h;
   public PVector start;

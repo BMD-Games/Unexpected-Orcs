@@ -27,9 +27,9 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new Cave();
+    //currentLevel = new Cave();
+    currentLevel = new GrassDungeon();
     finishedLoadingLevel = true;
-    //currentLevel = new Cave(120, 90);
     
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
     
