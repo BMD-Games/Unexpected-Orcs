@@ -42,6 +42,9 @@ class GUI {
     manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, 3 * TILE_SIZE/2, color(153, 217, 234));
 
     screen = createGraphics(width, height);
+    screen.beginDraw();
+    screen.noSmooth();
+    screen.endDraw();
   }
 
   public void clearScreen() {

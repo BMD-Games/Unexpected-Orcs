@@ -3,7 +3,8 @@ class Level {
   private int[][] tilesRaw;
   private int[][] tileMap;
   
-  private boolean[][] visited;  
+  private boolean[][] visited;
+  private boolean[][] visitedCalcLocations;
   private int visitRadius = 10;
   
   public int w, h;
@@ -20,6 +21,7 @@ class Level {
     this.h = h;
     
     visited = new boolean[w][h];
+    visitedCalcLocations = new boolean[w][h];
     
     renderW = width/TILE_SIZE + 2 * buffer;
     renderH = height/TILE_SIZE + 2 * buffer;
@@ -123,31 +125,36 @@ class Level {
   
   private void updateVisited(int x0, int y0) {
     //visitTile(x0, y0, visitRadius); //Flood fill
-    int x = visitRadius - 1;
-    int y = 0;
-    int dx = 1;
-    int dy = 1;
-    int err = dx - (visitRadius << 1);
-    while (x >= y) {
-      visitTilesInLine(x0, y0, x0 + x, y0 + y); //need to do it for all 8 octants 
-      visitTilesInLine(x0, y0, x0 + y, y0 + x); //  
-      visitTilesInLine(x0, y0, x0 - y, y0 + x); //  \|/
-      visitTilesInLine(x0, y0, x0 - x, y0 + y); //  -+-
-      visitTilesInLine(x0, y0, x0 - x, y0 - y); //  /|\
-      visitTilesInLine(x0, y0, x0 - y, y0 - x); //
-      visitTilesInLine(x0, y0, x0 + y, y0 - x);
-      visitTilesInLine(x0, y0, x0 + x, y0 - y);
-
-      if (err <= 0) {
-        y++;
-        err += dy;
-        dy += 2;
+    boolean calcLocation = true; //default to true so if out-of-bounds we will still skip the calcs
+    try { calcLocation = visitedCalcLocations[x0][y0]; } catch(Exception e) {};
+    if(!calcLocation) {
+      int x = visitRadius - 1;
+      int y = 0;
+      int dx = 1;
+      int dy = 1;
+      int err = dx - (visitRadius << 1);
+      while (x >= y) {
+        visitTilesInLine(x0, y0, x0 + x, y0 + y); //need to do it for all 8 octants 
+        visitTilesInLine(x0, y0, x0 + y, y0 + x); //  
+        visitTilesInLine(x0, y0, x0 - y, y0 + x); //  \|/
+        visitTilesInLine(x0, y0, x0 - x, y0 + y); //  -+-
+        visitTilesInLine(x0, y0, x0 - x, y0 - y); //  /|\
+        visitTilesInLine(x0, y0, x0 - y, y0 - x); //
+        visitTilesInLine(x0, y0, x0 + y, y0 - x);
+        visitTilesInLine(x0, y0, x0 + x, y0 - y);
+    
+        if (err <= 0) {
+          y++;
+          err += dy;
+          dy += 2;
+        }
+        if (err > 0) {
+          x--;
+          dx += 2;
+          err += dx - (visitRadius << 1);
+        }
       }
-      if (err > 0) {
-        x--;
-        dx += 2;
-        err += dx - (visitRadius << 1);
-      }
+      try { visitedCalcLocations[x0][y0] = true; } catch(Exception e) {} //should always work but good to be safe
     }
   }
   
@@ -217,7 +224,7 @@ class Level {
       
       if(!visit) {
         if(tile <= WALL) visitTile(tX, tY);
-        visitTileFull(tX, tY);
+        else visitTileFull(tX, tY);
       }
       if(tile <= WALL) {
         break;

@@ -29,6 +29,9 @@ class Engine {
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
     
     screen = createGraphics(width - GUI_WIDTH, height);
+    screen.beginDraw();
+    screen.noSmooth();
+    screen.endDraw();
     
   }
   
