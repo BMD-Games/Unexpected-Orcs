@@ -40,7 +40,7 @@ class Stats {
   public int getVitality() { return (statusEffects.containsKey("SICK") ? 0 : statusEffects.containsKey("HEALING") ? vitality * 2 : vitality); }
   public int getAttack() { return (statusEffects.containsKey("WEAK") ? 0 : statusEffects.containsKey("DAMAGING") ? attack * 2 : attack); }
   public int getWisdom() { return (statusEffects.containsKey("DUMB") ? 0 : statusEffects.containsKey("SMART") ? wisdom * 2 : wisdom); }
-  public int getDefence() { return (statusEffects.containsKey("ARMOURBREAK") ? 0 : statusEffects.containsKey("STRONG") ? defence * 2 : defence); }
+  public int getDefence() { return (statusEffects.containsKey("ARMOURBREAK") ? 0 : statusEffects.containsKey("ARMOURED") ? defence * 2 : defence); }
   public float getFireTimer() { return (statusEffects.containsKey("DAZED") ? fireTimer/2 : statusEffects.containsKey("BEZERK") ? fireTimer * 2 : fireTimer); }
   public float getSpeed() { return (statusEffects.containsKey("SLOWED") ? speed/2 : statusEffects.containsKey("SPEEDY") ? speed * 2 : speed); }  
 }
@@ -145,7 +145,7 @@ public void loadStats() {
   STATUSES.put("DUMB", "DUMB");
   STATUSES.put("SMART", "SMART");
   STATUSES.put("ARMOURBREAK", "ARMOURBREAK");
-  STATUSES.put("STRONG", "STRONG");
+  STATUSES.put("ARMOURED", "ARMOURED");
   STATUSES.put("DAZED", "DAZED");
   STATUSES.put("BEZERK", "BEZERK");
   STATUSES.put("SLOWED", "SLOWED");

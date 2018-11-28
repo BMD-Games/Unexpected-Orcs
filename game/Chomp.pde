@@ -66,7 +66,7 @@ class Chomp implements Enemy {
     if(amount > stats.defence) {
       stats.health -= amount - stats.defence;
     }
-    engine.addDamageText(amount > stats.getDefence() ? amount - stats.getDefence() : 0, x, y - radius, 0.5);
+    engine.addText(String.valueOf(amount > stats.getDefence() ? amount - stats.getDefence() : 0), x, y - radius, 0.5, color(200, 0 , 0));
   }
   
   private void attack() {

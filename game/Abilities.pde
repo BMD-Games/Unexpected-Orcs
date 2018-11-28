@@ -2,32 +2,39 @@ class Ability extends Item {
   
   protected int manaCost;
   float cooldown;
+  String useText;
   
-  Ability(String sprite, String name) {
+  Ability(String sprite, String name, String useText) {
     super(sprite, name);
     this.type = "Ability";
+    this.useText = useText;
   }
   
   public void makeText() {
     
     if (manaCost > engine.player.stats.getMana() && engine.player.textTimer >= 0.5){
-      String cooldownText = "Not Enough Mana";
-      engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+      String cooldownText = "Low Mana";
+      engine.addText(cooldownText, engine.player.x, engine.player.y, 0.5, color(0, 0, 200));
       engine.player.textTimer = 0;
     }
     
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       engine.player.cooldownTimer = cooldown;
       
+<<<<<<< HEAD
       engine.player.stats.mana -= manaCost;
       String cooldownText = "Speed Buff";
       engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+=======
+      engine.player.stats.setMana(engine.player.stats.getMana() - manaCost);
+      engine.addText(useText, engine.player.x, engine.player.y, 0.5, color(0, 0, 200));
+>>>>>>> e5f700184fb4c29806d0ea5c86c7916ce8feb1b0
       engine.player.textTimer = 0;
     } else {
       if (engine.player.textTimer >= 0.5 && manaCost < engine.player.stats.getMana()) {
         String cooldownText = "";
         cooldownText = String.format("%.3gs%n", engine.player.cooldownTimer);
-        engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
+        engine.addText(cooldownText, engine.player.x, engine.player.y, 0.5, color(0,0,200));
         engine.player.textTimer = 0;
       }
     }
@@ -40,7 +47,7 @@ class Ability extends Item {
 class SwiftBoots extends Ability {
   
   SwiftBoots() {
-    super("BOOTS", "Boots of Swiftness");
+    super("BOOTS", "Boots of Swiftness", "Speed Buff");
     this.cooldown = 4;
     this.manaCost = 30;
   }
@@ -58,8 +65,8 @@ class SwiftBoots extends Ability {
 class FireBomb extends Ability {
   
   FireBomb() {
-    super("FIREBOMB", "Fire Bomb");
-    this.cooldown = 4;
+    super("FIREBOMB", "Fire Bomb", "Fire Bomb");
+    this.cooldown = 0.5;
     this.manaCost = 30;
   }
   

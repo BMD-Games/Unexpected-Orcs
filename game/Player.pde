@@ -77,7 +77,6 @@ class Player {
     if (inv.active[1] != null ){
       updateCooldown(delta);
     }
-    println(cooldownTimer);
     
     ability();
     getFacing();
