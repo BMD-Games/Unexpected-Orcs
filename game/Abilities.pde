@@ -55,6 +55,23 @@ class SwiftBoots extends Ability {
 }
 
 
+class Telescope extends Ability {
+  
+  Telescope() {
+    super("TELESCOPE", "Telescope of seeing", "Have a look");
+    this.cooldown = 0.5;
+    this.manaCost = 50;
+  }
+  
+  @Override
+  public void ability() {
+    if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
+      engine.currentLevel.updateVisited((int)engine.player.x, (int)engine.player.y, 20, true);
+    }
+  
+  }
+}
+
 class FireBomb extends Ability {
   
   FireBomb() {

@@ -58,7 +58,7 @@ class Level {
   public void update(PGraphics screen, float x, float y) {
     xTileOffset = (int)x - (screen.width/2)/TILE_SIZE;
     yTileOffset = (int)y - (screen.height/2)/TILE_SIZE;
-    updateVisited((int)x, (int)y);
+    updateVisited((int)x, (int)y, visitRadius, false);
     updateMapEntities((int)x, (int)y);
   }
 
@@ -167,7 +167,7 @@ class Level {
     miniMapOverlay.endDraw();
   }
 
-  protected void updateVisited(int x0, int y0) {
+  protected void updateVisited(int x0, int y0, int radius, boolean force) {
 
     boolean calcLocation = true; //default to true so if out-of-bounds we will still skip the calcs
     try { 
@@ -175,11 +175,11 @@ class Level {
     } 
     catch(Exception e) {
     };
-    if (!calcLocation) {
+    if(!calcLocation || force) {
       HashMap<PVector, Boolean> beenVisited = new HashMap<PVector, Boolean>();
       ArrayList<PVector> queue = new ArrayList<PVector>();
-      queue.add(new PVector(x0, y0, visitRadius));
-      visitTile(x0, y0, visitRadius, beenVisited, queue); //Flood fill
+      queue.add(new PVector(x0, y0, radius));
+      visitTile(x0, y0, radius, beenVisited, queue); //Flood fill
       visitedCalcLocations[x0][y0] = true;
     }
   }

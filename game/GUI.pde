@@ -134,10 +134,10 @@ class GUI {
     healthBar.show(screen);
     manaBar.show(screen);
     renderMiniMap();
-    drawCooldown();
     drawStats();
     drawPortal();
     renderInv();
+    drawCooldown();
     screen.endDraw();
     image(screen, 0, 0);
     
