@@ -1,4 +1,4 @@
-class Chomp implements Enemy {
+class Chomp extends MeleeEnemy implements Enemy {
   
   public int tier = 0;
   public float x = 0;
@@ -7,22 +7,13 @@ class Chomp implements Enemy {
   private float angle;
   private float attackWait;
   
-  protected Stats stats;
-  protected PImage sprite;
   protected float radius;
   
   public Chomp(float x, float y, int tier) {
-    this.tier = tier;
-    this.x = x;
-    this.y = y;
+    super(x, y, tier);
     radius = 0.25;
     attackWait = 0;
-    if(random(2) < 1) {
-      sprite = charSprites.get("CHOMP_WHITE_SMALL");
-    } else {
-      sprite = charSprites.get("CHOMP_BLACK_SMALL");
-    }
-    stats = new Stats();
+    sprite = charSprites.get("CHOMP_BLACK_SMALL");
     stats.health = 14 * tier;
     stats.attack = 5 * tier;
     stats.speed = 1.3 * tier;
@@ -59,14 +50,6 @@ class Chomp implements Enemy {
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
-  }
-  
-  /* This mob takes damage */
-  public void damage(int amount){
-    if(amount > stats.defence) {
-      stats.health -= amount - stats.defence;
-    }
-    engine.addText(String.valueOf(amount > stats.getDefence() ? amount - stats.getDefence() : 0), x, y - radius, 0.5, color(200, 0 , 0));
   }
   
   private void attack() {
@@ -164,11 +147,7 @@ class BigChomp extends Chomp {
   public BigChomp(float x, float y, int tier) {
     super(x, y, tier);
     radius = 0.5;
-    if(random(2) < 1) {
-      sprite = charSprites.get("CHOMP_WHITE");
-    } else {
-      sprite = charSprites.get("CHOMP_BLACK");
-    }
+    sprite = charSprites.get("CHOMP_BLACK");
     stats.health = 25 * tier;
     stats.attack = 11 * tier;
     stats.speed = 1.2 * tier;
