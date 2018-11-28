@@ -37,6 +37,7 @@ class Engine {
   
   public void update() {
     //updates all game objects
+    
     double delta = (millis() - lastUpdate)/1000; //seconds passed since last update
     if(mousePressed && !inMenu) handleMouse();
     

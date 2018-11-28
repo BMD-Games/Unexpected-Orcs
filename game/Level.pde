@@ -122,18 +122,19 @@ class Level {
   }
   
   private void updateVisited(int x0, int y0) {
+    //visitTile(x0, y0, visitRadius); //Flood fill
     int x = visitRadius - 1;
     int y = 0;
     int dx = 1;
     int dy = 1;
     int err = dx - (visitRadius << 1);
     while (x >= y) {
-      visitTilesInLine(x0, y0, x0 + x, y0 + y); 
-      visitTilesInLine(x0, y0, x0 + y, y0 + x);
-      visitTilesInLine(x0, y0, x0 - y, y0 + x);
-      visitTilesInLine(x0, y0, x0 - x, y0 + y);
-      visitTilesInLine(x0, y0, x0 - x, y0 - y);
-      visitTilesInLine(x0, y0, x0 - y, y0 - x);
+      visitTilesInLine(x0, y0, x0 + x, y0 + y); //need to do it for all 8 octants 
+      visitTilesInLine(x0, y0, x0 + y, y0 + x); //  
+      visitTilesInLine(x0, y0, x0 - y, y0 + x); //  \|/
+      visitTilesInLine(x0, y0, x0 - x, y0 + y); //  -+-
+      visitTilesInLine(x0, y0, x0 - x, y0 - y); //  /|\
+      visitTilesInLine(x0, y0, x0 - y, y0 - x); //
       visitTilesInLine(x0, y0, x0 + y, y0 - x);
       visitTilesInLine(x0, y0, x0 + x, y0 - y);
 
@@ -146,6 +147,29 @@ class Level {
         x--;
         dx += 2;
         err += dx - (visitRadius << 1);
+      }
+    }
+  }
+  
+  /*FLOOD FILL
+  private void visitTile(int i, int j, int level) {
+    boolean visit = false;
+    int tile = WALL;
+    try { visit = visited[i][j]; } catch(Exception e) {}
+    try { tile = tileMap[i][j]; } catch(Exception e) {}
+    if(!visit) visitTile(i, j);
+    if(level == 0) return;
+    int[] nb = getNeighbours(i, j);
+    if(nb[up] > WALL) visitTile(i, j-1, level - 1);
+    if(nb[down] > WALL) visitTile(i, j+1, level - 1);
+    if(nb[left] > WALL) visitTile(i-1, j, level - 1);
+    if(nb[right] > WALL) visitTile(i+1, j, level - 1);
+  }*/
+  
+  private void visitTileFull(int x, int y) {
+    for(int i = -1; i <= 1; i ++) {
+      for(int j = -1; j <= 1; j ++) {
+        visitTile(x + i, y + j);
       }
     }
   }
@@ -168,7 +192,7 @@ class Level {
   }
   
   public boolean canSee(int x1, int y1, int x2, int y2) {
-    int dist = max(abs(x2 - x1), abs(y2 - y1));
+    int dist = (int)max(fastAbs(x2 - x1), fastAbs(y2 - y1));
     for(int i = 0; i < dist; i ++) {
       int tX = (int)map(i, 0, dist, x1, x2);
       int tY = (int)map(i, 0, dist, y1, y2);
@@ -180,7 +204,7 @@ class Level {
   }
   
   public void visitTilesInLine(int x1, int y1, int x2, int y2) {
-    int dist = max(abs(x2 - x1), abs(y2 - y1));
+    int dist = (int)max(fastAbs(x2 - x1), fastAbs(y2 - y1));
     for(int i = 0; i < dist; i ++) {
       int tX = (int)map(i, 0, dist, x1, x2);
       int tY = (int)map(i, 0, dist, y1, y2);
@@ -192,7 +216,8 @@ class Level {
       try{ visit = visited[tX][tY]; } catch(Exception e) {}
       
       if(!visit) {
-        visitTile(tX, tY);
+        if(tile <= WALL) visitTile(tX, tY);
+        visitTileFull(tX, tY);
       }
       if(tile <= WALL) {
         break;
@@ -260,21 +285,3 @@ class Level {
     file.close();
   }
 }
-
-
-//-----OLD/DEAD CODE THAT MAY BE USEFUL--------
-/**background.pushMatrix();
-background.translate(i * TILE_SIZE + TILE_SIZE/2, j * TILE_SIZE + TILE_SIZE/2);
-background.rotate(random(PI));
-for(int k = -9; k <= 9; k++) {
-  background.fill(50);
-  if(k%2 == 0) background.fill(255);
-  background.rect(k * TILE_SIZE/8, -TILE_SIZE * 2, TILE_SIZE/8, TILE_SIZE * 4);
-}
-background.popMatrix();
-**/
-
-/**public void show(PVector renderOffset) {
-  image(background.get((int)renderOffset.x + tileBuffer * TILE_SIZE, (int)renderOffset.y + tileBuffer * TILE_SIZE, width, height), 0, 0);
-  image(tiles.get((int)renderOffset.x + tileBuffer * TILE_SIZE, (int)renderOffset.y + tileBuffer * TILE_SIZE, width, height), 0, 0);
-}**/

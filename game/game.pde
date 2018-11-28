@@ -1,4 +1,5 @@
 import java.util.Map;
+import java.util.PriorityQueue;
 
 HashMap<Integer, PImage> tileSprites;
 HashMap<String, PImage> itemSprites;
@@ -111,4 +112,9 @@ public void revertState() {
 public boolean pointInBox(float px, float py, float bx, float by, float w, float h) {
   //returns whether a point (px, py) is inside a box (bx, by, w, h);
   return((px > bx) && (px < bx + w) && (py > by) && (py < by + h));
+}
+
+public float fastAbs(float v) {
+  if(v < 0) return v * -1;
+  return v;
 }
