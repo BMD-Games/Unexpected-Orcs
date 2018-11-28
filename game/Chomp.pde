@@ -204,6 +204,7 @@ class BossChomp extends Chomp {
   
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
+    engine.addDrop(new CavePortal(x, y));
   }
   
 }

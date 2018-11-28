@@ -133,11 +133,11 @@ class GUI {
     pause.show(screen);
     healthBar.show(screen);
     manaBar.show(screen);
-    renderInv();
     renderMiniMap();
     drawCooldown();
     drawStats();
     drawPortal();
+    renderInv();
     screen.endDraw();
     image(screen, 0, 0);
     
@@ -147,6 +147,16 @@ class GUI {
       inMenu = false;
     }
     
+  }
+  
+  public void drawLoading() {
+    screen.beginDraw();
+    clearScreen();
+    screen.fill(0);
+    screen.rect(0, 0, screen.width, screen.height);
+    screen.fill(255);
+    screen.text(".:Loading:.", width/2, height/2);
+    screen.endDraw();
   }
   
   public void drawDead() {
@@ -185,7 +195,7 @@ class GUI {
       quitGame();
     } else if ((STATE == "OPTIONS") && back.pressed()) {
       revertState();
-    } else if(showingPortal && enterPortal.pressed()) {
+    } else if(STATE == "PLAYING" && showingPortal && enterPortal.pressed()) {
       engine.enterClosestPortal();
     }
     

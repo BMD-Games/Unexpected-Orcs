@@ -12,6 +12,8 @@ class Engine {
   private ArrayList<Drop> drops = new ArrayList<Drop>();  
   private ArrayList<Text> text = new ArrayList<Text>();
   
+  public boolean finishedLoadingLevel = false;
+  
   public int closestBag = -1;
   public int closestPortal = -1;
   private float closestBagDist = (float)Double.POSITIVE_INFINITY;
@@ -26,12 +28,10 @@ class Engine {
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
     currentLevel = new Cave();
+    finishedLoadingLevel = true;
     //currentLevel = new Cave(120, 90);
     
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
-    addDrop((Drop)new CavePortal(player.x, player.y));
-    addDrop((Drop)new GrassPortal(player.x-1, player.y));
-    addDrop((Drop)new CellarPortal(player.x+1, player.y));
     
     screen = createGraphics(width - GUI_WIDTH, height);
     screen.beginDraw();
@@ -233,16 +233,17 @@ class Engine {
   
   public void enterClosestPortal() {
     //empty drops, enemies etc
-    this.currentLevel = getClosestPortal().getLevel();
+    finishedLoadingLevel = false;
+    thread("loadClosestPortal");
+    while(!finishedLoadingLevel) gui.drawLoading();
     this.player.x = currentLevel.start.x;
     this.player.y = currentLevel.start.y;
-    
-    //TEMP
-    addDrop((Drop)new CavePortal(player.x, player.y));
-    addDrop((Drop)new GrassPortal(player.x-1, player.y));
-    addDrop((Drop)new CellarPortal(player.x+1, player.y));
   }
-  
+}
+
+public void loadClosestPortal() {
+  engine.currentLevel = engine.getClosestPortal().getLevel();
+  engine.finishedLoadingLevel = true;
 }
 
 class Text {

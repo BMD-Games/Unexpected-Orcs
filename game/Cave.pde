@@ -12,6 +12,32 @@ class Cave extends Level{
     //tileset = testTileset();
     
     this.setTiles(generateCave(w, h, iterations, chance));
+    generateEnemies();
+  }
+  
+  void generateEnemies() {
+   //Add enemies to level
+    Chomp chomp;
+    for(int i = 0; i < 40; i ++) {
+      chomp = new Chomp(random(w), random(h), 1);
+      validSpawn(chomp);
+      enemies.add(chomp);
+    }
+    for(int i = 0; i < 10; ++i) {
+      chomp = new BigChomp(random(w), random(h), 2);
+      validSpawn(chomp);
+      enemies.add(chomp);
+    }
+    chomp = new BossChomp(random(w), random(h), 3);
+    validSpawn(chomp);
+    enemies.add(chomp);
+  }
+  
+  void validSpawn(Chomp enemy) {
+    while(!enemy.validPosition(this, enemy.x, enemy.y)) {
+      enemy.x = random(w);
+      enemy.y = random(h);
+    }
   }
   
 }
