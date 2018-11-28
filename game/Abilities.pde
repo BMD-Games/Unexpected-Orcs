@@ -20,15 +20,8 @@ class Ability extends Item {
     
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       engine.player.cooldownTimer = cooldown;
-      
-<<<<<<< HEAD
       engine.player.stats.mana -= manaCost;
-      String cooldownText = "Speed Buff";
-      engine.addCooldownText(cooldownText, engine.player.x, engine.player.y, 0.5);
-=======
-      engine.player.stats.setMana(engine.player.stats.getMana() - manaCost);
       engine.addText(useText, engine.player.x, engine.player.y, 0.5, color(0, 0, 200));
->>>>>>> e5f700184fb4c29806d0ea5c86c7916ce8feb1b0
       engine.player.textTimer = 0;
     } else {
       if (engine.player.textTimer >= 0.5 && manaCost < engine.player.stats.getMana()) {
