@@ -13,7 +13,9 @@ class Engine {
   private ArrayList<Text> text = new ArrayList<Text>();
   
   public int closestBag = -1;
-  private int closestBagDist = (int)Double.POSITIVE_INFINITY;
+  public int closestPortal = -1;
+  private float closestBagDist = (float)Double.POSITIVE_INFINITY;
+  private float closestPortalDist = (float)Double.POSITIVE_INFINITY;
   
   private PVector camera = new PVector(0, 0);
   
@@ -23,10 +25,13 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new Dungeon(60, 45);
+    currentLevel = new Cave();
     //currentLevel = new Cave(120, 90);
     
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
+    addDrop((Drop)new CavePortal(player.x, player.y));
+    addDrop((Drop)new GrassPortal(player.x-1, player.y));
+    addDrop((Drop)new CellarPortal(player.x+1, player.y));
     
     screen = createGraphics(width - GUI_WIDTH, height);
     screen.beginDraw();
@@ -169,7 +174,9 @@ class Engine {
   
   private void updateDrops(double delta, float px, float py) {
     closestBag = -1;
+    closestPortal = -1;
     closestBagDist = (int)Double.POSITIVE_INFINITY;
+    closestPortalDist = (int)Double.POSITIVE_INFINITY;
     
     for(int i = drops.size() - 1; i >= 0; i --) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
@@ -177,8 +184,16 @@ class Engine {
         drops.remove(i); //remove drop
         continue;
       } else if(drops.get(i) instanceof ItemBag) {
-        if(drops.get(i).inRange(px, py) && drops.get(i).getDist(px, py) < closestBagDist) {
+        float dist = drops.get(i).getDist(px, py);
+        if(drops.get(i).inRange(px, py) && dist < closestBagDist) {
           closestBag = i;
+          closestBagDist = dist;
+        }
+      } else if(drops.get(i) instanceof Portal) {
+        float dist = drops.get(i).getDist(px, py);
+        if(drops.get(i).inRange(px, py) && dist < closestPortalDist) {
+          closestPortal = i;
+          closestPortalDist = dist;
         }
       }
     }
@@ -209,6 +224,23 @@ class Engine {
   public ItemBag getClosestBag() {
     if(closestBag >= 0) try { return (ItemBag)drops.get(closestBag); } catch(Exception e) { return null; }
     return null;
+  }
+  
+  public Portal getClosestPortal() {
+    if(closestPortal >= 0) try { return (Portal)drops.get(closestPortal); } catch(Exception e) { return null; }
+    return null;
+  }
+  
+  public void enterClosestPortal() {
+    //empty drops, enemies etc
+    this.currentLevel = getClosestPortal().getLevel();
+    this.player.x = currentLevel.start.x;
+    this.player.y = currentLevel.start.y;
+    
+    //TEMP
+    addDrop((Drop)new CavePortal(player.x, player.y));
+    addDrop((Drop)new GrassPortal(player.x-1, player.y));
+    addDrop((Drop)new CellarPortal(player.x+1, player.y));
   }
   
 }

@@ -6,40 +6,43 @@ class GUI {
   private Button play, back, options, menu, exit, pause, newGame, load;
   private Button keyUp, keyDown, keyLeft, keyRight, keyAbility;
   private DisplayBar healthBar, manaBar;
+  private Button enterPortal;
   private PImage title = loadImage("/assets/sprites/title.png");
   private PGraphics screen;
   private color c = 100;
 
   //Inventory drag and drop stuff
   private final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
-  private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 8 * TILE_SIZE/2;
-  private boolean prevSelection = false, currSelection = false;
+  private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 7 * TILE_SIZE/2;
+  private boolean prevSelection = false, currSelection = false, showingPortal = false;
   private int b1Type, b2Type, menuType; // if inv box is in active or not
   private int b1 = -1, b2 = -1, itemOver, active = 0, inv = 1, bag = 2, out = 3;; //inv box 1 and 2 for drag and swap
   private Item mouseOverItem;
 
   GUI() {
-    //-----Main Buttons
+    //-----Main
     play = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "PLAY");
-    options = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 0, "OPTIONS");
-    menu = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "MENU");    
-    exit = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "EXIT");
-    back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "BACK");
+    load = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 0, "LOAD");
+    options = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "OPTIONS");
+    menu = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "MENU");    
+    exit = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "EXIT");  
+    back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 3, "BACK");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
-    newGame = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "NEW");
-    load = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE, "LOAD");
+    //newGame = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "NEW");
     
     
     
-    //-----Settings buttons
+    //-----Settings
     keyUp = new Button(width/2, height/2 - TILE_SIZE * 4, "BLANK_1x1");
     keyDown = new Button(width/2, height/2 - TILE_SIZE * 3, "BLANK_1x1");
     keyLeft = new Button(width/2, height/2 - TILE_SIZE * 2, "BLANK_1x1");
     keyRight = new Button(width/2, height/2 - TILE_SIZE * 1, "BLANK_1x1");
     keyAbility = new Button(width/2, height/2 - TILE_SIZE * 0, "BLANK_1x1");
 
+    //-----Gameplay
     healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(230, 100, 100));
-    manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, 3 * TILE_SIZE/2, color(153, 217, 234));
+    manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, 2 * TILE_SIZE/2, color(153, 217, 234));
+    enterPortal = new Button(GUI_WIDTH/2 - TILE_SIZE, 14 * TILE_SIZE/2, "BLANK_2x1");
 
     screen = createGraphics(width, height);
     screen.beginDraw();
@@ -127,6 +130,7 @@ class GUI {
     renderMiniMap();
     drawCooldown();
     drawStats();
+    drawPortal();
     screen.endDraw();
     image(screen, 0, 0);
     
@@ -159,21 +163,23 @@ class GUI {
 
   public void handleMouseReleased() {
     //------Main Buttons
-    if (play.pressed() && (STATE == "MENU" || STATE == "PAUSED")) {
+    if ((STATE == "MENU" || STATE == "PAUSED") && play.pressed()) {
       setState("PLAYING");
       engine.updateMillis();
-    } else if (options.pressed() && (STATE == "MENU" || STATE == "PAUSED")) {
+    } else if ((STATE == "MENU" || STATE == "PAUSED") && options.pressed()) {
       setState("OPTIONS");
-    } else if (menu.pressed() && STATE == "PAUSED") {
+    } else if (STATE == "PAUSED" && menu.pressed()) {
       //SAVE GAME HERE!!!!
       //saveGame();
       setState("MENU");
-    } else if (pause.pressed() && STATE == "PLAYING") {
+    } else if (STATE == "PLAYING" && pause.pressed()) {
       setState("PAUSED");
-    } else if (exit.pressed() && STATE == "MENU") {
+    } else if (STATE == "MENU" && exit.pressed()) {
       quitGame();
-    } else if (back.pressed() && (STATE == "OPTIONS")) {
+    } else if ((STATE == "OPTIONS") && back.pressed()) {
       revertState();
+    } else if(showingPortal && enterPortal.pressed()) {
+      engine.enterClosestPortal();
     }
     
     //-----Settings Buttons
@@ -208,11 +214,18 @@ class GUI {
     screen.textAlign(LEFT);
     screen.textSize(15);
     screen.fill(50);
-    screen.text(stats, invBuff * 3, 5 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 5 * TILE_SIZE);
+    screen.text(stats, invBuff * 3, 4 * TILE_SIZE/2, GUI_WIDTH - invBuff * 2, 5 * TILE_SIZE);
     
   }
 
-
+  private void drawPortal() {
+    Portal portal = engine.getClosestPortal();
+    showingPortal = portal != null;
+    if(!showingPortal) return;
+    enterPortal.show(screen);
+    screen.textAlign(CENTER, CENTER);
+    screen.text("Enter " + portal.name, enterPortal.x, enterPortal.y, enterPortal.w, enterPortal.h);
+  }
 
   private void renderMiniMap() {
     

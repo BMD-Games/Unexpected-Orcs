@@ -127,6 +127,9 @@ public void loadAssets() {
   dropSprites.put("BAG_1", getSprite(dropsheet, 1, 0, 1, 1, dropSize));
   dropSprites.put("BAG_2", getSprite(dropsheet, 2, 0, 1, 1, dropSize));
   dropSprites.put("ORB", getSprite(dropsheet, 0, 1, 1, 1, dropSize));
+  dropSprites.put("PORTAL_CAVE", getSprite(dropsheet, 0, 2, 1, 1, dropSize));
+  dropSprites.put("PORTAL_GRASS", getSprite(dropsheet, 1, 2, 1, 1, dropSize));
+  dropSprites.put("PORTAL_CELLAR", getSprite(dropsheet, 2, 2, 1, 1, dropSize));
   
   //-----GUI SPRITES----
   PImage sheet = loadImage("/assets/sprites/spritesheet.png");

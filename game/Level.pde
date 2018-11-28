@@ -1,18 +1,18 @@
 class Level {
   
-  private int[][] tilesRaw;
-  private int[][] tileMap;
+  protected int[][] tilesRaw;
+  protected int[][] tileMap;
   
-  private boolean[][] visited;
-  private boolean[][] visitedCalcLocations;
-  private int visitRadius = 10;
+  protected boolean[][] visited;
+  protected boolean[][] visitedCalcLocations;
+  protected int visitRadius = 10;
   
   public int w, h;
   public PVector start;
-  private String name;
+  protected String name;
   public ArrayList<Enemy> enemies  = new ArrayList<Enemy>();
   public TileSet tileset  = new TileSet();
-  private int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
+  protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
   
   private PGraphics tiles, miniMap, miniMapOverlay;
   
@@ -110,11 +110,11 @@ class Level {
     }
   }
   
-  private void applyTileSet() {
+  protected void applyTileSet() {
     tileMap = finishingPass(tilesRaw, tileset);
   }
   
-  private void updateMapEntities(int playerX, int playerY) {
+  protected void updateMapEntities(int playerX, int playerY) {
     miniMapOverlay.beginDraw();
     miniMapOverlay.background(0, 0);
     miniMapOverlay.stroke(0, 0, 255);
@@ -123,7 +123,7 @@ class Level {
     miniMapOverlay.endDraw();
   }
   
-  private void updateVisited(int x0, int y0) {
+  protected void updateVisited(int x0, int y0) {
     //visitTile(x0, y0, visitRadius); //Flood fill
     boolean calcLocation = true; //default to true so if out-of-bounds we will still skip the calcs
     try { calcLocation = visitedCalcLocations[x0][y0]; } catch(Exception e) {};
@@ -159,7 +159,7 @@ class Level {
   }
   
   /*FLOOD FILL
-  private void visitTile(int i, int j, int level) {
+  protected void visitTile(int i, int j, int level) {
     boolean visit = false;
     int tile = WALL;
     try { visit = visited[i][j]; } catch(Exception e) {}
@@ -173,7 +173,7 @@ class Level {
     if(nb[right] > WALL) visitTile(i+1, j, level - 1);
   }*/
   
-  private void visitTileFull(int x, int y) {
+  protected void visitTileFull(int x, int y) {
     for(int i = -1; i <= 1; i ++) {
       for(int j = -1; j <= 1; j ++) {
         visitTile(x + i, y + j);
@@ -181,14 +181,14 @@ class Level {
     }
   }
   
-  private void visitTile(int i, int j) {
+  protected void visitTile(int i, int j) {
     try {
       if(!visited[i][j]) drawVisitedTile(i, j);
       visited[i][j] = true;
     } catch (Exception e) {}
   }
   
-  private void drawVisitedTile(int i, int j) {
+  protected void drawVisitedTile(int i, int j) {
     miniMap.beginDraw();
     int tile = WALL;
     try{ tile = tileMap[i][j]; } catch(Exception e) {}

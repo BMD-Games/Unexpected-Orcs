@@ -120,3 +120,58 @@ class ItemBag extends Drop {
   }
   
 }
+
+
+class Portal extends Drop {
+  
+  String name;
+  
+  Portal(float x, float y, String name) {
+    super(x, y, 0.5, 60);
+    this.name = name;
+  }
+  
+  public Level getLevel() { //Override this with the level specific to a given portal
+    return null;
+  }
+  
+}
+
+class GrassPortal extends Portal {
+  
+  GrassPortal(float x, float y) {
+    super(x, y, "Grass World");
+    this.sprite = dropSprites.get("PORTAL_GRASS");
+  }
+  
+  @Override
+  public Level getLevel() {
+    return new GrassDungeon();
+  }
+}
+
+class CellarPortal extends Portal {
+  
+  CellarPortal(float x, float y) {
+    super(x, y, "Cellar");
+    this.sprite = dropSprites.get("PORTAL_CELLAR");
+  }
+  
+  @Override
+  public Level getLevel() {
+    return new CellarDungeon();
+  }
+}
+
+class CavePortal extends Portal {
+  
+  CavePortal(float x, float y) {
+    super(x, y, "Cave");
+    this.sprite = dropSprites.get("PORTAL_CAVE");
+  }
+  
+  @Override
+  public Level getLevel() {
+    return new Cave();
+  }
+}
