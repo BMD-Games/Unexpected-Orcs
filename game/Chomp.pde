@@ -13,7 +13,6 @@ class Chomp extends MeleeEnemy implements Enemy {
   
   /* Enemies need to update on tics */
   public boolean update(double delta) {
-    //If player in range attack.
     if(Utility.distance(x, y, engine.player.x, engine.player.y) < range) {
       attackWait += delta;
       if(Utility.distance(x, y, engine.player.x, engine.player.y) < radius) {
@@ -22,7 +21,6 @@ class Chomp extends MeleeEnemy implements Enemy {
         move(delta);
       }
     }
-    //Return true if chomp is alive
     return super.update(delta);
   }
   

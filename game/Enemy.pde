@@ -136,7 +136,6 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   //Calculates if coordinates mean chomp is not in a wall
   //Needs level because it's used in setup
   public boolean validPosition(Level level, float xPos, float yPos) {
-    println("Check position, radius: ", radius);
     return validCentre(level, xPos, yPos) &&
         (level.getTile((int)xPos, (int)(yPos + radius)) > WALL) &&
         (level.getTile((int)xPos, (int)(yPos - radius)) > WALL) && 

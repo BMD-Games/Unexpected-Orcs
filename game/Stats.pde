@@ -77,27 +77,27 @@ class PlayerStats extends Stats {
     switch(stat) {
       case("HEALTH"):
         healthKills.put(tier, healthKills.getOrDefault(tier, 0) + 1);
-        healthMax = calcStatValue(healthKills, baseHealth, 5, 0.5);
+        healthMax = (int)calcStatValue(healthKills, baseHealth, 5, 0.5);
         break;
       case("MANA"):
         manaKills.put(tier, manaKills.getOrDefault(tier, 0) + 1);
-        manaMax = calcStatValue(manaKills, baseMana, 5, 0.2);
+        manaMax = (int)calcStatValue(manaKills, baseMana, 5, 0.2);
         break;
       case("VITALITY"):
         vitalityKills.put(tier, vitalityKills.getOrDefault(tier, 0) + 1);
-        vitality = calcStatValue(vitalityKills, baseVitality, 1, 0.1);
+        vitality = (int)calcStatValue(vitalityKills, baseVitality, 1, 0.1);
         break;
       case("ATTACK"):
         attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
-        attack = calcStatValue(attackKills, baseAttack, 1, 0.1);
+        attack = (int)calcStatValue(attackKills, baseAttack, 1, 0.1);
         break;
       case("WISDOM"):
         wisdomKills.put(tier, wisdomKills.getOrDefault(tier, 0) + 1);
-        wisdom = calcStatValue(wisdomKills, baseWisdom, 1, 0.1);
+        wisdom = (int)calcStatValue(wisdomKills, baseWisdom, 1, 0.1);
         break;
       case("DEFENCE"):
         defenceKills.put(tier, defenceKills.getOrDefault(tier, 0) + 1);
-        defence = calcStatValue(defenceKills, baseDefence, 1, 0.1);
+        defence = (int)calcStatValue(defenceKills, baseDefence, 1, 0.1);
         break;
       case("SPEED"):
         speedKills.put(tier, speedKills.getOrDefault(tier, 0) + 1);
@@ -107,21 +107,21 @@ class PlayerStats extends Stats {
   }  
   
   private void calcAllStats() {
-    healthMax = calcStatValue(healthKills, baseHealth, 5, 0.5);
-    manaMax = calcStatValue(manaKills, baseMana, 5, 0.2);
-    vitality = calcStatValue(vitalityKills, baseVitality, 1, 0.1);
-    attack = calcStatValue(attackKills, baseAttack, 1, 0.1);
-    wisdom = calcStatValue(wisdomKills, baseWisdom, 1, 0.1);
-    defence = calcStatValue(defenceKills, baseDefence, 1, 0.1);
+    healthMax = (int)calcStatValue(healthKills, baseHealth, 5, 0.5);
+    manaMax = (int)calcStatValue(manaKills, baseMana, 5, 0.2);
+    vitality = (int)calcStatValue(vitalityKills, baseVitality, 1, 0.1);
+    attack = (int)calcStatValue(attackKills, baseAttack, 1, 0.1);
+    wisdom = (int)calcStatValue(wisdomKills, baseWisdom, 1, 0.1);
+    defence = (int)calcStatValue(defenceKills, baseDefence, 1, 0.1);
     speed = calcStatValue(speedKills, baseSpeed, 1, 0.1);
   }
   
-  private int calcStatValue(HashMap<Integer, Integer> stat, float base, int max, float rate) {
+  private float calcStatValue(HashMap<Integer, Integer> stat, float base, int max, float rate) {
     float value = base;
     for(int tier : stat.keySet()) {
       value += calcStatTierValue(max, rate, stat.get(tier)) * (tier + 1);
     }
-    return (int)value;
+    return value;
   }
   
   private float calcStatTierValue(int max, float rate, int num) {
@@ -131,7 +131,6 @@ class PlayerStats extends Stats {
   public int getTotalKills() {
     return totalKills;
   }
-  
 }
 
 public HashMap<String, String> STATUSES = new HashMap<String, String>();
