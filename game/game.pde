@@ -41,6 +41,8 @@ void setup() {
   
   gui = new GUI();
   engine = new Engine();
+  setupSound();
+  
 }
 
 void draw() {
@@ -108,11 +110,6 @@ public void setState(String state) {
 
 public void revertState() {
   STATE = PREV_STATE;
-}
-
-public boolean pointInBox(float px, float py, float bx, float by, float w, float h) {
-  //returns whether a point (px, py) is inside a box (bx, by, w, h);
-  return((px > bx) && (px < bx + w) && (py > by) && (py < by + h));
 }
 
 public float fastAbs(float v) {

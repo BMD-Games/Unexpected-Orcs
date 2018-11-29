@@ -18,7 +18,7 @@ class AABB {
     }
 
     public boolean collidesWith(float pointX, float pointY) {
-        return pointInBox(pointX, pointY, this.x, this.y, this.w, this.h);
+        return Utility.pointInBox(pointX, pointY, this.x, this.y, this.w, this.h);
     }
     
     void show() {

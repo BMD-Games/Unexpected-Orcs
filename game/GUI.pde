@@ -141,7 +141,7 @@ class GUI {
     screen.endDraw();
     image(screen, 0, 0);
     
-    if(pointInBox(mouseX, mouseY, 0, 0, GUI_WIDTH, height)) {
+    if(Utility.pointInBox(mouseX, mouseY, 0, 0, GUI_WIDTH, height)) {
       inMenu = true;
     } else {
       inMenu = false;
@@ -389,7 +389,7 @@ class GUI {
     for (int i = 0; i < engine.player.active().length; i++) {
       screen.fill(150);
       screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
-      if (pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
+      if (Utility.pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
         itemOver = i;
         mouseOverItem = engine.player.active()[i];
         menuType = active;
@@ -400,7 +400,7 @@ class GUI {
       j = (int)(i/Inventory.WIDTH);
       screen.fill(150);
       screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
-      if (pointInBox(mouseX, mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) { 
+      if (Utility.pointInBox(mouseX, mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) { 
         itemOver = i;        
         mouseOverItem = engine.player.inv()[i];
         menuType = inv;
@@ -410,7 +410,7 @@ class GUI {
       for (int i = 0; i < engine.player.active().length; i++) {
         screen.fill(150);
         screen.rect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
-        if (pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
+        if (Utility.pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
           itemOver = i;
           mouseOverItem = items[i];
           menuType = bag;
@@ -479,7 +479,7 @@ class Button extends HUDElement {
   }
 
   public boolean pressed() {
-    return pointInBox(mouseX, mouseY, x, y, w, h);
+    return Utility.pointInBox(mouseX, mouseY, x, y, w, h);
   }
 }
 

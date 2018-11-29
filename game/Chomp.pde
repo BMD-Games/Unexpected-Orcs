@@ -1,18 +1,9 @@
-class Chomp extends StandardEnemy implements Enemy {
-  
-  //public int tier = 0;
-  //public float x = 0;
-  //public float y = 0;
-  
-  private float angle;
-  private float attackWait;
-  
-  protected float radius;
-  
+class Chomp extends MeleeEnemy implements Enemy {
+
   public Chomp(float x, float y, int tier) {
     super(x, y, tier);
     radius = 0.25;
-    attackWait = 0;
+    range = 6;
     sprite = charSprites.get("CHOMP_BLACK_SMALL");
     stats.health = 14 * tier;
     stats.attack = 5 * tier;
@@ -21,20 +12,16 @@ class Chomp extends StandardEnemy implements Enemy {
   }
   
   /* Enemies need to update on tics */
-  public boolean update(double delta, float playerX, float playerY) {
-    //If player in range attack.
-    if(distanceFrom(playerX, playerY) < 6) {
-      angle = atan2(playerY - y, playerX - x);
+  public boolean update(double delta) {
+    if(Utility.distance(x, y, engine.player.x, engine.player.y) < range) {
       attackWait += delta;
-      if(distanceFrom(playerX, playerY) < radius) {
+      if(Utility.distance(x, y, engine.player.x, engine.player.y) < radius) {
         attack();
       } else {
         move(delta);
       }
     }
-    
-    //Return true if chomp is alive
-    return stats.getHealth() > 0;
+    return super.update(delta);
   }
   
   /* Displays enemy to screen */
@@ -52,94 +39,14 @@ class Chomp extends StandardEnemy implements Enemy {
     screen.popMatrix();
   }
   
-  private void attack() {
-    if(attackWait > 1) {
-      attackWait = 0;
-      engine.player.damage(stats.attack * 2);
-    }
-  }
-  
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
-  }
-  
-  /* Checks collision with point */
-  public boolean pointCollides(float pointX, float pointY) {
-    return (distanceFrom(pointX, pointY) < radius);
   }
   
   /* Checks collision with area  */
   public boolean AABBCollides(AABB box){
     return false;
   }
-    
-    private void move(double delta) {
-    float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
-    float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
-    x += moveX;
-    y += moveY;
-    if(!validPosition(engine.currentLevel, x, y)) {
-      if(!validCentre(engine.currentLevel, x, y)) {
-        x -= moveX;
-        y -= moveY;
-      } else {
-        if(!validLeft(engine.currentLevel, x, y)) {
-          x = floor(x) + radius;
-        } else if(!validRight(engine.currentLevel, x, y)) {
-          x = ceil(x) - radius;
-        }
-        if(!validTop(engine.currentLevel, x, y)) {
-          y = floor(y) + radius;
-        } else if(!validBottom(engine.currentLevel, x, y)) {
-          y = ceil(y) - radius;
-        }
-      }
-    }
-  }
-  
-  //Calculates if coordinates mean chomp is not in a wall
-  //Needs level because it's used in setup
-  public boolean validPosition(Level level, float xPos, float yPos) {
-    return validCentre(level, xPos, yPos) &&
-        (level.getTile((int)xPos, (int)(yPos + radius)) > WALL) &&
-        (level.getTile((int)xPos, (int)(yPos - radius)) > WALL) && 
-        (level.getTile((int)(xPos + radius), (int)yPos) > WALL) && 
-        (level.getTile((int)(xPos - radius), (int)yPos) > WALL);
-  }
-  
-  private boolean validCentre(Level level, float xPos, float yPos) {
-    return level.getTile((int)xPos, (int)yPos) > WALL;
-  }
-  
-  private boolean validLeft(Level level, float xPos, float yPos) {
-    return level.getTile((int)(xPos - radius), (int)yPos) > WALL;
-  }
-  
-  private boolean validRight(Level level, float xPos, float yPos) {
-    return level.getTile((int)(xPos + radius), (int)yPos) > WALL;
-  }
-  
-  private boolean validTop(Level level, float xPos, float yPos) {
-    return level.getTile((int)xPos, (int)(yPos - radius)) > WALL;
-  }
-  
-  private boolean validBottom(Level level, float xPos, float yPos) {
-    return level.getTile((int)xPos, (int)(yPos + radius)) > WALL;
-  }
-  
-  protected float distanceFrom(float pointX, float pointY) {
-    return sqrt(pow(x - pointX, 2) + pow(y - pointY, 2));
-  }
-  
-  protected int sign(float value){
-    if(value < 0) {
-      return -1;
-    } else if(value > 0) {
-      return 1;
-    }
-    return 0;
-  }
-  
 }
 
 class BigChomp extends Chomp {
@@ -156,7 +63,7 @@ class BigChomp extends Chomp {
   
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    return (distanceFrom(pointX, pointY) < 0.5);
+    return (Utility.distance(x, y, pointX, pointY) < radius);
   }
   
   public void onDeath() {
@@ -178,7 +85,7 @@ class BossChomp extends Chomp {
   
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    return (distanceFrom(pointX, pointY) < 1);
+    return (Utility.distance(x, y, pointX, pointY) < radius);
   }
   
   public void onDeath() {

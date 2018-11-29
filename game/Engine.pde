@@ -66,29 +66,27 @@ class Engine {
     screen.beginDraw();
     currentLevel.show(screen, getRenderOffset());
     
-    for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
+    for(Enemy enemy: currentLevel.enemies) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-      currentLevel.enemies.get(i).show(screen, getRenderOffset());
+      enemy.show(screen, getRenderOffset());
     }
     
-    for(int i = enemyProjectiles.size() - 1; i >= 0; i --) {
-      enemyProjectiles.get(i).show(screen, getRenderOffset());
+    for(Projectile projectile : enemyProjectiles) {
+      projectile.show(screen, getRenderOffset());
     }
-    for(int i = playerProjectiles.size() - 1; i >= 0; i --) {
-      playerProjectiles.get(i).show(screen, getRenderOffset());
+    for(Projectile projectile: playerProjectiles) {
+      projectile.show(screen, getRenderOffset());
     }
     
-    for(int i = drops.size() - 1; i >= 0; i --) {
-      drops.get(i).show(screen, getRenderOffset());
+    for(Drop drop : drops) {
+      drop.show(screen, getRenderOffset());
     }
     
     player.show(screen, getRenderOffset());
     
-    for(int i = text.size() - 1; i >= 0; i --) {
-      text.get(i).show(screen, getRenderOffset());
+    for(Text txt : text) {
+      txt.show(screen, getRenderOffset());
     }
-    
-    
     
     screen.endDraw();
     image(screen, GUI_WIDTH, 0);
@@ -103,7 +101,6 @@ class Engine {
     //handle mouse released
     //need to do something like add(player.getCurrentWeapon().newProjectile());
     // PVector.fromAngle(player.ang)
-    
     Weapon weapon = player.currentWeapon();
     if (weapon != null) {
       if (player.stats.getFireTimer() >= weapon.fireRate) {
@@ -159,7 +156,7 @@ class Engine {
     for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
       //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
       Enemy enemy = currentLevel.enemies.get(i);
-      if(!enemy.update(delta, x, y)) { //if update function returns false, the enemy is dead
+      if(!enemy.update(delta)) { //if update function returns false, the enemy is dead
         enemy.onDeath();
         currentLevel.enemies.remove(i); //remove enemy
       }
