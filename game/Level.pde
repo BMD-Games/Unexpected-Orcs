@@ -16,7 +16,7 @@ class Level {
 
 
   private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
-  private ArrayList<PVector> smoothQueue = new ArrayList<PVector>();
+  private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
 
   private PGraphics tiles, miniMap, miniMapOverlay;
 
@@ -173,18 +173,17 @@ class Level {
   }
 
   public void newSmoothUncover(int i, int j, int radius) {
-    smoothQueue = new ArrayList<PVector>();
+    smoothQueue = new PriorityQueue<PVector>(new PVectorZComparator());
     smoothBeenVisited = new HashMap<PVector, Boolean>();
     smoothQueue.add(new PVector(i, j, radius));
   }
 
   protected void updateVisitedSmooth() {
-    for(int i = 0; i < 10; i ++ ) {
-      if (smoothQueue.size() > 0) {
-        visitTileSmooth((int)smoothQueue.get(0).x, (int)smoothQueue.get(0).y, (int)smoothQueue.get(0).z);
-      } else {
-        return;
-      }
+    if(smoothQueue.size() <= 0) return;
+    int level = (int)smoothQueue.peek().z;
+    while(smoothQueue.size() > 0 && (int)smoothQueue.peek().z == level) {
+      PVector tile = smoothQueue.remove();
+      visitTileSmooth((int)tile.x, (int)tile.y, (int)tile.z);
     }
   }
 
@@ -320,6 +319,14 @@ class Level {
   }
 
   //-----Getters and setters------
+  public void setTilesRaw(int[][] tiles) { //Raw tiles using 0s and 1s
+    tilesRaw = tiles;
+  }
+  
+    public void setTileMap(int[][] tiles) { //Tiles with tileset
+    tileMap = tiles;
+  }
+  
   public void setTiles(int[][] tiles) {
     tilesRaw = tiles;
     applyTileSet();
@@ -381,6 +388,15 @@ class Level {
     }
     file.flush();
     file.close();
+  }
+}
+
+class PVectorZComparator implements Comparator<PVector> {
+  @Override
+  public int compare(PVector a, PVector b) {
+    if (a.z < b.z) return 1;
+    if (a.z > b.z) return -1;
+    return 0;
   }
 }
 

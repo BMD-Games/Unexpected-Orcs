@@ -1,4 +1,6 @@
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 
 HashMap<Integer, PImage> tileSprites;
 HashMap<String, PImage> itemSprites;
