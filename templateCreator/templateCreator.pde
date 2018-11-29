@@ -89,6 +89,7 @@ PVector getTile() {
 void saveToFile() {
   JFrame frame = new JFrame();
   JFileChooser chooseSave = new JFileChooser(sketchPath() + "/out/");
+  chooseSave.setSelectedFile(new File("Room_" + year() + "_" + month() + "_" + day() + ".txt"));
   int val = chooseSave.showOpenDialog(frame);
   if (val == JFileChooser.APPROVE_OPTION) {
     saveToFile(chooseSave.getSelectedFile().getPath());
