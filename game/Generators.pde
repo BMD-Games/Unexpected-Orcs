@@ -318,7 +318,7 @@ public boolean validTile(int[][] tiles, int x, int y, int dx, int dy) {
       if (dx != 0 && dx == i) continue;      
       if (dy != 0 && dy == j) continue;
       try {
-        if (tiles[x + i][y + j] != WALL) return false; //if the tile is a wall
+        if (tiles[x + i][y + j] >= FLOOR) return false; //if the tile is a floor
       } 
       catch(Exception e) { 
         return false;
@@ -348,9 +348,9 @@ public void addConnector(ArrayList<int[]> connectors, int[][] tiles, int[][] reg
   try { l = tiles[i-1][j]; lr = region[i-1][j]; } catch(Exception e) {}
   try { r = tiles[i+1][j]; rr = region[i+1][j]; } catch(Exception e) {}
   
-  if((t > WALL && b > WALL) && tr != br) { // >Wall is non-solid block
+  if((t >= FLOOR && b >= FLOOR) && tr != br) { // >= FLOOR is non-solid block
     connectors.add(new int[] {i, j, tr, br});
-  } else if ((l > WALL && r > WALL) && lr != rr) {
+  } else if ((l >= FLOOR && r >= FLOOR) && lr != rr) {
     connectors.add(new int[] {i, j, lr, rr});
   }
 }
