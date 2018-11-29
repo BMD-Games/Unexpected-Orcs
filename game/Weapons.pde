@@ -9,7 +9,9 @@ class Weapon extends Item {
   Weapon(String sprite, String name) {
     super(sprite, name);
     this.type = "Weapon";
-  }  
+  }
+  
+  public void playSound() {}
 }
 
 class Shotgun extends Weapon{
@@ -70,4 +72,10 @@ class Sniper extends Weapon{
     this.bulletSprite = "SNIPER";
     
   }
+  
+  @Override
+  public void playSound() {
+    soundFiles.get("WHOOSH").play();
+  }
+
 }
