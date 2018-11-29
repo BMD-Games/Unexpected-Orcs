@@ -48,7 +48,7 @@ class SwiftBoots extends Ability {
   @Override
   public void ability(){
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
-      engine.player.stats.addStatusEffect("SPEEDY", 3);
+      engine.player.stats.addStatusEffect("SWIFT", 3);
     }
   }
   
