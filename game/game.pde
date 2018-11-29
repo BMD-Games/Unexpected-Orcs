@@ -41,6 +41,8 @@ void setup() {
   
   gui = new GUI();
   engine = new Engine();
+  setupSound();
+  
 }
 
 void draw() {
