@@ -1,11 +1,12 @@
 import processing.sound.*;
 SoundFile file;
 
-void setupSound() {
+public void loadSounds() {
   
+  soundFiles = new HashMap<String, SoundFile>();
   
-  SoundFile file = new SoundFile(this, "/assets/music/song.mp3");
-  file.play();
-  
+  soundFiles.put("WHOOSH", new SoundFile(this, "/assets/music/whoosh.wav"));
+  soundFiles.put("FLYBY", new SoundFile(this, "/assets/music/flyby.wav"));
+  soundFiles.put("FLAME", new SoundFile(this, "/assets/music/flame.wav"));
   
 }
