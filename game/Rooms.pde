@@ -21,7 +21,7 @@ class Room {
   }
 
   public boolean inRoom(int px, int py) {
-    return pointInBox(px, py, x, y, w, h);
+    return Utility.pointInBox(px, py, x, y, w, h);
   }
 }
 

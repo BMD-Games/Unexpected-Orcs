@@ -21,16 +21,16 @@ class Cave extends Level{
     for(int i = 0; i < 40; i ++) {
       chomp = new Chomp(random(w), random(h), 1);
       validSpawn(chomp);
-      enemies.add(chomp);
+      addEnemy(chomp);
     }
     for(int i = 0; i < 10; ++i) {
       chomp = new BigChomp(random(w), random(h), 2);
       validSpawn(chomp);
-      enemies.add(chomp);
+      addEnemy(chomp);
     }
     chomp = new BossChomp(random(w), random(h), 3);
     validSpawn(chomp);
-    enemies.add(chomp);
+    addEnemy(chomp);
   }
   
   void validSpawn(Chomp enemy) {
