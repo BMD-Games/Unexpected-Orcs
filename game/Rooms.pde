@@ -23,6 +23,7 @@ class Room {
   public boolean inRoom(int px, int py) {
     return Utility.pointInBox(px, py, x, y, w, h);
   }
+  
 }
 
 public Room randomRoom(int minSize, int maxSize, int w, int h) {

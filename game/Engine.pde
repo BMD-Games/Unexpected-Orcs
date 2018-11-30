@@ -104,8 +104,12 @@ class Engine {
     // PVector.fromAngle(player.ang)
     Weapon weapon = player.currentWeapon();
     if (weapon != null) {
+      
       if (player.stats.getFireTimer() >= weapon.fireRate) {
+        weapon.playSound();
         
+        // ArrayList<Pair> projectileStats = weapon.
+
         for (int i = 0; i < weapon.numBullets; i++) {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
               weapon.bulletSpeed, weapon.range, weapon.damage + player.stats.getAttack(), weapon.bulletSprite));

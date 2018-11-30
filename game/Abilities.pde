@@ -48,8 +48,10 @@ class SwiftBoots extends Ability {
   @Override
   public void ability(){
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
-      engine.player.stats.addStatusEffect("SPEEDY", 3);
+      engine.player.stats.addStatusEffect("SWIFT", 3);
+      // soundFiles.get("FLYBY").play();
     }
+    
   }
   
 }
@@ -86,6 +88,7 @@ class FireBomb extends Ability {
         engine.playerProjectiles.add(new Projectile(engine.player.x, engine.player.y, PVector.fromAngle(PI * i / 4), 
                 5, 3, 100, "FIREBALL"));
       }
+      // soundFiles.get("FLAME").play();
     }
   
   }

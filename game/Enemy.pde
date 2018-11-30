@@ -28,7 +28,6 @@ public interface Enemy {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 abstract class StandardEnemy implements Enemy {
   
   public int tier;
@@ -37,6 +36,8 @@ abstract class StandardEnemy implements Enemy {
   
   protected int range = 10;
   protected float radius;
+  protected boolean active = false;
+  
   protected float angle;
   protected PImage sprite;
   protected Stats stats = new Stats();
@@ -50,11 +51,24 @@ abstract class StandardEnemy implements Enemy {
    /* Enemies need to update on tics */
   public boolean update(double delta) {
     angle = atan2(engine.player.y - y, engine.player.x - x);
+    active = Utility.distance(x, y, engine.player.x, engine.player.y) < range;
     return stats.health > 0;
   }
   
   /* Displays enemy to screen */
-  public void show(PGraphics screen, PVector renderOffset) {}
+  public void show(PGraphics screen, PVector renderOffset){
+    screen.pushMatrix();
+    screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
+    if((angle < PI/2) && (angle > -PI/2)) {
+      screen.rotate(angle);
+      screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+    } else {
+      screen.scale(-1.0, 1.0);
+      screen.rotate(PI - angle);
+      screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
+    }
+    screen.popMatrix();
+  }
   
   /* Takes damage */
   public void damage(int amount){
@@ -63,6 +77,16 @@ abstract class StandardEnemy implements Enemy {
       stats.health -= damage;
       engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0 , 0));
     }
+  }
+  
+  /* Takes damage */
+  public void damage(int amount, ArrayList<Pair> statusEffects){
+    int damage = amount - stats.defence;
+    if(damage > 0) {
+      stats.health -= damage;
+      engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0 , 0));
+    }
+    
   }
   
   /* Checks collision with point */
@@ -79,13 +103,12 @@ abstract class StandardEnemy implements Enemy {
   public boolean validPosition(Level level, float xPos, float yPos) {
     return true;
   }
+  
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 abstract class MeleeEnemy extends StandardEnemy implements Enemy {

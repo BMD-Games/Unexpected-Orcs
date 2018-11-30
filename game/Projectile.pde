@@ -1,3 +1,4 @@
+
 class Projectile {
   
   private PVector direction;
@@ -5,6 +6,21 @@ class Projectile {
   public float x, y;
   private int damage;
   private PImage sprite;
+  private ArrayList<Pair> statusEffects;
+  
+  
+  Projectile(float x, float y, PVector direction, float speed, float range, int damage, String sprite, ArrayList<Pair> statusEffects) {
+    this.x = x;
+    this.y = y;
+    this.startX = x;
+    this.startY = y;
+    this. direction = direction;
+    this.speed = speed;
+    this.range = range;
+    this.damage = damage;
+    this.sprite = projectileSprites.get(sprite);
+    this.statusEffects = statusEffects;
+  }
   
   Projectile(float x, float y, PVector direction, float speed, float range, int damage, String sprite) {
     this.x = x;
@@ -16,6 +32,7 @@ class Projectile {
     this.range = range;
     this.damage = damage;
     this.sprite = projectileSprites.get(sprite);
+    this.statusEffects = new ArrayList();
   }
   
   public void update(double delta) {
@@ -40,4 +57,16 @@ class Projectile {
   private int getDamage() {
     return damage;
   }
+}
+
+class Pair {
+  
+  public String a;
+  public String b;
+  
+  Pair(String a, String b) {
+    this.a = a;
+    this.b = b;
+  }  
+  
 }

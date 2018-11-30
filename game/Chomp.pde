@@ -24,21 +24,6 @@ class Chomp extends MeleeEnemy implements Enemy {
     return super.update(delta);
   }
   
-  /* Displays enemy to screen */
-  public void show(PGraphics screen, PVector renderOffset){
-    screen.pushMatrix();
-    screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
-    if((angle < PI/2) && (angle > -PI/2)) {
-      screen.rotate(angle);
-      screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
-    } else {
-      screen.scale(-1.0, 1.0);
-      screen.rotate(PI - angle);
-      screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
-    }
-    screen.popMatrix();
-  }
-  
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
   }
@@ -49,7 +34,7 @@ class Chomp extends MeleeEnemy implements Enemy {
   }
 }
 
-class BigChomp extends Chomp {
+public class BigChomp extends Chomp {
   
   public BigChomp(float x, float y, int tier) {
     super(x, y, tier);
@@ -71,7 +56,7 @@ class BigChomp extends Chomp {
   }
 }
 
-class BossChomp extends Chomp {
+public class BossChomp extends Chomp {
   
   public BossChomp(float x, float y, int tier) {
     super(x, y, tier);
@@ -91,6 +76,117 @@ class BossChomp extends Chomp {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
     engine.addDrop(new CavePortal(x, y));
+  }
+}
+
+
+
+public abstract class Elemental extends MeleeEnemy implements Enemy {
+  
+  protected float animationTime = 0;
+  protected PImage[] sprites = {charSprites.get("FIRE_ELEMENTAL"), charSprites.get("ICE_ELEMENTAL"), charSprites.get("MAGIC_ELEMENTAL"), charSprites.get("POISON_ELEMENTAL")};
+  protected String statusEffect;
+  
+  public Elemental(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.health = 6 * tier;
+    stats.attack = 10 * tier;
+    stats.speed = 2 * tier;
+    stats.defence = 2 * tier; 
+  }
+  
+  public boolean update(double delta) {
+    animationTime += delta + random((float)delta / 2);
+    animationTime %= 0.8;
+    sprite = sprites[(int)(animationTime / 0.2)];
+    return super.update(delta);
+  }
+  
+  protected void attack() {
+    super.attack();
+    engine.player.stats.addStatusEffect(statusEffect, 3);
+  }
+  
+  /* Checks collision with point */
+  public boolean pointCollides(float pointX, float pointY) {
+    return false;
+  }
+  
+  /* Checks collision with area  */
+  public boolean AABBCollides(AABB box) {
+    return false;
+  }
+  
+}
+
+public class FireElemental extends Elemental implements Enemy {
+  
+  public FireElemental(float x, float y, int tier) {
+    super(x, y, tier);
+    statusEffect = "SICK";
+    sprite = charSprites.get("FIRE_ELEMENTAL");
+    sprites[0] = charSprites.get("FIRE_ELEMENTAL");
+    sprites[1] = charSprites.get("FIRE_ELEMENTAL_2");
+    sprites[2] = charSprites.get("FIRE_ELEMENTAL_3"); 
+    sprites[3] = charSprites.get("FIRE_ELEMENTAL_4");
+  }
+
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+  }
+  
+}
+
+public class IceElemental extends Elemental implements Enemy {
+  
+  public IceElemental(float x, float y, int tier) {
+    super(x, y, tier);
+    statusEffect = "SLOWED";
+    sprite = charSprites.get("ICE_ELEMENTAL");
+    sprites[0] = charSprites.get("ICE_ELEMENTAL");
+    sprites[1] = charSprites.get("ICE_ELEMENTAL_2");
+    sprites[2] = charSprites.get("ICE_ELEMENTAL_3"); 
+    sprites[3] = charSprites.get("ICE_ELEMENTAL_4");
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+  }
+  
+}
+
+public class MagicElemental extends Elemental implements Enemy {
+  
+  public MagicElemental(float x, float y, int tier) {
+    super(x, y, tier);
+    statusEffect = "CURSED";
+    sprite = charSprites.get("MAGIC_ELEMENTAL");
+    sprites[0] = charSprites.get("MAGIC_ELEMENTAL");
+    sprites[1] = charSprites.get("MAGIC_ELEMENTAL_2");
+    sprites[2] = charSprites.get("MAGIC_ELEMENTAL_3"); 
+    sprites[3] = charSprites.get("MAGIC_ELEMENTAL_4");
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "WISDOM"));
+  }
+  
+}
+
+public class PoisonElemental extends Elemental implements Enemy {
+  
+  public PoisonElemental(float x, float y, int tier) {
+    super(x, y, tier);
+    statusEffect = "ARMOURBREAK";
+    sprite = charSprites.get("POISON_ELEMENTAL");
+    sprites[0] = charSprites.get("POISON_ELEMENTAL");
+    sprites[1] = charSprites.get("POISON_ELEMENTAL_2");
+    sprites[2] = charSprites.get("POISON_ELEMENTAL_3"); 
+    sprites[3] = charSprites.get("POISON_ELEMENTAL_4");
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "DEFENCE"));
   }
   
 }
