@@ -4,6 +4,7 @@ class Chomp extends MeleeEnemy implements Enemy {
     super(x, y, tier);
     radius = 0.25;
     range = 6;
+    rectangleBB = false;
     sprite = charSprites.get("CHOMP_BLACK_SMALL");
     stats.health = 14 * tier;
     stats.attack = 5 * tier;
@@ -11,26 +12,8 @@ class Chomp extends MeleeEnemy implements Enemy {
     stats.defence = 2 * tier;
   }
   
-  /* Enemies need to update on tics */
-  public boolean update(double delta) {
-    if(Utility.distance(x, y, engine.player.x, engine.player.y) < range) {
-      attackWait += delta;
-      if(Utility.distance(x, y, engine.player.x, engine.player.y) < radius) {
-        attack();
-      } else {
-        move(delta);
-      }
-    }
-    return super.update(delta);
-  }
-  
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
-  }
-  
-  /* Checks collision with area  */
-  public boolean AABBCollides(AABB box){
-    return false;
   }
 }
 
@@ -79,6 +62,8 @@ public class BossChomp extends Chomp {
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 public abstract class Elemental extends MeleeEnemy implements Enemy {
@@ -89,6 +74,8 @@ public abstract class Elemental extends MeleeEnemy implements Enemy {
   
   public Elemental(float x, float y, int tier) {
     super(x, y, tier);
+    radius = 0.25;
+    rectangleBB = false;
     stats.health = 6 * tier;
     stats.attack = 10 * tier;
     stats.speed = 2 * tier;
@@ -105,16 +92,6 @@ public abstract class Elemental extends MeleeEnemy implements Enemy {
   protected void attack() {
     super.attack();
     engine.player.stats.addStatusEffect(statusEffect, 3);
-  }
-  
-  /* Checks collision with point */
-  public boolean pointCollides(float pointX, float pointY) {
-    return false;
-  }
-  
-  /* Checks collision with area  */
-  public boolean AABBCollides(AABB box) {
-    return false;
   }
   
 }
