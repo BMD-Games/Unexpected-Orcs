@@ -222,7 +222,7 @@ class GUI {
   
   private void drawStats() {
     screen.pushMatrix();
-    screen.scale(2);    
+    screen.scale(2);
     
     screen.textAlign(LEFT);
     screen.textSize(12);

@@ -5,12 +5,15 @@ class Level {
 
   protected boolean[][] visited;
   protected boolean[][] visitedCalcLocations;
-  protected int visitRadius = 8;
+  protected int visitRadius = 8;  
+  
+  private final int CHUNK_SIZE = 7;
+  private int CHUNK_W, CHUNK_H;
+  public ArrayList<Enemy>[] enemies;
 
   public int w, h;
   public PVector start;
   protected String name;
-  public ArrayList<Enemy> enemies  = new ArrayList<Enemy>();
   public TileSet tileset  = new TileSet();
   protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
 
@@ -19,10 +22,12 @@ class Level {
   private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
 
   private PGraphics tiles, miniMap, miniMapOverlay;
-
+  
   Level(int w, int h) {
     this.w = w;
     this.h = h;
+
+    initialiseChunks();
 
     visited = new boolean[w][h];
     visitedCalcLocations = new boolean[w][h];
@@ -318,7 +323,41 @@ class Level {
     }
   }
 
-  //-----Getters and setters------
+  private void initialiseChunks() {
+    CHUNK_W = ceil(w/(float)CHUNK_SIZE);
+    CHUNK_H = ceil(h/(float)CHUNK_SIZE);
+    enemies = new ArrayList[CHUNK_W * CHUNK_H];
+    for(int i = 0; i < enemies.length; i ++) {
+      enemies[i] = new ArrayList<Enemy>();
+    }
+  }
+  
+  public void addEnemy(StandardEnemy enemy) {
+    if(enemies[getChunk((int)enemy.x, (int)enemy.y)] == null) enemies[getChunk((int)enemy.x, (int)enemy.y)] = new ArrayList<Enemy>();
+    enemies[getChunk((int)enemy.x, (int)enemy.y)].add(enemy);
+  }
+  
+  public ArrayList<Integer> getChunks(int x, int y) {
+    ArrayList<Integer> chunks = new ArrayList<Integer>();
+    for(int i = x - CHUNK_SIZE; i <= x + CHUNK_SIZE; i += CHUNK_SIZE) {
+      for(int j = y - CHUNK_SIZE; j <= y + CHUNK_SIZE; j += CHUNK_SIZE) {
+        int c = getChunk(i, j);
+        if(c >= 0 && c < enemies.length) {
+          chunks.add(getChunk(i, j));
+        }
+      }
+    }
+    return chunks;
+  }
+  
+  public int getChunk(int x, int y) {
+    return (x/CHUNK_SIZE) + (y/CHUNK_SIZE) * CHUNK_W;
+  }
+  
+  public PVector getChunkPos(int x, int y) {
+    return new PVector(x/CHUNK_SIZE, y/CHUNK_SIZE);
+  }
+  
   public void setTilesRaw(int[][] tiles) { //Raw tiles using 0s and 1s
     tilesRaw = tiles;
   }
