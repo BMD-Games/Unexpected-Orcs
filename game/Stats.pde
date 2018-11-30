@@ -43,7 +43,7 @@ class Stats {
   public int getWisdom() { return (statusEffects.containsKey("CURSED") ? 0 : statusEffects.containsKey("SMART") ? wisdom * 2 : wisdom); }
   public int getDefence() { return (statusEffects.containsKey("ARMOURBREAK") ? 0 : statusEffects.containsKey("ARMOURED") ? defence * 2 : defence); }
   public float getFireTimer() { return (statusEffects.containsKey("DAZED") ? fireTimer/2 : statusEffects.containsKey("BEZERK") ? fireTimer * 2 : fireTimer); }
-  public float getSpeed() { return (statusEffects.containsKey("SLOWED") ? speed/2 : statusEffects.containsKey("SWIFT") ? speed * 2 : speed); }  
+  public float getSpeed() { return (statusEffects.containsKey("SLOWED") ? speed/2 : statusEffects.containsKey("SWIFT") ? speed * 1.5 : speed); }
 }
 
 class PlayerStats extends Stats {

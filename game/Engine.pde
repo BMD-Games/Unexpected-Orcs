@@ -65,10 +65,11 @@ class Engine {
   public void show() {
     screen.beginDraw();
     currentLevel.show(screen, getRenderOffset());
-    
-    for(Enemy enemy: currentLevel.enemies) {
-      //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-      enemy.show(screen, getRenderOffset());
+    ArrayList<Integer> chunks = currentLevel.getChunks((int)player.x, (int)player.y);
+    for(int i = 0; i < chunks.size(); i ++) {
+      for(int j = currentLevel.enemies[chunks.get(i)].size() - 1; j >= 0; j --) {
+        currentLevel.enemies[chunks.get(i)].get(j).show(screen, getRenderOffset());
+      }
     }
     
     for(Projectile projectile : enemyProjectiles) {
@@ -146,7 +147,8 @@ class Engine {
         playerProjectiles.remove(i); //remove projectile
         break;
       }
-      for(Enemy enemy : currentLevel.enemies) {
+      int chunk = currentLevel.getChunk((int)projectile.x, (int)projectile.y);
+      for(Enemy enemy : currentLevel.enemies[chunk]) {
         if(enemy.pointCollides(projectile.x, projectile.y)) {
           enemy.damage(projectile.getDamage(), projectile.statusEffects);
           playerProjectiles.remove(i);
@@ -157,13 +159,18 @@ class Engine {
     }
   }
   
-  private void updateEnemies(double delta, float x, float y) {
-    for(int i = currentLevel.enemies.size() - 1; i >= 0; i --) {
-      //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-      Enemy enemy = currentLevel.enemies.get(i);
-      if(!enemy.update(delta)) { //if update function returns false, the enemy is dead
-        enemy.onDeath();
-        currentLevel.enemies.remove(i); //remove enemy
+  private void updateEnemies(double delta, float px, float py) {
+    ArrayList<Integer> chunks = currentLevel.getChunks((int)player.x, (int)player.y);
+    for(int i = 0; i < chunks.size(); i ++) {
+      for(int j = currentLevel.enemies[chunks.get(i)].size() - 1; j >= 0; j --) {
+        StandardEnemy enemy = (StandardEnemy)currentLevel.enemies[chunks.get(i)].get(j);
+        if(!enemy.update(delta)) { //if update function returns false, the enemy is dead
+          enemy.onDeath();
+          currentLevel.enemies[chunks.get(i)].remove(j); //remove enemy
+        } else if(currentLevel.getChunk((int)enemy.x, (int)enemy.y)  != i) {
+          currentLevel.enemies[chunks.get(i)].remove(j);
+          currentLevel.addEnemy(enemy);
+        }
       }
     }
   }
