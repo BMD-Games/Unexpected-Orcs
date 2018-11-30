@@ -191,6 +191,21 @@ public void loadAssets() {
   charSprites.put("MAGIC_ELEMENTAL", getSprite(charsheet, 0, 5, 1, 1, charSize));
   charSprites.put("POISON_ELEMENTAL", getSprite(charsheet, 1, 5, 1, 1, charSize));
   
+  charSprites.put("FIRE_ELEMENTAL_2", getSprite(charsheet, 2, 4, 1, 1, charSize));
+  charSprites.put("ICE_ELEMENTAL_2", getSprite(charsheet, 3, 4, 1, 1, charSize));
+  charSprites.put("MAGIC_ELEMENTAL_2", getSprite(charsheet, 2, 5, 1, 1, charSize));
+  charSprites.put("POISON_ELEMENTAL_2", getSprite(charsheet, 3, 5, 1, 1, charSize));
+  
+  charSprites.put("FIRE_ELEMENTAL_3", getSprite(charsheet, 4, 4, 1, 1, charSize));
+  charSprites.put("ICE_ELEMENTAL_3", getSprite(charsheet, 5, 4, 1, 1, charSize));
+  charSprites.put("MAGIC_ELEMENTAL_3", getSprite(charsheet, 4, 5, 1, 1, charSize));
+  charSprites.put("POISON_ELEMENTAL_3", getSprite(charsheet, 5, 5, 1, 1, charSize));
+  
+  charSprites.put("FIRE_ELEMENTAL_4", getSprite(charsheet, 6, 4, 1, 1, charSize));
+  charSprites.put("ICE_ELEMENTAL_4", getSprite(charsheet, 7, 4, 1, 1, charSize));
+  charSprites.put("MAGIC_ELEMENTAL_4", getSprite(charsheet, 6, 5, 1, 1, charSize));
+  charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize));
+  
   //-----BULLET SPRITES-----
   PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
   int bulletSize = 8;

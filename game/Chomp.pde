@@ -83,7 +83,9 @@ public class BossChomp extends Chomp {
 
 public abstract class Elemental extends MeleeEnemy implements Enemy {
   
-  String statusEffect;
+  protected float animationTime = 0;
+  protected PImage[] sprites = {charSprites.get("FIRE_ELEMENTAL"), charSprites.get("ICE_ELEMENTAL"), charSprites.get("MAGIC_ELEMENTAL"), charSprites.get("POISON_ELEMENTAL")};
+  protected String statusEffect;
   
   public Elemental(float x, float y, int tier) {
     super(x, y, tier);
@@ -91,6 +93,13 @@ public abstract class Elemental extends MeleeEnemy implements Enemy {
     stats.attack = 10 * tier;
     stats.speed = 2 * tier;
     stats.defence = 2 * tier; 
+  }
+  
+  public boolean update(double delta) {
+    animationTime += delta + random((float)delta / 2);
+    animationTime %= 0.8;
+    sprite = sprites[(int)(animationTime / 0.2)];
+    return super.update(delta);
   }
   
   protected void attack() {
@@ -116,8 +125,12 @@ public class FireElemental extends Elemental implements Enemy {
     super(x, y, tier);
     statusEffect = "SICK";
     sprite = charSprites.get("FIRE_ELEMENTAL");
+    sprites[0] = charSprites.get("FIRE_ELEMENTAL");
+    sprites[1] = charSprites.get("FIRE_ELEMENTAL_2");
+    sprites[2] = charSprites.get("FIRE_ELEMENTAL_3"); 
+    sprites[3] = charSprites.get("FIRE_ELEMENTAL_4");
   }
-  
+
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
   }
@@ -130,6 +143,10 @@ public class IceElemental extends Elemental implements Enemy {
     super(x, y, tier);
     statusEffect = "SLOWED";
     sprite = charSprites.get("ICE_ELEMENTAL");
+    sprites[0] = charSprites.get("ICE_ELEMENTAL");
+    sprites[1] = charSprites.get("ICE_ELEMENTAL_2");
+    sprites[2] = charSprites.get("ICE_ELEMENTAL_3"); 
+    sprites[3] = charSprites.get("ICE_ELEMENTAL_4");
   }
   
   public void onDeath() {
@@ -144,6 +161,10 @@ public class MagicElemental extends Elemental implements Enemy {
     super(x, y, tier);
     statusEffect = "CURSED";
     sprite = charSprites.get("MAGIC_ELEMENTAL");
+    sprites[0] = charSprites.get("MAGIC_ELEMENTAL");
+    sprites[1] = charSprites.get("MAGIC_ELEMENTAL_2");
+    sprites[2] = charSprites.get("MAGIC_ELEMENTAL_3"); 
+    sprites[3] = charSprites.get("MAGIC_ELEMENTAL_4");
   }
   
   public void onDeath() {
@@ -158,6 +179,10 @@ public class PoisonElemental extends Elemental implements Enemy {
     super(x, y, tier);
     statusEffect = "ARMOURBREAK";
     sprite = charSprites.get("POISON_ELEMENTAL");
+    sprites[0] = charSprites.get("POISON_ELEMENTAL");
+    sprites[1] = charSprites.get("POISON_ELEMENTAL_2");
+    sprites[2] = charSprites.get("POISON_ELEMENTAL_3"); 
+    sprites[3] = charSprites.get("POISON_ELEMENTAL_4");
   }
   
   public void onDeath() {
