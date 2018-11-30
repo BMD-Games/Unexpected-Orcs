@@ -7,7 +7,7 @@ public interface Enemy {
   public void show(PGraphics screen, PVector renderOffset);
   
   /* This mob takes damage */
-  public void damage(int amount);
+  public void damage(int amount, ArrayList<Pair> statusEffects);
   
   /* Drop what on death */
   public void onDeath();
@@ -72,7 +72,7 @@ abstract class StandardEnemy implements Enemy {
   }
   
   /* Takes damage */
-  public void damage(int amount){
+  public void damage(int amount, ArrayList<Pair> statusEffects){
     int damage = amount - stats.defence;
     if(damage > 0) {
       stats.health -= damage;
@@ -80,15 +80,6 @@ abstract class StandardEnemy implements Enemy {
     }
   }
   
-  /* Takes damage */
-  public void damage(int amount, ArrayList<Pair> statusEffects){
-    int damage = amount - stats.defence;
-    if(damage > 0) {
-      stats.health -= damage;
-      engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0 , 0));
-    }
-    
-  }
   
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
