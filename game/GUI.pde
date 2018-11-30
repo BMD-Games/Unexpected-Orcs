@@ -134,9 +134,9 @@ class GUI {
     healthBar.show(screen);
     manaBar.show(screen);
     renderMiniMap();
-    drawStats();
     drawPortal();
     renderInv();
+    drawStats();
     drawCooldown();
     screen.endDraw();
     image(screen, 0, 0);
@@ -242,6 +242,9 @@ class GUI {
     screen.image(wisdomSprite, GUI_WIDTH * 3 / 10 - TILE_SIZE / 16, 56 + TILE_SIZE / 4);
     screen.image(speedSprite, GUI_WIDTH / 10 - TILE_SIZE / 16, 60 + TILE_SIZE / 2);
     screen.popMatrix();
+    
+    mouseOverStat();
+    
   }
 
   private void drawPortal() {
@@ -419,7 +422,7 @@ class GUI {
     }
   }
 
-  void mouseOver(float x, float y, Item item) {
+  private void mouseOver(float x, float y, Item item) {
    
     String desc = "";
     String type = item.type;
@@ -437,6 +440,7 @@ class GUI {
     } else if (type == "Scroll") {
       desc += "Does nothing" + "\n";
     }
+    
     screen.textSize(15);
     screen.textAlign(LEFT);
     int mouseOverWidth = max((int)(screen.textWidth(item.name) + 20), 100), mouseOverHeight = 120;
@@ -450,6 +454,57 @@ class GUI {
     screen.fill(255);
     screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
   }
+  
+  private void mouseOverStat() {
+    
+    int x = mouseX;
+    int y = mouseY;
+    
+    String statName = "";
+    String type = "";
+    String desc = "";
+    
+    if (Utility.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 104, TILE_SIZE / 2, TILE_SIZE / 2)) { // attack sprite hover
+      statName = "Attack";
+      type = String.valueOf(engine.player.stats.getAttack());
+      desc = "Increases Damage dealt by player projectiles";
+    } else if (Utility.pointInBox(x, y, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 104, TILE_SIZE / 2, TILE_SIZE / 2)) { // defence sprite hover
+      statName = "Defence";
+      type = String.valueOf(engine.player.stats.getDefence());
+      desc = "Decreases damage taken from enemies";
+    } else if (Utility.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2)) { // vitality hover
+      statName = "Vitality";
+      type = String.valueOf(engine.player.stats.getVitality());
+      desc = "Increases health regeneration rate";
+    } else if (Utility.pointInBox(x, y, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2)) { // wisdom hover
+      statName = "Wisdom";
+      type = String.valueOf(engine.player.stats.getVitality());
+      desc = "Increases mana regeneration rate";
+    } else if (Utility.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 120 + TILE_SIZE, TILE_SIZE / 2, TILE_SIZE / 2)) { // speed hover
+      statName = "Speed";
+      type = String.valueOf((int)(engine.player.stats.speed * 100));
+      desc = "Increases player speed";
+    }
+
+    
+    if (!statName.equals("")) {
+      screen.textSize(15);
+      screen.textAlign(LEFT);
+      int mouseOverWidth = max((int)(screen.textWidth(statName) + 20), 150), mouseOverHeight = 90;
+      screen.fill(100);
+      screen.rect(x, y, mouseOverWidth, mouseOverHeight);
+      screen.fill(200);
+      screen.text(statName, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
+      screen.textSize(12);
+      screen.textLeading(12);
+      screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
+      screen.fill(255);
+      screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
+    }
+    
+    
+  }
+  
 }
 
 class HUDElement {
