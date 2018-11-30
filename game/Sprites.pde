@@ -186,10 +186,10 @@ public void loadAssets() {
   charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 0, 4, 4, charSize));
   
   //Load element sprites
-  charSprites.put("FIRE_ELEMENT", getSprite(charsheet, 0, 4, 1, 1, charSize));
-  charSprites.put("ICE_ELEMENT", getSprite(charsheet, 1, 4, 1, 1, charSize));
-  charSprites.put("MAGIC_ELEMENT", getSprite(charsheet, 0, 5, 1, 1, charSize));
-  charSprites.put("POISON_ELEMENT", getSprite(charsheet, 1, 5, 1, 1, charSize));
+  charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
+  charSprites.put("ICE_ELEMENTAL", getSprite(charsheet, 1, 4, 1, 1, charSize));
+  charSprites.put("MAGIC_ELEMENTAL", getSprite(charsheet, 0, 5, 1, 1, charSize));
+  charSprites.put("POISON_ELEMENTAL", getSprite(charsheet, 1, 5, 1, 1, charSize));
   
   //-----BULLET SPRITES-----
   PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");

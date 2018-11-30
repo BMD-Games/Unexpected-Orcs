@@ -6,8 +6,6 @@ class Player {
 
   private float cooldown, cooldownTimer = 0, textTimer;
 
-  //private PImage sprite;
-  //private String[] sprites = {"PLAYER_BACK", "PLAYER_RIGHT", "PLAYER_FRONT", "PLAYER_LEFT"};
   private PImage headSprite;
   private PImage bodySprite;
   private String[] headSprites = {"FACE_BACK", "FACE_RIGHT", "FACE_FRONT", "FACE_LEFT"};
@@ -89,7 +87,6 @@ class Player {
   public void show(PGraphics screen, PVector renderOffset) {
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
-    //screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     screen.image(headSprite, -headSprite.width * SCALE/2, -headSprite.height * SCALE/2, headSprite.width * SCALE, headSprite.height * SCALE);
     screen.image(bodySprite, -bodySprite.width * SCALE/2, -bodySprite.height * SCALE/2, bodySprite.width * SCALE, bodySprite.height * SCALE);
 
@@ -119,11 +116,10 @@ class Player {
   }
 
   private int getFacing() {
-    //gets the direction that the player is looking in -> decides which sprite to use
+    //gets the direction that the player is looking in
     float dir = ang + (3 * PI/4);
     while (dir < 0) dir += TAU;
     int face = (int)(dir/(PI/2)) % 4;
-    //sprite = charSprites.get(sprites[face]);
     headSprite = charSprites.get(headSprites[face]);
     return face;
   }

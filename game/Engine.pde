@@ -106,6 +106,8 @@ class Engine {
       
       if (player.stats.getFireTimer() >= weapon.fireRate) {
         weapon.playSound();
+        
+        // ArrayList<Pair> projectileStats = weapon.
 
         for (int i = 0; i < weapon.numBullets; i++) {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
