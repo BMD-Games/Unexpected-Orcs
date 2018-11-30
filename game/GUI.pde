@@ -438,7 +438,7 @@ class GUI {
     } else if (type == "Armour") {
       desc += "Defence:" + ((Armour)item).defence + "\n";
     } else if (type == "Scroll") {
-      desc += "Does nothing" + "\n";
+      desc += ((Scroll)item).description;
     }
     
     screen.textSize(15);

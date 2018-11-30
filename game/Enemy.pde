@@ -42,6 +42,8 @@ abstract class StandardEnemy implements Enemy {
   protected PImage sprite;
   protected Stats stats = new Stats();
   
+  public ArrayList<String> typeList = new ArrayList();
+  
   public StandardEnemy(float x, float y, int tier) {
     this.tier = tier;
     this.x = x;
@@ -52,6 +54,7 @@ abstract class StandardEnemy implements Enemy {
   public boolean update(double delta) {
     angle = atan2(engine.player.y - y, engine.player.x - x);
     active = Utility.distance(x, y, engine.player.x, engine.player.y) < range;
+    stats.update(delta);
     return stats.health > 0;
   }
   
@@ -59,6 +62,16 @@ abstract class StandardEnemy implements Enemy {
   public void show(PGraphics screen, PVector renderOffset){
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
+    
+    // display status effects of the enemy
+    int i = 0;
+    PImage statusSprite;
+    for(String status : this.stats.statusEffects.keySet()) {
+      statusSprite = statusSprites.get(status);
+      
+      
+    }
+    
     if((angle < PI/2) && (angle > -PI/2)) {
       screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
@@ -67,16 +80,26 @@ abstract class StandardEnemy implements Enemy {
       screen.rotate(PI - angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
+    
     screen.popMatrix();
   }
   
   /* Takes damage */
   public void damage(int amount, ArrayList<Pair> statusEffects){
+    
+    for (Pair pair : statusEffects) {
+      if (typeList.contains(pair.a) || pair.a.equals("ALL")) {
+        this.stats.addStatusEffect(pair.b, 1);
+      }
+    }
+    
     int damage = amount - stats.defence;
     if(damage > 0) {
       stats.health -= damage;
       engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0 , 0));
     }
+    
+    
   }
   
   
