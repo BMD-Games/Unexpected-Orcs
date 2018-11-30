@@ -8,7 +8,8 @@ HashMap<String, PImage> guiSprites;
 HashMap<String, PImage> charSprites;
 HashMap<String, PImage> projectileSprites;
 HashMap<String, PImage> dropSprites;
-HashMap<String, SoundFile> soundFiles;
+
+// HashMap<String, SoundFile> soundFiles;
 
 final int GUI_WIDTH = 240;
 
@@ -34,7 +35,7 @@ void setup() {
   
   thread("loadAssets");
   thread("loadSettings");
-  thread("loadSounds");
+  // thread("loadSounds");
   
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);

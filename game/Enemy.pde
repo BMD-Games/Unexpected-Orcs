@@ -78,6 +78,32 @@ abstract class StandardEnemy implements Enemy {
       engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0 , 0));
     }
   }
+  
+  /* Takes damage */
+  public void damage(int amount, ArrayList<Pair> statusEffects){
+    int damage = amount - stats.defence;
+    if(damage > 0) {
+      stats.health -= damage;
+      engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0 , 0));
+    }
+    
+  }
+  
+  /* Checks collision with point */
+  public boolean pointCollides(float pointX, float pointY) {
+    return false;
+  }
+  
+  /* Checks collision with area  */
+  public boolean AABBCollides(AABB box) {
+    return false;
+  }
+  
+  /* Checks if mob collides with any walls */
+  public boolean validPosition(Level level, float xPos, float yPos) {
+    return true;
+  }
+  
 }
 
 

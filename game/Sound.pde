@@ -1,3 +1,4 @@
+/*
 import processing.sound.*;
 SoundFile file;
 
@@ -10,3 +11,4 @@ public void loadSounds() {
   soundFiles.put("FLAME", new SoundFile(this, "/assets/music/flame.wav"));
   
 }
+*/

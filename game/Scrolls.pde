@@ -1,10 +1,11 @@
 class Scroll extends Item {
   
-  String[] stats;
+  public ArrayList<Pair> statusEffects;
   
-  Scroll(String sprite, String name) {
+  Scroll(String sprite, String name, ArrayList<Pair> statusEffects) {
     super(sprite, name);
     this.type = "Scroll";
+    this.statusEffects = statusEffects;
   }
   
 }
@@ -12,7 +13,7 @@ class Scroll extends Item {
 class LitScroll extends Scroll {
  
   LitScroll() {
-    super("SCROLL_1", "Lit Scroll");
+    super("SCROLL_1", "Lit Scroll", new ArrayList<Pair>());
   }
   
 }
