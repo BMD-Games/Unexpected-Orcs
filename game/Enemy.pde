@@ -162,24 +162,36 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   protected void move(double delta) {
     float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
     float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
+    int xDir = Utility.sign(moveX);
+    int yDir = Utility.sign(moveY);
+    if(abs(xDir) + abs(yDir) == 0) {
+      return;
+    }
     x += moveX;
     y += moveY;
-    moveX = Utility.sign(moveX);
-    moveY = Utility.sign(moveY);
-    if(!Circle.validPosition(engine.currentLevel, x, y, radius)) {
+    if(rectangleBB) {
+      return;
+    } else {
       if(!Circle.validCentre(engine.currentLevel, x, y)) {
-        x -= moveX;
-        y -= moveY;
-      } else {
-        if(!Circle.validLeft(engine.currentLevel, x, y, radius)) {
-          x = floor(x) + radius;
-        } else if(!Circle.validRight(engine.currentLevel, x, y, radius)) {
+          x -= moveX;
+          y -= moveY;
+      }
+      if(xDir == 1) {
+        if(!Circle.validRight(engine.currentLevel, x, y, radius)) {
           x = ceil(x) - radius;
         }
+      } else if(xDir == -1) { 
+        if (!Circle.validLeft(engine.currentLevel, x, y, radius)) {
+          x = floor(x) + radius;
+        }
+      }
+      if(yDir == 1) {
+        if (!Circle.validBottom(engine.currentLevel, x, y, radius)) {
+          y = ceil(y) - radius;
+        }
+      } else { 
         if(!Circle.validTop(engine.currentLevel, x, y, radius)) {
           y = floor(y) + radius;
-        } else if(!Circle.validBottom(engine.currentLevel, x, y, radius)) {
-          y = ceil(y) - radius;
         }
       }
     }
@@ -218,6 +230,22 @@ public static class Circle {
     return level.getTile((int)xPos, (int)(yPos + radius)) > WALL;
   }
   
+  protected static boolean validTopLeft(Level level, float xPos, float yPos, float radius) {
+    return level.getTile((int)(xPos - radius), (int)yPos) > WALL;
+  }
+  
+  protected static boolean validTopRight(Level level, float xPos, float yPos, float radius) {
+    return level.getTile((int)(xPos + radius), (int)yPos) > WALL;
+  }
+  
+  protected static boolean validBottomLeft(Level level, float xPos, float yPos, float radius) {
+    return level.getTile((int)xPos, (int)(yPos - radius)) > WALL;
+  }
+  
+  protected static boolean validBottomRight(Level level, float xPos, float yPos, float radius) {
+    return level.getTile((int)xPos, (int)(yPos + radius)) > WALL;
+  }
+  
   /* Checks collision with point */
   public static boolean pointCollides(float x, float y, float pointX, float pointY, float radius) {
     return (Utility.distance(x, y, pointX, pointY) < radius);
@@ -225,10 +253,41 @@ public static class Circle {
   
 }
 
-/*public interface RectangularBB {
+public static class Rectangle {
   
-  default boolean validPosition() {
-    return 
+  //Calculates if coordinates mean chomp is not in a wall
+  //Needs level because it's used in setup
+  public static boolean validPosition(Level level, float xPos, float yPos, float radius) {
+    return validCentre(level, xPos, yPos) &&
+        validLeft(level, xPos, yPos, radius) &&
+        validRight(level, xPos, yPos, radius) && 
+        validTop(level, xPos, yPos, radius) && 
+        validBottom(level, xPos, yPos, radius);
   }
   
-}*/
+  protected static boolean validCentre(Level level, float xPos, float yPos) {
+    return level.getTile((int)xPos, (int)yPos) > WALL;
+  }
+  
+  protected static boolean validLeft(Level level, float xPos, float yPos, float radius) {
+    return level.getTile((int)(xPos - radius), (int)yPos) > WALL;
+  }
+  
+  protected static boolean validRight(Level level, float xPos, float yPos, float radius) {
+    return level.getTile((int)(xPos + radius), (int)yPos) > WALL;
+  }
+  
+  protected static boolean validTop(Level level, float xPos, float yPos, float radius) {
+    return level.getTile((int)xPos, (int)(yPos - radius)) > WALL;
+  }
+  
+  protected static boolean validBottom(Level level, float xPos, float yPos, float radius) {
+    return level.getTile((int)xPos, (int)(yPos + radius)) > WALL;
+  }
+  
+  /* Checks collision with point */
+  public static boolean pointCollides(float x, float y, float pointX, float pointY, float radius) {
+    return (Utility.distance(x, y, pointX, pointY) < radius);
+  }
+  
+}
