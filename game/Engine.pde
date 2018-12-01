@@ -168,7 +168,7 @@ class Engine {
         if(!enemy.update(delta)) { //if update function returns false, the enemy is dead
           enemy.onDeath();
           currentLevel.enemies[chunks.get(i)].remove(j); //remove enemy
-        } else if(currentLevel.getChunk((int)enemy.x, (int)enemy.y)  != i) {
+        } else if(currentLevel.getChunk((int)enemy.x, (int)enemy.y)  != chunks.get(i)) {
           currentLevel.enemies[chunks.get(i)].remove(j);
           currentLevel.addEnemy(enemy);
         }
