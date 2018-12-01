@@ -6,7 +6,7 @@ class Projectile {
   public float x, y;
   private int damage;
   private PImage sprite;
-  private ArrayList<Pair> statusEffects;
+  private ArrayList<Pair> statusEffects = new ArrayList();
   
   
   Projectile(float x, float y, PVector direction, float speed, float range, int damage, String sprite, ArrayList<Pair> statusEffects) {
