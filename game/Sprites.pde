@@ -138,7 +138,7 @@ public void loadAssets() {
   //-----STAT SPRITES-----
   
   PImage statusSheet = loadImage("/assets/sprites/statussheet.png");
-  int statusSize = 16;
+  int statusSize = 8;
   
   statusSprites.put("SWIFT", getSprite(statusSheet, 0, 0, 1, 1, statusSize));
   statusSprites.put("SLOWED", getSprite(statusSheet, 1, 0, 1, 1, statusSize));
