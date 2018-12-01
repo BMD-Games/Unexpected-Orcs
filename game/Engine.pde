@@ -65,9 +65,10 @@ class Engine {
   public void show() {
     screen.beginDraw();
     currentLevel.show(screen, getRenderOffset());
+    
     ArrayList<Integer> chunks = currentLevel.getChunks((int)player.x, (int)player.y);
     for(int i = 0; i < chunks.size(); i ++) {
-      for(int j = currentLevel.enemies[chunks.get(i)].size() - 1; j >= 0; j --) {
+      for(int j = 0; j < currentLevel.enemies[chunks.get(i)].size(); j ++) {
         currentLevel.enemies[chunks.get(i)].get(j).show(screen, getRenderOffset());
       }
     }
