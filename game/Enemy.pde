@@ -15,6 +15,9 @@ public interface Enemy {
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY);
   
+  /* Checks collision with point */
+  public boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2);
+  
   /* Checks collision with area  */
   public boolean AABBCollides(AABB box);
   
@@ -69,6 +72,8 @@ abstract class StandardEnemy implements Enemy {
     PImage statusSprite;
     for(String status : stats.statusEffects.keySet()) {
       statusSprite = statusSprites.get(status);
+      screen.image(statusSprite, x + radius / 2 + TILE_SIZE * i / 4 , y + SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
+      i++;
     }
     if((angle < PI/2) && (angle > -PI/2)) {
       screen.rotate(angle);
@@ -109,7 +114,13 @@ abstract class StandardEnemy implements Enemy {
     }
   }
   
-  public boolean AABBCollides(AABB box){
+  /* Checks collision with line */
+  public boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2) {
+    return false;  
+  }
+  
+  /* Checks collision with area  */
+  public boolean AABBCollides(AABB box) {
     return false;
   }  
   

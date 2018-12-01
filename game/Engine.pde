@@ -65,9 +65,10 @@ class Engine {
   public void show() {
     screen.beginDraw();
     currentLevel.show(screen, getRenderOffset());
+    
     ArrayList<Integer> chunks = currentLevel.getChunks((int)player.x, (int)player.y);
     for(int i = 0; i < chunks.size(); i ++) {
-      for(int j = currentLevel.enemies[chunks.get(i)].size() - 1; j >= 0; j --) {
+      for(int j = 0; j < currentLevel.enemies[chunks.get(i)].size(); j ++) {
         currentLevel.enemies[chunks.get(i)].get(j).show(screen, getRenderOffset());
       }
     }
@@ -167,7 +168,7 @@ class Engine {
         if(!enemy.update(delta)) { //if update function returns false, the enemy is dead
           enemy.onDeath();
           currentLevel.enemies[chunks.get(i)].remove(j); //remove enemy
-        } else if(currentLevel.getChunk((int)enemy.x, (int)enemy.y)  != i) {
+        } else if(currentLevel.getChunk((int)enemy.x, (int)enemy.y)  != chunks.get(i)) {
           currentLevel.enemies[chunks.get(i)].remove(j);
           currentLevel.addEnemy(enemy);
         }

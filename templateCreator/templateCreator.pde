@@ -14,8 +14,8 @@ int GUI_WIDTH = SPRITE_SIZE * MAX_SCALE + 20;
 final int MIN_TILE = -65, MAX_TILE = 14;
 int tile = WALL;
 
-int w = 10;
-int h = 10;
+int w = 6;
+int h = 6;
 
 int xoff = 0, yoff = 0;
 
@@ -83,7 +83,7 @@ void keyPressed() {
 }
 
 PVector getTile() {
-  return new PVector((mouseX-GUI_WIDTH)/TILE_SIZE, mouseY/TILE_SIZE);
+  return new PVector((mouseX-GUI_WIDTH)/TILE_SIZE + xoff, mouseY/TILE_SIZE + yoff);
 }
 
 void saveToFile() {
