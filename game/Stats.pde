@@ -6,7 +6,7 @@ class Stats {
   
   public float speed = 0, fireTimer = 0;
   
-  private HashMap<String, Float> statusEffects = new HashMap<String, Float>();
+  public HashMap<String, Float> statusEffects = new HashMap<String, Float>();
   
   public void update(double delta) {
     String s;
