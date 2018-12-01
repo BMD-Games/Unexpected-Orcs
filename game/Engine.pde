@@ -108,11 +108,12 @@ class Engine {
       if (player.stats.getFireTimer() >= weapon.fireRate) {
         weapon.playSound();
         
-        // ArrayList<Pair> projectileStats = weapon.
+        ArrayList<Pair> projectileStats = weapon.statusEffects;
+        projectileStats.addAll(engine.player.inv.currentScroll().statusEffects);
 
         for (int i = 0; i < weapon.numBullets; i++) {
           playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + random(-weapon.accuracy, weapon.accuracy)), 
-              weapon.bulletSpeed, weapon.range, weapon.damage + player.stats.getAttack(), weapon.bulletSprite));
+              weapon.bulletSpeed, weapon.range, weapon.damage + player.stats.getAttack(), weapon.bulletSprite, projectileStats));
         }
         player.stats.fireTimer = 0;
       } 
@@ -149,7 +150,7 @@ class Engine {
       int chunk = currentLevel.getChunk((int)projectile.x, (int)projectile.y);
       for(Enemy enemy : currentLevel.enemies[chunk]) {
         if(enemy.pointCollides(projectile.x, projectile.y)) {
-          enemy.damage(projectile.getDamage());
+          enemy.damage(projectile.getDamage(), projectile.statusEffects);
           playerProjectiles.remove(i);
           break;
         }

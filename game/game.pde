@@ -8,6 +8,7 @@ HashMap<String, PImage> guiSprites;
 HashMap<String, PImage> charSprites;
 HashMap<String, PImage> projectileSprites;
 HashMap<String, PImage> dropSprites;
+HashMap<String, PImage> statusSprites;
 
 // HashMap<String, SoundFile> soundFiles;
 

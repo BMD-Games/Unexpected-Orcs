@@ -6,6 +6,7 @@ public void loadAssets() {
   charSprites = new HashMap<String, PImage>();
   projectileSprites = new HashMap<String, PImage>();
   dropSprites = new HashMap<String, PImage>();
+  statusSprites = new HashMap<String, PImage>();
   
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("/assets/sprites/tilesheet.png");
@@ -133,6 +134,25 @@ public void loadAssets() {
   
   //Armour
   itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
+  
+  //-----STAT SPRITES-----
+  
+  PImage statusSheet = loadImage("/assets/sprites/statussheet.png");
+  int statusSize = 8;
+  
+  statusSprites.put("SWIFT", getSprite(statusSheet, 0, 0, 1, 1, statusSize));
+  statusSprites.put("SLOWED", getSprite(statusSheet, 1, 0, 1, 1, statusSize));
+  statusSprites.put("HEALING", getSprite(statusSheet, 2, 0, 1, 1, statusSize));
+  statusSprites.put("SICK", getSprite(statusSheet, 3, 0, 1, 1, statusSize));
+  statusSprites.put("DAMAGING", getSprite(statusSheet, 0, 1, 1, 1, statusSize));
+  statusSprites.put("WEAK", getSprite(statusSheet, 1, 1, 1, 1, statusSize));
+  statusSprites.put("ARMOURED", getSprite(statusSheet, 2, 1, 1, 1, statusSize));
+  statusSprites.put("ARMOURBREAK", getSprite(statusSheet, 3, 1, 1, 1, statusSize));
+  statusSprites.put("BEZERK", getSprite(statusSheet, 0, 2, 1, 1, statusSize));
+  statusSprites.put("DAZED", getSprite(statusSheet, 1, 2, 1, 1, statusSize));
+  statusSprites.put("SMART", getSprite(statusSheet, 2, 2, 1, 1, statusSize));
+  statusSprites.put("CURSED", getSprite(statusSheet, 3, 2, 1, 1, statusSize));
+  
   
   //-----DROP SPRITES-----
   PImage dropsheet = loadImage("/assets/sprites/dropsheet.png");

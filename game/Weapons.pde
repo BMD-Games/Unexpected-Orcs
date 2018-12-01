@@ -6,9 +6,9 @@ class Weapon extends Item {
   
   public String bulletSprite;
   
-  public Pair[] statusEffects;
+  public ArrayList<Pair> statusEffects;
   
-  Weapon(String sprite, String name, Pair[] statusEffects) {
+  Weapon(String sprite, String name, ArrayList<Pair> statusEffects) {
     super(sprite, name);
     this.type = "Weapon";
     this.statusEffects = statusEffects;
@@ -20,7 +20,7 @@ class Weapon extends Item {
 class Shotgun extends Weapon{
   
   Shotgun() {
-    super("SHOTGUN", "Shotgun", new Pair[0]);
+    super("SHOTGUN", "Shotgun", new ArrayList<Pair>());
     this.damage = 4;
     this.fireRate = 0.6;
     this.numBullets = 5;
@@ -35,7 +35,7 @@ class Shotgun extends Weapon{
 class Pistol extends Weapon{
   
   Pistol() {
-    super("PISTOL", "Pistol", new Pair[0]);
+    super("PISTOL", "Pistol", new ArrayList<Pair>());
     this.damage = 10;
     this.fireRate = 0.15;
     this.numBullets = 1;
@@ -50,7 +50,7 @@ class Pistol extends Weapon{
 class MachineGun extends Weapon{
   
   MachineGun() {
-    super("MACHINE_GUN", "Machine Gun", new Pair[0]);
+    super("MACHINE_GUN", "Machine Gun", new ArrayList<Pair>());
     this.damage = 4;
     this.fireRate = 0.05;
     this.numBullets = 1;
@@ -65,7 +65,7 @@ class MachineGun extends Weapon{
 class Sniper extends Weapon{
   
   Sniper() {
-    super("SNIPER", "Sniper", new Pair[0]);
+    super("SNIPER", "Sniper", new ArrayList<Pair>());
     this.damage = 100;
     this.fireRate = 1;
     this.numBullets = 1;

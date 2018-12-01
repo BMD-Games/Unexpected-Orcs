@@ -29,7 +29,7 @@ class Stats {
   }
   
   public void addStatusEffect(String name, float duration) {
-    if(STATUSES.containsKey(name)) {
+    if(STATUSES.getOrDefault(name, false)) {
       statusEffects.put(name, duration);
     }
   }
@@ -188,22 +188,22 @@ class PlayerStats extends Stats {
   }
 }
 
-public HashMap<String, String> STATUSES = new HashMap<String, String>();
+public HashMap<String, Boolean> STATUSES = new HashMap<String, Boolean>();
 public HashMap<String, Integer> statColours = new HashMap<String, Integer>();
 
 public void loadStats() {
-  STATUSES.put("SICK", "SICK");
-  STATUSES.put("HEALING", "HEALING");
-  STATUSES.put("WEAK", "WEAK");
-  STATUSES.put("DAMAGING", "DAMAGING");
-  STATUSES.put("CURSED", "CURSED");
-  STATUSES.put("SMART", "SMART");
-  STATUSES.put("ARMOURBREAK", "ARMOURBREAK");
-  STATUSES.put("ARMOURED", "ARMOURED");
-  STATUSES.put("DAZED", "DAZED");
-  STATUSES.put("BEZERK", "BEZERK");
-  STATUSES.put("SLOWED", "SLOWED");
-  STATUSES.put("SWIFT", "SWIFT");
+  STATUSES.put("SICK", true);
+  STATUSES.put("HEALING", true);
+  STATUSES.put("WEAK", true);
+  STATUSES.put("DAMAGING", true);
+  STATUSES.put("CURSED", true);
+  STATUSES.put("SMART", true);
+  STATUSES.put("ARMOURBREAK", true);
+  STATUSES.put("ARMOURED", true);
+  STATUSES.put("DAZED", true);
+  STATUSES.put("BEZERK", true);
+  STATUSES.put("SLOWED", true);
+  STATUSES.put("SWIFT", true);
   
   statColours.put("HEALTH", color(230, 100, 100));
   statColours.put("MANA", color(153, 217, 234));
