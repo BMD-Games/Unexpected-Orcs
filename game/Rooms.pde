@@ -24,6 +24,12 @@ class Room {
     return Utility.pointInBox(px, py, x, y, w, h);
   }
   
+  public void setTiles(int[][] tiles) {
+    this.tiles = tiles;
+    w = tiles.length;
+    h = tiles[0].length;
+  }
+  
 }
 
 public Room randomRoom(int minSize, int maxSize, int w, int h) {

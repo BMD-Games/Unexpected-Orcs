@@ -38,12 +38,66 @@ class Stats {
   public int getHealthMax() { return healthMax; }
   public int getMana() { return (int)mana; }
   public int getManaMax() { return manaMax; }
-  public int getVitality() { return (statusEffects.containsKey("SICK") ? 0 : statusEffects.containsKey("HEALING") ? vitality * 2 : vitality); }
-  public int getAttack() { return (statusEffects.containsKey("WEAK") ? 0 : statusEffects.containsKey("DAMAGING") ? attack * 2 : attack); }
-  public int getWisdom() { return (statusEffects.containsKey("CURSED") ? 0 : statusEffects.containsKey("SMART") ? wisdom * 2 : wisdom); }
-  public int getDefence() { return (statusEffects.containsKey("ARMOURBREAK") ? 0 : statusEffects.containsKey("ARMOURED") ? defence * 2 : defence); }
-  public float getFireTimer() { return (statusEffects.containsKey("DAZED") ? fireTimer/2 : statusEffects.containsKey("BEZERK") ? fireTimer * 2 : fireTimer); }
-  public float getSpeed() { return (statusEffects.containsKey("SLOWED") ? speed/2 : statusEffects.containsKey("SWIFT") ? speed * 1.5 : speed); }
+  
+  public int getVitality() {
+    if(statusEffects.containsKey("SICK") && !statusEffects.containsKey("HEALING")) {
+      return 0;
+    } 
+    if(!statusEffects.containsKey("SICK") && statusEffects.containsKey("HEALING")) {
+      return vitality * 2;
+    }
+    return vitality;
+  }
+  
+  public int getAttack() { 
+    if(statusEffects.containsKey("WEAK") && !statusEffects.containsKey("DAMAGING")) {
+      return 0;
+    } 
+    if(!statusEffects.containsKey("WEAK") && statusEffects.containsKey("DAMAGING")) {
+      return attack * 2;
+    }
+    return attack;
+  }
+  
+  public int getWisdom() {
+    if(statusEffects.containsKey("CURSED") && !statusEffects.containsKey("SMART")) {
+      return 0;
+    } 
+    if(!statusEffects.containsKey("CURSED") && statusEffects.containsKey("SMART")) {
+      return wisdom * 2;
+    }
+    return wisdom;
+  }
+  
+  public int getDefence() {
+    if(statusEffects.containsKey("ARMOURBREAK") && !statusEffects.containsKey("ARMOURED")) {
+      return 0;
+    } 
+    if(!statusEffects.containsKey("ARMOURBREAK") && statusEffects.containsKey("ARMOURED")) {
+      return defence * 2;
+    }
+    return defence;
+  }
+  
+  public float getFireTimer() {
+    if(statusEffects.containsKey("DAZED") && !statusEffects.containsKey("BEZERK")) {
+      return fireTimer/2;
+    } 
+    if(!statusEffects.containsKey("SICK") && statusEffects.containsKey("HEALING")) {
+      return fireTimer * 2;
+    }
+    return fireTimer;
+  }
+  
+  public float getSpeed() {
+     if(statusEffects.containsKey("SLOWED") && !statusEffects.containsKey("SWIFT")) {
+      return speed/2;
+    } 
+    if(!statusEffects.containsKey("SLOWED") && statusEffects.containsKey("SWIFT")) {
+      return speed * 1.5;
+    }
+    return speed;
+  }
 }
 
 class PlayerStats extends Stats {
