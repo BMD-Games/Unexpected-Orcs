@@ -56,6 +56,7 @@ class Engine {
     updateText(delta);
     
     lastUpdate = millis();
+    
   }
   
   public void updateMillis() {

@@ -17,7 +17,7 @@ class Inventory {
   
   
   Inventory() {
-    active[0] = new MachineGun();
+    active[0] = new GreenRod();
     active[1] = new SwiftBoots();
     active[2] = new LeatherArmour();
     active[3] = new LitScroll();

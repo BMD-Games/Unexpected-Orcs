@@ -109,7 +109,7 @@ public class FireElemental extends Elemental implements Enemy {
   }
 
   public void onDeath() {
-    engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+    engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
   }
   
 }

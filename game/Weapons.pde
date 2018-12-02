@@ -80,5 +80,24 @@ class Sniper extends Weapon{
   public void playSound() {
     // soundFiles.get("WHOOSH").play();
   }
+}
 
+class GreenRod extends Weapon{
+  
+  GreenRod() {
+    super("GREENROD", "Green Rod", new ArrayList<Pair>());
+    this.damage = 25;
+    this.fireRate = 0.3;
+    this.numBullets = 2;
+    this.range = 6;
+    this.accuracy = 0.05;
+    this.bulletSpeed = 15;
+    this.bulletSprite = "GREENROD";
+    
+  }
+  
+  @Override
+  public void playSound() {
+    // soundFiles.get("WHOOSH").play();
+  }
 }
