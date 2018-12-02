@@ -133,6 +133,7 @@ class GUI {
     pause.show(screen);
     healthBar.show(screen);
     manaBar.show(screen);
+    showStatusEffects();
     renderMiniMap();
     drawPortal();
     renderInv();
@@ -519,7 +520,6 @@ class GUI {
       desc = "Increases player speed";
     }
 
-    
     if (!statName.equals("")) {
       screen.textSize(15);
       screen.textAlign(LEFT);
@@ -533,9 +533,15 @@ class GUI {
       screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
       screen.fill(255);
       screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
+    } 
+  }
+  
+  private void showStatusEffects() {
+    int i = 0;
+    for(String effect : engine.player.stats.statusEffects.keySet()) {
+      i++;
+      screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
-    
-    
   }
   
 }

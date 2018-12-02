@@ -2,14 +2,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
-HashMap<Integer, PImage> tileSprites;
-HashMap<String, PImage> itemSprites;
-HashMap<String, PImage> guiSprites;
-HashMap<String, PImage> charSprites;
-HashMap<String, PImage> projectileSprites;
-HashMap<String, PImage> dropSprites;
-HashMap<String, PImage> statusSprites;
-
 // HashMap<String, SoundFile> soundFiles;
 
 final int GUI_WIDTH = 240;

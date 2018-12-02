@@ -1,3 +1,12 @@
+HashMap<Integer, PImage> tileSprites;
+HashMap<String, PImage> itemSprites;
+HashMap<String, PImage> guiSprites;
+HashMap<String, PImage> charSprites;
+HashMap<String, PImage> projectileSprites;
+HashMap<String, PImage> dropSprites;
+HashMap<String, PImage> statusSprites;
+HashMap<String, PImage> playerStatusSprites;
+
 public void loadAssets() {
   
   tileSprites = new HashMap<Integer, PImage>();
@@ -7,6 +16,7 @@ public void loadAssets() {
   projectileSprites = new HashMap<String, PImage>();
   dropSprites = new HashMap<String, PImage>();
   statusSprites = new HashMap<String, PImage>();
+  playerStatusSprites = new HashMap<String, PImage>();
   
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("/assets/sprites/tilesheet.png");
@@ -155,6 +165,24 @@ public void loadAssets() {
   statusSprites.put("SMART", getSprite(statusSheet, 2, 2, 1, 1, statusSize));
   statusSprites.put("CURSED", getSprite(statusSheet, 3, 2, 1, 1, statusSize));
   
+  
+  //-----PLAYER EFFECT SPRITES-----
+  
+  PImage playerStatusSheet = loadImage("/assets/sprites/playerstatussheet.png");
+  int playerStatusSize = 16;
+  
+  playerStatusSprites.put("DAMAGING", getSprite(playerStatusSheet, 0, 0, 1, 1, playerStatusSize));
+  playerStatusSprites.put("SLOWED", getSprite(playerStatusSheet, 0, 1, 1, 1, playerStatusSize));
+  playerStatusSprites.put("ARMOURED", getSprite(playerStatusSheet, 1, 0, 1, 1, playerStatusSize));
+  playerStatusSprites.put("ARMOURBREAK", getSprite(playerStatusSheet, 1, 1, 1, 1, playerStatusSize));
+  playerStatusSprites.put("HEALING", getSprite(playerStatusSheet, 2, 0, 1, 1, playerStatusSize));
+  playerStatusSprites.put("SICK", getSprite(playerStatusSheet, 2, 1, 1, 1, playerStatusSize));
+  playerStatusSprites.put("SMART", getSprite(playerStatusSheet, 3, 0, 1, 1, playerStatusSize));
+  playerStatusSprites.put("CURSED", getSprite(playerStatusSheet, 3, 1, 1, 1, playerStatusSize));
+  playerStatusSprites.put("SWIFT", getSprite(playerStatusSheet, 4, 0, 1, 1, playerStatusSize));
+  playerStatusSprites.put("SLOWED", getSprite(playerStatusSheet, 4, 1, 1, 1, playerStatusSize));
+  playerStatusSprites.put("BEZERK", getSprite(playerStatusSheet, 5, 0, 1, 1, playerStatusSize));
+  playerStatusSprites.put("DAZED", getSprite(playerStatusSheet, 5, 1, 1, 1, playerStatusSize));
   
   //-----DROP SPRITES-----
   PImage dropsheet = loadImage("/assets/sprites/dropsheet.png");
