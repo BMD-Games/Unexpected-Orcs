@@ -46,14 +46,14 @@ class Level {
   }
 
   public PGraphics generateImage() {
-    PGraphics pg = createGraphics(SPRITE_SIZE * (w + tileBuffer * 2), SPRITE_SIZE * (h + tileBuffer * 2));
+    PGraphics pg = createGraphics(SPRITE_SIZE * w, SPRITE_SIZE * h);
     pg.beginDraw();
     pg.background(0, 0);
-    for (int i = 0; i < w + tileBuffer * 2; i ++) {
-      for (int j = 0; j < h + tileBuffer * 2; j ++) {
+    for (int i = 0; i < w; i ++) {
+      for (int j = 0; j < h; j ++) {
         int tile = tileset.walls[15];
         try { 
-          tile = tileMap[i - tileBuffer][j - tileBuffer];
+          tile = tileMap[i][j];
         } 
         catch(Exception e) {
         }

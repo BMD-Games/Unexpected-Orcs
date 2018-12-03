@@ -136,6 +136,8 @@ public void loadAssets() {
   itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
   itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
   itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
+  itemSprites.put("GREENROD", getSprite(itemsheet, 4, 2, 1, 1, itemSize));
+  itemSprites.put("REDROD", getSprite(itemsheet, 5, 2, 1, 1, itemSize));
 
   //Abilities
   itemSprites.put("BOOTS", getSprite(itemsheet, 0, 3, 1, 1, itemSize));
@@ -256,12 +258,15 @@ public void loadAssets() {
   
   //-----BULLET SPRITES-----
   PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
+  PImage projectilesheet = loadImage("/assets/sprites/projectilesheet.png");
   int bulletSize = 8;
+  int projectileSize = 8;
   
   projectileSprites.put("SNIPER", getSprite(bulletsheet, 0, 0, 1, 1, bulletSize));
   projectileSprites.put("PISTOL", getSprite(bulletsheet, 1, 0, 1, 1, bulletSize));
   projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, bulletSize));
   projectileSprites.put("FIREBALL", getSprite(bulletsheet, 3, 0, 1, 1, bulletSize));
+  projectileSprites.put("GREENROD", getSprite(projectilesheet, 0, 0, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
   assetsLoaded = true;

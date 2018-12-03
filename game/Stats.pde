@@ -144,6 +144,7 @@ class PlayerStats extends Stats {
         break;
       case("ATTACK"):
         attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
+        println(calcStatValue(attackKills, baseAttack, 1, 0.1));
         attack = (int)calcStatValue(attackKills, baseAttack, 1, 0.1);
         break;
       case("WISDOM"):
@@ -211,6 +212,7 @@ public void loadStats() {
   statColours.put("WISDOM", color(140, 50, 230));
   statColours.put("DEFENCE", color(0, 15, 230));
   statColours.put("ATTACK", color(230, 150, 0));
+  statColours.put("VITALITY", color(255, 105, 180));
 }
 
 public PImage applyColourToImage(PImage img, color c) {

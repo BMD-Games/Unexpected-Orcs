@@ -375,13 +375,29 @@ public String getBorderType(int[][] tiles, int i, int j) {
   return "";
 }
 
+
+public int[][] generateConnectedDungeon(int w, int h, Room startRoom, Room bossRoom, Room[] rooms) {
+  int[][] tiles = new int[w][h];
+  
+  ArrayList<Room> roomList = new ArrayList<Room>();
+  
+  startRoom = randomlyPlaceRoom(startRoom, w, h);
+  bossRoom = randomlyPlaceRoom(bossRoom, w, h);
+  
+  roomList.add(startRoom);
+  roomList.add(bossRoom);
+  
+  return tiles;
+}
+
+
 public int[][] finishingPass(int[][] tiles, TileSet tileset) {
   int w = tiles.length;
   int h = tiles[0].length;
   int[][] newTiles = new int[w][h];
   for(int i = 0; i < w; i ++) {
     for(int j = 0; j < h; j ++) {
-      if(isWall(tiles, i, j)) {
+      if(tiles[i][j] == WALL) {
         newTiles[i][j] = tileset.walls[getBitMaskValue(tiles, i, j)];
       } else if(tiles[i][j] > WALL) {
         //use some random shit to add flavour to dungeons

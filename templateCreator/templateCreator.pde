@@ -14,8 +14,8 @@ int GUI_WIDTH = SPRITE_SIZE * MAX_SCALE + 20;
 final int MIN_TILE = -65, MAX_TILE = 14;
 int tile = WALL;
 
-int w = 6;
-int h = 6;
+int w = 5;
+int h = 5;
 
 int xoff = 0, yoff = 0;
 

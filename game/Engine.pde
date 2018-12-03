@@ -27,7 +27,7 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new GrassDungeon(); //Cave();
+    currentLevel = new GrassDungeon();//DankDungeon();//CellarDungeon();//GrassDungeon(); //Cave();
     finishedLoadingLevel = true;
     
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
@@ -56,6 +56,7 @@ class Engine {
     updateText(delta);
     
     lastUpdate = millis();
+    
   }
   
   public void updateMillis() {

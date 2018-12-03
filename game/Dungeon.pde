@@ -5,7 +5,7 @@ class GrassDungeon extends Level {
   
   GrassDungeon() {
     super(60, 45);
-    super.name = "DungeonWindy"; 
+    super.name = "DungeonGrass"; 
      
     //--set tiles in tileset--
     tileset = grassTileset();
@@ -67,17 +67,18 @@ class GrassDungeon extends Level {
 
 class CellarDungeon extends Level {
   
-  private int roomAttempts = 300, minRoomSize = 3, maxRoomSize = 15;
+  private int roomAttempts = 300, minRoomSize = 3, maxRoomSize = 9;
+  private float straightChance = 1, loopChance = 0.05;
   
   CellarDungeon() {
     super(60, 45);
-    super.name = "DungeonWindy"; 
+    super.name = "DungeonCellar"; 
      
     //--set tiles in tileset--
     tileset = dungeonTileset();
     
-    //this.setTiles(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance));
-    this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
+    this.setTiles(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance));
+    //this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
     
     generateEnemies();
   }
@@ -105,6 +106,15 @@ class CellarDungeon extends Level {
       enemy.x = random(w);
       enemy.y = random(h);
     }
+  }
+  
+}
+
+class DankDungeon extends Level {
+  
+  DankDungeon() {
+    super(60, 45);
+    this.setTiles(generateConnectedDungeon(w, h, testSpawn(), testBoss(), new Room[]{testRoom()}));
   }
   
 }
