@@ -70,12 +70,11 @@ abstract class StandardEnemy implements Enemy {
     // display status effects of the enemy
     int i = 0;
     PImage statusSprite;
-    for(String status : this.stats.statusEffects.keySet()) {
+    for(String status : stats.statusEffects.keySet()) {
       statusSprite = statusSprites.get(status);
       screen.image(statusSprite, x + radius / 2 + TILE_SIZE * i / 4 , y + SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
       i++;
     }
-    
     if((angle < PI/2) && (angle > -PI/2)) {
       screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
@@ -84,25 +83,25 @@ abstract class StandardEnemy implements Enemy {
       screen.rotate(PI - angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
-    
     screen.popMatrix();
   }
   
   /* Takes damage */
   public void damage(int amount, ArrayList<Pair> statusEffects){
-    
     for (Pair pair : statusEffects) {
       if (typeList.contains(pair.a) || pair.a.equals("ALL")) {
         this.stats.addStatusEffect(pair.b, 1);
       }
     }
-    
+    damage(amount);
+  }
+  
+  public void damage(int amount) {
     int damage = amount - stats.defence;
     if(damage > 0) {
       stats.health -= damage;
       engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0 , 0));
-    }   
-    
+    }
   }
   
   
@@ -184,6 +183,9 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
       if(!Circle.validCentre(engine.currentLevel, x, y)) {
           x -= moveX;
           y -= moveY;
+          if(!Circle.validCentre(engine.currentLevel, x, y)) {
+            damage(10);
+          }
       }
       if(xDir == 1) {
         if(!Circle.validRight(engine.currentLevel, x, y, radius)) {

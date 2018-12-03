@@ -133,11 +133,13 @@ class GUI {
     pause.show(screen);
     healthBar.show(screen);
     manaBar.show(screen);
+    showStatusEffects();
     renderMiniMap();
     drawPortal();
     renderInv();
     drawStats();
     drawCooldown();
+    drawStatProgress();
     screen.endDraw();
     image(screen, 0, 0);
     
@@ -216,31 +218,63 @@ class GUI {
       screen.fill(0, 100);
       screen.noStroke();
       screen.arc(invBuff + invX + (invSize + invBuff) + itemOffset + SPRITE_SIZE * invScale/2, invBuff + invY + itemOffset + SPRITE_SIZE * invScale/2, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale, -PI/2, 2 * PI * percentFull - PI/2, PIE);
-    }
+    } 
+  }
+  
+  private void drawStatProgress() {
+    
+    float attackFloat = engine.player.stats.calcStatValue(engine.player.stats.attackKills, engine.player.stats.baseAttack, 1, 0.1);
+    attackFloat = attackFloat % 1;
+    screen.fill(150, 150, 150);
+    screen.rect(GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2, 10, SPRITE_SIZE * 2);
+    screen.fill(statColours.get("ATTACK"));
+    screen.rect(GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2 + SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * attackFloat);
+    
+    float defenceFloat = engine.player.stats.calcStatValue(engine.player.stats.defenceKills, engine.player.stats.baseDefence, 1, 0.1);
+    defenceFloat = defenceFloat % 1;
+    screen.fill(150, 150, 150);
+    screen.rect(GUI_WIDTH * 4 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2, 10, SPRITE_SIZE * 2);
+    screen.fill(statColours.get("DEFENCE"));
+    screen.rect(GUI_WIDTH * 4 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2 + SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * defenceFloat);
+    
+    float vitalityFloat = engine.player.stats.calcStatValue(engine.player.stats.vitalityKills, engine.player.stats.baseVitality, 1, 0.1);
+    vitalityFloat = vitalityFloat % 1;
+    screen.fill(150, 150, 150);
+    screen.rect(GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 79 + TILE_SIZE, 10, SPRITE_SIZE * 2);
+    screen.fill(statColours.get("VITALITY"));
+    screen.rect(GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 79 + TILE_SIZE + SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * vitalityFloat);
+    
+    float wisdomFloat = engine.player.stats.calcStatValue(engine.player.stats.wisdomKills, engine.player.stats.baseWisdom, 1, 0.1);
+    wisdomFloat = wisdomFloat % 1;
+    screen.fill(150, 150, 150);
+    screen.rect(GUI_WIDTH * 4 / 5 - TILE_SIZE * 9 / 8, 79 + TILE_SIZE, 10, SPRITE_SIZE * 2);
+    screen.fill(statColours.get("WISDOM"));
+    screen.rect(GUI_WIDTH * 4 / 5 - TILE_SIZE * 9 / 8, 79 + TILE_SIZE + SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * wisdomFloat);
+    
     
   }
+ 
   
   private void drawStats() {
     screen.pushMatrix();
-    screen.scale(2);
     
     screen.textAlign(LEFT);
-    screen.textSize(12);
+    screen.textSize(24);
     screen.fill(30);
     
     //Draw stat values
-    screen.text(engine.player.stats.attack, GUI_WIDTH * 2 / 10 - TILE_SIZE / 16, 50 + TILE_SIZE / 4);
-    screen.text(engine.player.stats.defence, GUI_WIDTH * 4 / 10 - TILE_SIZE / 16, 50 + TILE_SIZE / 4);
-    screen.text(engine.player.stats.vitality, GUI_WIDTH * 2 / 10 - TILE_SIZE / 16, 53 + TILE_SIZE / 2);
-    screen.text(engine.player.stats.wisdom, GUI_WIDTH * 4 / 10 - TILE_SIZE / 16, 53 + TILE_SIZE / 2);
-    screen.text((int)(engine.player.stats.speed * 100), GUI_WIDTH * 2 / 10 - TILE_SIZE / 16, 56 + TILE_SIZE * 3 / 4);
+    screen.text(engine.player.stats.attack, GUI_WIDTH * 2 / 5 - TILE_SIZE / 8, 100 + TILE_SIZE / 2);
+    screen.text(engine.player.stats.defence, GUI_WIDTH * 4 / 5 - TILE_SIZE / 8, 100 + TILE_SIZE / 2);
+    screen.text(engine.player.stats.vitality, GUI_WIDTH * 2 / 5 - TILE_SIZE / 8, 106 + TILE_SIZE);
+    screen.text(engine.player.stats.wisdom, GUI_WIDTH * 4 / 5 - TILE_SIZE / 8, 106 + TILE_SIZE);
+    screen.text((int)(engine.player.stats.speed * 100), GUI_WIDTH * 2 / 5 - TILE_SIZE / 8, 112 + TILE_SIZE * 3 / 2);
     
     //Draw stat sprites
-    screen.image(attackSprite, GUI_WIDTH / 10 - TILE_SIZE / 16, 52);
-    screen.image(defenceSprite, GUI_WIDTH * 3 / 10 - TILE_SIZE / 16, 52);
-    screen.image(vitalitySprite, GUI_WIDTH / 10 - TILE_SIZE / 16, 56 + TILE_SIZE / 4);
-    screen.image(wisdomSprite, GUI_WIDTH * 3 / 10 - TILE_SIZE / 16, 56 + TILE_SIZE / 4);
-    screen.image(speedSprite, GUI_WIDTH / 10 - TILE_SIZE / 16, 60 + TILE_SIZE / 2);
+    screen.image(attackSprite, GUI_WIDTH / 5 - TILE_SIZE / 8, 104, attackSprite.width * 2, attackSprite.height * 2);
+    screen.image(defenceSprite, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 104, defenceSprite.width * 2, defenceSprite.height * 2);
+    screen.image(vitalitySprite, GUI_WIDTH / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, vitalitySprite.width * 2, vitalitySprite.height * 2);
+    screen.image(wisdomSprite, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, wisdomSprite.width * 2, wisdomSprite.height * 2);
+    screen.image(speedSprite, GUI_WIDTH / 5 - TILE_SIZE / 8, 120 + TILE_SIZE, speedSprite.width * 2, speedSprite.height * 2);
     screen.popMatrix();
     
     mouseOverStat();
@@ -486,7 +520,6 @@ class GUI {
       desc = "Increases player speed";
     }
 
-    
     if (!statName.equals("")) {
       screen.textSize(15);
       screen.textAlign(LEFT);
@@ -500,9 +533,15 @@ class GUI {
       screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
       screen.fill(255);
       screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
+    } 
+  }
+  
+  private void showStatusEffects() {
+    int i = 0;
+    for(String effect : engine.player.stats.statusEffects.keySet()) {
+      i++;
+      screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
-    
-    
   }
   
 }
