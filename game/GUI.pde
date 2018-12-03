@@ -142,7 +142,7 @@ class GUI {
     screen.endDraw();
     image(screen, 0, 0);
     
-    if(Utility.pointInBox(mouseX, mouseY, 0, 0, GUI_WIDTH, height)) {
+    if(Util.pointInBox(mouseX, mouseY, 0, 0, GUI_WIDTH, height)) {
       inMenu = true;
     } else {
       inMenu = false;
@@ -393,7 +393,7 @@ class GUI {
     for (int i = 0; i < engine.player.active().length; i++) {
       screen.fill(150);
       screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
-      if (Utility.pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
+      if (Util.pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
         itemOver = i;
         mouseOverItem = engine.player.active()[i];
         menuType = active;
@@ -404,7 +404,7 @@ class GUI {
       j = (int)(i/Inventory.WIDTH);
       screen.fill(150);
       screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
-      if (Utility.pointInBox(mouseX, mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) { 
+      if (Util.pointInBox(mouseX, mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) { 
         itemOver = i;        
         mouseOverItem = engine.player.inv()[i];
         menuType = inv;
@@ -414,7 +414,7 @@ class GUI {
       for (int i = 0; i < engine.player.active().length; i++) {
         screen.fill(150);
         screen.rect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
-        if (Utility.pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
+        if (Util.pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
           itemOver = i;
           mouseOverItem = items[i];
           menuType = bag;
@@ -465,23 +465,23 @@ class GUI {
     String type = "";
     String desc = "";
     
-    if (Utility.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 104, TILE_SIZE / 2, TILE_SIZE / 2)) { // attack sprite hover
+    if (Util.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 104, TILE_SIZE / 2, TILE_SIZE / 2)) { // attack sprite hover
       statName = "Attack";
       type = String.valueOf(engine.player.stats.getAttack());
       desc = "Increases Damage dealt by player projectiles";
-    } else if (Utility.pointInBox(x, y, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 104, TILE_SIZE / 2, TILE_SIZE / 2)) { // defence sprite hover
+    } else if (Util.pointInBox(x, y, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 104, TILE_SIZE / 2, TILE_SIZE / 2)) { // defence sprite hover
       statName = "Defence";
       type = String.valueOf(engine.player.stats.getDefence());
       desc = "Decreases damage taken from enemies";
-    } else if (Utility.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2)) { // vitality hover
+    } else if (Util.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2)) { // vitality hover
       statName = "Vitality";
       type = String.valueOf(engine.player.stats.getVitality());
       desc = "Increases health regeneration rate";
-    } else if (Utility.pointInBox(x, y, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2)) { // wisdom hover
+    } else if (Util.pointInBox(x, y, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2)) { // wisdom hover
       statName = "Wisdom";
       type = String.valueOf(engine.player.stats.getVitality());
       desc = "Increases mana regeneration rate";
-    } else if (Utility.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 120 + TILE_SIZE, TILE_SIZE / 2, TILE_SIZE / 2)) { // speed hover
+    } else if (Util.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 120 + TILE_SIZE, TILE_SIZE / 2, TILE_SIZE / 2)) { // speed hover
       statName = "Speed";
       type = String.valueOf((int)(engine.player.stats.speed * 100));
       desc = "Increases player speed";
@@ -540,7 +540,7 @@ class Button extends HUDElement {
   }
 
   public boolean pressed() {
-    return Utility.pointInBox(mouseX, mouseY, x, y, w, h);
+    return Util.pointInBox(mouseX, mouseY, x, y, w, h);
   }
 }
 

@@ -21,7 +21,7 @@ class Room {
   }
 
   public boolean inRoom(int px, int py) {
-    return Utility.pointInBox(px, py, x, y, w, h);
+    return Util.pointInBox(px, py, x, y, w, h);
   }
   
   public void setTiles(int[][] tiles) {

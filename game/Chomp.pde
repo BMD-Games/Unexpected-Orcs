@@ -31,7 +31,7 @@ public class BigChomp extends Chomp {
   
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    return (Utility.distance(x, y, pointX, pointY) < radius);
+    return (Util.distance(x, y, pointX, pointY) < radius);
   }
   
   public void onDeath() {
@@ -53,7 +53,7 @@ public class BossChomp extends Chomp {
   
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    return (Utility.distance(x, y, pointX, pointY) < radius);
+    return (Util.distance(x, y, pointX, pointY) < radius);
   }
   
   public void onDeath() {

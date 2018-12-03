@@ -18,7 +18,7 @@ class GrassDungeon extends Level {
   
   void generateEnemies() {
     //Add enemies to level
-    Elemental elemental;
+    /*Elemental elemental;
     for(int i = 0; i < 20; i ++) {
       elemental = new FireElemental(random(w), random(h), 1);
       validSpawn(elemental);
@@ -38,7 +38,7 @@ class GrassDungeon extends Level {
       elemental = new PoisonElemental(random(w), random(h), 1);
       validSpawn(elemental);
       addEnemy(elemental);
-    }
+    }*/
    
     Chomp chomp;
     for(int i = 0; i < 40; i ++) {
@@ -51,9 +51,9 @@ class GrassDungeon extends Level {
       validSpawn(chomp);
       addEnemy(chomp);
     }
-    chomp = new BossChomp(random(w), random(h), 3);
-    validSpawn(chomp);
-    addEnemy(chomp);
+    //chomp = new BossChomp(random(w), random(h), 3);
+    //validSpawn(chomp);
+    //addEnemy(chomp);
   }
   
   void validSpawn(StandardEnemy enemy) {

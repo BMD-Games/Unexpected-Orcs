@@ -1,4 +1,4 @@
-public static class Utility {
+public static class Util {
   
   public static float distance(float x1, float y1, float x2, float y2) {
     float xdiff = pow(x2 - x1, 2);
@@ -22,7 +22,7 @@ public static class Utility {
   public static boolean lineRect(float x1, float y1, float x2, float y2, float rx, float ry, float rw, float rh) {
     // check if the line has hit any of the rectangle's sides
     // uses the Line/Line function below
-    if(Utility.pointInBox(lerp(x1, x2, 0.5), lerp(y1, y2, 0.5), rx, ry, rw, rh)) return true;
+    if(Util.pointInBox(lerp(x1, x2, 0.5), lerp(y1, y2, 0.5), rx, ry, rw, rh)) return true;
     boolean left =   lineLine(x1,y1,x2,y2, rx,ry,rx, ry+rh);
     boolean right =  lineLine(x1,y1,x2,y2, rx+rw,ry, rx+rw,ry+rh);
     boolean top =    lineLine(x1,y1,x2,y2, rx,ry, rx+rw,ry);
@@ -69,11 +69,11 @@ class AABB {
     }
 
     public boolean collidesWith(float pointX, float pointY) {
-        return Utility.pointInBox(pointX, pointY, this.x, this.y, this.w, this.h);
+        return Util.pointInBox(pointX, pointY, this.x, this.y, this.w, this.h);
     }
     
     public boolean collidesWith(float lineX1, float lineY1, float lineX2, float lineY2) {
-      return Utility.lineRect(lineX1, lineY1, lineX2, lineY2, this.x, this.y, this.w, this.h);
+      return Util.lineRect(lineX1, lineY1, lineX2, lineY2, this.x, this.y, this.w, this.h);
     }
     
     void show() {
