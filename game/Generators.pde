@@ -1,4 +1,4 @@
-public int edgeSize = 2;
+public int edgeSize = 1;
 
 //------CAVE GENERATION--------
 public int[][] generateCave(int w, int h, int iterations, float chance) {
@@ -376,18 +376,75 @@ public String getBorderType(int[][] tiles, int i, int j) {
 }
 
 
-public int[][] generateConnectedDungeon(int w, int h, Room startRoom, Room bossRoom, Room[] rooms) {
+public void generateConnectedDungeon(Level level, int rows, int columns, Room startRoom, Room bossRoom, Room[] rooms, float roomChance) {
+  /* ---Theory---
+  1. Split the level into a grid
+  2. Randomly choose a grid square and randomly add a room inside it
+  3. Get the spawn point based on the startRoom
+  4. Set the mob spawn zones based on the rooms
+  5. Once rooms have been placed, find rooms in neighbouring cells and make a corridor to meet them
+  */
+  
+  int w = level.w, h = level.h;  
   int[][] tiles = new int[w][h];
   
-  ArrayList<Room> roomList = new ArrayList<Room>();
+  int rw = w/rows;
+  int rh = h/columns;
   
-  startRoom = randomlyPlaceRoom(startRoom, w, h);
-  bossRoom = randomlyPlaceRoom(bossRoom, w, h);
+  Room[] placedRooms = new Room[rows * columns]; //grid of placed rooms
   
-  roomList.add(startRoom);
-  roomList.add(bossRoom);
+  ArrayList<PVector> boss = new ArrayList<PVector>();
+  ArrayList<PVector> general = new ArrayList<PVector>();
+    
+  startRoom = randomlyPlaceRoom(startRoom, rw, rh); //randomly places room within the grid cell
+  bossRoom = randomlyPlaceRoom(bossRoom, rw, rh); //randomly places room within the grid cell
   
-  return tiles;
+  int startRoomPos = (int)random(placedRooms.length);
+  placedRooms[startRoomPos] = new Room(startRoom); //place start room randomly into the grid
+  int bossRoomPos;
+  while((bossRoomPos = (int)random(placedRooms.length)) == startRoomPos) {
+    bossRoomPos = (int)random(placedRooms.length);
+  }
+  placedRooms[bossRoomPos] = new Room(bossRoom); //place boss room randomly into the grid
+  
+  for(int i = 0; i < placedRooms.length; i ++) {
+    if(i == startRoomPos || i == bossRoomPos) continue;
+    if(random(1) <= roomChance) { // % chance of a cell containing a room
+      placedRooms[i] = new Room(randomlyPlaceRoom(rooms[(int)random(rooms.length)], rw, rh)); //get a random room from the list of rooms and place it randomly in the current grid square
+    }
+  }
+  
+  for(int x = 0; x < rows; x ++) {
+    for(int y = 0; y < columns; y ++) {
+      int index = x + y * rows;
+      if(placedRooms[index] != null) {
+        //offset each room by their grid cell position
+        placedRooms[index].x += x * rw;
+        placedRooms[index].y += y * rh;
+        
+        //add their tiles to the tileMap
+        for(int i = 0; i < placedRooms[index].w; i ++) {
+          for(int j = 0; j < placedRooms[index].h; j ++) {
+            int tile = placedRooms[index].tiles[i][j];
+            try { tiles[placedRooms[index].x + i][placedRooms[index].y + j] = tile; } catch(Exception e) {}
+            //add their tiles to the correct zone
+            PVector pos = new PVector(placedRooms[index].x + i, placedRooms[index].y + j);
+            if(index == bossRoomPos) {
+              boss.add(pos);
+            } else if(index == startRoomPos) {
+              if(SPAWN_TILES.contains(tile)) level.setStart(pos);
+            } else {
+              general.add(pos);
+            }
+          }  
+        }
+      }
+    }
+  }
+  
+  tiles = finishingPass(tiles, level.tileset);
+  level.setTiles(tiles);
+  level.setZones(new ArrayList[] {boss, general});
 }
 
 
@@ -399,12 +456,14 @@ public int[][] finishingPass(int[][] tiles, TileSet tileset) {
     for(int j = 0; j < h; j ++) {
       if(tiles[i][j] == WALL) {
         newTiles[i][j] = tileset.walls[getBitMaskValue(tiles, i, j)];
-      } else if(tiles[i][j] > WALL) {
+      } else if(tiles[i][j] == FLOOR) {
         //use some random shit to add flavour to dungeons
         if(tileset.extras.size() > 0 && random(1) < 0.1) {
           newTiles[i][j] = tileset.extras.get((int)random(tileset.extras.size()));
         }
         else newTiles[i][j] = tileset.floor;
+      } else {
+        newTiles[i][j] = tiles[i][j];
       }
     }
   }

@@ -27,7 +27,7 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new GrassDungeon();//DankDungeon();//CellarDungeon();//GrassDungeon(); //Cave();
+    currentLevel = new DankDungeon();//CellarDungeon();//GrassDungeon(); //Cave();
     finishedLoadingLevel = true;
     
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
@@ -90,7 +90,7 @@ class Engine {
     for(Text txt : text) {
       txt.show(screen, getRenderOffset());
     }
-    
+    screen.image(vingette, 0, 0, screen.width, screen.height);
     screen.endDraw();
     image(screen, GUI_WIDTH, 0);
   }

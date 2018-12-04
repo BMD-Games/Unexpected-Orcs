@@ -4,15 +4,11 @@ class GrassDungeon extends Level {
   private float straightChance = 0.9, loopChance = 0.05;
   
   GrassDungeon() {
-    super(60, 45);
-    super.name = "DungeonGrass"; 
-     
-    //--set tiles in tileset--
-    tileset = grassTileset();
+    super(60, 45, "DungeonGrass", grassTileset());
     
-    this.setTiles(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance));
+    this.setTiles(finishingPass(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance), tileset));
     //this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
-    
+    generateStart();
     generateEnemies();
   }
   
@@ -71,15 +67,11 @@ class CellarDungeon extends Level {
   private float straightChance = 1, loopChance = 0.05;
   
   CellarDungeon() {
-    super(60, 45);
-    super.name = "DungeonCellar"; 
-     
-    //--set tiles in tileset--
-    tileset = dungeonTileset();
+    super(60, 45, "DungeonCellar", dungeonTileset());
     
-    this.setTiles(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance));
+    this.setTiles(finishingPass(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance), tileset));
     //this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
-    
+    generateStart();
     generateEnemies();
   }
   
@@ -113,8 +105,8 @@ class CellarDungeon extends Level {
 class DankDungeon extends Level {
   
   DankDungeon() {
-    super(60, 45);
-    this.setTiles(generateConnectedDungeon(w, h, testSpawn(), testBoss(), new Room[]{testRoom()}));
+    super(60, 45, "Dannnk", testTileset());
+    generateConnectedDungeon(this, 5, 5, testSpawn(), testBoss(), new Room[]{testRoom()}, 0.5);
   }
   
 }
@@ -125,14 +117,10 @@ class Cave extends Level{
   int iterations = 5;
   
   Cave() {    
-    super(120, 90);
-    name = "Cave";
+    super(120, 90, "Cave", caveTileset());
     
-    //--set tiles in tileset--
-    tileset = caveTileset();
-    //tileset = testTileset();
-    
-    this.setTiles(generateCave(w, h, iterations, chance));
+    this.setTiles(finishingPass(generateCave(w, h, iterations, chance), tileset));
+    generateStart();
     generateEnemies();
   }
   

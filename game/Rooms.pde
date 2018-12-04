@@ -2,8 +2,16 @@ class Room {
 
   public int x, y, w, h;
   public int[][] tiles;
-  public int doorx, doory;
 
+  Room() {}
+  
+  Room(Room room) { //create a room from another room
+    this.x = room.x;
+    this.y = room.y;
+    this.w = room.w;
+    this.h = room.h;
+    this.tiles = room.tiles;    
+  }
 
   public boolean collides(Room room) {
     return (x + w >= room.x  &&   // r1 right edge past r2 left
@@ -42,7 +50,7 @@ public Room randomlyPlaceRoom(Room room, int w, int h) {
 
 public Room testSpawn() {
   Room room = new Room();
-  room.tiles = new int[][]{
+  room.setTiles(new int[][]{
     {2, 2, 2, 4, 2, 2, 2, 5, 2}, 
     {2, 5, 6, 6, 6, 6, 6, 2, 2}, 
     {2, 6, 6, 10, 10, 10, 6, 6, 2}, 
@@ -52,25 +60,25 @@ public Room testSpawn() {
     {2, 6, 6, 10, 10, 10, 6, 6, 2}, 
     {5, 2, 6, 6, 6, 6, 6, 2, 5}, 
     {2, 2, 2, 2, 2, 4, 2, 2, 2}
-  };
+  });
   return room;
 }
 
 public Room testRoom() {
   Room room = new Room();
-  room.tiles = new int[][]{
+  room.setTiles(new int[][]{
     {2, 2, 2, 2, 2}, 
     {2, 2, 2, 2, 2}, 
     {2, 2, 8, 2, 2}, 
     {2, 2, 2, 2, 2}, 
     {2, 2, 2, 2, 2}
-  };
+  });
   return room;
 }
 
 public Room testBoss() {
   Room room = new Room();
-  room.tiles = new int[][]{
+  room.setTiles(new int[][]{
     {9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9}, 
     {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8}, 
     {8, 6, 0, 0, 0, 2, 0, 0, 0, 6, 8}, 
@@ -82,6 +90,6 @@ public Room testBoss() {
     {8, 6, 0, 0, 0, 2, 0, 0, 0, 6, 8}, 
     {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8}, 
     {9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9}
-  };
+  });
   return room;
 }
