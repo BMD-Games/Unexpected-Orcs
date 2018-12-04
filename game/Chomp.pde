@@ -1,10 +1,9 @@
-class Chomp extends MeleeEnemy implements Enemy {
-
+class Chomp extends MeleeEnemy implements Enemy, CircleObject {
+  
   public Chomp(float x, float y, int tier) {
     super(x, y, tier);
     radius = 0.25;
     range = 6;
-    rectangleBB = false;
     sprite = charSprites.get("CHOMP_BLACK_SMALL");
     stats.health = 14 * tier;
     stats.attack = 5 * tier;
@@ -14,6 +13,10 @@ class Chomp extends MeleeEnemy implements Enemy {
   
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
+  }
+  
+  public float getRadius() {
+    return radius;
   }
 }
 
@@ -37,6 +40,7 @@ public class BigChomp extends Chomp {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
   }
+
 }
 
 public class BossChomp extends Chomp {
@@ -66,7 +70,7 @@ public class BossChomp extends Chomp {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-public abstract class Elemental extends MeleeEnemy implements Enemy {
+public abstract class Elemental extends MeleeEnemy implements Enemy, CircleObject {
   
   protected float animationTime = 0;
   protected PImage[] sprites = {charSprites.get("FIRE_ELEMENTAL"), charSprites.get("ICE_ELEMENTAL"), charSprites.get("MAGIC_ELEMENTAL"), charSprites.get("POISON_ELEMENTAL")};
@@ -75,7 +79,6 @@ public abstract class Elemental extends MeleeEnemy implements Enemy {
   public Elemental(float x, float y, int tier) {
     super(x, y, tier);
     radius = 0.25;
-    rectangleBB = false;
     stats.health = 6 * tier;
     stats.attack = 10 * tier;
     stats.speed = 2 * tier;
@@ -92,6 +95,10 @@ public abstract class Elemental extends MeleeEnemy implements Enemy {
   protected void attack() {
     super.attack();
     engine.player.stats.addStatusEffect(statusEffect, 3);
+  }
+  
+  public float getRadius() {
+    return radius;
   }
   
 }

@@ -38,9 +38,8 @@ abstract class StandardEnemy implements Enemy {
   public float y;
   
   protected int range = 10;
-  protected float radius;
+  protected float radius = 0.5;
   protected boolean active = false;
-  protected boolean rectangleBB = true;
   
   protected float angle;
   protected PImage sprite;
@@ -107,11 +106,12 @@ abstract class StandardEnemy implements Enemy {
   
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    if(rectangleBB) {
-      return false;
-    } else {
-      return Circle.pointCollides(x, y, pointX, pointY, radius);
+    if(this instanceof RectangleObject) {
+      return Rectangle.pointCollides(pointX, pointY, x, y, ((RectangleObject) this).getWidth(), ((RectangleObject) this).getHeight());
+    } else if(this instanceof CircleObject) {
+      return Circle.pointCollides(x, y, pointX, pointY, ((CircleObject) this).getRadius());
     }
+    return false;
   }
   
   /* Checks collision with line */
@@ -125,11 +125,12 @@ abstract class StandardEnemy implements Enemy {
   }  
   
   public boolean validPosition(Level level, float xPos, float yPos) {
-    if(rectangleBB) {
-      return true;
-    } else {
+    if(this instanceof RectangleObject) {
+      return Rectangle.validPosition(level, xPos, yPos, width, height);
+    } else if(this instanceof CircleObject) {
       return Circle.validPosition(level, xPos, yPos, radius);
     }
+    return true;
   }
   
 }
@@ -170,86 +171,16 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   protected void move(double delta) {
     float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
     float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
-    int xDir = Util.sign(moveX);
-    int yDir = Util.sign(moveY);
-    if(abs(xDir) + abs(yDir) == 0) {
-      return;
-    }
-    x += moveX;
-    y += moveY;
-    if(rectangleBB) {
-      return;
+    float[] coords;
+    if(this instanceof RectangleObject) {
+      coords = Rectangle.adjust(engine.currentLevel, x, y, width, height, moveX, moveY);
+    } else if(this instanceof CircleObject) {
+      coords = Circle.adjust(engine.currentLevel, x, y, radius, moveX, moveY);
     } else {
-      if(!Circle.validCentre(engine.currentLevel, x, y)) {
-          x -= moveX;
-          y -= moveY;
-          if(!Circle.validCentre(engine.currentLevel, x, y)) {
-            damage(10);
-          }
-      }
-      if(xDir == 1) {
-        if(!Circle.validRight(engine.currentLevel, x, y, radius)) {
-          x = ceil(x) - radius;
-        } else {
-          if(!Circle.validTopRight(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - floor(y), x - ceil(x));
-            x = ceil(x) + cos(attackAngle) * radius;
-            y = floor(y) + sin(attackAngle) * radius;
-          } 
-          if(!Circle.validBottomRight(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - ceil(y), x - ceil(x));
-            x = ceil(x) + cos(attackAngle) * radius;
-            y = ceil(y) + sin(attackAngle) * radius;
-          }
-        }
-      } else if(xDir == -1) { 
-        if (!Circle.validLeft(engine.currentLevel, x, y, radius)) {
-          x = floor(x) + radius;
-        } else {
-          if(!Circle.validTopLeft(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - floor(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius;
-            y = floor(y) + sin(attackAngle) * radius;
-          } 
-          if(!Circle.validBottomLeft(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - ceil(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius;
-            y = ceil(y) - sin(attackAngle) * radius;
-          }
-        }
-      }
-      if(yDir == 1) {
-        if (!Circle.validBottom(engine.currentLevel, x, y, radius)) {
-          y = ceil(y) - radius;
-        } else {
-          if(!Circle.validBottomLeft(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - ceil(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius;
-            y = ceil(y) + sin(attackAngle) * radius;
-          } 
-          if(!Circle.validBottomRight(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - ceil(y), x - ceil(x));
-            x = ceil(x) + cos(attackAngle) * radius;
-            y = ceil(y) + sin(attackAngle) * radius;
-          }
-        }
-      } else if(yDir == -1) { 
-        if(!Circle.validTop(engine.currentLevel, x, y, radius)) {
-          y = floor(y) + radius;
-        } else {
-          if(!Circle.validTopLeft(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - floor(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius;
-            y = floor(y) + sin(attackAngle) * radius;
-          } 
-          if(!Circle.validTopRight(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - floor(y), x - ceil(x));
-            x = ceil(x) + cos(attackAngle) * radius;
-            y = floor(y) + sin(attackAngle) * radius;
-          }
-        }
-      }
+      coords = new float[] {x + moveX, y + moveY};
     }
+    x = coords[0];
+    y = coords[1];
   }
 }
 
@@ -306,88 +237,73 @@ public static class Circle {
     y += moveY;
     int xDir = Util.sign(moveX);
     int yDir = Util.sign(moveY);
+    
     if(!Circle.validCentre(level, x, y)) {
-          x -= moveX;
-          y -= moveY;
-      }
-      if(xDir == 1) {
-        if(!Circle.validRight(level, x, y, radius)) {
-          x = ceil(x) - radius;
-        } else {
-          if(!Circle.validTopRight(level, x, y, radius)) {
-            println("Hit top right");
-            float attackAngle = atan2(x - ceil(x), y - floor(y));
-            //x = ceil(x) + cos(attackAngle) * radius;
-            //y = floor(y) + cos(attackAngle) * radius;
-          } 
-          if(!Circle.validBottomRight(level, x, y, radius)) {
-            println("Hit bottom right");
-            float attackAngle = atan2(x - ceil(x), y - ceil(y));
-            //x = ceil(x) + cos(attackAngle) * radius;
-            //y = ceil(y) + cos(attackAngle) * radius;
-          }
-        }
-      } else if(xDir == -1) { 
-        if (!Circle.validLeft(level, x, y, radius)) {
-          x = floor(x) + radius;
-        } else {
-          if(!Circle.validTopLeft(level, x, y, radius)) {
-            println();
-            println("Hit top left");
-            println("x y :", x, y);
-            float attackAngle = atan2(y - floor(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius * 2;// + 0.05;
-            y = floor(y) + cos(attackAngle) * radius * 2;// + 0.05;
-            println("Angle:", attackAngle);
-            println("New x y :", x, y);
-          } 
-          if(!Circle.validBottomLeft(level, x, y, radius)) {
-            println("Hit bottom left");
-            float attackAngle = atan2(x - floor(x), y - ceil(y));
-            //x = floor(x) + cos(attackAngle) * radius;
-            //y = ceil(y) + cos(attackAngle) * radius;
-          }
+        x -= moveX;
+        y -= moveY;
+    }
+    if(xDir == 1) {
+      if(!Circle.validRight(level, x, y, radius)) {
+        x = ceil(x) - radius;
+      } else {
+        if(!Circle.validTopRight(level, x, y, radius)) {
+          float attackAngle = atan2(y - floor(y), x - ceil(x));
+          x = ceil(x) + cos(attackAngle) * radius;
+          y = floor(y) + sin(attackAngle) * radius;
+        } 
+        if(!Circle.validBottomRight(level, x, y, radius)) {
+          float attackAngle = atan2(y - ceil(y), x - ceil(x));
+          x = ceil(x) + cos(attackAngle) * radius;
+          y = ceil(y) + sin(attackAngle) * radius;
         }
       }
-      if(yDir == 1) {
-        if (!Circle.validBottom(level, x, y, radius)) {
-          y = ceil(y) - radius;
-        } else {
-          if(!Circle.validBottomLeft(level, x, y, radius)) {
-            println("Hit bottom left");
-            float attackAngle = atan2(x - floor(x), y - ceil(y));
-            //x = floor(x) + cos(attackAngle) * radius;
-            //y = ceil(y) + cos(attackAngle) * radius;
-          } 
-          if(!Circle.validBottomRight(level, x, y, radius)) {
-            println("Hit bottom right");
-            float attackAngle = atan2(x - ceil(x), y - ceil(y));
-            //x = ceil(x) + cos(attackAngle) * radius;
-            //y = ceil(y) + cos(attackAngle) * radius;
-          }
-        }
-      } else if(yDir == -1) { 
-        if(!Circle.validTop(level, x, y, radius)) {
-          y = floor(y) + radius;
-        } else {
-          if(!Circle.validTopLeft(level, x, y, radius)) {
-            println();
-            println("Hit top left");
-            println("x y :", x, y);
-            float attackAngle = atan2(y - floor(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius + 0.05;
-            y = floor(y) + cos(attackAngle) * radius + 0.05;
-            println("Angle:", attackAngle);
-            println("New x y :", x, y); 
-          } 
-          if(!Circle.validTopRight(level, x, y, radius)) {
-            println("Hit top right");
-            float attackAngle = atan2(x - ceil(x), y - floor(y));
-            //x = ceil(x) + cos(attackAngle) * radius;
-            //y = floor(y) + cos(attackAngle) * radius;
-          }
+    } else if(xDir == -1) { 
+      if (!Circle.validLeft(level, x, y, radius)) {
+        x = floor(x) + radius;
+      } else {
+        if(!Circle.validTopLeft(level, x, y, radius)) {
+          float attackAngle = atan2(y - floor(y), x - floor(x));
+          x = floor(x) + cos(attackAngle) * radius;
+          y = floor(y) + sin(attackAngle) * radius;
+        } 
+        if(!Circle.validBottomLeft(level, x, y, radius)) {
+          float attackAngle = atan2(y - ceil(y), x - floor(x));
+          x = floor(x) + cos(attackAngle) * radius;
+          y = ceil(y) + sin(attackAngle) * radius;
         }
       }
+    }
+    if(yDir == 1) {
+      if (!Circle.validBottom(level, x, y, radius)) {
+        y = ceil(y) - radius;
+      } else {
+        if(!Circle.validBottomLeft(level, x, y, radius)) {
+          float attackAngle = atan2(y - ceil(y), x - floor(x));
+          x = floor(x) + cos(attackAngle) * radius;
+          y = ceil(y) + sin(attackAngle) * radius;
+        } 
+        if(!Circle.validBottomRight(level, x, y, radius)) {
+          float attackAngle = atan2(y - ceil(y), x - ceil(x));
+          x = ceil(x) + cos(attackAngle) * radius;
+          y = ceil(y) + sin(attackAngle) * radius;
+        }
+      }
+    } else if(yDir == -1) { 
+      if(!Circle.validTop(level, x, y, radius)) {
+        y = floor(y) + radius;
+      } else {
+        if(!Circle.validTopLeft(level, x, y, radius)) {
+          float attackAngle = atan2(y - floor(y), x - floor(x));
+          x = floor(x) + cos(attackAngle) * radius;
+          y = floor(y) + sin(attackAngle) * radius;
+        } 
+        if(!Circle.validTopRight(level, x, y, radius)) {
+          float attackAngle = atan2(y - floor(y), x - ceil(x));
+          x = ceil(x) + cos(attackAngle) * radius;
+          y = floor(y) + sin(attackAngle) * radius;
+        }
+      }
+    }
     return new float[] {x, y};
   }
   
@@ -470,5 +386,19 @@ public static class Rectangle {
   public static boolean pointCollides(float xPos, float yPos, float x, float y, float w, float h) {
     return (xPos < x + w/2) && (xPos > x - w/2) && (yPos < y + h/2) && (yPos > y - h/2);
   }
+  
+}
+
+public interface CircleObject {
+   
+  public float getRadius();
+  
+}
+
+public interface RectangleObject {
+   
+  public float getWidth();
+  
+  public float getHeight();
   
 }

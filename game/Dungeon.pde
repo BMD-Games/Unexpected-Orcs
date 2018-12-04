@@ -18,27 +18,27 @@ class GrassDungeon extends Level {
   
   void generateEnemies() {
     //Add enemies to level
-    /*Elemental elemental;
-    for(int i = 0; i < 20; i ++) {
+    Elemental elemental;
+    for(int i = 0; i < 12; i ++) {
       elemental = new FireElemental(random(w), random(h), 1);
       validSpawn(elemental);
       addEnemy(elemental);
     }
-    for(int i = 0; i < 20; i ++) {
+    for(int i = 0; i < 12; i ++) {
       elemental = new IceElemental(random(w), random(h), 1);
       validSpawn(elemental);
       addEnemy(elemental);
     }
-    for(int i = 0; i < 20; i ++) {
+    for(int i = 0; i < 12; i ++) {
       elemental = new MagicElemental(random(w), random(h), 1);
       validSpawn(elemental);
       addEnemy(elemental);
     }
-    for(int i = 0; i < 20; i ++) {
+    for(int i = 0; i < 12; i ++) {
       elemental = new PoisonElemental(random(w), random(h), 1);
       validSpawn(elemental);
       addEnemy(elemental);
-    }*/
+    }
    
     Chomp chomp;
     for(int i = 0; i < 40; i ++) {
