@@ -202,7 +202,7 @@ public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSi
     int c = -1;
     if(!connected.contains(r1) && connected.contains(r2)) c = 0;
     if(connected.contains(r1) && !connected.contains(r2)) c = 1;
-    if(c == 0 || c == 1) {
+    if(c != -1) {
       connectRooms(tiles, rooms.get(r1), rooms.get(r2));
       connected.add(r[c]);
       //println(regionCount, connected.toString());
@@ -407,6 +407,7 @@ public void generateConnectedDungeon(Level level, int rows, int columns, Room st
   }
   placedRooms[bossRoomPos] = new Room(bossRoom); //place boss room randomly into the grid
   
+  //place rooms into grid
   for(int i = 0; i < placedRooms.length; i ++) {
     if(i == startRoomPos || i == bossRoomPos) continue;
     if(random(1) <= roomChance) { // % chance of a cell containing a room
@@ -414,14 +415,23 @@ public void generateConnectedDungeon(Level level, int rows, int columns, Room st
     }
   }
   
-  for(int x = 0; x < rows; x ++) {
-    for(int y = 0; y < columns; y ++) {
-      int index = x + y * rows;
+  //offset rooms by grid cell position and add their tiles to the tile map
+  for(int x = 0; x < columns; x ++) {
+    for(int y = 0; y < rows; y ++) {
+      int index = x + y * columns;
       if(placedRooms[index] != null) {
         //offset each room by their grid cell position
         placedRooms[index].x += x * rw;
         placedRooms[index].y += y * rh;
-        
+        boolean hit = false;
+        for(int i = 1; i < index; i ++) {
+          //if it's the start or boss room, will need to override
+          if(placedRooms[i] != null && placedRooms[i].collides(placedRooms[index])) {
+            hit = true;
+            break;
+          }
+        }
+        if(hit) continue;
         //add their tiles to the tileMap
         for(int i = 0; i < placedRooms[index].w; i ++) {
           for(int j = 0; j < placedRooms[index].h; j ++) {
@@ -440,6 +450,14 @@ public void generateConnectedDungeon(Level level, int rows, int columns, Room st
         }
       }
     }
+  }
+  
+  //go through grid cells and check if it has neighbouring cells
+  for(int i = 0; i < columns; i ++) {
+    for(int j = 0; j < rows; j ++) {
+      //look around at different cells
+      int index = i + j * columns;
+    }    
   }
   
   tiles = finishingPass(tiles, level.tileset);

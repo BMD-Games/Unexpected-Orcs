@@ -14,14 +14,34 @@ class Room {
   }
 
   public boolean collides(Room room) {
+    int x = this.x - 1;//factor in a wall buffer
+    int y = this.y - 1;
+    int w = this.w + 2;
+    int h = this.h + 2;
     return (x + w >= room.x  &&   // r1 right edge past r2 left
       x <= room.x + room.w &&   // r1 left edge past r2 right
       y + h >= room.y      &&   // r1 top edge past r2 bottom
       y <= room.y + room.h);    // r1 bottom edge past r2 top
   }
+  
+  public boolean overlapsX(Room room) {
+    return ((x >= room.x && x <= room.x + room.w) || (x + w >= room.x && x + w <= room.x + room.w));
+  }
+  
+  public boolean overlapsY(Room room) {
+    return ((y >= room.y && y <= room.y + room.h) || (y + h >= room.y && y + h <= room.y + room.h));
+  }
 
   public boolean inRoom(int px, int py) {
     return Util.pointInBox(px, py, x, y, w, h);
+  }
+
+  public PVector midPoint() {
+    return new PVector(x + w/2, y + h/2);
+  }
+
+  public int weight(Room room) {
+    return (int)(fastAbs(room.x - x) + fastAbs(room.y - y));
   }
 
   public void setTiles(int[][] tiles) {
