@@ -43,7 +43,11 @@ class Room {
   public int weight(Room room) {
     return (int)(fastAbs(room.x - x) + fastAbs(room.y - y));
   }
-
+  
+  public boolean outOfBounds(int w, int h) {
+    return (this.x < 0 || this.x + this.w > w || this.y < 0 || this.y + this.h > h); 
+  }
+  
   public void setTiles(int[][] tiles) {
     this.tiles = tiles;
     w = tiles.length;
