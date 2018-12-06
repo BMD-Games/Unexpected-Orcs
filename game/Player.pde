@@ -89,7 +89,6 @@ class Player {
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
     screen.image(headSprite, -headSprite.width * SCALE/2, -headSprite.height * SCALE/2, headSprite.width * SCALE, headSprite.height * SCALE);
     screen.image(bodySprite, -bodySprite.width * SCALE/2, -bodySprite.height * SCALE/2, bodySprite.width * SCALE, bodySprite.height * SCALE);
-
     screen.popMatrix();
   }
 

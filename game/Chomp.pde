@@ -14,7 +14,7 @@ class Chomp extends MeleeEnemy implements Enemy, CircleObject {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
     ItemBag itemBag = new ItemBag(x, y, tier);
-    if(random(1) < 0.1) {
+    if(random(1) < 1) {
       itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);

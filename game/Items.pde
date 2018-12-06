@@ -86,12 +86,18 @@ class Inventory {
 
 class Item {
   
-  public String type, name, sprite;
+  public String type, name;
+  public PImage sprite;
   
   public int tier = 0;
   
-  Item(String sprite, String name) {
-   this.sprite = sprite; 
+  Item(String spriteName, String name) {
+   sprite = itemSprites.get(spriteName); 
    this.name = name;
+  }
+  
+  Item(PImage sprite, String name) {
+    this.sprite = sprite;
+    this.name = name;
   }
 }

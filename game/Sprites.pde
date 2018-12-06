@@ -136,8 +136,13 @@ public void loadAssets() {
   itemSprites.put("STAFF", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
   itemSprites.put("SPEAR", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
   itemSprites.put("BOW", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
-  itemSprites.put("GREENROD", getSprite(itemsheet, 4, 2, 1, 1, itemSize));
-  itemSprites.put("REDROD", getSprite(itemsheet, 5, 2, 1, 1, itemSize));
+  itemSprites.put("WAND_TIP", getSprite(itemsheet, 4, 2, 1, 1, itemSize));
+  itemSprites.put("STAFF_TIP", getSprite(itemsheet, 5, 2, 1, 1, itemSize));
+  itemSprites.put("SPEAR_TIP", getSprite(itemsheet, 6, 2, 1, 1, itemSize));
+  itemSprites.put("BOW_TIP", getSprite(itemsheet, 7, 2, 1, 1, itemSize)); 
+
+  itemSprites.put("GREENROD", getSprite(itemsheet, 0, 5, 1, 1, itemSize));
+  itemSprites.put("REDROD", getSprite(itemsheet, 1, 5, 1, 1, itemSize));
 
   //Abilities
   itemSprites.put("BOOTS", getSprite(itemsheet, 0, 3, 1, 1, itemSize));
@@ -273,6 +278,11 @@ public void loadAssets() {
   projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, bulletSize));
   projectileSprites.put("FIREBALL", getSprite(bulletsheet, 3, 0, 1, 1, bulletSize));
   projectileSprites.put("GREENROD", getSprite(projectilesheet, 0, 0, 1, 1, projectileSize));
+  
+  projectileSprites.put("WAND", getSprite(bulletsheet, 0, 1, 1, 1, bulletSize));
+  projectileSprites.put("STAFF", getSprite(bulletsheet, 1, 1, 1, 1, bulletSize));
+  projectileSprites.put("SPEAR", getSprite(bulletsheet, 2, 1, 1, 1, bulletSize));
+  projectileSprites.put("ARROW", getSprite(bulletsheet, 3, 1, 1, 1, bulletSize));
   
   cursor(guiSprites.get("CURSOR"));
   assetsLoaded = true;

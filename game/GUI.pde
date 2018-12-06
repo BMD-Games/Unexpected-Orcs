@@ -369,10 +369,10 @@ class GUI {
         screen.stroke(0);
         screen.strokeWeight(1);
         if (currSelection && b1Type == active && b1 == i) { 
-          screen.image(itemSprites.get(engine.player.active()[i].sprite), mouseX - invSize/2+ itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+          screen.image(engine.player.active()[i].sprite, mouseX - invSize/2+ itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         } else {
-          screen.image(itemSprites.get(engine.player.active()[i].sprite), invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+          screen.image(engine.player.active()[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         }
       }
@@ -384,10 +384,10 @@ class GUI {
         screen.stroke(0);
         screen.strokeWeight(1);
         if (currSelection && b1Type == inv && b1 == i) { 
-          screen.image(itemSprites.get(engine.player.inv()[i].sprite), mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+          screen.image(engine.player.inv()[i].sprite, mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         } else {
-          screen.image(itemSprites.get(engine.player.inv()[i].sprite),invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+          screen.image(engine.player.inv()[i].sprite,invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
           screen.noStroke();
         }
       }
@@ -399,10 +399,10 @@ class GUI {
           screen.stroke(0);
           screen.strokeWeight(1);
           if (currSelection && b1Type == bag && b1 == i) { 
-            screen.image(itemSprites.get(items[i].sprite), mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+            screen.image(items[i].sprite, mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
             screen.noStroke();
           } else {
-            screen.image(itemSprites.get(items[i].sprite), invBuff + invX + i * (invSize + invBuff) + itemOffset, 3 * invBuff + invY + 4 * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+            screen.image(items[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, 3 * invBuff + invY + 4 * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
             screen.noStroke();
           }
         }

@@ -9,10 +9,17 @@ class Weapon extends Item {
   public float accuracy = 0;
   
   public String bulletSprite = "GREENROD";
+  public color tipColour = color(50, 50, 50);
   
   public ArrayList<Pair> statusEffects;
   
-  Weapon(String sprite, String name, ArrayList<Pair> statusEffects) {
+  Weapon(String spriteName, String name, ArrayList<Pair> statusEffects) {
+    super(spriteName, name);
+    this.type = "Weapon";
+    this.statusEffects = statusEffects;
+  }
+  
+  Weapon(PImage sprite, String name, ArrayList<Pair> statusEffects) {
     super(sprite, name);
     this.type = "Weapon";
     this.statusEffects = statusEffects;
@@ -129,7 +136,7 @@ public class WeaponFactory {
   }
   
   public Wand createWand(int tier) {
-    Wand wand = new Wand();
+    Wand wand = new Wand(color(random(255), random(255), random(255)));
     wand.damage =  2 + 6 * tier + (int)(randomGaussian() * tier);
     wand.range = 4;
     wand.bulletSpeed = 12 + (int)(randomGaussian() * tier * 2);
@@ -140,7 +147,7 @@ public class WeaponFactory {
   }
   
   public Staff createStaff(int tier) {
-    Staff staff = new Staff();
+    Staff staff = new Staff(color(random(255), random(255), random(255)));
     staff.damage =  4 + 8 * tier + (int)(randomGaussian() * tier);
     staff.range = 6;
     staff.bulletSpeed = 12 + (int)(randomGaussian() * tier);
@@ -150,7 +157,7 @@ public class WeaponFactory {
   }
   
   public Spear createSpear(int tier) {
-    Spear spear = new Spear();
+    Spear spear = new Spear(color(random(255), random(255), random(255)));
     spear.damage =  4 + 10 * tier + (int)(randomGaussian() * tier);
     spear.range = 3;
     spear.bulletSpeed = 8 + (int)(randomGaussian() * tier);
@@ -160,7 +167,7 @@ public class WeaponFactory {
   }
   
   public Bow createBow(int tier) {
-    Bow bow = new Bow();
+    Bow bow = new Bow(color(random(255), random(255), random(255)));
     bow.damage =  16 * tier + (int)(randomGaussian() * tier);
     bow.range = 10;
     bow.bulletSpeed = 20 + (int)(randomGaussian() * tier);
@@ -173,32 +180,45 @@ public class WeaponFactory {
 
 public class Wand extends Weapon {
   
-  public Wand() {
-    super("WAND", "Wand", null);
+  public Wand(color colour) {
+    super(getCombinedSprite(itemSprites.get("WAND"), itemSprites.get("WAND_TIP"), colour), "Wand", null);
+    tipColour = colour;
   }
   
 }
 
 public class Staff extends Weapon {
   
-  public Staff() {
-    super("STAFF", "Staff", null);
+  public Staff(color colour) {
+    super(getCombinedSprite(itemSprites.get("STAFF"), itemSprites.get("STAFF_TIP"), colour), "Staff", null);
+    tipColour = colour;
   }
   
 }
 
 public class Spear extends Weapon {
   
-  public Spear() {
-    super("SPEAR", "Spear", null);
+  public Spear(color colour) {
+    super(getCombinedSprite(itemSprites.get("SPEAR"), itemSprites.get("SPEAR_TIP"), colour), "Spear", null);
+    tipColour = colour;
   }
   
 }
 
 public class Bow extends Weapon {
   
-  public Bow() {
-    super("BOW", "Bow", null);
+  public Bow(color colour) {
+    super(getCombinedSprite(itemSprites.get("BOW"), itemSprites.get("BOW_TIP"), colour), "Bow", null);
+    tipColour = colour;
   }
   
+}
+
+private PImage getCombinedSprite(PImage baseImage, PImage tintImage, color colour) {
+  PGraphics temp = createGraphics(baseImage.width, baseImage.height);
+  temp.beginDraw();
+  temp.image(baseImage, 0, 0);
+  temp.image(applyColourToImage(tintImage, colour), 0, 0);
+  temp.endDraw();
+  return temp.get();
 }
