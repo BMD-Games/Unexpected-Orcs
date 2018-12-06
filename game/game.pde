@@ -38,7 +38,15 @@ void setup() {
   gui = new GUI();
   engine = new Engine();
   
-  
+  //Testing
+  for(int i = 0; i < 10; ++i) {
+    WeaponFactory weaponFactory = new WeaponFactory();
+    weaponFactory.createWand(1);
+  }
+  for(int i = 0; i < 10; ++i) {
+    WeaponFactory weaponFactory = new WeaponFactory();
+    weaponFactory.createWand(2);
+  }
   
 }
 

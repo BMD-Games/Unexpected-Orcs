@@ -132,10 +132,10 @@ public void loadAssets() {
   itemSprites.put("SCROLL_4", getSprite(itemsheet, 3, 1, 1, 1, itemSize));
   
   //Weapons
-  itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 2, 1, 1, itemSize));
-  itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
-  itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
-  itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
+  itemSprites.put("WAND", getSprite(itemsheet, 0, 2, 1, 1, itemSize));
+  itemSprites.put("STAFF", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
+  itemSprites.put("SPEAR", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
+  itemSprites.put("BOW", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
   itemSprites.put("GREENROD", getSprite(itemsheet, 4, 2, 1, 1, itemSize));
   itemSprites.put("REDROD", getSprite(itemsheet, 5, 2, 1, 1, itemSize));
 
@@ -146,6 +146,12 @@ public void loadAssets() {
   
   //Armour
   itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
+  
+  //Guns
+  itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 7, 1, 1, itemSize));
+  itemSprites.put("PISTOL", getSprite(itemsheet, 1, 7, 1, 1, itemSize));
+  itemSprites.put("SNIPER", getSprite(itemsheet, 2, 7, 1, 1, itemSize));
+  itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 7, 2, 1, 1, itemSize));
   
   //-----STAT SPRITES-----
   

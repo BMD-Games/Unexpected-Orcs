@@ -23,6 +23,7 @@ class Engine {
   
   private PGraphics screen;
   
+  private WeaponFactory weaponFactory = new WeaponFactory();
   private Player player;
   
   Engine() {

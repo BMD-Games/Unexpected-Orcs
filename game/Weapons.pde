@@ -1,10 +1,14 @@
 class Weapon extends Item {
   
-  public int damage, numBullets, range, bulletSpeed;
+  //Bulletspeed in  tiles per second?
+  public int damage = 1, numBullets = 1, range = 1, bulletSpeed = 1;
   
-  public float fireRate, accuracy;
+  //FireRate, is the wait time in seconds between shots
+  public float fireRate = 1;
+  //Accuracy, angle in radians the weapon will shoot within
+  public float accuracy = 0;
   
-  public String bulletSprite;
+  public String bulletSprite = "GREENROD";
   
   public ArrayList<Pair> statusEffects;
   
@@ -38,7 +42,6 @@ class Pistol extends Weapon{
     super("PISTOL", "Pistol", new ArrayList<Pair>());
     this.damage = 10;
     this.fireRate = 0.15;
-    this.numBullets = 1;
     this.range = 6;
     this.accuracy = 0.05;
     this.bulletSpeed = 15;
@@ -100,4 +103,102 @@ class GreenRod extends Weapon{
   public void playSound() {
     // soundFiles.get("WHOOSH").play();
   }
+}
+
+public class WeaponFactory {
+  
+  public String[] weaponTypes = new String[] {"Wand", "Staff", "Spear", "Bow"};
+  
+  public Weapon createRandomWeapon(int tier) {
+    Weapon weapon = null;
+    switch((int)random(4)) {
+      case 0:
+        weapon = createWand(tier);
+        break;
+      case 1:
+        weapon = createStaff(tier);
+        break;
+      case 2:
+        weapon = createSpear(tier);
+        break;
+      case 3:
+        weapon = createBow(tier);
+        break;
+    }
+    return weapon;
+  }
+  
+  public Wand createWand(int tier) {
+    Wand wand = new Wand();
+    wand.damage =  2 + 6 * tier + (int)(randomGaussian() * tier);
+    wand.range = 4;
+    wand.bulletSpeed = 12 + (int)(randomGaussian() * tier * 2);
+    wand.fireRate = 0.3 - tier * randomGaussian() / 20;
+    wand.accuracy = 0.05 + tier * randomGaussian() / 80;  
+    //println("New wand:", wand.damage, wand.range, wand.bulletSpeed, wand.fireRate, wand.accuracy);
+    return wand;
+  }
+  
+  public Staff createStaff(int tier) {
+    Staff staff = new Staff();
+    staff.damage =  4 + 8 * tier + (int)(randomGaussian() * tier);
+    staff.range = 6;
+    staff.bulletSpeed = 12 + (int)(randomGaussian() * tier);
+    staff.fireRate = 0.6 - tier * randomGaussian() / 32;
+    staff.accuracy = 0.03 + tier * randomGaussian() / 160;
+    return staff;
+  }
+  
+  public Spear createSpear(int tier) {
+    Spear spear = new Spear();
+    spear.damage =  4 + 10 * tier + (int)(randomGaussian() * tier);
+    spear.range = 3;
+    spear.bulletSpeed = 8 + (int)(randomGaussian() * tier);
+    spear.fireRate = 0.5 - tier * randomGaussian() / 20;
+    spear.accuracy = 0.03 + tier * randomGaussian() / 400; 
+    return spear;
+  }
+  
+  public Bow createBow(int tier) {
+    Bow bow = new Bow();
+    bow.damage =  16 * tier + (int)(randomGaussian() * tier);
+    bow.range = 10;
+    bow.bulletSpeed = 20 + (int)(randomGaussian() * tier);
+    bow.fireRate = 0.3 - tier * randomGaussian() / 20;
+    bow.accuracy = 0.05 + tier * randomGaussian() / 160; 
+    return bow;
+  }
+  
+}
+
+public class Wand extends Weapon {
+  
+  public Wand() {
+    super("WAND", "Wand", null);
+  }
+  
+}
+
+public class Staff extends Weapon {
+  
+  public Staff() {
+    super("STAFF", "Staff", null);
+  }
+  
+}
+
+public class Spear extends Weapon {
+  
+  public Spear() {
+    super("SPEAR", "Spear", null);
+  }
+  
+}
+
+public class Bow extends Weapon {
+  
+  public Bow() {
+    super("BOW", "Bow", null);
+  }
+  
 }

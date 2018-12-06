@@ -51,9 +51,9 @@ class GrassDungeon extends Level {
       validSpawn(chomp);
       addEnemy(chomp);
     }
-    //chomp = new BossChomp(random(w), random(h), 3);
-    //validSpawn(chomp);
-    //addEnemy(chomp);
+    chomp = new BossChomp(random(w), random(h), 3);
+    validSpawn(chomp);
+    addEnemy(chomp);
   }
   
   void validSpawn(StandardEnemy enemy) {
