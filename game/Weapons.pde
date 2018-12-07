@@ -140,9 +140,8 @@ public class WeaponFactory {
     wand.damage =  2 + 6 * tier + (int)(randomGaussian() * tier);
     wand.range = 4;
     wand.bulletSpeed = 12 + (int)(randomGaussian() * tier * 2);
-    wand.fireRate = 0.3 - tier * randomGaussian() / 20;
-    wand.accuracy = 0.05 + tier * randomGaussian() / 80;  
-    //println("New wand:", wand.damage, wand.range, wand.bulletSpeed, wand.fireRate, wand.accuracy);
+    wand.fireRate = Util.roundTo(0.6 - tier * randomGaussian() / 32, 100);
+    wand.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 80, 100);  
     return wand;
   }
   
@@ -151,8 +150,8 @@ public class WeaponFactory {
     staff.damage =  4 + 8 * tier + (int)(randomGaussian() * tier);
     staff.range = 6;
     staff.bulletSpeed = 12 + (int)(randomGaussian() * tier);
-    staff.fireRate = 0.6 - tier * randomGaussian() / 32;
-    staff.accuracy = 0.03 + tier * randomGaussian() / 160;
+    staff.fireRate = Util.roundTo(0.6 - tier * randomGaussian() / 32, 100);
+    staff.accuracy = Util.roundTo(0.03 + tier * randomGaussian() / 160, 100);
     return staff;
   }
   
@@ -161,8 +160,8 @@ public class WeaponFactory {
     spear.damage =  4 + 10 * tier + (int)(randomGaussian() * tier);
     spear.range = 3;
     spear.bulletSpeed = 8 + (int)(randomGaussian() * tier);
-    spear.fireRate = 0.5 - tier * randomGaussian() / 20;
-    spear.accuracy = 0.03 + tier * randomGaussian() / 400; 
+    spear.fireRate = Util.roundTo(0.5 - tier * randomGaussian() / 20, 100);
+    spear.accuracy = Util.roundTo(0.03 + tier * randomGaussian() / 400, 100); 
     return spear;
   }
   
@@ -171,8 +170,8 @@ public class WeaponFactory {
     bow.damage =  16 * tier + (int)(randomGaussian() * tier);
     bow.range = 10;
     bow.bulletSpeed = 20 + (int)(randomGaussian() * tier);
-    bow.fireRate = 0.3 - tier * randomGaussian() / 20;
-    bow.accuracy = 0.05 + tier * randomGaussian() / 160; 
+    bow.fireRate = Util.roundTo(0.3 - tier * randomGaussian() / 20, 100);
+    bow.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 160, 100); 
     return bow;
   }
   
