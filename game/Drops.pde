@@ -95,6 +95,12 @@ class ItemBag extends Drop {
     }
   }
   
+  @Override
+  public boolean update(double delta, float px, float py) {
+    checkEmpty();
+    return super.update(delta, px, py);
+  }
+  
   public boolean addItem(Item item) {
     if(item != null) alive = true;
     for(int i = 0; i < items.length; i ++) {

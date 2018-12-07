@@ -11,7 +11,7 @@ class Weapon extends Item {
   public String bulletSprite = "GREENROD";
   public color tipColour = color(50, 50, 50);
   
-  public ArrayList<Pair> statusEffects;
+  public ArrayList<Pair> statusEffects = new ArrayList<Pair>();
   
   Weapon(String spriteName, String name, ArrayList<Pair> statusEffects) {
     super(spriteName, name);

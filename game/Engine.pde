@@ -111,7 +111,7 @@ class Engine {
       if (player.stats.getFireTimer() >= weapon.fireRate) {
         weapon.playSound();
         
-        ArrayList<Pair> projectileStats = weapon.statusEffects;
+        ArrayList<Pair> projectileStats = weapon.statusEffects == null ? new ArrayList<Pair>() : weapon.statusEffects;
         projectileStats.addAll(engine.player.inv.currentScroll().statusEffects);
 
         for (int i = 0; i < weapon.numBullets; i++) {
