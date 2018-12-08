@@ -461,9 +461,11 @@ class GUI {
     String desc = "";
     String type = item.type;
     if (type == "Weapon") {
-      desc += "Fire rate:" + ((Weapon)item).fireRate + "\n";
+      int fireRate = (int)(60 / ((Weapon)item).fireRate);
+      desc += "Fire rate:" + fireRate + "\n";
       desc += "Range:" + ((Weapon)item).range + "\n";
-      desc += "Accuracy:" + ((Weapon)item).accuracy + "\n";
+      float accuracy = 1 - ((Weapon)item).accuracy;
+      desc += "Accuracy:" + accuracy + "\n";
       desc += "Damage:" + ((Weapon)item).damage + "\n";
     } else if (type == "Ability") {
       screen.rect(x, y, 100, 110);
