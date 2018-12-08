@@ -86,7 +86,7 @@ class FireBomb extends Ability {
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       for (int i = 0; i < 8; i++) {
         engine.playerProjectiles.add(new Projectile(engine.player.x, engine.player.y, PVector.fromAngle(PI * i / 4), 
-                5, 3, 100, "FIREBALL"));
+                5, 3, 100, itemSprites.get("FIREBALL")));
       }
       // soundFiles.get("FLAME").play();
     }

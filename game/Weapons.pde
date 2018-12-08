@@ -8,7 +8,7 @@ class Weapon extends Item {
   //Accuracy, angle in radians the weapon will shoot within
   public float accuracy = 0;
   
-  public String bulletSprite = "GREENROD";
+  public PImage bulletSprite;
   public color tipColour = color(50, 50, 50);
   
   public ArrayList<Pair> statusEffects = new ArrayList<Pair>();
@@ -28,89 +28,7 @@ class Weapon extends Item {
   public void playSound() {}
 }
 
-class Shotgun extends Weapon{
-  
-  Shotgun() {
-    super("SHOTGUN", "Shotgun", new ArrayList<Pair>());
-    this.damage = 4;
-    this.fireRate = 0.6;
-    this.numBullets = 5;
-    this.range = 4;
-    this.accuracy = 0.15;
-    this.bulletSpeed = 10;
-    this.bulletSprite = "SHOTGUN";
-    
-  }
-}
 
-class Pistol extends Weapon{
-  
-  Pistol() {
-    super("PISTOL", "Pistol", new ArrayList<Pair>());
-    this.damage = 10;
-    this.fireRate = 0.15;
-    this.range = 6;
-    this.accuracy = 0.05;
-    this.bulletSpeed = 15;
-    this.bulletSprite = "PISTOL";
-    
-  }
-}
-
-class MachineGun extends Weapon{
-  
-  MachineGun() {
-    super("MACHINE_GUN", "Machine Gun", new ArrayList<Pair>());
-    this.damage = 4;
-    this.fireRate = 0.05;
-    this.numBullets = 1;
-    this.range = 8;
-    this.accuracy = 0.1;
-    this.bulletSpeed = 15;
-    this.bulletSprite = "PISTOL";
-    
-  }
-}
-
-class Sniper extends Weapon{
-  
-  Sniper() {
-    super("SNIPER", "Sniper", new ArrayList<Pair>());
-    this.damage = 100;
-    this.fireRate = 1;
-    this.numBullets = 1;
-    this.range = 10;
-    this.accuracy = 0.01;
-    this.bulletSpeed = 20;
-    this.bulletSprite = "SNIPER";
-    
-  }
-  
-  @Override
-  public void playSound() {
-    // soundFiles.get("WHOOSH").play();
-  }
-}
-
-class GreenRod extends Weapon{
-  
-  GreenRod() {
-    super("GREENROD", "Green Rod", new ArrayList<Pair>());
-    this.damage = 25;
-    this.fireRate = 0.3;
-    this.numBullets = 2;
-    this.range = 6;
-    this.accuracy = 0.05;
-    this.bulletSpeed = 15;
-    this.bulletSprite = "GREENROD";
-    
-  }
-  
-  @Override
-  public void playSound() {
-    // soundFiles.get("WHOOSH").play();
-  }
-}
 
 public class WeaponFactory {
   
@@ -181,6 +99,7 @@ public class Wand extends Weapon {
   
   public Wand(color colour) {
     super(getCombinedSprite(itemSprites.get("WAND"), itemSprites.get("WAND_TIP"), colour), "Wand", null);
+    bulletSprite = applyColourToImage(projectileSprites.get("WAND"), colour);
     tipColour = colour;
   }
   
@@ -190,6 +109,7 @@ public class Staff extends Weapon {
   
   public Staff(color colour) {
     super(getCombinedSprite(itemSprites.get("STAFF"), itemSprites.get("STAFF_TIP"), colour), "Staff", null);
+    bulletSprite = applyColourToImage(projectileSprites.get("STAFF"), colour);
     tipColour = colour;
   }
   
@@ -199,6 +119,7 @@ public class Spear extends Weapon {
   
   public Spear(color colour) {
     super(getCombinedSprite(itemSprites.get("SPEAR"), itemSprites.get("SPEAR_TIP"), colour), "Spear", null);
+    bulletSprite = getCombinedSprite(projectileSprites.get("SPEAR"), projectileSprites.get("SPEAR_TIP"), colour);
     tipColour = colour;
   }
   
@@ -208,9 +129,30 @@ public class Bow extends Weapon {
   
   public Bow(color colour) {
     super(getCombinedSprite(itemSprites.get("BOW"), itemSprites.get("BOW_TIP"), colour), "Bow", null);
+    bulletSprite = getCombinedSprite(projectileSprites.get("ARROW"), projectileSprites.get("ARROW_TIP"), colour);
     tipColour = colour;
   }
   
+}
+
+class GreenRod extends Weapon {
+  
+  GreenRod() {
+    super("GREENROD", "Green Rod", new ArrayList<Pair>());
+    this.damage = 25;
+    this.fireRate = 0.3;
+    this.numBullets = 2;
+    this.range = 6;
+    this.accuracy = 0.05;
+    this.bulletSpeed = 15;
+    this.bulletSprite = projectileSprites.get("GREENROD");
+    
+  }
+  
+  @Override
+  public void playSound() {
+    // soundFiles.get("WHOOSH").play();
+  }
 }
 
 private PImage getCombinedSprite(PImage baseImage, PImage tintImage, color colour) {

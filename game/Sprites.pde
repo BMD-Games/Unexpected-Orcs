@@ -268,21 +268,19 @@ public void loadAssets() {
   charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize));
   
   //-----BULLET SPRITES-----
-  PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
   PImage projectilesheet = loadImage("/assets/sprites/projectilesheet.png");
   int bulletSize = 8;
   int projectileSize = 8;
   
-  projectileSprites.put("SNIPER", getSprite(bulletsheet, 0, 0, 1, 1, bulletSize));
-  projectileSprites.put("PISTOL", getSprite(bulletsheet, 1, 0, 1, 1, bulletSize));
-  projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, bulletSize));
-  projectileSprites.put("FIREBALL", getSprite(bulletsheet, 3, 0, 1, 1, bulletSize));
   projectileSprites.put("GREENROD", getSprite(projectilesheet, 0, 0, 1, 1, projectileSize));
+  projectileSprites.put("FIREBALL", getSprite(projectilesheet, 1, 0, 1, 1, bulletSize));
+  projectileSprites.put("SPEAR_TIP", getSprite(projectilesheet, 2, 0, 1, 1, projectileSize));
+  projectileSprites.put("ARROW_TIP", getSprite(projectilesheet, 3, 0, 1, 1, projectileSize));
   
-  projectileSprites.put("WAND", getSprite(bulletsheet, 0, 1, 1, 1, bulletSize));
-  projectileSprites.put("STAFF", getSprite(bulletsheet, 1, 1, 1, 1, bulletSize));
-  projectileSprites.put("SPEAR", getSprite(bulletsheet, 2, 1, 1, 1, bulletSize));
-  projectileSprites.put("ARROW", getSprite(bulletsheet, 3, 1, 1, 1, bulletSize));
+  projectileSprites.put("WAND", getSprite(projectilesheet, 0, 1, 1, 1, bulletSize));
+  projectileSprites.put("STAFF", getSprite(projectilesheet, 1, 1, 1, 1, bulletSize));
+  projectileSprites.put("SPEAR", getSprite(projectilesheet, 2, 1, 1, 1, bulletSize));
+  projectileSprites.put("ARROW", getSprite(projectilesheet, 3, 1, 1, 1, bulletSize));
   
   cursor(guiSprites.get("CURSOR"));
   assetsLoaded = true;

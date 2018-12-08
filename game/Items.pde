@@ -22,9 +22,6 @@ class Inventory {
     active[2] = new LeatherArmour();
     active[3] = new LitScroll();
     
-    inv[0] = new Pistol();
-    inv[1] = new Shotgun();
-    inv[2] = new Sniper();
     inv[3] = new FireBomb();
     inv[4] = new Telescope();
   }
