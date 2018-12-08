@@ -1,6 +1,6 @@
 class Player {
 
-  public float x, y, w = 0.5, h = 0.5;
+  public float x, y, w = 0.5, h = 0.5, knockbackX, knockbackY;
   private float ang;
   private int size = TILE_SIZE/2;
 
