@@ -279,7 +279,7 @@ public void loadAssets() {
   projectileSprites.put("WAND", getSprite(projectilesheet, 0, 1, 1, 1, projectileSize));
   projectileSprites.put("STAFF", getSprite(projectilesheet, 1, 1, 1, 1, projectileSize));
   projectileSprites.put("SPEAR", getSprite(projectilesheet, 2, 1, 1, 1, projectileSize));
-  projectileSprites.put("ARROW", getSprite(projectilesheet, 3, 1, 1, 1, projectileSizea));
+  projectileSprites.put("ARROW", getSprite(projectilesheet, 3, 1, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
   assetsLoaded = true;

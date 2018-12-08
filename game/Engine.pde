@@ -23,7 +23,6 @@ class Engine {
   
   private PGraphics screen;
   
-  private WeaponFactory weaponFactory = new WeaponFactory();
   private Player player;
   
   Engine() {
@@ -154,6 +153,7 @@ class Engine {
       for(Enemy enemy : currentLevel.enemies[chunk]) {
         if(enemy.pointCollides(projectile.x, projectile.y)) {
           enemy.damage(projectile.getDamage(), projectile.statusEffects);
+          enemy.knockback(projectile);
           playerProjectiles.remove(i);
           break;
         }

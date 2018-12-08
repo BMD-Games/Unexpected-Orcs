@@ -24,6 +24,8 @@ public interface Enemy {
   /* Checks if mob collides with any walls */
   public boolean validPosition(Level level, float xPos, float yPos);
   
+  public void knockback(Projectile projectile);
+  
 }
 
 
@@ -34,8 +36,7 @@ public interface Enemy {
 abstract class StandardEnemy implements Enemy {
   
   public int tier;
-  public float x;
-  public float y;
+  public float x, y, knockbackX, knockbackY;
   
   protected int range = 10;
   protected float radius = 0.5;
@@ -133,6 +134,11 @@ abstract class StandardEnemy implements Enemy {
     return true;
   }
   
+  public void knockback(Projectile projectile) {
+    knockbackX = projectile.direction.x * projectile.speed / stats.speed;
+    knockbackY = projectile.direction.y * projectile.speed / stats.speed;
+  }
+  
 }
 
 
@@ -169,8 +175,9 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   }
   
   protected void move(double delta) {
-    float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
-    float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
+    float moveX = (stats.getSpeed() * cos(angle) + knockbackX) * (float)delta;
+    float moveY = (stats.getSpeed() * sin(angle) + knockbackY) * (float)delta;
+    knockbackX = knockbackY = 0;
     float[] coords;
     if(this instanceof RectangleObject) {
       coords = Rectangle.adjust(engine.currentLevel, x, y, width, height, moveX, moveY);

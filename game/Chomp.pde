@@ -14,8 +14,8 @@ class Chomp extends MeleeEnemy implements Enemy, CircleObject {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
     ItemBag itemBag = new ItemBag(x, y, tier);
-    if(random(1) < 1) {
-      itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
+    if(random(1) < 0.12) {
+      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
   }
@@ -46,7 +46,7 @@ public class BigChomp extends Chomp {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
     ItemBag itemBag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
   }
@@ -74,10 +74,10 @@ public class BossChomp extends Chomp {
     engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
     ItemBag itemBag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     if(random(1) < 0.3) {
-      itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
     engine.addDrop(new CavePortal(x, y));
