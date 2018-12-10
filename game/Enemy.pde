@@ -76,11 +76,12 @@ abstract class StandardEnemy implements Enemy {
       i++;
     }
     if((angle < PI/2) && (angle > -PI/2)) {
-      screen.rotate(angle);
+      if(this instanceof MeleeEnemy) screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
       screen.scale(-1.0, 1.0);
-      screen.rotate(PI - angle);
+      screen.rotate(PI);
+      if(this instanceof MeleeEnemy) screen.rotate(-angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
@@ -190,6 +191,41 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
     y = coords[1];
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public abstract class RangedEnemy extends StandardEnemy implements Enemy {
+  
+  protected float lastShotTime;
+  
+  public RangedEnemy(float x, float y, int tier) {
+    super(x, y, tier);
+  }
+  
+  public boolean update(double delta) {
+    if(active) {
+      move(delta);
+      lastShotTime += (float)delta;
+      attack();
+    }
+    return super.update(delta);
+  }
+  
+  protected void move(double delta) {}
+  
+  protected void attack() {
+    if(lastShotTime > stats.fireTimer) {
+      lastShotTime = 0;
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed, range, stats.attack, projectileSprites.get("WAND")));
+    }
+  }
+  
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 public static class Circle {
   

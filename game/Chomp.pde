@@ -192,3 +192,32 @@ public class PoisonElemental extends Elemental implements Enemy {
   }
   
 }
+
+
+
+public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.25, h = 0.25;
+  
+  public GoblinArcher(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 0.6 + 0.1 * tier;
+    stats.fireTimer = 0.6 - 0.04 * tier;
+    stats.attack = 5 + 15 * tier;
+    stats.defence = 2 * tier;
+    stats.health = 10 + 8 * tier;
+    stats.vitality = 1;
+    sprite = charSprites.get("GOBLIN_ARCHER");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {}
+
+}
