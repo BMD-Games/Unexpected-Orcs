@@ -267,7 +267,7 @@ public void loadAssets() {
   charSprites.put("MAGIC_ELEMENTAL_4", getSprite(charsheet, 6, 5, 1, 1, charSize));
   charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize));
   
-  charSprites.put("GOBLINARCHER", getSprite(charsheet, 0, 0, 1, 1, charSize));
+  charSprites.put("GOBLIN_ARCHER", getSprite(charsheet, 0, 6, 1, 1, charSize));
   
   //-----BULLET SPRITES-----
   PImage projectilesheet = loadImage("/assets/sprites/projectilesheet.png");

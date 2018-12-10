@@ -63,7 +63,7 @@ abstract class StandardEnemy implements Enemy {
   }
   
   /* Displays enemy to screen */
-  public void show(PGraphics screen, PVector renderOffset){
+  public void show(PGraphics screen, PVector renderOffset) {
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
     
@@ -80,8 +80,8 @@ abstract class StandardEnemy implements Enemy {
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
       screen.scale(-1.0, 1.0);
-      screen.rotate(PI);
-      if(this instanceof MeleeEnemy) screen.rotate(-angle);
+      //screen.rotate(PI);
+      if(this instanceof MeleeEnemy) screen.rotate(PI-angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
@@ -128,7 +128,7 @@ abstract class StandardEnemy implements Enemy {
   
   public boolean validPosition(Level level, float xPos, float yPos) {
     if(this instanceof RectangleObject) {
-      return Rectangle.validPosition(level, xPos, yPos, width, height);
+      return Rectangle.validPosition(level, xPos, yPos, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight());
     } else if(this instanceof CircleObject) {
       return Circle.validPosition(level, xPos, yPos, radius);
     }
@@ -181,7 +181,7 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
     knockbackX = knockbackY = 0;
     float[] coords;
     if(this instanceof RectangleObject) {
-      coords = Rectangle.adjust(engine.currentLevel, x, y, width, height, moveX, moveY);
+      coords = Rectangle.adjust(engine.currentLevel, x, y, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight(), moveX, moveY);
     } else if(this instanceof CircleObject) {
       coords = Circle.adjust(engine.currentLevel, x, y, radius, moveX, moveY);
     } else {
@@ -212,7 +212,31 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
     return super.update(delta);
   }
   
-  protected void move(double delta) {}
+  protected void move(double delta) {
+    float moveX = 0;
+    float moveY = 0;
+    float playerDistance = Util.distance(x, y, engine.player.x, engine.player.y);
+    if(playerDistance > 2.1) {
+      moveX = cos(angle);
+      moveY = sin(angle);
+    } else if(playerDistance < 1.9) {
+      moveX = -cos(angle);
+      moveY = -sin(angle);
+    }
+    moveX = (moveX * stats.getSpeed() + knockbackX) * (float)delta;
+    moveY = (moveY * stats.getSpeed() + knockbackY) * (float)delta;
+    knockbackX = knockbackY = 0;
+    float[] coords;
+    if(this instanceof RectangleObject) {
+      coords = Rectangle.adjust(engine.currentLevel, x, y, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight(), moveX, moveY);
+    } else if(this instanceof CircleObject) {
+      coords = Circle.adjust(engine.currentLevel, x, y, radius, moveX, moveY);
+    } else {
+      coords = new float[] {x + moveX, y + moveY};
+    }
+    x = coords[0];
+    y = coords[1];
+  }
   
   protected void attack() {
     if(lastShotTime > stats.fireTimer) {

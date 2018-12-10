@@ -21,7 +21,6 @@ class Drop {
   
   public void show(PGraphics screen, PVector renderOffset) {
     screen.tint(255, 255, 255, alpha);
-    println(sprite);
     screen.image(sprite, x * TILE_SIZE - renderOffset.x - (sprite.width * SCALE/2), y * TILE_SIZE - renderOffset.y - (sprite.height * SCALE/2), sprite.width * SCALE, sprite.height * SCALE);
     screen.tint(255);
   }
