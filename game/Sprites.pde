@@ -422,7 +422,7 @@ public TileSet caveTileset() {
   return tileset;
 }
 
-public TileSet dungeonTileset() {
+public TileSet cellarTileset() {
   TileSet tileset = new TileSet();
 
   tileset.walls = stoneBrickWalls();

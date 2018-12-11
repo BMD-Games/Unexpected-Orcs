@@ -367,15 +367,8 @@ public boolean isBorder(int[][]tiles, int i, int j) {
   return (!edge && border);
 }
 
-public String getBorderType(int[][] tiles, int i, int j) {
-  if(tiles[i][j+1] == FLOOR) return "bottom";
-  if(tiles[i][j-1] == FLOOR) return "top";
-  if(tiles[i+1][j] == FLOOR || tiles[i-1][j] == FLOOR) return "side";
-  return "";
-}
 
-
-public void generateConnectedDungeon(Level level, int rows, int columns, Room startRoom, Room bossRoom, Room[] rooms, float roomChance) {
+public void generateConnectedDungeon(Level level, int rows, int columns, Room startRoom, Room bossRoom, Room[] rooms) {
   /* ---Theory---
   1. Split the level into a grid
   2. Randomly choose a grid square and randomly add a room inside it
@@ -390,10 +383,11 @@ public void generateConnectedDungeon(Level level, int rows, int columns, Room st
   int rw = w/rows;
   int rh = h/columns;
   
-  Room[] placedRooms = new Room[rows * columns]; //grid of placed rooms
+  Room[] roomGrid = new Room[rows * columns]; //grid of placed rooms
   
   ArrayList<PVector> bossRegions = new ArrayList<PVector>();
   ArrayList<PVector> generalRegions = new ArrayList<PVector>();
+  ArrayList<Room> placedRooms = new ArrayList<Room>();
   
   int regions = 0;
     
@@ -404,13 +398,19 @@ public void generateConnectedDungeon(Level level, int rows, int columns, Room st
   int startRoomPos = (int)start.x + (int)start.y * columns;
   startRoom.x += (int)(start.x) * rw;
   startRoom.y += (int)(start.y) * rh;
-  while(bossRoom.outOfBounds(w, h) || bossRoom.collides(startRoom)) {
+  
+  
+  println("obvs here");
+  
+  
+  while(startRoom.outOfBounds(w, h)) {
     start = new PVector((int)random(rw), (int)random(rh));
     startRoomPos = (int)start.x + (int)start.y * columns;
     startRoom.x += (int)(start.x) * rw;
     startRoom.y += (int)(start.y) * rh;
   }
-  placedRooms[startRoomPos] = new Room(startRoom); //place start room randomly into the grid
+  roomGrid[startRoomPos] = new Room(startRoom); //place start room randomly into the grid
+  placedRooms.add(startRoom);
   regions ++;
   
   PVector boss = new PVector(random(columns), random(rows));
@@ -418,14 +418,20 @@ public void generateConnectedDungeon(Level level, int rows, int columns, Room st
   bossRoom.x += (int)(boss.x) * rw;
   bossRoom.y += (int)(boss.y) * rh;
   
+  println("here-1");
+  
   while(bossRoom.outOfBounds(w, h) || bossRoom.collides(startRoom)) {
+    println("cunt");
     boss = new PVector((int)random(rw), (int)random(rh));
     bossRoomPos = (int)boss.x + (int)boss.y * columns;
     bossRoom.x += (int)(boss.x) * rw;
     bossRoom.y += (int)(boss.y) * rh;
   }
-  placedRooms[bossRoomPos] = new Room(bossRoom); //place boss room randomly into the grid
+  roomGrid[bossRoomPos] = new Room(bossRoom); //place boss room randomly into the grid
+  placedRooms.add(bossRoom);
   regions ++;
+  
+  println("here");
   
   //place rooms into grid
   for(int i = 0; i < columns; i ++) {
@@ -437,31 +443,34 @@ public void generateConnectedDungeon(Level level, int rows, int columns, Room st
         room.x += i * rw;
         room.y += j * rh;
         boolean hit = false;
-        for(int k = 0; k < placedRooms.length; k ++) {
-          if(placedRooms[k] != null && placedRooms[k].collides(room)) {
+        for(int k = 0; k < roomGrid.length; k ++) {
+          if(roomGrid[k] != null && (roomGrid[k].collides(room) || room.outOfBounds(w, h))) {
             hit = true;
             break;
           }
         }
         if(!hit) { 
-          placedRooms[index] = room;
+          roomGrid[index] = room;
+          placedRooms.add(room);
           regions ++;
         }
       }
     }
   }
   
-  //offset rooms by grid cell position and add their tiles to the tile map
+  println("here1");
+  
+  //add their tiles to the tile map
   for(int x = 0; x < columns; x ++) {
     for(int y = 0; y < rows; y ++) {
       int index = x + y * columns;
-      if(placedRooms[index] != null) {
-        for(int i = 0; i < placedRooms[index].w; i ++) {
-          for(int j = 0; j < placedRooms[index].h; j ++) {
-            int tile = placedRooms[index].tiles[i][j];
-            try { tiles[placedRooms[index].x + i][placedRooms[index].y + j] = tile; } catch(Exception e) {}
+      if(roomGrid[index] != null) {
+        for(int i = 0; i < roomGrid[index].w; i ++) {
+          for(int j = 0; j < roomGrid[index].h; j ++) {
+            int tile = roomGrid[index].tiles[i][j];
+            try { tiles[roomGrid[index].x + i][roomGrid[index].y + j] = tile; } catch(Exception e) {}
             //add their tiles to the correct zone
-            PVector pos = new PVector(placedRooms[index].x + i, placedRooms[index].y + j);
+            PVector pos = new PVector(roomGrid[index].x + i, roomGrid[index].y + j);
             if(index == bossRoomPos) {
               bossRegions.add(pos);
             } else if(index == startRoomPos) {
@@ -475,15 +484,28 @@ public void generateConnectedDungeon(Level level, int rows, int columns, Room st
     }
   }
   
+  println("here2");
+  
   //go through grid cells and check if it has neighbouring cells
   ArrayList<Integer> connected = new ArrayList<Integer>(); //all regions that have been connected
-  for(int i = 0; i < columns; i ++) {
-    for(int j = 0; j < rows; j ++) {
-      //look around at different cells
-      int index = i + j * columns;
-    }    
+  //connect all rooms
+  connected.add(0);
+  placedRooms.remove(0);
+  while (connected.size() < placedRooms.size()) {
+    int r1 = (int)random(placedRooms.size());
+    int r2 = (int)random(placedRooms.size());
+    if(r1 + r2 == 1) continue;
+    int[] r = {r1, r2};
+    int c = -1;
+    if(!connected.contains(r1) && connected.contains(r2)) c = 0;
+    if(connected.contains(r1) && !connected.contains(r2)) c = 1;
+    if(c != -1) {
+      connectRooms(tiles, placedRooms.get(r1), placedRooms.get(r2));
+      connected.add(r[c]);
+    }
   }
 
+  println("here3");
   
   tiles = finishingPass(tiles, level.tileset);
   level.setTiles(tiles);
