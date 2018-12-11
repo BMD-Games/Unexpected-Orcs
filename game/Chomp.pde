@@ -197,7 +197,7 @@ public class PoisonElemental extends Elemental implements Enemy {
 
 public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject {
   
-  private float w = 0.25, h = 0.25;
+  private float w = 0.5, h = 0.5;
   
   public GoblinArcher(float x, float y, int tier) {
     super(x, y, tier);

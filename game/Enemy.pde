@@ -216,10 +216,10 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
     float moveX = 0;
     float moveY = 0;
     float playerDistance = Util.distance(x, y, engine.player.x, engine.player.y);
-    if(playerDistance > 2.1) {
+    if(playerDistance > 3.1) {
       moveX = cos(angle);
       moveY = sin(angle);
-    } else if(playerDistance < 1.9) {
+    } else if(playerDistance < 2.9) {
       moveX = -cos(angle);
       moveY = -sin(angle);
     }
@@ -239,9 +239,9 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   }
   
   protected void attack() {
-    if(lastShotTime > stats.fireTimer) {
+    if(lastShotTime > (20.0 / stats.fireTimer)) {
       lastShotTime = 0;
-      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed, range, stats.attack, projectileSprites.get("WAND")));
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprites.get("WAND")));
     }
   }
   
@@ -380,6 +380,9 @@ public static class Circle {
   }
   
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public static class Rectangle {
 
