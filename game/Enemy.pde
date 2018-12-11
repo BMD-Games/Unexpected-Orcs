@@ -24,6 +24,8 @@ public interface Enemy {
   /* Checks if mob collides with any walls */
   public boolean validPosition(Level level, float xPos, float yPos);
   
+  public void knockback(Projectile projectile);
+  
 }
 
 
@@ -34,12 +36,12 @@ public interface Enemy {
 abstract class StandardEnemy implements Enemy {
   
   public int tier;
-  public float x;
-  public float y;
+  public float x, y, knockbackX, knockbackY;
   
   protected int range = 10;
   protected float radius = 0.5;
   protected boolean active = false;
+  protected boolean hasSeen = false;
   
   protected float angle;
   protected PImage sprite;
@@ -62,7 +64,7 @@ abstract class StandardEnemy implements Enemy {
   }
   
   /* Displays enemy to screen */
-  public void show(PGraphics screen, PVector renderOffset){
+  public void show(PGraphics screen, PVector renderOffset) {
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
     
@@ -75,11 +77,12 @@ abstract class StandardEnemy implements Enemy {
       i++;
     }
     if((angle < PI/2) && (angle > -PI/2)) {
-      screen.rotate(angle);
+      if(this instanceof MeleeEnemy) screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
       screen.scale(-1.0, 1.0);
-      screen.rotate(PI - angle);
+      //screen.rotate(PI);
+      if(this instanceof MeleeEnemy) screen.rotate(PI-angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
@@ -126,11 +129,16 @@ abstract class StandardEnemy implements Enemy {
   
   public boolean validPosition(Level level, float xPos, float yPos) {
     if(this instanceof RectangleObject) {
-      return Rectangle.validPosition(level, xPos, yPos, width, height);
+      return Rectangle.validPosition(level, xPos, yPos, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight());
     } else if(this instanceof CircleObject) {
       return Circle.validPosition(level, xPos, yPos, radius);
     }
     return true;
+  }
+  
+  public void knockback(Projectile projectile) {
+    knockbackX = projectile.direction.x * projectile.speed / stats.speed;
+    knockbackY = projectile.direction.y * projectile.speed / stats.speed;
   }
   
 }
@@ -169,11 +177,12 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   }
   
   protected void move(double delta) {
-    float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
-    float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
+    float moveX = (stats.getSpeed() * cos(angle) + knockbackX) * (float)delta;
+    float moveY = (stats.getSpeed() * sin(angle) + knockbackY) * (float)delta;
+    knockbackX = knockbackY = 0;
     float[] coords;
     if(this instanceof RectangleObject) {
-      coords = Rectangle.adjust(engine.currentLevel, x, y, width, height, moveX, moveY);
+      coords = Rectangle.adjust(engine.currentLevel, x, y, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight(), moveX, moveY);
     } else if(this instanceof CircleObject) {
       coords = Circle.adjust(engine.currentLevel, x, y, radius, moveX, moveY);
     } else {
@@ -183,6 +192,65 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
     y = coords[1];
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public abstract class RangedEnemy extends StandardEnemy implements Enemy {
+  
+  protected PImage projectileSprite = projectileSprites.get("WAND");
+  protected float shotWaitTime = 1;
+  
+  public RangedEnemy(float x, float y, int tier) {
+    super(x, y, tier);
+  }
+  
+  public boolean update(double delta) {
+    if(active) {
+      move(delta);
+      attack();
+    }
+    return super.update(delta);
+  }
+  
+  protected void move(double delta) {
+    float moveX = 0;
+    float moveY = 0;
+    float playerDistance = Util.distance(x, y, engine.player.x, engine.player.y);
+    if(playerDistance > 3.1) {
+      moveX = cos(angle);
+      moveY = sin(angle);
+    } else if(playerDistance < 2.9) {
+      moveX = -cos(angle);
+      moveY = -sin(angle);
+    }
+    moveX = (moveX * stats.getSpeed() + knockbackX) * (float)delta;
+    moveY = (moveY * stats.getSpeed() + knockbackY) * (float)delta;
+    knockbackX = knockbackY = 0;
+    float[] coords;
+    if(this instanceof RectangleObject) {
+      coords = Rectangle.adjust(engine.currentLevel, x, y, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight(), moveX, moveY);
+    } else if(this instanceof CircleObject) {
+      coords = Circle.adjust(engine.currentLevel, x, y, radius, moveX, moveY);
+    } else {
+      coords = new float[] {x + moveX, y + moveY};
+    }
+    x = coords[0];
+    y = coords[1];
+  }
+  
+  protected void attack() {
+    if(stats.fireTimer > shotWaitTime) {
+      stats.fireTimer = 0;
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprite));
+    }
+  }
+  
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 public static class Circle {
   
@@ -313,6 +381,9 @@ public static class Circle {
   }
   
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public static class Rectangle {
 

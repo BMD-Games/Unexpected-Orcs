@@ -14,8 +14,8 @@ class Chomp extends MeleeEnemy implements Enemy, CircleObject {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
     ItemBag itemBag = new ItemBag(x, y, tier);
-    if(random(1) < 1) {
-      itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
+    if(random(1) < 0.12) {
+      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
   }
@@ -46,7 +46,7 @@ public class BigChomp extends Chomp {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
     ItemBag itemBag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
   }
@@ -74,10 +74,10 @@ public class BossChomp extends Chomp {
     engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
     ItemBag itemBag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     if(random(1) < 0.3) {
-      itemBag.addItem(engine.weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
     engine.addDrop(new CavePortal(x, y));
@@ -191,4 +191,35 @@ public class PoisonElemental extends Elemental implements Enemy {
     engine.addDrop(new StatOrb(x, y, tier, "DEFENCE"));
   }
   
+}
+
+
+
+public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.5, h = 0.5;
+  
+  public GoblinArcher(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 0.6 + 0.1 * tier;
+    stats.attack = 5 + 15 * tier;
+    stats.defence = 2 * tier;
+    stats.health = 10 + 8 * tier;
+    stats.vitality = 1;
+    sprite = charSprites.get("GOBLIN_ARCHER");
+    projectileSprite = getCombinedSprite(projectileSprites.get("ARROW"), projectileSprites.get("ARROW_TIP"), color(50,50,50));
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
+  }
+
 }

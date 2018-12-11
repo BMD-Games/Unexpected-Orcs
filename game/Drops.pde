@@ -21,7 +21,6 @@ class Drop {
   
   public void show(PGraphics screen, PVector renderOffset) {
     screen.tint(255, 255, 255, alpha);
-    println(sprite);
     screen.image(sprite, x * TILE_SIZE - renderOffset.x - (sprite.width * SCALE/2), y * TILE_SIZE - renderOffset.y - (sprite.height * SCALE/2), sprite.width * SCALE, sprite.height * SCALE);
     screen.tint(255);
   }
@@ -83,7 +82,8 @@ class ItemBag extends Drop {
   
   ItemBag(float x, float y, int tier) {
     super(x, y, 0.5, 60);
-    this.sprite = dropSprites.get("BAG_" + tier);
+    if(tier > 2) tier = 2;
+    this.sprite = dropSprites.get("BAG_" + tier % 3);
   } 
   
   public Item takeItem(int pos) {

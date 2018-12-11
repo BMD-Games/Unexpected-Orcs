@@ -54,7 +54,16 @@ class GrassDungeon extends Level {
     chomp = new BossChomp(random(w), random(h), 3);
     validSpawn(chomp);
     addEnemy(chomp);
+    
+    GoblinArcher goblinArcher;
+    for(int i = 0; i < 20; ++i) {
+      goblinArcher = new GoblinArcher(random(w), random(h), 1);
+      validSpawn(goblinArcher);
+      addEnemy(goblinArcher);
+    }
   }
+  
+  
   
   void validSpawn(StandardEnemy enemy) {
     while(!enemy.validPosition(this, enemy.x, enemy.y)) {

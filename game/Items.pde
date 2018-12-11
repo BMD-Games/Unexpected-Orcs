@@ -17,13 +17,14 @@ class Inventory {
   
   
   Inventory() {
-    active[0] = new GreenRod();
+    active[0] = weaponFactory.createRandomWeapon(11);
     active[1] = new SwiftBoots();
     active[2] = new LeatherArmour();
     active[3] = new LitScroll();
     
-    inv[3] = new FireBomb();
-    inv[4] = new Telescope();
+    inv[0] = new GreenRod();
+    inv[2] = new FireBomb();
+    inv[3] = new Telescope();
   }
   
   void swapItemsInv(int i, int j) {
