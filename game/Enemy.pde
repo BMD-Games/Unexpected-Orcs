@@ -41,6 +41,7 @@ abstract class StandardEnemy implements Enemy {
   protected int range = 10;
   protected float radius = 0.5;
   protected boolean active = false;
+  protected boolean hasSeen = false;
   
   protected float angle;
   protected PImage sprite;
@@ -197,7 +198,8 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
 
 public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   
-  protected float lastShotTime;
+  protected PImage projectileSprite = projectileSprites.get("WAND");
+  protected float shotWaitTime = 1;
   
   public RangedEnemy(float x, float y, int tier) {
     super(x, y, tier);
@@ -206,7 +208,6 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   public boolean update(double delta) {
     if(active) {
       move(delta);
-      lastShotTime += (float)delta;
       attack();
     }
     return super.update(delta);
@@ -239,9 +240,9 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   }
   
   protected void attack() {
-    if(lastShotTime > (20.0 / stats.fireTimer)) {
-      lastShotTime = 0;
-      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprites.get("WAND")));
+    if(stats.fireTimer > shotWaitTime) {
+      stats.fireTimer = 0;
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprite));
     }
   }
   

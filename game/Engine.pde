@@ -134,25 +134,32 @@ class Engine {
   
   private void updateProjectiles(double delta) {
     //---enemy projectiles
-    for(int i = enemyProjectiles.size() - 1; i >= 0; i --) {
-      enemyProjectiles.get(i).update(delta);
-      if(projectileIsDead(enemyProjectiles.get(i))) { //if the projectile is dead
+    Projectile projectile;
+    for(int i = enemyProjectiles.size() - 1; i >= 0; i--) {
+      projectile = enemyProjectiles.get(i);
+      projectile.update(delta);
+      if(Rectangle.pointCollides(projectile.x, projectile.y, player.x, player.y, player.w, player.h)) {
+        player.damage(projectile.damage);
+        enemyProjectiles.remove(i);
+        continue;
+      }
+      if(projectileIsDead(projectile)) { //if the projectile is dead
         enemyProjectiles.remove(i); //remove projectile
       }
     }
     
     //---player projectiles
-    for(int i = playerProjectiles.size() - 1; i >= 0; i --) {
-      Projectile projectile = playerProjectiles.get(i);
+    for(int i = playerProjectiles.size() - 1; i >= 0; i--) {
+      projectile = playerProjectiles.get(i);
       projectile.update(delta);
-      if(projectileIsDead(playerProjectiles.get(i))) { //if the projectile is dead
+      if(projectileIsDead(projectile)) { //if the projectile is dead
         playerProjectiles.remove(i); //remove projectile
         break;
       }
       int chunk = currentLevel.getChunk((int)projectile.x, (int)projectile.y);
       for(Enemy enemy : currentLevel.enemies[chunk]) {
         if(enemy.pointCollides(projectile.x, projectile.y)) {
-          enemy.damage(projectile.getDamage(), projectile.statusEffects);
+          enemy.damage(projectile.damage, projectile.statusEffects);
           enemy.knockback(projectile);
           playerProjectiles.remove(i);
           break;

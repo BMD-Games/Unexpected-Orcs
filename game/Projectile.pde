@@ -3,7 +3,7 @@ class Projectile {
   private PVector direction;
   private float startX, startY, speed, range;
   public float x, y, px, py;  
-  private int damage;
+  public int damage;
   private PImage sprite;
   private ArrayList<Pair> statusEffects = new ArrayList();
   
@@ -53,9 +53,6 @@ class Projectile {
     return true;
   }
   
-  private int getDamage() {
-    return damage;
-  }
 }
 
 class Pair {
