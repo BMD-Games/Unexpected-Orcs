@@ -28,7 +28,6 @@ public static class Util {
     if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) return true;
     return false;
   }
-<<<<<<< HEAD
 
   public static boolean linePoint(float x1, float y1, float x2, float y2, float px, float py) {
 
