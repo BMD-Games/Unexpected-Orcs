@@ -271,6 +271,9 @@ public void loadAssets() {
   charSprites.put("GOBLIN_SPEARMAN", getSprite(charsheet, 1, 6, 1, 1, charSize));
   charSprites.put("GOBLIN_WARRIOR", getSprite(charsheet, 2, 6, 1, 1, charSize));
   charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 3, 6, 1, 1, charSize));
+  
+  charSprites.put("GOBLIN_BOXER", getSprite(charsheet, 2, 6, 2, 2, charSize));
+  charSprites.put("BASILISK", getSprite(charsheet, 4, 6, 2, 2, charSize));
 
   
   //-----BULLET SPRITES-----
