@@ -58,10 +58,26 @@ public int numNeighbours(int[][] tiles, int x, int y, int dist) {
 public int numNeighboursSimple(int[][] tiles, int x, int y) {
   //counts the number of walls in a square centred at x, y, only looks in cardianl directions
   int num = 0;
-  try { if (tiles[x-1][y] == WALL) num ++; } catch(Exception e) {}  
-  try { if (tiles[x+1][y] == WALL) num ++; } catch(Exception e) {}
-  try { if (tiles[x][y-1] == WALL) num ++; } catch(Exception e) {}
-  try { if (tiles[x][y+1] == WALL) num ++; } catch(Exception e) {} 
+  try { 
+    if (tiles[x-1][y] == WALL) num ++;
+  } 
+  catch(Exception e) {
+  }  
+  try { 
+    if (tiles[x+1][y] == WALL) num ++;
+  } 
+  catch(Exception e) {
+  }
+  try { 
+    if (tiles[x][y-1] == WALL) num ++;
+  } 
+  catch(Exception e) {
+  }
+  try { 
+    if (tiles[x][y+1] == WALL) num ++;
+  } 
+  catch(Exception e) {
+  } 
   return num;
 }
 
@@ -104,15 +120,15 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
             continue;
           } else {
             int n = 0, d = -1;
-            for(int v = 0; v < valid.size(); v ++) {
-              if(dir == direction(new int[] {x, y}, new int[] {valid.get(v)[0], valid.get(v)[0]}) &&
-               random(1) < straightChance) {
+            for (int v = 0; v < valid.size(); v ++) {
+              if (dir == direction(new int[] {x, y}, new int[] {valid.get(v)[0], valid.get(v)[0]}) &&
+                random(1) < straightChance) {
                 d = dir;
                 n = v;
                 break;
               }
             }
-            if(d == -1) {
+            if (d == -1) {
               n = (int)random(valid.size());
               d = direction(new int[] {x, y}, new int[] {valid.get(n)[0], valid.get(n)[0]});
             }
@@ -124,7 +140,7 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
       }
     }
   }
-  
+
   //get all connectors
   ArrayList<int[]> connectors = getConnectors(tiles, region);
   ArrayList<Integer> connected = new ArrayList<Integer>(); //all regions that have been connected
@@ -134,40 +150,40 @@ public int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize,
     int n = (int)random(connectors.size());
     int[] connector = connectors.get(n);
     int c = 0;
-    if(!connected.contains(connector[2]) && connected.contains(connector[3])) c = 2;
-    if(connected.contains(connector[2]) && !connected.contains(connector[3])) c = 3;
-    if(c == 2 || c == 3) {
+    if (!connected.contains(connector[2]) && connected.contains(connector[3])) c = 2;
+    if (connected.contains(connector[2]) && !connected.contains(connector[3])) c = 3;
+    if (c == 2 || c == 3) {
       connectors.remove(n);
       connected.add(connector[c]);
       tiles[connector[0]][connector[1]] = FLOOR;
     }
   }
-  
+
   //add random connections to make dungeon more interesting
-  for(int i = 0; i < connectors.size(); i ++) {
-    if(random(1) < loopChance) {
+  for (int i = 0; i < connectors.size(); i ++) {
+    if (random(1) < loopChance) {
       tiles[connectors.get(i)[0]][connectors.get(i)[1]] = FLOOR;
     }
   }
-  
+
   //remove deadends
   for (int i = edgeSize; i < w-edgeSize; i ++) {
     for (int j = edgeSize; j < h-edgeSize; j ++) {
-      if(tiles[i][j] == WALL) continue;
+      if (tiles[i][j] == WALL) continue;
       int x = i;
       int y = j;
       int dir = getEndDirection(tiles, i, j);
-      while(dir != -1) { //deadend found
+      while (dir != -1) { //deadend found
         tiles[x][y] = WALL;
-        if(dir == 0) y -= 1;
-        if(dir == 2) y += 1;
-        if(dir == 3) x -= 1;
-        if(dir == 1) x += 1;
+        if (dir == 0) y -= 1;
+        if (dir == 2) y += 1;
+        if (dir == 3) x -= 1;
+        if (dir == 1) x += 1;
         dir = getEndDirection(tiles, x, y);
       }
     }
   }
-  
+
   return tiles;
 }
 
@@ -200,48 +216,59 @@ public int[][] generateStraightDungeon(int w, int h, int roomAttempts, int minSi
     int r2 = (int)random(rooms.size());
     int[] r = {r1, r2};
     int c = -1;
-    if(!connected.contains(r1) && connected.contains(r2)) c = 0;
-    if(connected.contains(r1) && !connected.contains(r2)) c = 1;
-    if(c != -1) {
+    if (!connected.contains(r1) && connected.contains(r2)) c = 0;
+    if (connected.contains(r1) && !connected.contains(r2)) c = 1;
+    if (c != -1) {
       connectRooms(tiles, rooms.get(r1), rooms.get(r2));
       connected.add(r[c]);
     }
   }
-  
+
   return tiles;
 }
 
 public int[][] connectRooms(int[][] tiles, int[] r1, int[] r2) {
   int[] start = {(int)random(r1[0], r1[0] + r1[2]), (int)random(r1[1], r1[1] + r1[3])}; //random point in r1
   int[] stop = {(int)random(r2[0], r2[0] + r2[2]), (int)random(r2[1], r2[1] + r2[3])}; //random point in r2
-  
+
   int x = start[0];
   int y = start[1];
-  
+
   int dx = 0;
-  try { dx = (stop[0] - start[0])/abs(stop[0] - start[0]); } catch(Exception e) {};
+  try { 
+    dx = (stop[0] - start[0])/abs(stop[0] - start[0]);
+  } 
+  catch(Exception e) {
+  };
   int dy = 0;
-  try { dy = (stop[1] - start[1])/abs(stop[1] - start[1]); } catch(Exception e) {};
-  
+  try { 
+    dy = (stop[1] - start[1])/abs(stop[1] - start[1]);
+  } 
+  catch(Exception e) {
+  };
+
   int[] dir = {dx, 0};
   int[] dir2 = {0, dy};
-  if(random(1) < 0.5) { dir = new int[] {0, dy}; dir2 = new int[] {dx, 0}; } //random chance of starting horizontal of veritcally
-  
-  while(x != stop[0] || y != stop[1]) {
+  if (random(1) < 0.5) { 
+    dir = new int[] {0, dy}; 
+    dir2 = new int[] {dx, 0};
+  } //random chance of starting horizontal of veritcally
+
+  while (x != stop[0] || y != stop[1]) {
     tiles[x][y] = FLOOR;
     x += dir[0];
     y += dir[1];
-    if(x == stop[0] || y == stop[1]) {
+    if (x == stop[0] || y == stop[1]) {
       dir[0] = dir2[0];
       dir[1] = dir2[1];
     }
   }
-  
+
   return tiles;
 }
 
 public ArrayList<int[]> placeRooms(int w, int h, int roomAttempts, int minSize, int maxSize) {
-   ArrayList<int[]> rooms = new ArrayList<int[]>(); //stores all rooms
+  ArrayList<int[]> rooms = new ArrayList<int[]>(); //stores all rooms
 
   //generate rooms
   for (int i = 0; i < roomAttempts; i ++) {
@@ -265,21 +292,21 @@ public ArrayList<int[]> placeRooms(int w, int h, int roomAttempts, int minSize, 
 }
 
 public int getEndDirection(int[][] tiles, int i, int j) {
-  if(numNeighboursSimple(tiles, i, j) < 3 || tiles[i][j] == WALL) return -1; //not dead end
+  if (numNeighboursSimple(tiles, i, j) < 3 || tiles[i][j] == WALL) return -1; //not dead end
   //returns the direction of the corridor from a dead end
-  if(tiles[i][j-1] == FLOOR) return 0; //up
-  if(tiles[i][j+1] == FLOOR) return 2; //down
-  if(tiles[i-1][j] == FLOOR) return 3; //left
-  if(tiles[i+1][j] == FLOOR) return 1; //right
+  if (tiles[i][j-1] == FLOOR) return 0; //up
+  if (tiles[i][j+1] == FLOOR) return 2; //down
+  if (tiles[i-1][j] == FLOOR) return 3; //left
+  if (tiles[i+1][j] == FLOOR) return 1; //right
   return -1;
 }
 
 public int direction(int[] t1, int[] t2) {
   //returns the direction from t1 cell to t2
-  if(t1[1] < t2[1] && t1[0] == t2[0]) return 0; //up
-  if(t1[1] > t2[1] && t1[0] == t2[0]) return 2; //down
-  if(t1[1] == t2[1] && t1[0] < t2[0]) return 3; //left
-  if(t1[1] == t2[1] && t1[0] > t2[0]) return 1; //right
+  if (t1[1] < t2[1] && t1[0] == t2[0]) return 0; //up
+  if (t1[1] > t2[1] && t1[0] == t2[0]) return 2; //down
+  if (t1[1] == t2[1] && t1[0] < t2[0]) return 3; //left
+  if (t1[1] == t2[1] && t1[0] > t2[0]) return 1; //right
   return -1;
 }
 
@@ -311,7 +338,7 @@ public ArrayList<int[]> validNeighbours(int[][] tiles, int i, int j) {
 public boolean validTile(int[][] tiles, int x, int y, int dx, int dy) {  
   x -= dx;
   y -= dy;
-  if(isEdgeTile(tiles, x, y)) return false;
+  if (isEdgeTile(tiles, x, y)) return false;
   for (int i = -1; i <= 1; i ++) {
     for (int j = -1; j <= 1; j ++) {
       if (dx != 0 && dx == i) continue;      
@@ -338,16 +365,36 @@ public ArrayList<int[]> getConnectors(int[][] tiles, int[][] region) {
 }
 
 public void addConnector(ArrayList<int[]> connectors, int[][] tiles, int[][] region, int i, int j) {
-  if(tiles[i][j] != WALL) return;
-  if(numNeighboursSimple(tiles, i, j) != 2) return;
+  if (tiles[i][j] != WALL) return;
+  if (numNeighboursSimple(tiles, i, j) != 2) return;
   int t = -1, b = -1, l = -1, r = -1;
   int tr = -1, br = -1, lr = -1, rr = -1;
-  try { t = tiles[i][j-1]; tr = region[i][j-1]; } catch(Exception e) {}  
-  try { b = tiles[i][j+1]; br = region[i][j+1]; } catch(Exception e) {}  
-  try { l = tiles[i-1][j]; lr = region[i-1][j]; } catch(Exception e) {}
-  try { r = tiles[i+1][j]; rr = region[i+1][j]; } catch(Exception e) {}
-  
-  if((t >= FLOOR && b >= FLOOR) && tr != br) { // >= FLOOR is non-solid block
+  try { 
+    t = tiles[i][j-1]; 
+    tr = region[i][j-1];
+  } 
+  catch(Exception e) {
+  }  
+  try { 
+    b = tiles[i][j+1]; 
+    br = region[i][j+1];
+  } 
+  catch(Exception e) {
+  }  
+  try { 
+    l = tiles[i-1][j]; 
+    lr = region[i-1][j];
+  } 
+  catch(Exception e) {
+  }
+  try { 
+    r = tiles[i+1][j]; 
+    rr = region[i+1][j];
+  } 
+  catch(Exception e) {
+  }
+
+  if ((t >= FLOOR && b >= FLOOR) && tr != br) { // >= FLOOR is non-solid block
     connectors.add(new int[] {i, j, tr, br});
   } else if ((l >= FLOOR && r >= FLOOR) && lr != rr) {
     connectors.add(new int[] {i, j, lr, rr});
@@ -363,111 +410,186 @@ public boolean isBorder(int[][]tiles, int i, int j) {
   boolean border = false;
   try {
     border = ((numNeighbours(tiles, i, j, 1) < 8 && tiles[i][j] == WALL));
-  } catch(Exception e) {}
+  } 
+  catch(Exception e) {
+  }
   return (!edge && border);
 }
 
 
 /***
-Creates a dungeon and appends the tiles to the Level it's been given.
-
-level     - The level being generated for
-maxRooms  - Number of rooms the dungeon will have
-spread    - Angle variation of the rooms from existing rooms
-minRadius - minimum distance between rooms
-maxRadius - maximum distance between rooms
-spawnRoom - Preset for the spawn room
-bossRoom  - Preset for the boss romm
-rooms     - Presets for all other rooms
-***/
+ Creates a dungeon and appends the tiles to the Level it's been given.
+ 
+ level     - The level being generated for
+ maxRooms  - Number of rooms the dungeon will have
+ spread    - Angle variation of the rooms from existing rooms
+ minRadius - minimum distance between rooms
+ maxRadius - maximum distance between rooms
+ spawnRoom - Preset for the spawn room
+ bossRoom  - Preset for the boss romm
+ rooms     - Presets for all other rooms
+ ***/
 public void generateConnectedDungeon(Level level, int maxRooms, float spread, int minRadius, int maxRadius, Room spawnRoom, Room bossRoom, Room[] rooms) {
   /* ---Pseudo---
-  1. LOOP while num rooms != max
-    - get a random room from the graph
-    - create a new room within a radius of that room and connect it to the previously selected room
-  2. Get the bounds of the graph (min/max for x and y) to determine the size of the level
-  3. Go through list of rooms and copy their tiles into the tile map
-  4. While adding tiles, add regions to the region lists.
-  */  
+   1. LOOP while num rooms != max
+   - get a random room from the graph
+   - create a new room within a radius of that room and connect it to the previously selected room
+   - determine depth of current room
+   2. Attach boss room to the deepest room in the dungeon
+   3. Get the bounds of the graph (min/max for x and y) to determine the size of the level
+   4. Go through list of rooms and copy their tiles into the tile map
+   5. While adding tiles, add regions to the region lists.
+   */
   ArrayList<PVector> bossRegions = new ArrayList<PVector>();
   ArrayList<PVector> generalRegions = new ArrayList<PVector>();
   ArrayList<Room> placedRooms = new ArrayList<Room>();
+  ArrayList<Integer> depth = new ArrayList<Integer>();
   ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
-  
+
   float dir = random(TAU); //random direction for the dungeon to branch in.
-  
+
   //add initial room
   Room initial = new Room(spawnRoom);
   initial.x = 0;
   initial.y = 0;
   placedRooms.add(initial);
+  depth.add(0);
   graph.add(new ArrayList<Integer>());
-  
+
   int minX = initial.x, minY = initial.y, maxX = initial.x + initial.w, maxY = initial.y + initial.h;
-  
+
   //Generate graph
-  while(placedRooms.size() < maxRooms) {
+  while (placedRooms.size() < maxRooms) {
     int startPos = (int)random(placedRooms.size()); //get a random room;
     int sx = placedRooms.get(startPos).x;
     int sy = placedRooms.get(startPos).y;
     int newPos = placedRooms.size();
     boolean hit = true;
     Room room = new Room(rooms[(int)random(rooms.length)]);
-    
+
     //find a place to put the room
     //DEFS COULD GET INFINITE LOOPS HERE :0
-    while(hit) {
+    int tries = 0;
+    boolean success = true;
+    while (hit) {
+      println(placedRooms.size());
       hit = false;
       float ang = random(dir - spread, dir + spread);
       float r = random(minRadius, maxRadius);
       room.x = (int)(sx + cos(ang) * r);
       room.y = (int)(sy + sin(ang) * r);
-      for(int i = 0; i < placedRooms.size(); i ++) {
-        if(placedRooms.get(i).collides(room)) {
+      for (int i = 0; i < placedRooms.size(); i ++) {
+        println(room.x, room.y, placedRooms.get(i).x, placedRooms.get(i).y);
+        if (placedRooms.get(i).collides(room)) {
+          hit = true;
+          break;
+        }
+      }
+      tries ++;
+      if(tries >= 100) {
+        success = false;
+        break;
+      }
+    }
+    
+    if(!success) continue;
+    
+    if (room.x < minX) minX = room.x;
+    if (room.y < minY) minY = room.y;
+    if (room.x + room.w > maxX) maxX = room.x + room.w;
+    if (room.y + room.h > maxY) maxY = room.y + room.h;
+
+    int minDist = maxRadius; //find closest room
+    for (int i = 0; i < placedRooms.size(); i ++) {
+      int dist = room.distance(placedRooms.get(i));
+      if (dist < minDist) {
+        minDist = dist;
+        startPos = i;
+      }
+    }
+
+    //add the new room to the graph;
+    placedRooms.add(new Room(room));
+    depth.add(depth.get(startPos) + 1);
+    graph.add(new ArrayList<Integer>());
+
+    //add the connections between rooms
+    graph.get(startPos).add(newPos);
+    graph.get(newPos).add(startPos);
+  }
+
+  //find deepest room and attach the boss room to it
+  int deepest = -1;
+  int maxDepth = -1;
+  for (int i = 0; i < depth.size(); i ++) {
+    if (depth.get(i) > maxDepth) {
+      deepest = i;
+      maxDepth = depth.get(i);
+    }
+  }
+  if(deepest != -1) {
+    int sx = placedRooms.get(deepest).x;
+    int sy = placedRooms.get(deepest).y;
+    int newPos = placedRooms.size();
+    boolean hit = true;
+    Room room = new Room(bossRoom);
+
+    //find a place to put the room
+    //DEFS COULD GET INFINITE LOOPS HERE :0
+    while (hit) {
+      println(placedRooms.size());
+      hit = false;
+      float ang = random(dir - spread, dir + spread);
+      float r = random(minRadius, maxRadius);
+      room.x = (int)(sx + cos(ang) * r);
+      room.y = (int)(sy + sin(ang) * r);
+      for (int i = 0; i < placedRooms.size(); i ++) {
+        println(room.x, room.y, placedRooms.get(i).x, placedRooms.get(i).y);
+        if (placedRooms.get(i).collides(room)) {
           hit = true;
           break;
         }
       }
     }
-    if(room.x < minX) minX = room.x;
-    if(room.y < minY) minY = room.y;
-    if(room.x + room.w > maxX) maxX = room.x + room.w;
-    if(room.y + room.h > maxY) maxY = room.y + room.h;
-    
+    if (room.x < minX) minX = room.x;
+    if (room.y < minY) minY = room.y;
+    if (room.x + room.w > maxX) maxX = room.x + room.w;
+    if (room.y + room.h > maxY) maxY = room.y + room.h;
+
     //add the new room to the graph;
     placedRooms.add(new Room(room));
+    depth.add(depth.get(deepest) + 1);
     graph.add(new ArrayList<Integer>());
-    
+
     //add the connections between rooms
-    graph.get(startPos).add(newPos);
-    graph.get(newPos).add(startPos);
-    
+    graph.get(deepest).add(newPos);
+    graph.get(newPos).add(deepest);
   }
-  
+
   minX -= 1;
   minY -= 1;
   maxX += 1;
   maxY += 1;
-  
-  println(maxX - minX, maxY - minY);
-  
+
+  println(deepest, maxX - minX, maxY - minY);
+
   PGraphics pg = createGraphics((maxX - minX) * 10, (maxY - minY) * 10);
   pg.beginDraw();
   pg.background(0);
   pg.fill(255);
   pg.stroke(255);
-  for(int i = 0; i < graph.size(); i ++) {
+  for (int i = 0; i < graph.size(); i ++) {
     Room room = placedRooms.get(i);
     pg.rect((room.x - minX) * 10, (room.y - minY) * 10, room.w * 10, room.h * 10);
     println(room.x, room.y);
-    for(int j = 0; j < graph.get(i).size(); j ++) {
+    for (int j = 0; j < graph.get(i).size(); j ++) {
       Room room2 = placedRooms.get(graph.get(i).get(j));
-      pg.line((room.midPoint().x - minX) * 10, (room.midPoint().y - minY) * 10, (room2.midPoint().x - minX) * 10, (room2.midPoint().y - minY) * 10); 
+      pg.line((room.midPoint().x - minX) * 10, (room.midPoint().y - minY) * 10, (room2.midPoint().x - minX) * 10, (room2.midPoint().y - minY) * 10);
     }
   }
   pg.endDraw();
   pg.save("/out/TestGen.png");
-  
+
   //tiles = finishingPass(tiles, level.tileset);
   //level.setTiles(tiles);
   level.setZones(new ArrayList[] {bossRegions, generalRegions});
@@ -476,35 +598,46 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
 public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
   int[] start = {(int)random(r1.x, r1.x + r1.w), (int)random(r1.y, r1.y + r1.h)}; //random point in r1
   int[] stop = {(int)random(r2.x, r2.x + r2.w), (int)random(r2.y, r2.y + r2.h)}; //random point in r2
-  
+
   int x = start[0];
   int y = start[1];
-  
+
   int dx = 0;
-  try { dx = (stop[0] - start[0])/abs(stop[0] - start[0]); } catch(Exception e) {};
+  try { 
+    dx = (stop[0] - start[0])/abs(stop[0] - start[0]);
+  } 
+  catch(Exception e) {
+  };
   int dy = 0;
-  try { dy = (stop[1] - start[1])/abs(stop[1] - start[1]); } catch(Exception e) {};
-  
+  try { 
+    dy = (stop[1] - start[1])/abs(stop[1] - start[1]);
+  } 
+  catch(Exception e) {
+  };
+
   int[] dir = {dx, 0};
   int[] dir2 = {0, dy};
-  if(random(1) < 0.5) { dir = new int[] {0, dy}; dir2 = new int[] {dx, 0}; } //random chance of starting horizontal of veritcally
-  
+  if (random(1) < 0.5) { 
+    dir = new int[] {0, dy}; 
+    dir2 = new int[] {dx, 0};
+  } //random chance of starting horizontal of veritcally
+
   boolean started = false;
-  
-  while(x != stop[0] || y != stop[1]) {
-    if(tiles[x][y] == WALL) {
+
+  while (x != stop[0] || y != stop[1]) {
+    if (tiles[x][y] == WALL) {
       tiles[x][y] = FLOOR;
       started = true;
     }
-    if(started && tiles[x][y] != WALL) break; //if we've left the start room and we hit a floor tile, stop adding the tiles
+    if (started && tiles[x][y] != WALL) break; //if we've left the start room and we hit a floor tile, stop adding the tiles
     x += dir[0];
     y += dir[1];
-    if(x == stop[0] || y == stop[1]) {
+    if (x == stop[0] || y == stop[1]) {
       dir[0] = dir2[0];
       dir[1] = dir2[1];
     }
   }
-  
+
   return tiles;
 }
 
@@ -512,16 +645,15 @@ public int[][] finishingPass(int[][] tiles, TileSet tileset) {
   int w = tiles.length;
   int h = tiles[0].length;
   int[][] newTiles = new int[w][h];
-  for(int i = 0; i < w; i ++) {
-    for(int j = 0; j < h; j ++) {
-      if(tiles[i][j] == WALL) {
+  for (int i = 0; i < w; i ++) {
+    for (int j = 0; j < h; j ++) {
+      if (tiles[i][j] == WALL) {
         newTiles[i][j] = tileset.walls[getBitMaskValue(tiles, i, j)];
-      } else if(tiles[i][j] == FLOOR) {
+      } else if (tiles[i][j] == FLOOR) {
         //use some random shit to add flavour to dungeons
-        if(tileset.extras.size() > 0 && random(1) < 0.1) {
+        if (tileset.extras.size() > 0 && random(1) < 0.1) {
           newTiles[i][j] = tileset.extras.get((int)random(tileset.extras.size()));
-        }
-        else newTiles[i][j] = tileset.floor;
+        } else newTiles[i][j] = tileset.floor;
       } else {
         newTiles[i][j] = tiles[i][j];
       }
@@ -531,15 +663,20 @@ public int[][] finishingPass(int[][] tiles, TileSet tileset) {
 }
 
 public boolean isWall(int[][] tiles, int i, int j) {
-  try { return tiles[i][j] <= WALL; } catch(Exception e) { return true; }
+  try { 
+    return tiles[i][j] <= WALL;
+  } 
+  catch(Exception e) { 
+    return true;
+  }
 }
 
 public int getBitMaskValue(int[][] tiles, int i, int j) {
   int bmValue = 0;
-  if(isWall(tiles, i, j-1)) bmValue += 1;
-  if(isWall(tiles, i-1, j)) bmValue += 2;
-  if(isWall(tiles, i+1, j)) bmValue += 4;
-  if(isWall(tiles, i, j+1)) bmValue += 8;
-  
+  if (isWall(tiles, i, j-1)) bmValue += 1;
+  if (isWall(tiles, i-1, j)) bmValue += 2;
+  if (isWall(tiles, i+1, j)) bmValue += 4;
+  if (isWall(tiles, i, j+1)) bmValue += 8;
+
   return bmValue;
 }

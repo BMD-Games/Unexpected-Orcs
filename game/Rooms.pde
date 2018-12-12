@@ -41,7 +41,8 @@ class Room {
     return new PVector(x + w/2, y + h/2);
   }
 
-  public int weight(Room room) {
+  public int distance(Room room) {
+    //returns the distance between the rooms (but uses separate x and y);
     return (int)(fastAbs(room.x - x) + fastAbs(room.y - y));
   }
 
