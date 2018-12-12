@@ -359,6 +359,12 @@ class Level {
   
   public void setTiles(int[][] tiles) { //Tiles with tileset
     this.tiles = tiles;
+    this.w = tiles.length;
+    this.h = tiles[0].length;
+    
+    initialiseChunks();
+    visited = new boolean[w][h];
+    visitedCalcLocations = new boolean[w][h];
     saveLevel();
   }
   

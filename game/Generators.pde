@@ -472,14 +472,12 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
     int tries = 0;
     boolean success = true;
     while (hit) {
-      println(placedRooms.size());
       hit = false;
       float ang = random(dir - spread, dir + spread);
       float r = random(minRadius, maxRadius);
       room.x = (int)(sx + cos(ang) * r);
       room.y = (int)(sy + sin(ang) * r);
       for (int i = 0; i < placedRooms.size(); i ++) {
-        println(room.x, room.y, placedRooms.get(i).x, placedRooms.get(i).y);
         if (placedRooms.get(i).collides(room)) {
           hit = true;
           break;
@@ -537,14 +535,12 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
     //find a place to put the room
     //DEFS COULD GET INFINITE LOOPS HERE :0
     while (hit) {
-      println(placedRooms.size());
       hit = false;
       float ang = random(dir - spread, dir + spread);
       float r = random(minRadius, maxRadius);
       room.x = (int)(sx + cos(ang) * r);
       room.y = (int)(sy + sin(ang) * r);
       for (int i = 0; i < placedRooms.size(); i ++) {
-        println(room.x, room.y, placedRooms.get(i).x, placedRooms.get(i).y);
         if (placedRooms.get(i).collides(room)) {
           hit = true;
           break;
@@ -571,27 +567,43 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
   maxX += 1;
   maxY += 1;
 
-  println(deepest, maxX - minX, maxY - minY);
-
-  PGraphics pg = createGraphics((maxX - minX) * 10, (maxY - minY) * 10);
-  pg.beginDraw();
-  pg.background(0);
-  pg.fill(255);
-  pg.stroke(255);
-  for (int i = 0; i < graph.size(); i ++) {
+  int w = maxX - minX;
+  int h = maxY - minY;
+  
+  int[][] tiles = new int[w][h];
+  //offset all rooms to make them fit into the tile grid
+  //MUST do this first so that all rooms are offset
+  for(int i = 0; i < placedRooms.size(); i ++) {
+    placedRooms.get(i).x -= minX;
+    placedRooms.get(i).y -= minY;
+  }
+  //place rooms into tile grid
+  for(int i = 0; i < placedRooms.size(); i ++) {
     Room room = placedRooms.get(i);
-    pg.rect((room.x - minX) * 10, (room.y - minY) * 10, room.w * 10, room.h * 10);
-    println(room.x, room.y);
-    for (int j = 0; j < graph.get(i).size(); j ++) {
-      Room room2 = placedRooms.get(graph.get(i).get(j));
-      pg.line((room.midPoint().x - minX) * 10, (room.midPoint().y - minY) * 10, (room2.midPoint().x - minX) * 10, (room2.midPoint().y - minY) * 10);
+    for(int x = 0; x < room.w; x ++) {
+      for(int y = 0; y < room.h; y ++) {
+        tiles[x + room.x][y + room.y] = room.tiles[x][y];
+        if(i > 0 && i < placedRooms.size() - 1) {
+          //General room (not spawn or boss room)
+          generalRegions.add(new PVector(x + room.x, y + room.y));
+        } else if(i == placedRooms.size() - 1) {
+          //Boss room
+          bossRegions.add(new PVector(x + room.x, y + room.y));
+        }
+      }
+    }
+    
+    for(int j = 0; j < graph.get(i).size(); j ++) {
+      if(graph.get(i).get(j) > i) {
+        tiles = connectRooms(tiles, placedRooms.get(i), placedRooms.get(graph.get(i).get(j)));
+      }
     }
   }
-  pg.endDraw();
-  pg.save("/out/TestGen.png");
 
-  //tiles = finishingPass(tiles, level.tileset);
-  //level.setTiles(tiles);
+  
+  tiles = finishingPass(tiles, level.tileset);
+  level.setTiles(tiles);
+  level.setStart(placedRooms.get(0).midPoint());
   level.setZones(new ArrayList[] {bossRegions, generalRegions});
 }
 
@@ -603,33 +615,25 @@ public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
   int y = start[1];
 
   int dx = 0;
-  try { 
-    dx = (stop[0] - start[0])/abs(stop[0] - start[0]);
-  } 
-  catch(Exception e) {
-  };
   int dy = 0;
-  try { 
-    dy = (stop[1] - start[1])/abs(stop[1] - start[1]);
-  } 
-  catch(Exception e) {
-  };
+  try { dx = (stop[0] - start[0])/(int)fastAbs(stop[0] - start[0]); } catch(Exception e) {};
+  try { dy = (stop[1] - start[1])/(int)fastAbs(stop[1] - start[1]); } catch(Exception e) {};
 
   int[] dir = {dx, 0};
   int[] dir2 = {0, dy};
-  if (random(1) < 0.5) { 
+  if (dx < dy) { 
     dir = new int[] {0, dy}; 
     dir2 = new int[] {dx, 0};
   } //random chance of starting horizontal of veritcally
 
   boolean started = false;
 
-  while (x != stop[0] || y != stop[1]) {
-    if (tiles[x][y] == WALL) {
+  while(x != stop[0] || y != stop[1]) {
+    if(tiles[x][y] == WALL) {
       tiles[x][y] = FLOOR;
       started = true;
     }
-    if (started && tiles[x][y] != WALL) break; //if we've left the start room and we hit a floor tile, stop adding the tiles
+    //if(started && tiles[x][y] != WALL) break; //if we've left the start room and we hit a floor tile, stop adding the tiles
     x += dir[0];
     y += dir[1];
     if (x == stop[0] || y == stop[1]) {
@@ -680,3 +684,24 @@ public int getBitMaskValue(int[][] tiles, int i, int j) {
 
   return bmValue;
 }
+
+/*
+println(deepest, maxX - minX, maxY - minY);
+
+PGraphics pg = createGraphics((maxX - minX) * 10, (maxY - minY) * 10);
+pg.beginDraw();
+pg.background(0);
+pg.fill(255);
+pg.stroke(255);
+for (int i = 0; i < graph.size(); i ++) {
+  Room room = placedRooms.get(i);
+  pg.rect((room.x - minX) * 10, (room.y - minY) * 10, room.w * 10, room.h * 10);
+  println(room.x, room.y);
+  for (int j = 0; j < graph.get(i).size(); j ++) {
+    Room room2 = placedRooms.get(graph.get(i).get(j));
+    pg.line((room.midPoint().x - minX) * 10, (room.midPoint().y - minY) * 10, (room2.midPoint().x - minX) * 10, (room2.midPoint().y - minY) * 10);
+  }
+}
+pg.endDraw();
+pg.save("/out/TestGen.png");
+*/

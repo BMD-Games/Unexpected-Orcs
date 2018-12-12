@@ -116,8 +116,8 @@ class DankDungeon extends Level {
    ***/
 
   DankDungeon() {
-    super(60, 45, "Dannnk", testTileset());
-    generateConnectedDungeon(this, 10, PI/4, 10, 15, testSpawn(), testBoss(), new Room[]{testRoom()});
+    super(60, 45, "Dannnk", cellarTileset());
+    generateConnectedDungeon(this, 20, PI/4, 10, 15, testSpawn(), testBoss(), new Room[]{testRoom()});
   }
 }
 
