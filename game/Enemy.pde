@@ -8,6 +8,7 @@ public interface Enemy {
   
   /* This mob takes damage */
   public void damage(int amount, ArrayList<Pair> statusEffects);
+  public void damage(int amount);
   
   /* Drop what on death */
   public void onDeath();
@@ -37,6 +38,7 @@ abstract class StandardEnemy implements Enemy {
   
   public int tier;
   public float x, y, knockbackX, knockbackY;
+  public String type;
   
   protected int range = 10;
   protected float radius = 0.5;
@@ -77,12 +79,11 @@ abstract class StandardEnemy implements Enemy {
       i++;
     }
     if((angle < PI/2) && (angle > -PI/2)) {
-      if(this instanceof MeleeEnemy) screen.rotate(angle);
+      /*if(this instanceof MeleeEnemy)*/ screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
       screen.scale(-1.0, 1.0);
-      //screen.rotate(PI);
-      if(this instanceof MeleeEnemy) screen.rotate(PI-angle);
+      /*if(this instanceof MeleeEnemy)*/ screen.rotate(PI-angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
@@ -137,8 +138,10 @@ abstract class StandardEnemy implements Enemy {
   }
   
   public void knockback(Projectile projectile) {
-    knockbackX = projectile.direction.x * projectile.speed / stats.speed;
-    knockbackY = projectile.direction.y * projectile.speed / stats.speed;
+    if(stats.health > 0) {
+      knockbackX = projectile.direction.x * projectile.damage / stats.defence;
+      knockbackY = projectile.direction.y * projectile.damage / stats.defence;
+    }
   }
   
 }
@@ -155,6 +158,7 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   
   public MeleeEnemy(float x, float y, int tier) {
     super(x, y, tier);
+    type = "MELEE";
   }
   
   public boolean update(double delta) {
@@ -200,9 +204,11 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   
   protected PImage projectileSprite = projectileSprites.get("WAND");
   protected float shotWaitTime = 1;
+  protected float shootDistance = 3;
   
   public RangedEnemy(float x, float y, int tier) {
     super(x, y, tier);
+    type = "RANGED";
   }
   
   public boolean update(double delta) {
@@ -217,10 +223,10 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
     float moveX = 0;
     float moveY = 0;
     float playerDistance = Util.distance(x, y, engine.player.x, engine.player.y);
-    if(playerDistance > 3.1) {
+    if(playerDistance > shootDistance + 0.2) {
       moveX = cos(angle);
       moveY = sin(angle);
-    } else if(playerDistance < 2.9) {
+    } else if(playerDistance < shootDistance - 0.3) {
       moveX = -cos(angle);
       moveY = -sin(angle);
     }
@@ -240,7 +246,7 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   }
   
   protected void attack() {
-    if(stats.fireTimer > shotWaitTime) {
+    if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
       stats.fireTimer = 0;
       engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprite));
     }
