@@ -197,8 +197,9 @@ class GUI {
       revertState();
     } else if(STATE == "PLAYING" && showingPortal && enterPortal.pressed()) {
       engine.enterClosestPortal();
-    } else if(STATE == "DEAD") {
-      
+    } else if(STATE == "DEAD" && back.pressed()) {
+      STATE = "MENU";
+      //Add reset function;
     }
     
     //-----Settings Buttons

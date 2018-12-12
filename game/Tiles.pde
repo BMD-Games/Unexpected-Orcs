@@ -1,3 +1,10 @@
+//----ZONES-----
+public final static int NO_SPAWN = 0;
+public final static int BOSS     = 1;
+public final static int GENERAL  = 2;
+
+
+
 //Tiles you cannont walk through are <= 0
 //Tiles you can walk through are > 0
 //Avoid using -1 as it can mean errors
@@ -92,4 +99,7 @@ public final static int PATCH_GRASS    = 11;
 public final static int MUSHROOM_GRASS = 12;
 public final static int GRASS_TUFT     = 13;
 public final static int GRASS_LEAF     = 14;
-    
+
+
+//----Spawn tiles
+public ArrayList<Integer> SPAWN_TILES = new ArrayList<Integer>();

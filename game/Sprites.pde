@@ -7,6 +7,8 @@ HashMap<String, PImage> dropSprites;
 HashMap<String, PImage> statusSprites;
 HashMap<String, PImage> playerStatusSprites;
 
+PImage vingette;
+
 public void loadAssets() {
   
   tileSprites = new HashMap<Integer, PImage>();
@@ -17,6 +19,8 @@ public void loadAssets() {
   dropSprites = new HashMap<String, PImage>();
   statusSprites = new HashMap<String, PImage>();
   playerStatusSprites = new HashMap<String, PImage>();
+  
+  vingette = loadImage("/assets/sprites/vingette.png");
   
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("/assets/sprites/tilesheet.png");
@@ -291,8 +295,13 @@ public void loadAssets() {
   projectileSprites.put("ARROW", getSprite(projectilesheet, 3, 1, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
-  assetsLoaded = true;
+  
+  SPAWN_TILES.add(STAR_WOOD);
+  SPAWN_TILES.add(X_STONE);
+  SPAWN_TILES.add(PATCH_GRASS);
+  
   loadStats();
+  assetsLoaded = true;
 }
 
 public PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {
@@ -435,7 +444,7 @@ public TileSet caveTileset() {
   return tileset;
 }
 
-public TileSet dungeonTileset() {
+public TileSet cellarTileset() {
   TileSet tileset = new TileSet();
 
   tileset.walls = stoneBrickWalls();
