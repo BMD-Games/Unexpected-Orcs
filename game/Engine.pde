@@ -46,6 +46,9 @@ class Engine {
     if(mousePressed && !inMenu) handleMouse();
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
+    if (player.stats.getHealth() <= 0) {
+      setState("DEAD");
+    }
     updateCamera(player.x, player.y);
     currentLevel.update(screen, camera.x, camera.y);
     

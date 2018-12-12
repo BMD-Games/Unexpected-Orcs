@@ -168,9 +168,7 @@ class GUI {
     
     screen.image(title, 0, 0, width, height);
     
-    play.show(screen);
-    options.show(screen);
-    exit.show(screen);
+    back.show(screen);
     screen.endDraw();
     image(screen, 0, 0);
     
@@ -199,6 +197,8 @@ class GUI {
       revertState();
     } else if(STATE == "PLAYING" && showingPortal && enterPortal.pressed()) {
       engine.enterClosestPortal();
+    } else if(STATE == "DEAD") {
+      
     }
     
     //-----Settings Buttons
