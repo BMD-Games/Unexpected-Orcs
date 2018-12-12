@@ -1,6 +1,6 @@
 class Player {
 
-  public float x, y, w = 0.5, h = 0.5;
+  public float x, y, w = 0.5, h = 0.5, knockbackX, knockbackY;
   private float ang;
   private int size = TILE_SIZE/2;
 
@@ -89,7 +89,6 @@ class Player {
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
     screen.image(headSprite, -headSprite.width * SCALE/2, -headSprite.height * SCALE/2, headSprite.width * SCALE, headSprite.height * SCALE);
     screen.image(bodySprite, -bodySprite.width * SCALE/2, -bodySprite.height * SCALE/2, bodySprite.width * SCALE, bodySprite.height * SCALE);
-
     screen.popMatrix();
   }
 

@@ -20,7 +20,6 @@ public static class Util {
   }
 
   public static boolean lineLine(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
-
     // calculate the direction of the lines
     float uA = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
     float uB = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
@@ -29,6 +28,7 @@ public static class Util {
     if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) return true;
     return false;
   }
+<<<<<<< HEAD
 
   public static boolean linePoint(float x1, float y1, float x2, float y2, float px, float py) {
 
@@ -51,6 +51,11 @@ public static class Util {
       return true;
     }
     return false;
+  }
+  
+  public static float roundTo(float number, int rounder) {
+    float num = ((float)floor(number * rounder)) / rounder;
+    return num;
   }
 }
 

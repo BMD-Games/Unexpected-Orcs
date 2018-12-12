@@ -8,7 +8,9 @@ public interface Enemy {
 
   /* This mob takes damage */
   public void damage(int amount, ArrayList<Pair> statusEffects);
-
+  
+  public void damage(int amount);
+  
   /* Drop what on death */
   public void onDeath();
 
@@ -23,6 +25,8 @@ public interface Enemy {
 
   /* Checks if mob collides with any walls */
   public boolean validPosition(Level level, float xPos, float yPos);
+  
+  public void knockback(Projectile projectile);
 }
 
 
@@ -33,14 +37,16 @@ public interface Enemy {
 abstract class StandardEnemy implements Enemy {
 
   public int tier;
-  public float x;
-  public float y;
-
+  
+  public float x, y, knockbackX, knockbackY;
+  public String type;
+  
   protected int range = 10;
-  protected float radius;
+  protected float radius = 0.5;
   protected boolean active = false;
-  protected boolean rectangleBB = true;
-
+  
+  protected boolean hasSeen = false;
+  
   protected float angle;
   protected PImage sprite;
   protected Stats stats = new Stats();
@@ -74,12 +80,13 @@ abstract class StandardEnemy implements Enemy {
       screen.image(statusSprite, x + radius / 2 + TILE_SIZE * i / 4, y + SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
       i++;
     }
-    if ((angle < PI/2) && (angle > -PI/2)) {
-      screen.rotate(angle);
+
+    if((angle < PI/2) && (angle > -PI/2)) {
+      /*if(this instanceof MeleeEnemy)*/ screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
       screen.scale(-1.0, 1.0);
-      screen.rotate(PI - angle);
+      /*if(this instanceof MeleeEnemy)*/ screen.rotate(PI-angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
@@ -106,11 +113,13 @@ abstract class StandardEnemy implements Enemy {
 
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    if (rectangleBB) {
-      return false;
-    } else {
-      return Circle.pointCollides(x, y, pointX, pointY, radius);
+    
+    if(this instanceof RectangleObject) {
+      return Rectangle.pointCollides(pointX, pointY, x, y, ((RectangleObject) this).getWidth(), ((RectangleObject) this).getHeight());
+    } else if(this instanceof CircleObject) {
+      return Circle.pointCollides(x, y, pointX, pointY, ((CircleObject) this).getRadius());
     }
+    return false;
   }
 
   /* Checks collision with line */
@@ -124,10 +133,18 @@ abstract class StandardEnemy implements Enemy {
   }  
 
   public boolean validPosition(Level level, float xPos, float yPos) {
-    if (rectangleBB) {
-      return true;
-    } else {
+    if(this instanceof RectangleObject) {
+      return Rectangle.validPosition(level, xPos, yPos, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight());
+    } else if(this instanceof CircleObject) {
       return Circle.validPosition(level, xPos, yPos, radius);
+    }
+    return true;
+  }
+  
+  public void knockback(Projectile projectile) {
+    if(stats.health > 0) {
+      knockbackX = projectile.direction.x * projectile.damage / stats.defence;
+      knockbackY = projectile.direction.y * projectile.damage / stats.defence;
     }
   }
 }
@@ -144,6 +161,7 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
 
   public MeleeEnemy(float x, float y, int tier) {
     super(x, y, tier);
+    type = "MELEE";
   }
 
   public boolean update(double delta) {
@@ -166,90 +184,82 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   }
 
   protected void move(double delta) {
-    float moveX = (float)(stats.getSpeed() * cos(angle) * delta);
-    float moveY = (float)(stats.getSpeed() * sin(angle) * delta);
-    int xDir = Util.sign(moveX);
-    int yDir = Util.sign(moveY);
-    if (abs(xDir) + abs(yDir) == 0) {
-      return;
-    }
-    x += moveX;
-    y += moveY;
-    if (rectangleBB) {
-      return;
+    float moveX = (stats.getSpeed() * cos(angle) + knockbackX) * (float)delta;
+    float moveY = (stats.getSpeed() * sin(angle) + knockbackY) * (float)delta;
+    knockbackX = knockbackY = 0;
+    float[] coords;
+    if(this instanceof RectangleObject) {
+      coords = Rectangle.adjust(engine.currentLevel, x, y, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight(), moveX, moveY);
+    } else if(this instanceof CircleObject) {
+      coords = Circle.adjust(engine.currentLevel, x, y, radius, moveX, moveY);
     } else {
-      if (!Circle.validCentre(engine.currentLevel, x, y)) {
-        x -= moveX;
-        y -= moveY;
-        if (!Circle.validCentre(engine.currentLevel, x, y)) {
-          damage(10);
-        }
-      }
-      if (xDir == 1) {
-        if (!Circle.validRight(engine.currentLevel, x, y, radius)) {
-          x = ceil(x) - radius;
-        } else {
-          if (!Circle.validTopRight(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - floor(y), x - ceil(x));
-            x = ceil(x) + cos(attackAngle) * radius;
-            y = floor(y) + sin(attackAngle) * radius;
-          } 
-          if (!Circle.validBottomRight(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - ceil(y), x - ceil(x));
-            x = ceil(x) + cos(attackAngle) * radius;
-            y = ceil(y) + sin(attackAngle) * radius;
-          }
-        }
-      } else if (xDir == -1) { 
-        if (!Circle.validLeft(engine.currentLevel, x, y, radius)) {
-          x = floor(x) + radius;
-        } else {
-          if (!Circle.validTopLeft(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - floor(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius;
-            y = floor(y) + sin(attackAngle) * radius;
-          } 
-          if (!Circle.validBottomLeft(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - ceil(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius;
-            y = ceil(y) - sin(attackAngle) * radius;
-          }
-        }
-      }
-      if (yDir == 1) {
-        if (!Circle.validBottom(engine.currentLevel, x, y, radius)) {
-          y = ceil(y) - radius;
-        } else {
-          if (!Circle.validBottomLeft(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - ceil(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius;
-            y = ceil(y) + sin(attackAngle) * radius;
-          } 
-          if (!Circle.validBottomRight(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - ceil(y), x - ceil(x));
-            x = ceil(x) + cos(attackAngle) * radius;
-            y = ceil(y) + sin(attackAngle) * radius;
-          }
-        }
-      } else if (yDir == -1) { 
-        if (!Circle.validTop(engine.currentLevel, x, y, radius)) {
-          y = floor(y) + radius;
-        } else {
-          if (!Circle.validTopLeft(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - floor(y), x - floor(x));
-            x = floor(x) + cos(attackAngle) * radius;
-            y = floor(y) + sin(attackAngle) * radius;
-          } 
-          if (!Circle.validTopRight(engine.currentLevel, x, y, radius)) {
-            float attackAngle = atan2(y - floor(y), x - ceil(x));
-            x = ceil(x) + cos(attackAngle) * radius;
-            y = floor(y) + sin(attackAngle) * radius;
-          }
-        }
-      }
+      coords = new float[] {x + moveX, y + moveY};
     }
+    x = coords[0];
+    y = coords[1];
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public abstract class RangedEnemy extends StandardEnemy implements Enemy {
+  
+  protected PImage projectileSprite = projectileSprites.get("WAND");
+  protected float shotWaitTime = 1;
+  protected float shootDistance = 3;
+  
+  public RangedEnemy(float x, float y, int tier) {
+    super(x, y, tier);
+    type = "RANGED";
+  }
+  
+  public boolean update(double delta) {
+    if(active) {
+      move(delta);
+      attack();
+    }
+    return super.update(delta);
+  }
+  
+  protected void move(double delta) {
+    float moveX = 0;
+    float moveY = 0;
+    float playerDistance = Util.distance(x, y, engine.player.x, engine.player.y);
+    if(playerDistance > shootDistance + 0.2) {
+      moveX = cos(angle);
+      moveY = sin(angle);
+    } else if(playerDistance < shootDistance - 0.3) {
+      moveX = -cos(angle);
+      moveY = -sin(angle);
+    }
+    moveX = (moveX * stats.getSpeed() + knockbackX) * (float)delta;
+    moveY = (moveY * stats.getSpeed() + knockbackY) * (float)delta;
+    knockbackX = knockbackY = 0;
+    float[] coords;
+    if(this instanceof RectangleObject) {
+      coords = Rectangle.adjust(engine.currentLevel, x, y, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight(), moveX, moveY);
+    } else if(this instanceof CircleObject) {
+      coords = Circle.adjust(engine.currentLevel, x, y, radius, moveX, moveY);
+    } else {
+      coords = new float[] {x + moveX, y + moveY};
+    }
+    x = coords[0];
+    y = coords[1];
+  }
+  
+  protected void attack() {
+    if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
+      stats.fireTimer = 0;
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprite));
+    }
+  }
+  
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 public static class Circle {
 
@@ -304,85 +314,70 @@ public static class Circle {
     y += moveY;
     int xDir = Util.sign(moveX);
     int yDir = Util.sign(moveY);
-    if (!Circle.validCentre(level, x, y)) {
-      x -= moveX;
-      y -= moveY;
+
+    if(!Circle.validCentre(level, x, y)) {
+        x -= moveX;
+        y -= moveY;
     }
-    if (xDir == 1) {
-      if (!Circle.validRight(level, x, y, radius)) {
+    if(xDir == 1) {
+      if(!Circle.validRight(level, x, y, radius)) {
         x = ceil(x) - radius;
       } else {
-        if (!Circle.validTopRight(level, x, y, radius)) {
-          println("Hit top right");
-          float attackAngle = atan2(x - ceil(x), y - floor(y));
-          //x = ceil(x) + cos(attackAngle) * radius;
-          //y = floor(y) + cos(attackAngle) * radius;
+        if(!Circle.validTopRight(level, x, y, radius)) {
+          float attackAngle = atan2(y - floor(y), x - ceil(x));
+          x = ceil(x) + cos(attackAngle) * radius;
+          y = floor(y) + sin(attackAngle) * radius;
         } 
-        if (!Circle.validBottomRight(level, x, y, radius)) {
-          println("Hit bottom right");
-          float attackAngle = atan2(x - ceil(x), y - ceil(y));
-          //x = ceil(x) + cos(attackAngle) * radius;
-          //y = ceil(y) + cos(attackAngle) * radius;
+        if(!Circle.validBottomRight(level, x, y, radius)) {
+          float attackAngle = atan2(y - ceil(y), x - ceil(x));
+          x = ceil(x) + cos(attackAngle) * radius;
+          y = ceil(y) + sin(attackAngle) * radius;
         }
       }
-    } else if (xDir == -1) { 
+    } else if(xDir == -1) { 
       if (!Circle.validLeft(level, x, y, radius)) {
         x = floor(x) + radius;
       } else {
-        if (!Circle.validTopLeft(level, x, y, radius)) {
-          println();
-          println("Hit top left");
-          println("x y :", x, y);
+        if(!Circle.validTopLeft(level, x, y, radius)) {
           float attackAngle = atan2(y - floor(y), x - floor(x));
-          x = floor(x) + cos(attackAngle) * radius * 2;// + 0.05;
-          y = floor(y) + cos(attackAngle) * radius * 2;// + 0.05;
-          println("Angle:", attackAngle);
-          println("New x y :", x, y);
+          x = floor(x) + cos(attackAngle) * radius;
+          y = floor(y) + sin(attackAngle) * radius;
         } 
-        if (!Circle.validBottomLeft(level, x, y, radius)) {
-          println("Hit bottom left");
-          float attackAngle = atan2(x - floor(x), y - ceil(y));
-          //x = floor(x) + cos(attackAngle) * radius;
-          //y = ceil(y) + cos(attackAngle) * radius;
+        if(!Circle.validBottomLeft(level, x, y, radius)) {
+          float attackAngle = atan2(y - ceil(y), x - floor(x));
+          x = floor(x) + cos(attackAngle) * radius;
+          y = ceil(y) + sin(attackAngle) * radius;
         }
       }
     }
-    if (yDir == 1) {
+    if(yDir == 1) {
       if (!Circle.validBottom(level, x, y, radius)) {
         y = ceil(y) - radius;
       } else {
-        if (!Circle.validBottomLeft(level, x, y, radius)) {
-          println("Hit bottom left");
-          float attackAngle = atan2(x - floor(x), y - ceil(y));
-          //x = floor(x) + cos(attackAngle) * radius;
-          //y = ceil(y) + cos(attackAngle) * radius;
+        if(!Circle.validBottomLeft(level, x, y, radius)) {
+          float attackAngle = atan2(y - ceil(y), x - floor(x));
+          x = floor(x) + cos(attackAngle) * radius;
+          y = ceil(y) + sin(attackAngle) * radius;
         } 
-        if (!Circle.validBottomRight(level, x, y, radius)) {
-          println("Hit bottom right");
-          float attackAngle = atan2(x - ceil(x), y - ceil(y));
-          //x = ceil(x) + cos(attackAngle) * radius;
-          //y = ceil(y) + cos(attackAngle) * radius;
+        if(!Circle.validBottomRight(level, x, y, radius)) {
+          float attackAngle = atan2(y - ceil(y), x - ceil(x));
+          x = ceil(x) + cos(attackAngle) * radius;
+          y = ceil(y) + sin(attackAngle) * radius;
         }
       }
-    } else if (yDir == -1) { 
-      if (!Circle.validTop(level, x, y, radius)) {
+    } else if(yDir == -1) { 
+      if(!Circle.validTop(level, x, y, radius)) {
         y = floor(y) + radius;
       } else {
-        if (!Circle.validTopLeft(level, x, y, radius)) {
-          println();
-          println("Hit top left");
-          println("x y :", x, y);
+        if(!Circle.validTopLeft(level, x, y, radius)) {
           float attackAngle = atan2(y - floor(y), x - floor(x));
-          x = floor(x) + cos(attackAngle) * radius + 0.05;
-          y = floor(y) + cos(attackAngle) * radius + 0.05;
-          println("Angle:", attackAngle);
-          println("New x y :", x, y);
+          x = floor(x) + cos(attackAngle) * radius;
+          y = floor(y) + sin(attackAngle) * radius;
         } 
-        if (!Circle.validTopRight(level, x, y, radius)) {
-          println("Hit top right");
-          float attackAngle = atan2(x - ceil(x), y - floor(y));
-          //x = ceil(x) + cos(attackAngle) * radius;
-          //y = floor(y) + cos(attackAngle) * radius;
+        if(!Circle.validTopRight(level, x, y, radius)) {
+          float attackAngle = atan2(y - floor(y), x - ceil(x));
+          x = ceil(x) + cos(attackAngle) * radius;
+          y = floor(y) + sin(attackAngle) * radius;
         }
       }
     }
@@ -395,7 +390,6 @@ public static class Circle {
   }
 
   public static boolean lineCollides(float px, float py, float cx, float cy, float r) {
-
     // get distance between the point and circle's center
     float distance = dist(px, py, cx, cy);
 
@@ -408,7 +402,10 @@ public static class Circle {
   }
 
 
-  public static class Rectangle {
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public static class Rectangle {
 
     public static boolean validPosition(Level level, float x, float y, float w, float h) {
       for (int i = (int)(x - w/2); i <= (int)(x + w/2); ++i) {
@@ -498,4 +495,18 @@ public static class Circle {
       return false;
     }
   }
+}
+
+public interface CircleObject {
+   
+  public float getRadius();
+  
+}
+
+public interface RectangleObject {
+   
+  public float getWidth();
+  
+  public float getHeight();
+  
 }

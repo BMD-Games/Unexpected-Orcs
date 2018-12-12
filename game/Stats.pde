@@ -144,7 +144,6 @@ class PlayerStats extends Stats {
         break;
       case("ATTACK"):
         attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
-        println(calcStatValue(attackKills, baseAttack, 1, 0.1));
         attack = (int)calcStatValue(attackKills, baseAttack, 1, 0.1);
         break;
       case("WISDOM"):

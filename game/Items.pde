@@ -17,16 +17,14 @@ class Inventory {
   
   
   Inventory() {
-    active[0] = new GreenRod();
+    active[0] = weaponFactory.createRandomWeapon(11);
     active[1] = new SwiftBoots();
     active[2] = new LeatherArmour();
     active[3] = new LitScroll();
     
-    inv[0] = new Pistol();
-    inv[1] = new Shotgun();
-    inv[2] = new Sniper();
-    inv[3] = new FireBomb();
-    inv[4] = new Telescope();
+    inv[0] = new GreenRod();
+    inv[2] = new FireBomb();
+    inv[3] = new Telescope();
   }
   
   void swapItemsInv(int i, int j) {
@@ -86,12 +84,18 @@ class Inventory {
 
 class Item {
   
-  public String type, name, sprite;
+  public String type, name;
+  public PImage sprite;
   
   public int tier = 0;
   
-  Item(String sprite, String name) {
-   this.sprite = sprite; 
+  Item(String spriteName, String name) {
+   sprite = itemSprites.get(spriteName); 
    this.name = name;
+  }
+  
+  Item(PImage sprite, String name) {
+    this.sprite = sprite;
+    this.name = name;
   }
 }

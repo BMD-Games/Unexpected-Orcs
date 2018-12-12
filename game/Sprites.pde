@@ -136,12 +136,17 @@ public void loadAssets() {
   itemSprites.put("SCROLL_4", getSprite(itemsheet, 3, 1, 1, 1, itemSize));
   
   //Weapons
-  itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 2, 1, 1, itemSize));
-  itemSprites.put("PISTOL", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
-  itemSprites.put("SNIPER", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
-  itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
-  itemSprites.put("GREENROD", getSprite(itemsheet, 4, 2, 1, 1, itemSize));
-  itemSprites.put("REDROD", getSprite(itemsheet, 5, 2, 1, 1, itemSize));
+  itemSprites.put("WAND", getSprite(itemsheet, 0, 2, 1, 1, itemSize));
+  itemSprites.put("STAFF", getSprite(itemsheet, 1, 2, 1, 1, itemSize));
+  itemSprites.put("SPEAR", getSprite(itemsheet, 2, 2, 1, 1, itemSize));
+  itemSprites.put("BOW", getSprite(itemsheet, 3, 2, 1, 1, itemSize));
+  itemSprites.put("WAND_TIP", getSprite(itemsheet, 4, 2, 1, 1, itemSize));
+  itemSprites.put("STAFF_TIP", getSprite(itemsheet, 5, 2, 1, 1, itemSize));
+  itemSprites.put("SPEAR_TIP", getSprite(itemsheet, 6, 2, 1, 1, itemSize));
+  itemSprites.put("BOW_TIP", getSprite(itemsheet, 7, 2, 1, 1, itemSize)); 
+
+  itemSprites.put("GREENROD", getSprite(itemsheet, 0, 5, 1, 1, itemSize));
+  itemSprites.put("REDROD", getSprite(itemsheet, 1, 5, 1, 1, itemSize));
 
   //Abilities
   itemSprites.put("BOOTS", getSprite(itemsheet, 0, 3, 1, 1, itemSize));
@@ -150,6 +155,12 @@ public void loadAssets() {
   
   //Armour
   itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
+  
+  //Guns
+  itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 7, 1, 1, itemSize));
+  itemSprites.put("PISTOL", getSprite(itemsheet, 1, 7, 1, 1, itemSize));
+  itemSprites.put("SNIPER", getSprite(itemsheet, 2, 7, 1, 1, itemSize));
+  itemSprites.put("MACHINE_GUN", getSprite(itemsheet, 7, 2, 1, 1, itemSize));
   
   //-----STAT SPRITES-----
   
@@ -260,17 +271,25 @@ public void loadAssets() {
   charSprites.put("MAGIC_ELEMENTAL_4", getSprite(charsheet, 6, 5, 1, 1, charSize));
   charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize));
   
+  charSprites.put("GOBLIN_ARCHER", getSprite(charsheet, 0, 6, 1, 1, charSize));
+  charSprites.put("GOBLIN_SPEARMAN", getSprite(charsheet, 1, 6, 1, 1, charSize));
+  charSprites.put("GOBLIN_WARRIOR", getSprite(charsheet, 2, 6, 1, 1, charSize));
+  charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 3, 6, 1, 1, charSize));
+
+  
   //-----BULLET SPRITES-----
-  PImage bulletsheet = loadImage("/assets/sprites/bulletsheet.png");
   PImage projectilesheet = loadImage("/assets/sprites/projectilesheet.png");
-  int bulletSize = 8;
   int projectileSize = 8;
   
-  projectileSprites.put("SNIPER", getSprite(bulletsheet, 0, 0, 1, 1, bulletSize));
-  projectileSprites.put("PISTOL", getSprite(bulletsheet, 1, 0, 1, 1, bulletSize));
-  projectileSprites.put("SHOTGUN", getSprite(bulletsheet, 2, 0, 1, 1, bulletSize));
-  projectileSprites.put("FIREBALL", getSprite(bulletsheet, 3, 0, 1, 1, bulletSize));
   projectileSprites.put("GREENROD", getSprite(projectilesheet, 0, 0, 1, 1, projectileSize));
+  projectileSprites.put("FIREBALL", getSprite(projectilesheet, 1, 0, 1, 1, projectileSize));
+  projectileSprites.put("SPEAR_TIP", getSprite(projectilesheet, 2, 0, 1, 1, projectileSize));
+  projectileSprites.put("ARROW_TIP", getSprite(projectilesheet, 3, 0, 1, 1, projectileSize));
+  
+  projectileSprites.put("WAND", getSprite(projectilesheet, 0, 1, 1, 1, projectileSize));
+  projectileSprites.put("STAFF", getSprite(projectilesheet, 1, 1, 1, 1, projectileSize));
+  projectileSprites.put("SPEAR", getSprite(projectilesheet, 2, 1, 1, 1, projectileSize));
+  projectileSprites.put("ARROW", getSprite(projectilesheet, 3, 1, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
   

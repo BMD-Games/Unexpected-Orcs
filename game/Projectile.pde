@@ -1,15 +1,14 @@
-
 class Projectile {
   
   private PVector direction;
   private float startX, startY, speed, range;
   public float x, y, px, py;  
-  private int damage;
+  public int damage;
   private PImage sprite;
   private ArrayList<Pair> statusEffects = new ArrayList();
   
   
-  Projectile(float x, float y, PVector direction, float speed, float range, int damage, String sprite, ArrayList<Pair> statusEffects) {
+  Projectile(float x, float y, PVector direction, float speed, float range, int damage, PImage sprite, ArrayList<Pair> statusEffects) {
     this.x = x;
     this.y = y;
     this.startX = x;
@@ -18,11 +17,11 @@ class Projectile {
     this.speed = speed;
     this.range = range;
     this.damage = damage;
-    this.sprite = projectileSprites.get(sprite);
+    this.sprite = sprite;
     this.statusEffects = statusEffects;
   }
   
-  Projectile(float x, float y, PVector direction, float speed, float range, int damage, String sprite) {
+  Projectile(float x, float y, PVector direction, float speed, float range, int damage, PImage sprite) {
     this.x = x;
     this.y = y;
     this.startX = x;
@@ -31,7 +30,7 @@ class Projectile {
     this.speed = speed;
     this.range = range;
     this.damage = damage;
-    this.sprite = projectileSprites.get(sprite);
+    this.sprite = sprite;
     this.statusEffects = new ArrayList();
   }
   
@@ -54,9 +53,6 @@ class Projectile {
     return true;
   }
   
-  private int getDamage() {
-    return damage;
-  }
 }
 
 class Pair {

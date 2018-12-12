@@ -82,7 +82,8 @@ class ItemBag extends Drop {
   
   ItemBag(float x, float y, int tier) {
     super(x, y, 0.5, 60);
-    this.sprite = dropSprites.get("BAG_" + tier);
+    if(tier > 2) tier = 2;
+    this.sprite = dropSprites.get("BAG_" + tier % 3);
   } 
   
   public Item takeItem(int pos) {
@@ -93,6 +94,12 @@ class ItemBag extends Drop {
       checkEmpty();
       return item;
     }
+  }
+  
+  @Override
+  public boolean update(double delta, float px, float py) {
+    checkEmpty();
+    return super.update(delta, px, py);
   }
   
   public boolean addItem(Item item) {
