@@ -368,147 +368,108 @@ public boolean isBorder(int[][]tiles, int i, int j) {
 }
 
 
-public void generateConnectedDungeon(Level level, int rows, int columns, Room startRoom, Room bossRoom, Room[] rooms) {
-  /* ---Theory---
-  1. Split the level into a grid
-  2. Randomly choose a grid square and randomly add a room inside it
-  3. Get the spawn point based on the startRoom
-  4. Set the mob spawn zones based on the rooms
-  5. Once rooms have been placed, find rooms in neighbouring cells and make a corridor to meet them
-  */
-  
-  int w = level.w, h = level.h;  
-  int[][] tiles = new int[w][h];
-  
-  int rw = w/rows;
-  int rh = h/columns;
-  
-  Room[] roomGrid = new Room[rows * columns]; //grid of placed rooms
-  
+/***
+Creates a dungeon and appends the tiles to the Level it's been given.
+
+level     - The level being generated for
+maxRooms  - Number of rooms the dungeon will have
+spread    - Angle variation of the rooms from existing rooms
+minRadius - minimum distance between rooms
+maxRadius - maximum distance between rooms
+spawnRoom - Preset for the spawn room
+bossRoom  - Preset for the boss romm
+rooms     - Presets for all other rooms
+***/
+public void generateConnectedDungeon(Level level, int maxRooms, float spread, int minRadius, int maxRadius, Room spawnRoom, Room bossRoom, Room[] rooms) {
+  /* ---Pseudo---
+  1. LOOP while num rooms != max
+    - get a random room from the graph
+    - create a new room within a radius of that room and connect it to the previously selected room
+  2. Get the bounds of the graph (min/max for x and y) to determine the size of the level
+  3. Go through list of rooms and copy their tiles into the tile map
+  4. While adding tiles, add regions to the region lists.
+  */  
   ArrayList<PVector> bossRegions = new ArrayList<PVector>();
   ArrayList<PVector> generalRegions = new ArrayList<PVector>();
   ArrayList<Room> placedRooms = new ArrayList<Room>();
+  ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
   
-  int regions = 0;
+  float dir = random(TAU); //random direction for the dungeon to branch in.
+  
+  //add initial room
+  Room initial = new Room(spawnRoom);
+  initial.x = 0;
+  initial.y = 0;
+  placedRooms.add(initial);
+  graph.add(new ArrayList<Integer>());
+  
+  int minX = initial.x, minY = initial.y, maxX = initial.x + initial.w, maxY = initial.y + initial.h;
+  
+  //Generate graph
+  while(placedRooms.size() < maxRooms) {
+    int startPos = (int)random(placedRooms.size()); //get a random room;
+    int sx = placedRooms.get(startPos).x;
+    int sy = placedRooms.get(startPos).y;
+    int newPos = placedRooms.size();
+    boolean hit = true;
+    Room room = new Room(rooms[(int)random(rooms.length)]);
     
-  startRoom = randomlyPlaceRoom(startRoom, rw, rh); //randomly places room within the grid cell
-  bossRoom = randomlyPlaceRoom(bossRoom, rw, rh); //randomly places room within the grid cell
-  
-  PVector start = new PVector((int)random(columns), (int)random(rows));  
-  int startRoomPos = (int)start.x + (int)start.y * columns;
-  startRoom.x += (int)(start.x) * rw;
-  startRoom.y += (int)(start.y) * rh;
-  
-  
-  println("obvs here");
-  
-  
-  while(startRoom.outOfBounds(w, h)) {
-    start = new PVector((int)random(rw), (int)random(rh));
-    startRoomPos = (int)start.x + (int)start.y * columns;
-    startRoom.x += (int)(start.x) * rw;
-    startRoom.y += (int)(start.y) * rh;
-  }
-  roomGrid[startRoomPos] = new Room(startRoom); //place start room randomly into the grid
-  placedRooms.add(startRoom);
-  regions ++;
-  
-  PVector boss = new PVector(random(columns), random(rows));
-  int bossRoomPos = (int)boss.x + (int)boss.y * columns;
-  bossRoom.x += (int)(boss.x) * rw;
-  bossRoom.y += (int)(boss.y) * rh;
-  
-  println("here-1");
-  
-  while(bossRoom.outOfBounds(w, h) || bossRoom.collides(startRoom)) {
-    println("cunt");
-    boss = new PVector((int)random(rw), (int)random(rh));
-    bossRoomPos = (int)boss.x + (int)boss.y * columns;
-    bossRoom.x += (int)(boss.x) * rw;
-    bossRoom.y += (int)(boss.y) * rh;
-  }
-  roomGrid[bossRoomPos] = new Room(bossRoom); //place boss room randomly into the grid
-  placedRooms.add(bossRoom);
-  regions ++;
-  
-  println("here");
-  
-  //place rooms into grid
-  for(int i = 0; i < columns; i ++) {
-    for(int j = 0; j < rows; j ++) {
-      int index = i + j * columns; 
-      if(index == startRoomPos || index == bossRoomPos) continue;
-      if(random(1) <= roomChance) { // % chance of a cell containing a room
-        Room room = new Room(randomlyPlaceRoom(rooms[(int)random(rooms.length)], rw, rh)); //get a random room from the list of rooms and place it randomly in the current grid square
-        room.x += i * rw;
-        room.y += j * rh;
-        boolean hit = false;
-        for(int k = 0; k < roomGrid.length; k ++) {
-          if(roomGrid[k] != null && (roomGrid[k].collides(room) || room.outOfBounds(w, h))) {
-            hit = true;
-            break;
-          }
-        }
-        if(!hit) { 
-          roomGrid[index] = room;
-          placedRooms.add(room);
-          regions ++;
+    //find a place to put the room
+    //DEFS COULD GET INFINITE LOOPS HERE :0
+    while(hit) {
+      hit = false;
+      float ang = random(dir - spread, dir + spread);
+      float r = random(minRadius, maxRadius);
+      room.x = (int)(sx + cos(ang) * r);
+      room.y = (int)(sy + sin(ang) * r);
+      for(int i = 0; i < placedRooms.size(); i ++) {
+        if(placedRooms.get(i).collides(room)) {
+          hit = true;
+          break;
         }
       }
     }
+    if(room.x < minX) minX = room.x;
+    if(room.y < minY) minY = room.y;
+    if(room.x + room.w > maxX) maxX = room.x + room.w;
+    if(room.y + room.h > maxY) maxY = room.y + room.h;
+    
+    //add the new room to the graph;
+    placedRooms.add(new Room(room));
+    graph.add(new ArrayList<Integer>());
+    
+    //add the connections between rooms
+    graph.get(startPos).add(newPos);
+    graph.get(newPos).add(startPos);
+    
   }
   
-  println("here1");
+  minX -= 1;
+  minY -= 1;
+  maxX += 1;
+  maxY += 1;
   
-  //add their tiles to the tile map
-  for(int x = 0; x < columns; x ++) {
-    for(int y = 0; y < rows; y ++) {
-      int index = x + y * columns;
-      if(roomGrid[index] != null) {
-        for(int i = 0; i < roomGrid[index].w; i ++) {
-          for(int j = 0; j < roomGrid[index].h; j ++) {
-            int tile = roomGrid[index].tiles[i][j];
-            try { tiles[roomGrid[index].x + i][roomGrid[index].y + j] = tile; } catch(Exception e) {}
-            //add their tiles to the correct zone
-            PVector pos = new PVector(roomGrid[index].x + i, roomGrid[index].y + j);
-            if(index == bossRoomPos) {
-              bossRegions.add(pos);
-            } else if(index == startRoomPos) {
-              if(SPAWN_TILES.contains(tile)) level.setStart(pos);
-            } else {
-              generalRegions.add(pos);
-            }
-          }  
-        }
-      }
+  println(maxX - minX, maxY - minY);
+  
+  PGraphics pg = createGraphics((maxX - minX) * 10, (maxY - minY) * 10);
+  pg.beginDraw();
+  pg.background(0);
+  pg.fill(255);
+  pg.stroke(255);
+  for(int i = 0; i < graph.size(); i ++) {
+    Room room = placedRooms.get(i);
+    pg.rect((room.x - minX) * 10, (room.y - minY) * 10, room.w * 10, room.h * 10);
+    println(room.x, room.y);
+    for(int j = 0; j < graph.get(i).size(); j ++) {
+      Room room2 = placedRooms.get(graph.get(i).get(j));
+      pg.line((room.midPoint().x - minX) * 10, (room.midPoint().y - minY) * 10, (room2.midPoint().x - minX) * 10, (room2.midPoint().y - minY) * 10); 
     }
   }
+  pg.endDraw();
+  pg.save("/out/TestGen.png");
   
-  println("here2");
-  
-  //go through grid cells and check if it has neighbouring cells
-  ArrayList<Integer> connected = new ArrayList<Integer>(); //all regions that have been connected
-  //connect all rooms
-  connected.add(0);
-  placedRooms.remove(0);
-  while (connected.size() < placedRooms.size()) {
-    int r1 = (int)random(placedRooms.size());
-    int r2 = (int)random(placedRooms.size());
-    if(r1 + r2 == 1) continue;
-    int[] r = {r1, r2};
-    int c = -1;
-    if(!connected.contains(r1) && connected.contains(r2)) c = 0;
-    if(connected.contains(r1) && !connected.contains(r2)) c = 1;
-    if(c != -1) {
-      connectRooms(tiles, placedRooms.get(r1), placedRooms.get(r2));
-      connected.add(r[c]);
-    }
-  }
-
-  println("here3");
-  
-  tiles = finishingPass(tiles, level.tileset);
-  level.setTiles(tiles);
+  //tiles = finishingPass(tiles, level.tileset);
+  //level.setTiles(tiles);
   level.setZones(new ArrayList[] {bossRegions, generalRegions});
 }
 
@@ -528,8 +489,14 @@ public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
   int[] dir2 = {0, dy};
   if(random(1) < 0.5) { dir = new int[] {0, dy}; dir2 = new int[] {dx, 0}; } //random chance of starting horizontal of veritcally
   
+  boolean started = false;
+  
   while(x != stop[0] || y != stop[1]) {
-    if(tiles[x][y] == WALL) tiles[x][y] = FLOOR;
+    if(tiles[x][y] == WALL) {
+      tiles[x][y] = FLOOR;
+      started = true;
+    }
+    if(started && tiles[x][y] != WALL) break; //if we've left the start room and we hit a floor tile, stop adding the tiles
     x += dir[0];
     y += dir[1];
     if(x == stop[0] || y == stop[1]) {
