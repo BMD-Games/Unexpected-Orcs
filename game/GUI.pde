@@ -284,22 +284,29 @@ class GUI {
 
   private void drawPortal() {
     Portal portal = engine.getClosestPortal();
-    showingPortal = portal != null;
-    if(!showingPortal) return;
+    if(portal == null) return;
     enterPortal.show(screen);
     screen.textAlign(CENTER, CENTER);
     screen.text("Enter " + portal.name, enterPortal.x, enterPortal.y, enterPortal.w, enterPortal.h);
   }
 
   private void renderMiniMap() {
+        
+    float vw = GUI_WIDTH - (2 * invBuff); //width of the view
+    float vh = vw * 0.8;
     
-    float w = engine.currentLevel.getMiniMap().width;
-    float h = engine.currentLevel.getMiniMap().height;
+    float scale = (vw/engine.currentLevel.w) * miniMapZoom;
     
-    float scale = (GUI_WIDTH - (2 * invBuff))/w;
+    int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
+    int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
     
-    screen.image(engine.currentLevel.getMiniMap(), invBuff, height - h * scale - invBuff, w * scale, h * scale);
-    screen.image(engine.currentLevel.getOverlay(), invBuff, height - h * scale - invBuff, w * scale, h * scale);
+    PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
+    PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
+    
+    screen.fill(0);
+    screen.rect(invBuff, height - vh - invBuff, vw, vh);
+    screen.image(map.get(sx, sy, (int)vw, (int)vh), invBuff, height - vh - invBuff, vw, vh);
+    screen.image(over.get(sx, sy, (int)vw, (int)vh), invBuff, height - vh - invBuff, vw, vh);
   }
 
   private void renderInv() {

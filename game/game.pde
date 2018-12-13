@@ -11,6 +11,9 @@ final int SPRITE_SIZE = 16;
 final int SCALE = TILE_SIZE/SPRITE_SIZE;
 
 public int[] keys = {0, 0, 0, 0, 0};
+public float miniMapZoom = 1;
+public float zoomMax = 5;
+public float zoomMin = 1;
 public boolean inMenu = false;
 
 public boolean assetsLoaded = false;
@@ -76,6 +79,11 @@ public void update() {
 
 void mouseReleased() {
   gui.handleMouseReleased();
+}
+
+void mouseWheel(MouseEvent e) {
+  miniMapZoom -= e.getCount()/10.0;
+  miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
 }
 
 void keyPressed() {

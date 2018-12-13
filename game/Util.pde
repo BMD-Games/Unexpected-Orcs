@@ -86,3 +86,34 @@ class AABB {
     rect(x * TILE_SIZE/s, y * TILE_SIZE/s, w * TILE_SIZE/s, h * TILE_SIZE/s);
   }
 }
+
+
+public PImage applyColourToImage(PImage img, color c) {
+  img.loadPixels();
+  for(int i = 0; i < img.pixels.length; i ++) {
+    img.pixels[i] = color(red(c), green(c), blue(c), alpha(img.pixels[i]));
+  }
+  img.updatePixels();
+  return img;
+}
+
+public PImage scaleImage(PImage img, int scale) {
+  PImage scaled = createImage(img.width * scale, img.height * scale, ARGB);
+  img.loadPixels();
+  scaled.loadPixels();
+  
+  for(int i = 0; i < img.width; i ++) {
+    for(int j = 0; j < img.height; j ++) {
+      int index = i + j * img.width;
+      for(int x = 0; x < scale; x ++) {
+        for(int y = 0; y < scale; y ++) {
+          int index2 = (i * scale + x) + (j * scale + y) * (img.width * scale);
+          scaled.pixels[index2] = img.pixels[index];
+        }
+      }
+    }
+  }
+  
+  scaled.updatePixels();
+  return scaled;
+}
