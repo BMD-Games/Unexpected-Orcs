@@ -124,6 +124,11 @@ abstract class StandardEnemy implements Enemy {
 
   /* Checks collision with line */
   public boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2) {
+    if(this instanceof RectangleObject) {
+      return Rectangle.lineCollides(lineX1, lineY1,lineX2, lineY2, x, y, ((RectangleObject) this).getWidth(), ((RectangleObject) this).getHeight());
+    } else if(this instanceof CircleObject) {
+      return Circle.lineCollides(lineX1, lineY1,lineX2, lineY2, x, y, ((CircleObject) this).getRadius());
+    }
     return false;
   }
 
@@ -389,16 +394,24 @@ public static class Circle {
     return (Util.distance(x, y, pointX, pointY) < radius);
   }
 
-  public static boolean lineCollides(float px, float py, float cx, float cy, float r) {
-    // get distance between the point and circle's center
-    float distance = dist(px, py, cx, cy);
-
-    // if the distance is less than the circle's
-    // radius the point is inside!
-    if (distance <= r) {
-      return true;
-    }
-    return false;
+  public static boolean lineCollides(float lx1, float ly1, float lx2, float ly2, float cx, float cy, float r) {
+    // if end points are inside the circle
+    if(Circle.pointCollides(lx1, ly1, cx, cy, r)) return true;
+    if(Circle.pointCollides(lx2, ly2, cx, cy, r)) return true;
+    
+    //line length
+    float len = dist(lx1, ly1, lx2, ly2);
+    //dot product of line and circle
+    float dot = (((cx - lx1) * (lx2 - lx1)) + ((cy - ly1) * (ly2 - ly1)))/sq(len);
+    //closest point on line
+    float closestX = lx1 + (dot * (lx2 - lx1));
+    float closestY = ly1 + (dot * (ly2 - ly1));
+    //check if point is actually on line segment
+    if(!Util.linePoint(lx1, ly1, lx2, ly2, closestX, closestY)) return false;
+    
+    float distance = dist(closestX, closestY, cx, cy);
+    
+    return distance < r;
   }
 }
 

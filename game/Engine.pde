@@ -142,7 +142,7 @@ class Engine {
     for(int i = enemyProjectiles.size() - 1; i >= 0; i--) {
       projectile = enemyProjectiles.get(i);
       projectile.update(delta);
-      if(Rectangle.pointCollides(projectile.x, projectile.y, player.x, player.y, player.w, player.h)) {
+      if(Rectangle.lineCollides(projectile.x, projectile.y, projectile.px, projectile.py, player.x, player.y, player.w, player.h)) {
         player.damage(projectile.damage);
         enemyProjectiles.remove(i);
         continue;
@@ -162,7 +162,7 @@ class Engine {
       }
       int chunk = currentLevel.getChunk((int)projectile.x, (int)projectile.y);
       for(Enemy enemy : currentLevel.enemies[chunk]) {
-        if(enemy.pointCollides(projectile.x, projectile.y)) {
+        if(enemy.lineCollides(projectile.x, projectile.y, projectile.px, projectile.py)) {
           enemy.damage(projectile.damage, projectile.statusEffects);
           enemy.knockback(projectile);
           playerProjectiles.remove(i);

@@ -167,7 +167,8 @@ class GUI {
     clearScreen();
     
     screen.image(title, 0, 0, width, height);
-    
+    screen.fill(200, 0, 0);
+    screen.text("Nibba u dead", width/2, height/2);
     back.show(screen);
     screen.endDraw();
     image(screen, 0, 0);
@@ -196,6 +197,7 @@ class GUI {
     } else if ((STATE == "OPTIONS") && back.pressed()) {
       revertState();
     } else if(STATE == "PLAYING" && showingPortal && enterPortal.pressed()) {
+      println("clicked");
       engine.enterClosestPortal();
     } else if(STATE == "DEAD" && back.pressed()) {
       STATE = "MENU";
