@@ -136,22 +136,22 @@ class Cave extends Level {
   void generateEnemies() {
    //Add enemies to level
     StandardEnemy goblin;
-    for(int i = 0; i < 20; ++i) {
+    for(int i = 0; i < 30; ++i) {
       goblin = new GoblinArcher(random(w), random(h), 1);
       validSpawn(goblin);
       addEnemy(goblin);
     }
-    for(int i = 0; i < 20; ++i) {
+    for(int i = 0; i < 30; ++i) {
       goblin = new GoblinMage(random(w), random(h), 1);
       validSpawn(goblin);
       addEnemy(goblin);
     }
-    for(int i = 0; i < 20; ++i) {
+    for(int i = 0; i < 30; ++i) {
       goblin = new GoblinSpearman(random(w), random(h), 1);
       validSpawn(goblin);
       addEnemy(goblin);
     }
-    for(int i = 0; i < 20; ++i) {
+    for(int i = 0; i < 30; ++i) {
       goblin = new GoblinWarrior(random(w), random(h), 1);
       validSpawn(goblin);
       addEnemy(goblin);

@@ -69,6 +69,7 @@ abstract class StandardEnemy implements Enemy {
 
   /* Displays enemy to screen */
   public void show(PGraphics screen, PVector renderOffset) {
+    if(!engine.currentLevel.visited[(int)x][(int)y]) return;
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
 
@@ -82,11 +83,11 @@ abstract class StandardEnemy implements Enemy {
     }
 
     if((angle < PI/2) && (angle > -PI/2)) {
-      /*if(this instanceof MeleeEnemy)*/ screen.rotate(angle);
+      screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
       screen.scale(-1.0, 1.0);
-      /*if(this instanceof MeleeEnemy)*/ screen.rotate(PI-angle);
+      screen.rotate(PI-angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();

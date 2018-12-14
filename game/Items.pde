@@ -17,7 +17,7 @@ class Inventory {
   
   
   Inventory() {
-    active[0] = weaponFactory.createRandomWeapon(11);
+    active[0] = weaponFactory.createRandomWeapon(4);
     active[1] = new SwiftBoots();
     active[2] = new LeatherArmour();
     active[3] = new LitScroll();
