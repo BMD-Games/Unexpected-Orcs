@@ -27,7 +27,7 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new GrassDungeon();//DankDungeon();//CellarDungeon();//GrassDungeon(); //Cave();
+    currentLevel = new GrassDungeon();//CellarDungeon();//GrassDungeon(); //Cave();
     finishedLoadingLevel = true;
     
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
@@ -47,7 +47,8 @@ class Engine {
     
     player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
     if (player.stats.getHealth() <= 0) {
-      setState("DEAD");
+      //absolutely get hack3d loser
+      //setState("DEAD");
     }
     updateCamera(player.x, player.y);
     currentLevel.update(screen, camera.x, camera.y);
@@ -93,7 +94,7 @@ class Engine {
     for(Text txt : text) {
       txt.show(screen, getRenderOffset());
     }
-    
+    screen.image(vingette, 0, 0, screen.width, screen.height);
     screen.endDraw();
     image(screen, GUI_WIDTH, 0);
   }

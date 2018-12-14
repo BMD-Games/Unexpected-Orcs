@@ -1,7 +1,7 @@
 class Level {
-
-  protected int[][] tilesRaw;
-  protected int[][] tileMap;
+  
+  protected int[][] tiles;
+  protected ArrayList<PVector>[] zones;
 
   protected boolean[][] visited;
   protected boolean[][] visitedCalcLocations;
@@ -21,11 +21,14 @@ class Level {
   private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
   private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
 
-  private PGraphics tiles, miniMap, miniMapOverlay;
+  private PGraphics background, miniMap, miniMapOverlay;
   
-  Level(int w, int h) {
+  Level(int w, int h, String name, TileSet tileset) {
     this.w = w;
     this.h = h;
+    
+    this.name = name;
+    this.tileset = tileset;
 
     initialiseChunks();
 
@@ -36,7 +39,7 @@ class Level {
     renderH = height/TILE_SIZE + 2 * buffer;
 
     //Initialise minimap
-    tiles = createGraphics(width - GUI_WIDTH, height);
+    background = createGraphics(width - GUI_WIDTH, height);
     miniMapOverlay = createGraphics(w, h);
     miniMap = createGraphics(w, h);
     miniMap.beginDraw();
@@ -53,7 +56,7 @@ class Level {
       for (int j = 0; j < h; j ++) {
         int tile = tileset.walls[15];
         try { 
-          tile = tileMap[i][j];
+          tile = tiles[i][j];
         } 
         catch(Exception e) {
         }
@@ -74,8 +77,8 @@ class Level {
 
   public void show(PGraphics screen, PVector renderOffset) {    
     //generate an image based off the tile map;
-    tiles.beginDraw();
-    tiles.background(0);
+    background.beginDraw();
+    background.background(0);
     for (int x = 0; x < renderW; x ++) {
       for (int y = 0; y < renderH; y ++) {
         int i = (x + xTileOffset) - buffer;
@@ -89,17 +92,17 @@ class Level {
         }
         if (visit) {
           try { 
-            tile = tileMap[i][j];
+            tile = tiles[i][j];
           } 
           catch(Exception e) {
           }
           PImage sprite = tileSprites.get(tile);
-          tiles.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+          background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
         }
       }
     }
-    tiles.endDraw();
-    screen.image(tiles, 0, 0);
+    background.endDraw();
+    screen.image(background, 0, 0);
   }
 
   public boolean isEdge(int[][] tiles, int i, int j) {
@@ -109,42 +112,42 @@ class Level {
   public int[] getNeighbours(int i, int j) {
     int[] n = new int[8];
     try { 
-      n[up] = tileMap[i][j-1];
+      n[up] = tiles[i][j-1];
     } 
     catch(Exception e) {
     } //up
     try { 
-      n[down] = tileMap[i][j+1];
+      n[down] = tiles[i][j+1];
     } 
     catch(Exception e) {
     } //down
     try { 
-      n[left] = tileMap[i-1][j];
+      n[left] = tiles[i-1][j];
     } 
     catch(Exception e) {
     } //left
     try { 
-      n[right] = tileMap[i+1][j];
+      n[right] = tiles[i+1][j];
     } 
     catch(Exception e) {
     } //right
     try { 
-      n[topLeft] = tileMap[i-1][j-1];
+      n[topLeft] = tiles[i-1][j-1];
     } 
     catch(Exception e) {
     } // up left
     try { 
-      n[topRight] = tileMap[i+1][j-1];
+      n[topRight] = tiles[i+1][j-1];
     } 
     catch(Exception e) {
     } // up right
     try { 
-      n[bottomLeft] = tileMap[i-1][j+1];
+      n[bottomLeft] = tiles[i-1][j+1];
     } 
     catch(Exception e) {
     } // down left
     try { 
-      n[bottomRight] = tileMap[i+1][j+1];
+      n[bottomRight] = tiles[i+1][j+1];
     } 
     catch(Exception e) {
     } // down right
@@ -156,16 +159,11 @@ class Level {
     while (start == null) {
       int i = floor(random(edgeSize, w-edgeSize));
       int j = floor(random(edgeSize, h-edgeSize));
-      if (tilesRaw[i][j] > WALL) {
-        tileMap[i][j] = tileset.spawn;
-        tilesRaw[i][j] = tileset.spawn;
+      if (tiles[i][j] > WALL) {
+        tiles[i][j] = tileset.spawn;
         start = new PVector(i, j);
       }
     }
-  }
-
-  protected void applyTileSet() {
-    tileMap = finishingPass(tilesRaw, tileset);
   }
 
   protected void updateMapEntities(int playerX, int playerY) {
@@ -267,7 +265,7 @@ class Level {
     miniMap.beginDraw();
     int tile = WALL;
     try { 
-      tile = tileMap[i][j];
+      tile = tiles[i][j];
     } 
     catch(Exception e) {
     }
@@ -284,7 +282,7 @@ class Level {
       int tY = (int)map(i, 0, dist, y1, y2);
       int tile = WALL;
       try { 
-        tile = tileMap[tX][tY];
+        tile = tiles[tX][tY];
       } 
       catch(Exception e) {
       }
@@ -301,7 +299,7 @@ class Level {
 
       int tile = WALL;
       try { 
-        tile = tileMap[tX][tY];
+        tile = tiles[tX][tY];
       } 
       catch(Exception e) {
       }
@@ -358,37 +356,39 @@ class Level {
     return new PVector(x/CHUNK_SIZE, y/CHUNK_SIZE);
   }
   
-  public void setTilesRaw(int[][] tiles) { //Raw tiles using 0s and 1s
-    tilesRaw = tiles;
-  }
   
-    public void setTileMap(int[][] tiles) { //Tiles with tileset
-    tileMap = tiles;
-  }
-  
-  public void setTiles(int[][] tiles) {
-    tilesRaw = tiles;
-    applyTileSet();
-    generateStart();
+  public void setTiles(int[][] tiles) { //Tiles with tileset
+    this.tiles = tiles;
+    this.w = tiles.length;
+    this.h = tiles[0].length;
+    
+    initialiseChunks();
+    visited = new boolean[w][h];
+    visitedCalcLocations = new boolean[w][h];
     saveLevel();
   }
+  
+  public void setZones(ArrayList<PVector>[] zones) { //sets the zones
+    this.zones = zones;
+  }
+  
 
   public int[][] getTiles() {
-    return tileMap;
+    return tiles;
   }
-
+  
   public void setTile(int t, int i, int j) {
-    tileMap[i][j] = t;
+    tiles[i][j] = t;
   }
 
   public int getTile(int i, int j) {
     int tile = WALL;
-    try { 
-      tile = tileMap[i][j];
-    } 
-    catch(Exception e) {
-    }
+    try { tile = tiles[i][j]; } catch(Exception e) {}
     return tile;
+  }
+  
+  public void setStart(PVector start) {
+    this.start = start;
   }
 
   public int getWidth() {
@@ -420,7 +420,7 @@ class Level {
     PrintWriter file = createWriter("/out/" + name + ".txt");
     for (int j = 0; j < h; j ++) {
       for (int i = 0; i < w; i ++) {
-        file.print(tilesRaw[i][j]);
+        file.print(tiles[i][j]);
         if (i < w -1) file.print(',');
       }
       file.println();

@@ -214,13 +214,4 @@ public void loadStats() {
   statColours.put("VITALITY", color(255, 105, 180));
 }
 
-public PImage applyColourToImage(PImage img, color c) {
-  img.loadPixels();
-  for(int i = 0; i < img.pixels.length; i ++) {
-    img.pixels[i] = color(red(c), green(c), blue(c), alpha(img.pixels[i]));
-  }
-  img.updatePixels();
-  return img;
-}
-
 String[] stats = {"HEALTH", "MANA", "SPEED", "WISDOM", "DEFENCE", "ATTACK"};

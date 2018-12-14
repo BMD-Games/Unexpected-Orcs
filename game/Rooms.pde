@@ -2,18 +2,52 @@ class Room {
 
   public int x, y, w, h;
   public int[][] tiles;
-  public int doorx, doory;
 
+  Room() {
+  }
+
+  Room(Room room) { //create a room from another room
+    this.x = room.x;
+    this.y = room.y;
+    this.w = room.w;
+    this.h = room.h;
+    this.tiles = room.tiles;
+  }
 
   public boolean collides(Room room) {
-    return (x + w >= room.x  &&   // r1 right edge past r2 left
+    int x = this.x - 1;//factor in a wall buffer
+    int y = this.y - 1;
+    int w = this.w + 2;
+    int h = this.h + 2;
+    return (x + w >= room.x  && // r1 right edge past r2 left
       x <= room.x + room.w &&   // r1 left edge past r2 right
       y + h >= room.y      &&   // r1 top edge past r2 bottom
       y <= room.y + room.h);    // r1 bottom edge past r2 top
   }
 
+  public boolean overlapsX(Room room) {
+    return ((x >= room.x && x <= room.x + room.w) || (x + w >= room.x && x + w <= room.x + room.w));
+  }
+
+  public boolean overlapsY(Room room) {
+    return ((y >= room.y && y <= room.y + room.h) || (y + h >= room.y && y + h <= room.y + room.h));
+  }
+
   public boolean inRoom(int px, int py) {
     return Util.pointInBox(px, py, x, y, w, h);
+  }
+
+  public PVector midPoint() {
+    return new PVector(x + w/2, y + h/2);
+  }
+
+  public int distance(Room room) {
+    //returns the distance between the rooms (but uses separate x and y);
+    return (int)(fastAbs(room.x - x) + fastAbs(room.y - y));
+  }
+
+  public boolean outOfBounds(int w, int h) {
+    return (this.x < edgeSize || this.x + this.w > w - edgeSize || this.y < edgeSize || this.y + this.h > h - edgeSize);
   }
 
   public void setTiles(int[][] tiles) {
@@ -42,7 +76,7 @@ public Room randomlyPlaceRoom(Room room, int w, int h) {
 
 public Room testSpawn() {
   Room room = new Room();
-  room.tiles = new int[][]{
+  room.setTiles(new int[][]{
     {2, 2, 2, 4, 2, 2, 2, 5, 2}, 
     {2, 5, 6, 6, 6, 6, 6, 2, 2}, 
     {2, 6, 6, 10, 10, 10, 6, 6, 2}, 
@@ -52,25 +86,37 @@ public Room testSpawn() {
     {2, 6, 6, 10, 10, 10, 6, 6, 2}, 
     {5, 2, 6, 6, 6, 6, 6, 2, 5}, 
     {2, 2, 2, 2, 2, 4, 2, 2, 2}
-  };
+    });
   return room;
 }
 
 public Room testRoom() {
   Room room = new Room();
-  room.tiles = new int[][]{
+  room.setTiles(new int[][]{
     {2, 2, 2, 2, 2}, 
     {2, 2, 2, 2, 2}, 
     {2, 2, 8, 2, 2}, 
     {2, 2, 2, 2, 2}, 
     {2, 2, 2, 2, 2}
-  };
+    });
+  return room;
+}
+
+public Room testRoom2() {
+  Room room = new Room();
+  room.setTiles(new int[][]{
+    {2, 2, 2, 2, 2}, 
+    {2, 2, 2, 2, 2}, 
+    {2, 2, 9, 2, 2}, 
+    {2, 2, 2, 2, 2}, 
+    {2, 2, 2, 2, 2}
+    });
   return room;
 }
 
 public Room testBoss() {
   Room room = new Room();
-  room.tiles = new int[][]{
+  room.setTiles(new int[][]{
     {9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9}, 
     {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8}, 
     {8, 6, 0, 0, 0, 2, 0, 0, 0, 6, 8}, 
@@ -82,6 +128,6 @@ public Room testBoss() {
     {8, 6, 0, 0, 0, 2, 0, 0, 0, 6, 8}, 
     {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8}, 
     {9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9}
-  };
+    });
   return room;
 }
