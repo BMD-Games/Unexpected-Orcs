@@ -136,10 +136,10 @@ class GUI {
     showStatusEffects();
     renderMiniMap();
     drawPortal();
+    drawStatProgress();
     renderInv();
     drawStats();
     drawCooldown();
-    drawStatProgress();
     screen.endDraw();
     image(screen, 0, 0);
     
