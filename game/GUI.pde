@@ -297,14 +297,22 @@ class GUI {
     float vw = GUI_WIDTH - (2 * invBuff); //width of the view
     float vh = vw * 0.8;
     
-    float scale = (vw/engine.currentLevel.w) * miniMapZoom;
+    int scale = (int)((vw/engine.currentLevel.w) * miniMapZoom);
     
     int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
     int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
     
+    //when you get close to the edges - stop centering on the player
+    if(sx < 0) sx = 0;
+    if(sy < 0) sy = 0;
+    if(sx > engine.currentLevel.w * scale - vw) sx = (int)(engine.currentLevel.w * scale - vw);
+    if(sy > engine.currentLevel.h * scale - vh) sy = (int)(engine.currentLevel.h * scale - vh);
+    
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
     
+    screen.fill(150);
+    screen.rect(0, height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);
     screen.fill(0);
     screen.rect(invBuff, height - vh - invBuff, vw, vh);
     screen.image(map.get(sx, sy, (int)vw, (int)vh), invBuff, height - vh - invBuff, vw, vh);
