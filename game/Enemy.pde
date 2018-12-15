@@ -213,7 +213,8 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   
   protected PImage projectileSprite = projectileSprites.get("WAND");
   protected float shotWaitTime = 1;
-  protected float shootDistance = 3;
+  protected float shootDistance = 3.2;
+  protected float retreatDistance = 2.7;
   
   public RangedEnemy(float x, float y, int tier) {
     super(x, y, tier);
@@ -232,10 +233,10 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
     float moveX = 0;
     float moveY = 0;
     float playerDistance = Util.distance(x, y, engine.player.x, engine.player.y);
-    if(playerDistance > shootDistance + 0.2) {
+    if(playerDistance > shootDistance) {
       moveX = cos(angle);
       moveY = sin(angle);
-    } else if(playerDistance < shootDistance - 0.3) {
+    } else if(playerDistance < retreatDistance) {
       moveX = -cos(angle);
       moveY = -sin(angle);
     }

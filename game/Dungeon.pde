@@ -14,43 +14,51 @@ class GrassDungeon extends Level {
 
   void generateEnemies() {
     //Add enemies to level
-    Elemental elemental;
+    StandardEnemy enemy;
     for(int i = 0; i < 12; i ++) {
-      elemental = new FireElemental(random(w), random(h), 1);
-      validSpawn(elemental);
-      addEnemy(elemental);
+      enemy = new FireElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 12; i ++) {
-      elemental = new IceElemental(random(w), random(h), 1);
-      validSpawn(elemental);
-      addEnemy(elemental);
+      enemy = new IceElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 12; i ++) {
-      elemental = new MagicElemental(random(w), random(h), 1);
-      validSpawn(elemental);
-      addEnemy(elemental);
+      enemy = new MagicElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 12; i ++) {
-      elemental = new PoisonElemental(random(w), random(h), 1);
-      validSpawn(elemental);
-      addEnemy(elemental);
+      enemy = new PoisonElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
-    
-    Chomp chomp;
     for (int i = 0; i < 40; i ++) {
-      chomp = new Chomp(random(w), random(h), 1);
-      validSpawn(chomp);
-      addEnemy(chomp);
+      enemy = new Chomp(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for (int i = 0; i < 10; ++i) {
-      chomp = new BigChomp(random(w), random(h), 2);
-      validSpawn(chomp);
-      addEnemy(chomp);
+      enemy = new BigChomp(random(w), random(h), 2);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
-    chomp = new BossChomp(random(w), random(h), 3);
-    validSpawn(chomp);
-    addEnemy(chomp);
-    this.boss.add(chomp);
+    enemy = new BossChomp(random(w), random(h), 3);
+    validSpawn(enemy);
+    addEnemy(enemy);
+    this.boss.add(enemy);
+    for (int i = 0; i < 30; i ++) {
+      enemy = new Rose(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for (int i = 0; i < 30; ++i) {
+      enemy = new Daisy(random(w), random(h), 2);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
   }
 
   void validSpawn(StandardEnemy enemy) {

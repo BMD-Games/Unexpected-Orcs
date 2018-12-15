@@ -251,8 +251,8 @@ public void loadAssets() {
   charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 0, 4, 4, charSize));
   
   //Load grass mobs
-  charSprites.put("FLOWER_HEAD", getSprite(charsheet, 7, 0, 1, 1, charSize));
-  charSprites.put("FLOWER_HEAD", getSprite(charsheet, 7, 1, 1, 1, charSize));
+  charSprites.put("ROSE", getSprite(charsheet, 7, 0, 1, 1, charSize));
+  charSprites.put("DAISY", getSprite(charsheet, 7, 1, 1, 1, charSize));
   
   //Load element sprites
   charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
@@ -273,7 +273,7 @@ public void loadAssets() {
   charSprites.put("FIRE_ELEMENTAL_4", getSprite(charsheet, 6, 4, 1, 1, charSize));
   charSprites.put("ICE_ELEMENTAL_4", getSprite(charsheet, 7, 4, 1, 1, charSize));
   charSprites.put("MAGIC_ELEMENTAL_4", getSprite(charsheet, 6, 5, 1, 1, charSize));
-  charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize);
+  charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize));
   
   //Load goblin sprites
   charSprites.put("GOBLIN_ARCHER", getSprite(charsheet, 0, 6, 1, 1, charSize));
