@@ -60,6 +60,7 @@ public class WeaponFactory {
     wand.bulletSpeed = 12 + abs((int)(randomGaussian() * tier * 2));
     wand.fireRate = Util.roundTo(0.6 - tier * abs(randomGaussian()) / 32, 100);
     wand.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 80, 100);  
+    wand.tier = tier;
     return wand;
   }
   
@@ -76,6 +77,7 @@ public class WeaponFactory {
     staff.bulletSpeed = 12 + abs((int)(randomGaussian() * tier));
     staff.fireRate = Util.roundTo(0.6 - tier * abs(randomGaussian()) / 32, 100);
     staff.accuracy = Util.roundTo(0.03 + tier * randomGaussian() / 160, 100);
+    staff.tier = tier;
     return staff;
   }
   
@@ -92,6 +94,7 @@ public class WeaponFactory {
     spear.bulletSpeed = 8 + abs((int)(randomGaussian() * tier));
     spear.fireRate = Util.roundTo(0.5 - tier * abs(randomGaussian()) / 20, 100);
     spear.accuracy = Util.roundTo(0.03 + tier * randomGaussian() / 400, 100); 
+    spear.tier = tier;
     return spear;
   }
   
@@ -107,7 +110,8 @@ public class WeaponFactory {
     bow.range = 10;
     bow.bulletSpeed = 20 + abs((int)(randomGaussian() * tier));
     bow.fireRate = Util.roundTo(0.3 - tier * abs(randomGaussian()) / 20, 100);
-    bow.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 160, 100); 
+    bow.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 160, 100);    
+    bow.tier = tier;
     return bow;
   }
   

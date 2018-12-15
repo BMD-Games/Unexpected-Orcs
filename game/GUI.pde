@@ -509,7 +509,7 @@ class GUI {
     screen.text(item.name, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
     screen.textSize(12);
     screen.textLeading(12);
-    screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
+    screen.text("Tier " + item.tier + " " + type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
     screen.fill(255);
     screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
   }
