@@ -250,6 +250,10 @@ public void loadAssets() {
   charSprites.put("CHOMP_WHITE", getSprite(charsheet, 4, 2, 2, 2, charSize));
   charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 0, 4, 4, charSize));
   
+  //Load grass mobs
+  charSprites.put("FLOWER_HEAD", getSprite(charsheet, 7, 0, 1, 1, charSize));
+  charSprites.put("FLOWER_HEAD", getSprite(charsheet, 7, 1, 1, 1, charSize));
+  
   //Load element sprites
   charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
   charSprites.put("ICE_ELEMENTAL", getSprite(charsheet, 1, 4, 1, 1, charSize));
@@ -269,12 +273,11 @@ public void loadAssets() {
   charSprites.put("FIRE_ELEMENTAL_4", getSprite(charsheet, 6, 4, 1, 1, charSize));
   charSprites.put("ICE_ELEMENTAL_4", getSprite(charsheet, 7, 4, 1, 1, charSize));
   charSprites.put("MAGIC_ELEMENTAL_4", getSprite(charsheet, 6, 5, 1, 1, charSize));
-  charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize));
-  
+  //Load goblin sprites
   charSprites.put("GOBLIN_ARCHER", getSprite(charsheet, 0, 6, 1, 1, charSize));
   charSprites.put("GOBLIN_SPEARMAN", getSprite(charsheet, 1, 6, 1, 1, charSize));
-  charSprites.put("GOBLIN_WARRIOR", getSprite(charsheet, 2, 6, 1, 1, charSize));
-  charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 3, 6, 1, 1, charSize));
+  charSprites.put("GOBLIN_WARRIOR", getSprite(charsheet, 0, 7, 1, 1, charSize));
+  charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 1, 7, 1, 1, charSize));
   
   charSprites.put("GOBLIN_BOXER", getSprite(charsheet, 2, 6, 2, 2, charSize));
   charSprites.put("BASILISK", getSprite(charsheet, 4, 6, 2, 2, charSize));
@@ -293,6 +296,9 @@ public void loadAssets() {
   projectileSprites.put("STAFF", getSprite(projectilesheet, 1, 1, 1, 1, projectileSize));
   projectileSprites.put("SPEAR", getSprite(projectilesheet, 2, 1, 1, 1, projectileSize));
   projectileSprites.put("ARROW", getSprite(projectilesheet, 3, 1, 1, 1, projectileSize));
+  
+  projectileSprites.put("LEAF", getSprite(projectilesheet, 0, 2, 1, 1, projectileSize));
+  projectileSprites.put("THORN", getSprite(projectilesheet, 1, 2, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
   
