@@ -159,6 +159,7 @@ class GUI {
     screen.fill(255);
     screen.text(".:Loading:.", width/2, height/2);
     screen.endDraw();
+    image(screen, 0, 0);
   }
   
   public void drawDead() {
@@ -286,7 +287,11 @@ class GUI {
 
   private void drawPortal() {
     Portal portal = engine.getClosestPortal();
-    if(portal == null) return;
+    if(portal == null) {
+      showingPortal = false;
+      return;
+    }
+    showingPortal = true;
     enterPortal.show(screen);
     screen.textAlign(CENTER, CENTER);
     screen.text("Enter " + portal.name, enterPortal.x, enterPortal.y, enterPortal.w, enterPortal.h);

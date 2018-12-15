@@ -50,6 +50,7 @@ class GrassDungeon extends Level {
     chomp = new BossChomp(random(w), random(h), 3);
     validSpawn(chomp);
     addEnemy(chomp);
+    this.boss.add(chomp);
   }
 
   void validSpawn(StandardEnemy enemy) {
@@ -61,46 +62,6 @@ class GrassDungeon extends Level {
 }
 
 class CellarDungeon extends Level {
-
-  private int roomAttempts = 300, minRoomSize = 3, maxRoomSize = 9;
-  private float straightChance = 1, loopChance = 0.05;
-
-  CellarDungeon() {
-    super(60, 45, "DungeonCellar", cellarTileset());
-
-    this.setTiles(finishingPass(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance), tileset));
-    //this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
-    generateStart();
-    generateEnemies();
-  }
-
-  void generateEnemies() {
-    //Add enemies to level
-    Chomp chomp;
-    for (int i = 0; i < 40; i ++) {
-      chomp = new Chomp(random(w), random(h), 1);
-      validSpawn(chomp);
-      addEnemy(chomp);
-    }
-    for (int i = 0; i < 10; ++i) {
-      chomp = new BigChomp(random(w), random(h), 2);
-      validSpawn(chomp);
-      addEnemy(chomp);
-    }
-    chomp = new BossChomp(random(w), random(h), 3);
-    validSpawn(chomp);
-    addEnemy(chomp);
-  }
-
-  void validSpawn(Chomp enemy) {
-    while (!enemy.validPosition(this, enemy.x, enemy.y)) {
-      enemy.x = random(w);
-      enemy.y = random(h);
-    }
-  }
-}
-
-class DankDungeon extends Level {
 
   /***
    Creates a dungeon and appends the tiles to the Level it's been given.
@@ -115,10 +76,12 @@ class DankDungeon extends Level {
    rooms     - Presets for all other rooms
    ***/
 
-  DankDungeon() {
-    super(60, 45, "Dannnk", cellarTileset());
+  CellarDungeon() {
+    super(60, 45, "Cellar", cellarTileset());
     generateConnectedDungeon(this, 20, PI/4, 10, 15, testSpawn(), testBoss(), new Room[]{testRoom()});
   }
+  
+  
 }
 
 class Cave extends Level {

@@ -23,8 +23,9 @@ class Inventory {
     active[3] = new LitScroll();
     
     inv[0] = new GreenRod();
-    inv[2] = new FireBomb();
-    inv[3] = new Telescope();
+    inv[2] = new FireBomb();    
+    inv[3] = new SpellBomb();
+    inv[4] = new Telescope();
   }
   
   void swapItemsInv(int i, int j) {

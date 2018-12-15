@@ -93,3 +93,24 @@ class FireBomb extends Ability {
   
   }
 }
+
+class SpellBomb extends Ability {
+  
+  SpellBomb() {
+    super("FIREBOMB", "Spell Bomb", "Spell Bomb");
+    this.cooldown = 0.5;
+    this.manaCost = 30;
+  }
+  
+  @Override
+  public void ability() {
+    if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
+      for (int i = 0; i < 8; i++) {
+        engine.playerProjectiles.add(new Projectile(screenToTileCoordX(mouseX), screenToTileCoordY(mouseY), PVector.fromAngle(PI * i / 4), 
+                5, 3, 100, projectileSprites.get("FIREBALL")));
+      }
+      // soundFiles.get("FLAME").play();
+    }
+  
+  }
+}

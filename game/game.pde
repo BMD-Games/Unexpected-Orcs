@@ -30,25 +30,23 @@ void setup() {
   noSmooth();
   frameRate(60);
 
+  setState("LOADING");
   thread("loadAssets");
   thread("loadSettings");
   // thread("loadSounds");
 
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
-
-  setState("MENU");
-
+  
   gui = new GUI();
   engine = new Engine();
 }
 
 void draw() {
-  if (!assetsLoaded) {
-    gui.drawLoading();
-    println("yeet");
-  }
   switch(STATE) {
+  case "LOADING": 
+    gui.drawLoading();
+    break;
   case "MENU":
     gui.drawMenu();
     break;

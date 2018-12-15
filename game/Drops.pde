@@ -145,6 +145,12 @@ class Portal extends Drop {
     return null;
   }
   
+  @Override
+  public boolean update(double delta, float px, float py) {
+    lifeTime += delta;
+    return super.update(delta, px, py);
+  }
+  
 }
 
 class GrassPortal extends Portal {

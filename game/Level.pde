@@ -1,7 +1,8 @@
 class Level {
   
   protected int[][] tiles;
-  protected ArrayList<PVector>[] zones;
+  protected ArrayList<PVector> bossZones;
+  protected ArrayList<PVector> generalZones;
 
   protected boolean[][] visited;
   protected boolean[][] visitedCalcLocations;
@@ -17,6 +18,7 @@ class Level {
   public TileSet tileset  = new TileSet();
   protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
 
+  public ArrayList<Enemy> boss = new ArrayList<Enemy>();
 
   private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
   private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
@@ -368,8 +370,9 @@ class Level {
     saveLevel();
   }
   
-  public void setZones(ArrayList<PVector>[] zones) { //sets the zones
-    this.zones = zones;
+  public void setZones(ArrayList<PVector> bossZones, ArrayList<PVector> generalZones) { //sets the zones
+    this.bossZones = bossZones;
+    this.generalZones = generalZones;
   }
   
 

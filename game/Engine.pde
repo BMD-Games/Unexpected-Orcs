@@ -27,7 +27,7 @@ class Engine {
   
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new GrassDungeon();//CellarDungeon();//GrassDungeon(); //Cave();
+    currentLevel = new GrassDungeon(); //CellarDungeon(); //Cave();
     finishedLoadingLevel = true;
     
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
@@ -234,6 +234,10 @@ class Engine {
     drops.add(drop); 
   }
   
+  public void clearDrops() {
+    drops = new ArrayList<Drop>();
+  }
+  
   public void addText(String cooldown, float xp, float yp, float life, color c) {
     text.add( new Text(cooldown, xp, yp, life, c));
   }
@@ -255,7 +259,7 @@ class Engine {
   
   public void enterClosestPortal() {
     //empty drops, enemies etc
-    finishedLoadingLevel = false;
+    setState("LOADING");
     thread("loadClosestPortal");
     while(!finishedLoadingLevel) gui.drawLoading();
     this.player.x = currentLevel.start.x;
@@ -265,7 +269,25 @@ class Engine {
 
 public void loadClosestPortal() {
   engine.currentLevel = engine.getClosestPortal().getLevel();
-  engine.finishedLoadingLevel = true;
+  engine.clearDrops();
+  setState("PLAYING");
+}
+
+public PVector screenToTileCoords(float x, float y) {
+  x -= GUI_WIDTH; //remove gui offset
+  PVector renderOff = engine.getRenderOffset();
+  return new PVector((x + renderOff.x)/TILE_SIZE, (y + renderOff.y)/TILE_SIZE);
+}
+
+public float screenToTileCoordX(float x) {
+  x -= GUI_WIDTH; //remove gui offset
+  PVector renderOff = engine.getRenderOffset();
+  return (x + renderOff.x)/TILE_SIZE;
+}
+
+public float screenToTileCoordY(float y) {
+  PVector renderOff = engine.getRenderOffset();
+  return (y + renderOff.y)/TILE_SIZE;
 }
 
 class Text {

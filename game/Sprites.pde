@@ -301,7 +301,7 @@ public void loadAssets() {
   SPAWN_TILES.add(PATCH_GRASS);
   
   loadStats();
-  assetsLoaded = true;
+  setState("MENU");
 }
 
 public PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {
