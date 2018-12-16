@@ -117,3 +117,21 @@ public PImage scaleImage(PImage img, int scale) {
   scaled.updatePixels();
   return scaled;
 }
+
+private PImage getCombinedSprite(PImage baseImage, PImage tintImage, color colour) {
+  PGraphics temp = createGraphics(baseImage.width, baseImage.height);
+  temp.beginDraw();
+  temp.image(baseImage, 0, 0);
+  temp.image(applyColourToImage(tintImage, colour), 0, 0);
+  temp.endDraw();
+  return temp.get();
+}
+
+private PImage getCombinedSprite(PImage baseImage, PImage secondImage) {
+  PGraphics temp = createGraphics(baseImage.width, baseImage.height);
+  temp.beginDraw();
+  temp.image(baseImage, 0, 0);
+  temp.image(secondImage, 0, 0);
+  temp.endDraw();
+  return temp.get();
+}

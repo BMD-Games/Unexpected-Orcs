@@ -32,7 +32,10 @@ class Weapon extends Item {
 
 public class WeaponFactory {
   
-  public String[] weaponTypes = new String[] {"Wand", "Staff", "Spear", "Bow"};
+  private String[] weaponTypes = new String[] {"Wand", "Staff", "Spear", "Bow"};
+  private String[] scrollTypes = new String[] {};
+  private String[] armourTypes = new String[] {};
+  private String[] abilityTypes = new String[] {};
   
   public Weapon createRandomWeapon(int tier) {
     Weapon weapon = null;
@@ -109,7 +112,7 @@ public class WeaponFactory {
     bow.damage =  16 * tier + (int)(randomGaussian() * tier);
     bow.range = 10;
     bow.bulletSpeed = 20 + abs((int)(randomGaussian() * tier));
-    bow.fireRate = Util.roundTo(0.3 - tier * abs(randomGaussian()) / 20, 100);
+    bow.fireRate = Util.roundTo(0.38 - tier * abs(randomGaussian()) / 40, 100);
     bow.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 160, 100);    
     bow.tier = tier;
     return bow;
@@ -181,13 +184,4 @@ class GreenRod extends Weapon {
   public void playSound() {
     // soundFiles.get("WHOOSH").play();
   }
-}
-
-private PImage getCombinedSprite(PImage baseImage, PImage tintImage, color colour) {
-  PGraphics temp = createGraphics(baseImage.width, baseImage.height);
-  temp.beginDraw();
-  temp.image(baseImage, 0, 0);
-  temp.image(applyColourToImage(tintImage, colour), 0, 0);
-  temp.endDraw();
-  return temp.get();
 }
