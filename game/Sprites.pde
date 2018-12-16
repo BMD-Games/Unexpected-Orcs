@@ -254,6 +254,12 @@ public void loadAssets() {
   charSprites.put("ROSE", getSprite(charsheet, 7, 0, 1, 1, charSize));
   charSprites.put("DAISY", getSprite(charsheet, 7, 1, 1, 1, charSize));
   
+  //Load cave mobs
+  charSprites.put("SPIDER", getSprite(charsheet, 6, 2, 1, 1, charSize));
+  charSprites.put("CRAWLER", getSprite(charsheet, 7, 2, 1, 1, charSize));
+  charSprites.put("BAT_SPREAD", getSprite(charsheet, 6, 3, 1, 1, charSize));
+  charSprites.put("BAT_FLAPPING", getSprite(charsheet, 7, 3, 1, 1, charSize));
+  
   //Load element sprites
   charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
   charSprites.put("ICE_ELEMENTAL", getSprite(charsheet, 1, 4, 1, 1, charSize));
