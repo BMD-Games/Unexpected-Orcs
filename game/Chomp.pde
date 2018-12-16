@@ -220,6 +220,7 @@ public class KingElemental extends Elemental implements Enemy {
   
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+    engine.addDrop(new CavePortal(x, y));
   }
   
   private void summon() {
