@@ -33,7 +33,7 @@ class Ability extends Item {
     }
   }
   
-  public void ability() {}
+  public boolean ability() { return false; }
   
 }
 
@@ -46,12 +46,13 @@ class SwiftBoots extends Ability {
   }
   
   @Override
-  public void ability(){
+  public boolean ability(){
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       engine.player.stats.addStatusEffect("SWIFT", 3);
       // soundFiles.get("FLYBY").play();
+      return true;
     }
-    
+    return false;
   }
   
 }
@@ -65,11 +66,12 @@ class Telescope extends Ability {
   }
   
   @Override
-  public void ability() {
+  public boolean ability() {
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       engine.currentLevel.newSmoothUncover((int)engine.player.x, (int)engine.player.y, 30);
+      return true;
     }
-  
+    return false;
   }
 }
 
@@ -82,15 +84,16 @@ class FireBomb extends Ability {
   }
   
   @Override
-  public void ability() {
+  public boolean ability() {
     if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       for (int i = 0; i < 8; i++) {
         engine.playerProjectiles.add(new Projectile(engine.player.x, engine.player.y, PVector.fromAngle(PI * i / 4), 
                 5, 3, 100, projectileSprites.get("FIREBALL")));
       }
       // soundFiles.get("FLAME").play();
+      return true;
     }
-  
+    return false;
   }
 }
 
@@ -103,14 +106,17 @@ class SpellBomb extends Ability {
   }
   
   @Override
-  public void ability() {
-    if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
+  public boolean ability() {
+    float x = screenToTileCoordX(mouseX);
+    float y = screenToTileCoordY(mouseY);
+    if(engine.currentLevel.visited[(int)x][(int)y] && engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       for (int i = 0; i < 8; i++) {
-        engine.playerProjectiles.add(new Projectile(screenToTileCoordX(mouseX), screenToTileCoordY(mouseY), PVector.fromAngle(PI * i / 4), 
+        engine.playerProjectiles.add(new Projectile(x, y, PVector.fromAngle(PI * i / 4), 
                 5, 3, 100, projectileSprites.get("FIREBALL")));
       }
+      return true;
       // soundFiles.get("FLAME").play();
     }
-  
+    return false;
   }
 }

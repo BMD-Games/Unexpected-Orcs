@@ -94,8 +94,7 @@ class Player {
   }
 
   private void ability() {
-    if (keys[ability] == 1 && inv.currentAbility() != null) {
-      inv.currentAbility().ability();
+    if (keys[ability] == 1 && inv.currentAbility() != null && inv.currentAbility().ability()) {
       inv.currentAbility().makeText();
     }
   }
