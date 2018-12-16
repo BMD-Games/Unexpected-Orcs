@@ -310,9 +310,9 @@ class GUI {
     
     //when you get close to the edges - stop centering on the player
     if(sx < 0) sx = 0;
+    else if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
     if(sy < 0) sy = 0;
-    if(sx > engine.currentLevel.w * scale - vw) sx = (int)(engine.currentLevel.w * scale - vw);
-    if(sy > engine.currentLevel.h * scale - vh) sy = (int)(engine.currentLevel.h * scale - vh);
+    else if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
     
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
@@ -573,12 +573,14 @@ class GUI {
   private void drawQuest() {
     float x = (width - GUI_WIDTH)/2 + GUI_WIDTH;
     float y = height/2;
+    float r = min(x, y) - TILE_SIZE/2;
     for(Enemy boss : engine.currentLevel.bosses) {
+      if(dist(((StandardEnemy)boss).x, ((StandardEnemy)boss).y, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
       float ang = atan2(((StandardEnemy)boss).y - engine.player.y, ((StandardEnemy)boss).x - engine.player.x);
       screen.pushMatrix();
       screen.translate(x, y);
       screen.rotate(ang);
-      screen.image(guiSprites.get("QUEST"), TILE_SIZE/4, 0);
+      screen.image(guiSprites.get("QUEST"), r, 0, TILE_SIZE/2, TILE_SIZE/2);
       screen.popMatrix();
     }
   }
