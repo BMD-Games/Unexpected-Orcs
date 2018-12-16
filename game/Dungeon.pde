@@ -106,26 +106,41 @@ class Cave extends Level {
 
   void generateEnemies() {
    //Add enemies to level
-    StandardEnemy goblin;
+    StandardEnemy enemy;
     for(int i = 0; i < 30; ++i) {
-      goblin = new GoblinArcher(random(w), random(h), 1);
-      validSpawn(goblin);
-      addEnemy(goblin);
+      enemy = new GoblinArcher(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 30; ++i) {
-      goblin = new GoblinMage(random(w), random(h), 1);
-      validSpawn(goblin);
-      addEnemy(goblin);
+      enemy = new GoblinMage(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 30; ++i) {
-      goblin = new GoblinSpearman(random(w), random(h), 1);
-      validSpawn(goblin);
-      addEnemy(goblin);
+      enemy = new GoblinSpearman(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 30; ++i) {
-      goblin = new GoblinWarrior(random(w), random(h), 1);
-      validSpawn(goblin);
-      addEnemy(goblin);
+      enemy = new GoblinWarrior(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Spider(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Crawler(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Bat(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
   }
   
