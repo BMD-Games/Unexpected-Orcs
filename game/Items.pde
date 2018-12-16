@@ -17,12 +17,12 @@ class Inventory {
   
   
   Inventory() {
-    active[0] = weaponFactory.createRandomWeapon(4);
+    active[0] = new GreenRod();
     active[1] = new SwiftBoots();
     active[2] = new LeatherArmour();
     active[3] = new LitScroll();
     
-    inv[0] = new GreenRod();
+    inv[0] = weaponFactory.createRandomWeapon(4);
     inv[1] = new FireBomb();    
     inv[2] = new SpellBomb();
     inv[3] = new Telescope();

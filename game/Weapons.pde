@@ -55,9 +55,9 @@ public class WeaponFactory {
   
   public Wand createWand(int tier) {
     Wand wand = new Wand(color(random(255), random(255), random(255)));
-    wand.damage =  2 + 6 * tier + (int)(randomGaussian() * tier);
-    wand.range = 5;
-    wand.bulletSpeed = 12 + abs((int)(randomGaussian() * tier * 2));
+    wand.damage =  4 + 6 * tier + (int)(randomGaussian() * tier);
+    wand.range = 6;
+    wand.bulletSpeed = 25 + abs((int)(randomGaussian() * tier * 2));
     wand.fireRate = Util.roundTo(0.6 - tier * abs(randomGaussian()) / 32, 100);
     wand.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 80, 100);  
     wand.tier = tier;
@@ -167,12 +167,12 @@ class GreenRod extends Weapon {
   
   GreenRod() {
     super("GREENROD", "Green Rod", new ArrayList<Pair>());
-    this.damage = 25;
-    this.fireRate = 0.3;
-    this.numBullets = 2;
-    this.range = 6;
-    this.accuracy = 0.05;
-    this.bulletSpeed = 15;
+    this.damage = 5;
+    this.fireRate = 0.5;
+    this.numBullets = 1;
+    this.range = 8;
+    this.accuracy = 0.03;
+    this.bulletSpeed = 10;
     this.bulletSprite = projectileSprites.get("GREENROD");
     
   }

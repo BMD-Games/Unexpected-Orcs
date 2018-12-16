@@ -57,6 +57,7 @@ abstract class StandardEnemy implements Enemy {
     this.tier = tier;
     this.x = x;
     this.y = y;
+    if(this instanceof RectangleObject) radius = max(((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight()) / 2;
   }
 
   /* Enemies need to update on tics */
@@ -215,6 +216,7 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   protected float shotWaitTime = 1;
   protected float shootDistance = 3.2;
   protected float retreatDistance = 2.7;
+  protected float accuracy = 0;
   
   public RangedEnemy(float x, float y, int tier) {
     super(x, y, tier);
@@ -258,7 +260,8 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   protected void attack() {
     if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
       stats.fireTimer = 0;
-      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprite));
+      float shotAccuracy = randomGaussian() * accuracy;
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle + shotAccuracy), sin(angle + shotAccuracy)), stats.speed * 8, range, stats.attack, projectileSprite));
     }
   }
   

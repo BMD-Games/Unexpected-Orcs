@@ -84,10 +84,6 @@ public class BossChomp extends Chomp {
   }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 public abstract class Elemental extends MeleeEnemy implements Enemy, CircleObject {
   
   protected float animationTime = 0;
@@ -207,6 +203,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
     shotWaitTime = 0.9 - abs(0.03 * tier * randomGaussian());
     shootDistance = 2.6;
     retreatDistance = 2;
+    accuracy = 0.04;
     sprite = charSprites.get("GOBLIN_ARCHER");
     projectileSprite = getCombinedSprite(projectileSprites.get("ARROW"), projectileSprites.get("ARROW_TIP"), color(50,50,50));
   }
@@ -244,6 +241,7 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
     retreatDistance = 2.6;
+    accuracy = 0.02;
     sprite = charSprites.get("GOBLIN_MAGE");
     projectileSprite = applyColourToImage(projectileSprites.get("STAFF"), color(124, 10, 10));
   }
@@ -420,6 +418,7 @@ public class Rose extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 0.6 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
     retreatDistance = 0.3;
+    accuracy = 0.05;
     sprite = charSprites.get("ROSE");
     projectileSprite = projectileSprites.get("THORN");
   }
@@ -457,6 +456,7 @@ public class Daisy extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
     retreatDistance = 0.3;
+    accuracy = 0.03;
     sprite = charSprites.get("DAISY");
     projectileSprite = projectileSprites.get("LEAF");
   }
@@ -494,6 +494,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 2;
     retreatDistance = 0.3;
+    accuracy = 0.01;
     sprite = charSprites.get("SPIDER");
     projectileSprite = projectileSprites.get("STAFF");
   }
