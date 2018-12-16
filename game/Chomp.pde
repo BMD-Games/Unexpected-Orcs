@@ -213,6 +213,7 @@ public class KingElemental extends Elemental implements Enemy {
     summonWait += delta;
     if(summonWait > 2 && Util.distance(x, y, engine.player.x, engine.player.y) < range) {
       summon();
+      summonWait = 0;
     }
     return super.update(delta);
   }
