@@ -16,7 +16,7 @@ public float zoomMax = 5;
 public float zoomMin = 1;
 public boolean inMenu = false;
 
-public boolean assetsLoaded = false;
+public PFont bitcell;
 
 public String STATE;
 public String PREV_STATE;
@@ -34,7 +34,9 @@ void setup() {
   thread("loadAssets");
   thread("loadSettings");
   // thread("loadSounds");
-
+  
+  bitcell = createFont("./assets/fonts/bitcell.ttf", TILE_SIZE);
+  textFont(bitcell);
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
   

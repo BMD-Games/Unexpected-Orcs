@@ -55,7 +55,7 @@ public static class Util {
   public static float roundTo(float number, int rounder) {
     float num = ((float)floor(number * rounder)) / rounder;
     return num;
-  }
+  }  
 }
 
 class AABB {
@@ -87,6 +87,13 @@ class AABB {
   }
 }
 
+public color randomColour(int tier) {
+  float maxTier = 5;
+  colorMode(HSB);
+  color c = color(random(255), 255, ((tier + 1)/maxTier) * 255);
+  colorMode(RGB);
+  return color(red(c), green(c), blue(c));
+}
 
 public PImage applyColourToImage(PImage img, color c) {
   img.loadPixels();

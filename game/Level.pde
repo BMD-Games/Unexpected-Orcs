@@ -75,6 +75,7 @@ class Level {
     updateVisited((int)x, (int)y, visitRadius, false);
     updateVisitedSmooth();
     updateMapEntities((int)x, (int)y);
+    updateBosses();
   }
 
   public void show(PGraphics screen, PVector renderOffset) {    
@@ -164,6 +165,14 @@ class Level {
       if (tiles[i][j] > WALL) {
         tiles[i][j] = tileset.spawn;
         start = new PVector(i, j);
+      }
+    }
+  }
+
+  protected void updateBosses() {
+    for(int i = bosses.size() - 1; i >= 0; i --) {
+      if(((StandardEnemy)bosses.get(i)).stats.health < 0) {
+        bosses.remove(i);
       }
     }
   }

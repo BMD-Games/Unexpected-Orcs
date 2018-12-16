@@ -48,7 +48,7 @@ class GrassDungeon extends Level {
     enemy = new BossChomp(random(w), random(h), 3);
     validSpawn(enemy);
     addEnemy(enemy);
-    this.bosses.add(enemy);
+    bosses.add(enemy);
     for (int i = 0; i < 30; i ++) {
       enemy = new Rose(random(w), random(h), 1);
       validSpawn(enemy);
