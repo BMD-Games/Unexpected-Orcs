@@ -159,7 +159,9 @@ class GUI {
     screen.fill(0);
     screen.rect(0, 0, screen.width, screen.height);
     screen.fill(255);
-    screen.text(".:Loading:.", width/2, height/2);
+    screen.textAlign(CENTER, CENTER);
+    screen.text("Loading", width/2, height/2);
+    screen.text(loadMessage, width/2, height/2 + TILE_SIZE);
     screen.endDraw();
     image(screen, 0, 0);
   }

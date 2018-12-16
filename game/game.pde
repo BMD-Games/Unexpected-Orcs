@@ -21,6 +21,8 @@ public PFont bitcell;
 public String STATE;
 public String PREV_STATE;
 
+public String loadMessage = "Litty";
+
 public Engine engine;
 public GUI gui;
 public WeaponFactory weaponFactory = new WeaponFactory();

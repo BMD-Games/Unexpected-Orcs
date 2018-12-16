@@ -272,6 +272,7 @@ class Engine {
   public void enterClosestPortal() {
     //empty drops, enemies etc
     setState("LOADING");
+    loadMessage = "Generating " + getClosestPortal().name;
     thread("loadClosestPortal");
     while (!finishedLoadingLevel) gui.drawLoading();
     this.player.x = currentLevel.start.x;
