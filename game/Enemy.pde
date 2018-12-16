@@ -496,16 +496,16 @@ public static class Rectangle {
   }
   
   public static boolean lineCollides(float x1, float y1, float x2, float y2, float rx, float ry, float rw, float rh) {
-    // check if the line has hit any of the rectangle's sides
-    // uses the Line/Line function below
+    //check if either end is inside the box
     if (Util.pointInBox(x1, y1, rx, ry, rw, rh) || Util.pointInBox(x2, y2, rx, ry, rw, rh)) return true;
+    
+    //check if the line has hit any of the rectangle's sides
     boolean left =   Util.lineLine(x1, y1, x2, y2, rx, ry, rx, ry+rh);
     boolean right =  Util.lineLine(x1, y1, x2, y2, rx+rw, ry, rx+rw, ry+rh);
     boolean top =    Util.lineLine(x1, y1, x2, y2, rx, ry, rx+rw, ry);
     boolean bottom = Util.lineLine(x1, y1, x2, y2, rx, ry+rh, rx+rw, ry+rh);
 
-    // if ANY of the above are true, the line
-    // has hit the rectangle
+    //if ANY of the above are true, the line has hit the rectangle
     if (left || right || top || bottom) {
       return true;
     }
