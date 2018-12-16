@@ -211,7 +211,7 @@ public class KingElemental extends Elemental implements Enemy {
   
   public boolean update(double delta) {
     summonWait += delta;
-    if(summonWait > 2 && Util.distance(x, y, engine.player.x, engine.player.y) < range) {
+    if(summonWait > (3 - 0.1 * tier) && Util.distance(x, y, engine.player.x, engine.player.y) < range) {
       summon();
       summonWait = 0;
     }
@@ -220,6 +220,7 @@ public class KingElemental extends Elemental implements Enemy {
   
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+    engine.addDrop(new CavePortal(x, y));
   }
   
   private void summon() {
