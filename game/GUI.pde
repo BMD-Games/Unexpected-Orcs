@@ -47,13 +47,14 @@ class GUI {
     keyAbility = new Button(width/2, height/2 - TILE_SIZE * 0, "BLANK_1x1");
 
     //-----Gameplay
-    healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(230, 100, 100));
+    healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2 - invBuff, color(230, 100, 100));
     manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, 2 * TILE_SIZE/2, color(153, 217, 234));
     enterPortal = new Button(GUI_WIDTH/2 - TILE_SIZE, 14 * TILE_SIZE/2, "BLANK_2x1");
 
     screen = createGraphics(width, height);
     screen.beginDraw();
     screen.noSmooth();
+    screen.textFont(bitcell);
     screen.endDraw();
   }
 
@@ -264,7 +265,7 @@ class GUI {
     screen.pushMatrix();
     
     screen.textAlign(LEFT);
-    screen.textSize(24);
+    screen.textSize(TILE_SIZE/2);
     screen.fill(30);
     
     //Draw stat values
@@ -310,9 +311,9 @@ class GUI {
     
     //when you get close to the edges - stop centering on the player
     if(sx < 0) sx = 0;
-    else if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
+    if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
     if(sy < 0) sy = 0;
-    else if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
+    if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
     
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
@@ -501,15 +502,14 @@ class GUI {
       desc += ((Scroll)item).description;
     }
     
-    screen.textSize(15);
+    screen.textSize(TILE_SIZE/2);
     screen.textAlign(LEFT);
     int mouseOverWidth = max((int)(screen.textWidth(item.name) + 20), 100), mouseOverHeight = 120;
     screen.fill(100);
     screen.rect(x, y, mouseOverWidth, mouseOverHeight);
     screen.fill(200);
     screen.text(item.name, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
-    screen.textSize(12);
-    screen.textLeading(12);
+    screen.textSize(TILE_SIZE/3);
     screen.text("Tier " + item.tier + " " + type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
     screen.fill(255);
     screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
@@ -547,15 +547,14 @@ class GUI {
     }
 
     if (!statName.equals("")) {
-      screen.textSize(15);
+      screen.textSize(TILE_SIZE/2);
       screen.textAlign(LEFT);
       int mouseOverWidth = max((int)(screen.textWidth(statName) + 20), 150), mouseOverHeight = 90;
       screen.fill(100);
       screen.rect(x, y, mouseOverWidth, mouseOverHeight);
       screen.fill(200);
       screen.text(statName, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
-      screen.textSize(12);
-      screen.textLeading(12);
+      screen.textSize(TILE_SIZE/3);
       screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
       screen.fill(255);
       screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
@@ -638,12 +637,12 @@ class DisplayBar {
 
   public void show(PGraphics screen) {
     screen.fill(c);
-    screen.textSize(15);
+    screen.textSize(TILE_SIZE/2);
     screen.textAlign(CENTER, CENTER);
     screen.noStroke();
     screen.rect(x, y, w * percentFull, h);
     screen.fill(255);
-    screen.text(current + "/" + total, x + w/2, y + h/2);
+    screen.text(current + "/" + total, x + w/2, y + h/2 - 5);
     element.show(screen);
   }
 

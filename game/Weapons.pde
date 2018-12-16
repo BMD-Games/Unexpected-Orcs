@@ -54,7 +54,7 @@ public class WeaponFactory {
   }
   
   public Wand createWand(int tier) {
-    Wand wand = new Wand(color(random(255), random(255), random(255)));
+    Wand wand = new Wand(randomColour(tier));
     wand.damage =  2 + 6 * tier + (int)(randomGaussian() * tier);
     wand.range = 5;
     wand.bulletSpeed = 12 + abs((int)(randomGaussian() * tier * 2));
@@ -71,7 +71,7 @@ public class WeaponFactory {
   }
   
   public Staff createStaff(int tier) {
-    Staff staff = new Staff(color(random(255), random(255), random(255)));
+    Staff staff = new Staff(randomColour(tier));
     staff.damage =  4 + 8 * tier + (int)(randomGaussian() * tier);
     staff.range = 6;
     staff.bulletSpeed = 12 + abs((int)(randomGaussian() * tier));
@@ -88,7 +88,7 @@ public class WeaponFactory {
   }
   
   public Spear createSpear(int tier) {
-    Spear spear = new Spear(color(random(255), random(255), random(255)));
+    Spear spear = new Spear(randomColour(tier));
     spear.damage =  4 + 10 * tier + (int)(randomGaussian() * tier);
     spear.range = 3;
     spear.bulletSpeed = 8 + abs((int)(randomGaussian() * tier));
@@ -105,7 +105,7 @@ public class WeaponFactory {
   }
   
   public Bow createBow(int tier) {
-    Bow bow = new Bow(color(random(255), random(255), random(255)));
+    Bow bow = new Bow(randomColour(tier));
     bow.damage =  16 * tier + (int)(randomGaussian() * tier);
     bow.range = 10;
     bow.bulletSpeed = 20 + abs((int)(randomGaussian() * tier));
