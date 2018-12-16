@@ -179,6 +179,7 @@ public void loadAssets() {
   statusSprites.put("DAZED", getSprite(statusSheet, 1, 2, 1, 1, statusSize));
   statusSprites.put("SMART", getSprite(statusSheet, 2, 2, 1, 1, statusSize));
   statusSprites.put("CURSED", getSprite(statusSheet, 3, 2, 1, 1, statusSize));
+  statusSprites.put("QUEST", getSprite(statusSheet, 0, 3, 1, 1, statusSize));
   
   
   //-----PLAYER EFFECT SPRITES-----
@@ -225,6 +226,7 @@ public void loadAssets() {
   guiSprites.put("LOAD", getSprite(sheet, 5, 1, 2, 1, guiSize));
   guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2, guiSize));
   guiSprites.put("BAR", getSprite(sheet, 0, 4, 3, 1, guiSize));
+  guiSprites.put("QUEST", getSprite(sheet, 0, 5, 1, 1, guiSize));
   guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
   guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
   

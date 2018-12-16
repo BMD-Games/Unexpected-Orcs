@@ -18,7 +18,7 @@ class Level {
   public TileSet tileset  = new TileSet();
   protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
 
-  public ArrayList<Enemy> boss = new ArrayList<Enemy>();
+  public ArrayList<Enemy> bosses = new ArrayList<Enemy>();
 
   private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
   private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
