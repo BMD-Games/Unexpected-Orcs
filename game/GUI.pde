@@ -310,9 +310,9 @@ class GUI {
     
     //when you get close to the edges - stop centering on the player
     if(sx < 0) sx = 0;
+    else if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
     if(sy < 0) sy = 0;
-    if(sx > engine.currentLevel.w * scale - vw) sx = (int)(engine.currentLevel.w * scale - vw);
-    if(sy > engine.currentLevel.h * scale - vh) sy = (int)(engine.currentLevel.h * scale - vh);
+    else if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
     
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
