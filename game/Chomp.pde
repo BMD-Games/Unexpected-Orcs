@@ -84,10 +84,6 @@ public class BossChomp extends Chomp {
   }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 public abstract class Elemental extends MeleeEnemy implements Enemy, CircleObject {
   
   protected float animationTime = 0;
@@ -193,6 +189,59 @@ public class PoisonElemental extends Elemental implements Enemy {
   
 }
 
+public class KingElemental extends Elemental implements Enemy {
+  
+  private float summonWait;
+  
+  public KingElemental(float x, float y, int tier) {
+    super(x, y, tier);
+    radius = 1;
+    stats.health = 30 + 60 * tier;
+    stats.attack = 60 * tier;
+    stats.speed = 0.01 * tier;
+    stats.defence = 2 + 8 * tier;
+    attackWaitTime = 1;
+    statusEffect = "DAZED";
+    sprite = charSprites.get("KING_ELEMENTAL");
+    sprites[0] = getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_1"));
+    sprites[1] = getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_2"));
+    sprites[2] = getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_3"));
+    sprites[3] = getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_4"));
+  }
+  
+  public boolean update(double delta) {
+    summonWait += delta;
+    if(summonWait > 2 && Util.distance(x, y, engine.player.x, engine.player.y) < range) {
+      summon();
+    }
+    return super.update(delta);
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+  }
+  
+  private void summon() {
+    Elemental elemental = null;
+      switch((int)random(4)) {
+        case 0:
+          elemental = new FireElemental(x + 0.25, y - 0.25, tier);
+          break;
+        case 1:
+          elemental = new IceElemental(x + 0.25, y + 0.25, tier);
+          break;
+        case 2:
+          elemental = new MagicElemental(x - 0.25, y - 0.25, tier);
+          break;
+        case 3:
+          elemental = new PoisonElemental(x - 0.25, y, tier);
+          break;
+      }
+      engine.currentLevel.addEnemy(elemental);
+  }
+  
+}
+
 public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject {
   
   private float w = 0.5, h = 0.5;
@@ -207,6 +256,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
     shotWaitTime = 0.9 - abs(0.03 * tier * randomGaussian());
     shootDistance = 2.6;
     retreatDistance = 2;
+    accuracy = 0.04;
     sprite = charSprites.get("GOBLIN_ARCHER");
     projectileSprite = getCombinedSprite(projectileSprites.get("ARROW"), projectileSprites.get("ARROW_TIP"), color(50,50,50));
   }
@@ -244,6 +294,7 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
     retreatDistance = 2.6;
+    accuracy = 0.02;
     sprite = charSprites.get("GOBLIN_MAGE");
     projectileSprite = applyColourToImage(projectileSprites.get("STAFF"), color(124, 10, 10));
   }
@@ -420,6 +471,7 @@ public class Rose extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 0.6 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
     retreatDistance = 0.3;
+    accuracy = 0.05;
     sprite = charSprites.get("ROSE");
     projectileSprite = projectileSprites.get("THORN");
   }
@@ -457,6 +509,7 @@ public class Daisy extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
     retreatDistance = 0.3;
+    accuracy = 0.03;
     sprite = charSprites.get("DAISY");
     projectileSprite = projectileSprites.get("LEAF");
   }
@@ -494,6 +547,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 2;
     retreatDistance = 0.3;
+    accuracy = 0.01;
     sprite = charSprites.get("SPIDER");
     projectileSprite = projectileSprites.get("STAFF");
   }

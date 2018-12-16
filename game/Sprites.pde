@@ -283,6 +283,12 @@ public void loadAssets() {
   charSprites.put("MAGIC_ELEMENTAL_4", getSprite(charsheet, 6, 5, 1, 1, charSize));
   charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize));
   
+  charSprites.put("KING_ELEMENTAL", getSprite(charsheet, 0, 8, 4, 4, charSize));
+  charSprites.put("ELEMENTAL_BODYGUARDS_1", getSprite(charsheet, 0, 12, 4, 4, charSize));
+  charSprites.put("ELEMENTAL_BODYGUARDS_2", getSprite(charsheet, 4, 12, 4, 4, charSize));
+  charSprites.put("ELEMENTAL_BODYGUARDS_3", getSprite(charsheet, 8, 12, 4, 4, charSize));
+  charSprites.put("ELEMENTAL_BODYGUARDS_4", getSprite(charsheet, 12, 12, 4, 4, charSize));
+  
   //Load goblin sprites
   charSprites.put("GOBLIN_ARCHER", getSprite(charsheet, 0, 6, 1, 1, charSize));
   charSprites.put("GOBLIN_SPEARMAN", getSprite(charsheet, 1, 6, 1, 1, charSize));
