@@ -155,6 +155,10 @@ public void loadAssets() {
   
   //Armour
   itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
+  itemSprites.put("STEEL_ARMOUR", getSprite(itemsheet, 1, 4, 1, 1, itemSize));
+  itemSprites.put("GILDED_LEATHER_ARMOUR", getSprite(itemsheet, 2, 4, 1, 1, itemSize));
+  itemSprites.put("RE-ENFORCED_LEATHER_ARMOUR", getSprite(itemsheet, 3, 4, 1, 1, itemSize));
+  itemSprites.put("BLOOD_ARMOUR", getSprite(itemsheet, 4, 4, 1, 1, itemSize));
   
   //Guns
   itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 7, 1, 1, itemSize));
@@ -188,7 +192,7 @@ public void loadAssets() {
   int playerStatusSize = 16;
   
   playerStatusSprites.put("DAMAGING", getSprite(playerStatusSheet, 0, 0, 1, 1, playerStatusSize));
-  playerStatusSprites.put("SLOWED", getSprite(playerStatusSheet, 0, 1, 1, 1, playerStatusSize));
+  playerStatusSprites.put("WEAK", getSprite(playerStatusSheet, 0, 1, 1, 1, playerStatusSize));
   playerStatusSprites.put("ARMOURED", getSprite(playerStatusSheet, 1, 0, 1, 1, playerStatusSize));
   playerStatusSprites.put("ARMOURBREAK", getSprite(playerStatusSheet, 1, 1, 1, 1, playerStatusSize));
   playerStatusSprites.put("HEALING", getSprite(playerStatusSheet, 2, 0, 1, 1, playerStatusSize));
