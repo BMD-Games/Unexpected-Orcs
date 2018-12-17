@@ -22,6 +22,7 @@ public String STATE;
 public String PREV_STATE;
 
 public String loadMessage = "Litty";
+public String loadedPlayerName = "";
 
 public Engine engine;
 public GUI gui;
@@ -75,6 +76,9 @@ void draw() {
   case "SAVE":
     gui.drawSave();
     break;
+  case "NEWGAME":
+    gui.drawNewGame();
+    break;
   }
     
 }
@@ -99,6 +103,7 @@ void keyPressed() {
   if (keyCode == DOWN_KEY) keys[down] = 1;
   if (keyCode == RIGHT_KEY) keys[right] = 1;
   if (keyCode == ABILITY_KEY) keys[ability] = 1;
+  if(characterNaming) gui.keyPressed(key);
 }
 void keyReleased() {
   if (keyCode == UP_KEY) keys[up] = 0;

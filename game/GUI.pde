@@ -10,6 +10,7 @@ class GUI {
   private PImage title = loadImage("/assets/sprites/title.png");
   private PGraphics screen;
   private color c = 100;
+  private String playerName = "";
   
   //Stat sprites
   private PImage attackSprite = itemSprites.get("ATTACK_ICON");
@@ -204,9 +205,30 @@ class GUI {
   public void drawLoad() {
     
   }
+  
+  public void drawNewGame(){
+    screen.beginDraw();
+    clearScreen();
+    
+    screen.image(title, 0, 0, width, height);
+    characterNaming = true;
+    back.show(screen);
+    screen.fill(200, 200, 200);
+    screen.rect(width/2 - TILE_SIZE * 2, height/2 - TILE_SIZE / 4 * 3, TILE_SIZE * 4, TILE_SIZE);
+    screen.fill(50, 50, 50);
+    screen.textSize(TILE_SIZE);
+    screen.textAlign(CENTER);
+    screen.text(playerName, width/2, height/2);
+    play.show(screen);
+    screen.endDraw();
+    image(screen, 0, 0);
+  }
 
   public void handleMouseReleased() {
     //------Main Buttons
+    if (STATE == "MENU" && play.pressed()) {
+      setState("NEWGAME"); 
+    }
     if ((STATE == "MENU" || STATE == "PAUSED") && play.pressed()) {
       setState("PLAYING");
       engine.updateMillis();
@@ -233,8 +255,11 @@ class GUI {
     } else if(STATE == "SAVE" && back.pressed()) {
        setState("PAUSED");
     } else if(STATE == "SAVE" && save1.pressed()) {
-      saveStats("./saves/save1.txt");
+      saveStats("save1");
       setState("PAUSED");
+    } else if(STATE == "NEWGAME" && back.pressed()) {
+      setState("MENU"); 
+      playerName = "";
     }
     //-----Settings Buttons
     else if(STATE == "OPTIONS") {
@@ -610,6 +635,19 @@ class GUI {
       screen.rotate(ang);
       screen.image(guiSprites.get("QUEST"), r, 0, TILE_SIZE/2, TILE_SIZE/2);
       screen.popMatrix();
+    }
+  }
+  
+  private void keyPressed(char key){
+    if(key == ENTER || key == RETURN){
+      loadedPlayerName = playerName;
+      setState("PLAYING");
+      characterNaming = false;
+      
+    } else if (Character.isLetter(key) && playerName.length() < 10) {
+      playerName = playerName + key;
+    } else if (key == BACKSPACE) {
+      playerName = playerName.substring(0, playerName.length() - 1);
     }
   }
   
