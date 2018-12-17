@@ -233,11 +233,7 @@ class GUI {
     } else if(STATE == "SAVE" && back.pressed()) {
        setState("PAUSED");
     } else if(STATE == "SAVE" && save1.pressed()) {
-      try {
-        saveMap("save1.txt");
-      } catch (Exception e) {
-        
-      }
+      saveStats("./saves/save1.txt");
       setState("PAUSED");
     }
     //-----Settings Buttons
