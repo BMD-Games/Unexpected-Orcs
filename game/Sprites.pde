@@ -179,6 +179,7 @@ public void loadAssets() {
   statusSprites.put("DAZED", getSprite(statusSheet, 1, 2, 1, 1, statusSize));
   statusSprites.put("SMART", getSprite(statusSheet, 2, 2, 1, 1, statusSize));
   statusSprites.put("CURSED", getSprite(statusSheet, 3, 2, 1, 1, statusSize));
+  statusSprites.put("QUEST", getSprite(statusSheet, 0, 3, 1, 1, statusSize));
   
   
   //-----PLAYER EFFECT SPRITES-----
@@ -225,6 +226,7 @@ public void loadAssets() {
   guiSprites.put("LOAD", getSprite(sheet, 5, 1, 2, 1, guiSize));
   guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2, guiSize));
   guiSprites.put("BAR", getSprite(sheet, 0, 4, 3, 1, guiSize));
+  guiSprites.put("QUEST", getSprite(sheet, 0, 5, 1, 1, guiSize));
   guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
   guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
   guiSprites.put("SAVE", getSprite(sheet, 3, 2, 2, 1, guiSize));
@@ -254,6 +256,16 @@ public void loadAssets() {
   charSprites.put("CHOMP_WHITE", getSprite(charsheet, 4, 2, 2, 2, charSize));
   charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 0, 4, 4, charSize));
   
+  //Load grass mobs
+  charSprites.put("ROSE", getSprite(charsheet, 7, 0, 1, 1, charSize));
+  charSprites.put("DAISY", getSprite(charsheet, 7, 1, 1, 1, charSize));
+  
+  //Load cave mobs
+  charSprites.put("SPIDER", getSprite(charsheet, 6, 2, 1, 1, charSize));
+  charSprites.put("CRAWLER", getSprite(charsheet, 7, 2, 1, 1, charSize));
+  charSprites.put("BAT_SPREAD", getSprite(charsheet, 6, 3, 1, 1, charSize));
+  charSprites.put("BAT_FLAPPING", getSprite(charsheet, 7, 3, 1, 1, charSize));
+  
   //Load element sprites
   charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
   charSprites.put("ICE_ELEMENTAL", getSprite(charsheet, 1, 4, 1, 1, charSize));
@@ -275,10 +287,17 @@ public void loadAssets() {
   charSprites.put("MAGIC_ELEMENTAL_4", getSprite(charsheet, 6, 5, 1, 1, charSize));
   charSprites.put("POISON_ELEMENTAL_4", getSprite(charsheet, 7, 5, 1, 1, charSize));
   
+  charSprites.put("KING_ELEMENTAL", getSprite(charsheet, 0, 8, 4, 4, charSize));
+  charSprites.put("ELEMENTAL_BODYGUARDS_1", getSprite(charsheet, 0, 12, 4, 4, charSize));
+  charSprites.put("ELEMENTAL_BODYGUARDS_2", getSprite(charsheet, 4, 12, 4, 4, charSize));
+  charSprites.put("ELEMENTAL_BODYGUARDS_3", getSprite(charsheet, 8, 12, 4, 4, charSize));
+  charSprites.put("ELEMENTAL_BODYGUARDS_4", getSprite(charsheet, 12, 12, 4, 4, charSize));
+  
+  //Load goblin sprites
   charSprites.put("GOBLIN_ARCHER", getSprite(charsheet, 0, 6, 1, 1, charSize));
   charSprites.put("GOBLIN_SPEARMAN", getSprite(charsheet, 1, 6, 1, 1, charSize));
-  charSprites.put("GOBLIN_WARRIOR", getSprite(charsheet, 2, 6, 1, 1, charSize));
-  charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 3, 6, 1, 1, charSize));
+  charSprites.put("GOBLIN_WARRIOR", getSprite(charsheet, 0, 7, 1, 1, charSize));
+  charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 1, 7, 1, 1, charSize));
   
   charSprites.put("GOBLIN_BOXER", getSprite(charsheet, 2, 6, 2, 2, charSize));
   charSprites.put("BASILISK", getSprite(charsheet, 4, 6, 2, 2, charSize));
@@ -298,6 +317,9 @@ public void loadAssets() {
   projectileSprites.put("SPEAR", getSprite(projectilesheet, 2, 1, 1, 1, projectileSize));
   projectileSprites.put("ARROW", getSprite(projectilesheet, 3, 1, 1, 1, projectileSize));
   
+  projectileSprites.put("LEAF", getSprite(projectilesheet, 0, 2, 1, 1, projectileSize));
+  projectileSprites.put("THORN", getSprite(projectilesheet, 1, 2, 1, 1, projectileSize));
+  
   cursor(guiSprites.get("CURSOR"));
   
   SPAWN_TILES.add(STAR_WOOD);
@@ -305,7 +327,7 @@ public void loadAssets() {
   SPAWN_TILES.add(PATCH_GRASS);
   
   loadStats();
-  assetsLoaded = true;
+  setState("MENU");
 }
 
 public PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {

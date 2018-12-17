@@ -52,13 +52,14 @@ class GUI {
     keyAbility = new Button(width/2, height/2 - TILE_SIZE * 0, "BLANK_1x1");
 
     //-----Gameplay
-    healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2, color(230, 100, 100));
+    healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, TILE_SIZE/2 - invBuff, color(230, 100, 100));
     manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5 + 4, 2 * TILE_SIZE/2, color(153, 217, 234));
     enterPortal = new Button(GUI_WIDTH/2 - TILE_SIZE, 14 * TILE_SIZE/2, "BLANK_2x1");
 
     screen = createGraphics(width, height);
     screen.beginDraw();
     screen.noSmooth();
+    screen.textFont(bitcell);
     screen.endDraw();
   }
 
@@ -155,12 +156,13 @@ class GUI {
     healthBar.show(screen);
     manaBar.show(screen);
     showStatusEffects();
+    drawQuest();
     renderMiniMap();
     drawPortal();
+    drawStatProgress();
     renderInv();
     drawStats();
     drawCooldown();
-    drawStatProgress();
     screen.endDraw();
     image(screen, 0, 0);
     
@@ -178,8 +180,11 @@ class GUI {
     screen.fill(0);
     screen.rect(0, 0, screen.width, screen.height);
     screen.fill(255);
-    screen.text(".:Loading:.", width/2, height/2);
+    screen.textAlign(CENTER, CENTER);
+    screen.text("Loading", width/2, height/2);
+    screen.text(loadMessage, width/2, height/2 + TILE_SIZE);
     screen.endDraw();
+    image(screen, 0, 0);
   }
   
   public void drawDead() {
@@ -188,7 +193,8 @@ class GUI {
     clearScreen();
     
     screen.image(title, 0, 0, width, height);
-    
+    screen.fill(200, 0, 0);
+    screen.text("Nibba u dead", width/2, height/2);
     back.show(screen);
     screen.endDraw();
     image(screen, 0, 0);
@@ -217,6 +223,7 @@ class GUI {
     } else if ((STATE == "OPTIONS") && back.pressed()) {
       revertState();
     } else if(STATE == "PLAYING" && showingPortal && enterPortal.pressed()) {
+      println("clicked");
       engine.enterClosestPortal();
     } else if(STATE == "DEAD" && back.pressed()) {
       setState("MENU");
@@ -291,7 +298,7 @@ class GUI {
     screen.pushMatrix();
     
     screen.textAlign(LEFT);
-    screen.textSize(24);
+    screen.textSize(TILE_SIZE/2);
     screen.fill(30);
     
     //Draw stat values
@@ -315,7 +322,11 @@ class GUI {
 
   private void drawPortal() {
     Portal portal = engine.getClosestPortal();
-    if(portal == null) return;
+    if(portal == null) {
+      showingPortal = false;
+      return;
+    }
+    showingPortal = true;
     enterPortal.show(screen);
     screen.textAlign(CENTER, CENTER);
     screen.text("Enter " + portal.name, enterPortal.x, enterPortal.y, enterPortal.w, enterPortal.h);
@@ -326,14 +337,22 @@ class GUI {
     float vw = GUI_WIDTH - (2 * invBuff); //width of the view
     float vh = vw * 0.8;
     
-    float scale = (vw/engine.currentLevel.w) * miniMapZoom;
+    int scale = (int)((vw/engine.currentLevel.w) * miniMapZoom);
     
     int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
     int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
     
+    //when you get close to the edges - stop centering on the player
+    if(sx < 0) sx = 0;
+    if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
+    if(sy < 0) sy = 0;
+    if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
+    
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
     
+    screen.fill(150);
+    screen.rect(0, height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);
     screen.fill(0);
     screen.rect(invBuff, height - vh - invBuff, vw, vh);
     screen.image(map.get(sx, sy, (int)vw, (int)vh), invBuff, height - vh - invBuff, vw, vh);
@@ -516,16 +535,15 @@ class GUI {
       desc += ((Scroll)item).description;
     }
     
-    screen.textSize(15);
+    screen.textSize(TILE_SIZE/2);
     screen.textAlign(LEFT);
     int mouseOverWidth = max((int)(screen.textWidth(item.name) + 20), 100), mouseOverHeight = 120;
     screen.fill(100);
     screen.rect(x, y, mouseOverWidth, mouseOverHeight);
     screen.fill(200);
     screen.text(item.name, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
-    screen.textSize(12);
-    screen.textLeading(12);
-    screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
+    screen.textSize(TILE_SIZE/3);
+    screen.text("Tier " + item.tier + " " + type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
     screen.fill(255);
     screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
   }
@@ -562,15 +580,14 @@ class GUI {
     }
 
     if (!statName.equals("")) {
-      screen.textSize(15);
+      screen.textSize(TILE_SIZE/2);
       screen.textAlign(LEFT);
       int mouseOverWidth = max((int)(screen.textWidth(statName) + 20), 150), mouseOverHeight = 90;
       screen.fill(100);
       screen.rect(x, y, mouseOverWidth, mouseOverHeight);
       screen.fill(200);
       screen.text(statName, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
-      screen.textSize(12);
-      screen.textLeading(12);
+      screen.textSize(TILE_SIZE/3);
       screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
       screen.fill(255);
       screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
@@ -582,6 +599,21 @@ class GUI {
     for(String effect : engine.player.stats.statusEffects.keySet()) {
       i++;
       screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    }
+  }
+  
+  private void drawQuest() {
+    float x = (width - GUI_WIDTH)/2 + GUI_WIDTH;
+    float y = height/2;
+    float r = min(x, y) - TILE_SIZE/2;
+    for(Enemy boss : engine.currentLevel.bosses) {
+      if(dist(((StandardEnemy)boss).x, ((StandardEnemy)boss).y, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
+      float ang = atan2(((StandardEnemy)boss).y - engine.player.y, ((StandardEnemy)boss).x - engine.player.x);
+      screen.pushMatrix();
+      screen.translate(x, y);
+      screen.rotate(ang);
+      screen.image(guiSprites.get("QUEST"), r, 0, TILE_SIZE/2, TILE_SIZE/2);
+      screen.popMatrix();
     }
   }
   
@@ -638,12 +670,12 @@ class DisplayBar {
 
   public void show(PGraphics screen) {
     screen.fill(c);
-    screen.textSize(15);
+    screen.textSize(TILE_SIZE/2);
     screen.textAlign(CENTER, CENTER);
     screen.noStroke();
     screen.rect(x, y, w * percentFull, h);
     screen.fill(255);
-    screen.text(current + "/" + total, x + w/2, y + h/2);
+    screen.text(current + "/" + total, x + w/2, y + h/2 - 5);
     element.show(screen);
   }
 

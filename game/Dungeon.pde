@@ -14,42 +14,51 @@ class GrassDungeon extends Level {
 
   void generateEnemies() {
     //Add enemies to level
-    Elemental elemental;
+    StandardEnemy enemy;
     for(int i = 0; i < 12; i ++) {
-      elemental = new FireElemental(random(w), random(h), 1);
-      validSpawn(elemental);
-      addEnemy(elemental);
+      enemy = new FireElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 12; i ++) {
-      elemental = new IceElemental(random(w), random(h), 1);
-      validSpawn(elemental);
-      addEnemy(elemental);
+      enemy = new IceElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 12; i ++) {
-      elemental = new MagicElemental(random(w), random(h), 1);
-      validSpawn(elemental);
-      addEnemy(elemental);
+      enemy = new MagicElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for(int i = 0; i < 12; i ++) {
-      elemental = new PoisonElemental(random(w), random(h), 1);
-      validSpawn(elemental);
-      addEnemy(elemental);
+      enemy = new PoisonElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
-    
-    Chomp chomp;
     for (int i = 0; i < 40; i ++) {
-      chomp = new Chomp(random(w), random(h), 1);
-      validSpawn(chomp);
-      addEnemy(chomp);
+      enemy = new Chomp(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
     for (int i = 0; i < 10; ++i) {
-      chomp = new BigChomp(random(w), random(h), 2);
-      validSpawn(chomp);
-      addEnemy(chomp);
+      enemy = new BigChomp(random(w), random(h), 2);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
-    chomp = new BossChomp(random(w), random(h), 3);
-    validSpawn(chomp);
-    addEnemy(chomp);
+    enemy = new BossChomp(random(w), random(h), 3);
+    validSpawn(enemy);
+    addEnemy(enemy);
+    bosses.add(enemy);
+    for (int i = 0; i < 30; i ++) {
+      enemy = new Rose(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for (int i = 0; i < 30; ++i) {
+      enemy = new Daisy(random(w), random(h), 2);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
   }
 
   void validSpawn(StandardEnemy enemy) {
@@ -61,46 +70,6 @@ class GrassDungeon extends Level {
 }
 
 class CellarDungeon extends Level {
-
-  private int roomAttempts = 300, minRoomSize = 3, maxRoomSize = 9;
-  private float straightChance = 1, loopChance = 0.05;
-
-  CellarDungeon() {
-    super(60, 45, "DungeonCellar", cellarTileset());
-
-    this.setTiles(finishingPass(generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance), tileset));
-    //this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
-    generateStart();
-    generateEnemies();
-  }
-
-  void generateEnemies() {
-    //Add enemies to level
-    Chomp chomp;
-    for (int i = 0; i < 40; i ++) {
-      chomp = new Chomp(random(w), random(h), 1);
-      validSpawn(chomp);
-      addEnemy(chomp);
-    }
-    for (int i = 0; i < 10; ++i) {
-      chomp = new BigChomp(random(w), random(h), 2);
-      validSpawn(chomp);
-      addEnemy(chomp);
-    }
-    chomp = new BossChomp(random(w), random(h), 3);
-    validSpawn(chomp);
-    addEnemy(chomp);
-  }
-
-  void validSpawn(Chomp enemy) {
-    while (!enemy.validPosition(this, enemy.x, enemy.y)) {
-      enemy.x = random(w);
-      enemy.y = random(h);
-    }
-  }
-}
-
-class DankDungeon extends Level {
 
   /***
    Creates a dungeon and appends the tiles to the Level it's been given.
@@ -115,10 +84,77 @@ class DankDungeon extends Level {
    rooms     - Presets for all other rooms
    ***/
 
-  DankDungeon() {
-    super(60, 45, "Dannnk", cellarTileset());
+  CellarDungeon() {
+    super(60, 45, "Cellar", cellarTileset());
     generateConnectedDungeon(this, 20, PI/4, 10, 15, testSpawn(), testBoss(), new Room[]{testRoom()});
+    generateEnemies();
   }
+  
+  void generateEnemies() {
+    //Add enemies to level
+    StandardEnemy enemy;
+    for(int i = 0; i < 20; i ++) {
+      enemy = new FireElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 20; i ++) {
+      enemy = new IceElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 20; i ++) {
+      enemy = new MagicElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 20; i ++) {
+      enemy = new PoisonElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 3; i ++) {
+      enemy = new FireElemental(random(w), random(h), 1);
+      validBossSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 3; i ++) {
+      enemy = new IceElemental(random(w), random(h), 1);
+      validBossSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 3; i ++) {
+      enemy = new MagicElemental(random(w), random(h), 1);
+      validBossSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 3; i ++) {
+      enemy = new PoisonElemental(random(w), random(h), 1);
+      validBossSpawn(enemy);
+      addEnemy(enemy);
+    }
+    enemy = new KingElemental(random(w), random(h), 1);
+    validBossSpawn(enemy);
+    addEnemy(enemy);
+    bosses.add(enemy);
+  }
+  
+  private void validSpawn(StandardEnemy enemy) {
+    do {
+      PVector coords = generalZones.get((int)random(generalZones.size()));
+      enemy.x = coords.x + random(1);
+      enemy.y = coords.y + random(1);
+    } while (!enemy.validPosition(this, enemy.x, enemy.y));
+  }
+  
+  private void validBossSpawn(StandardEnemy enemy) {
+    do {
+      PVector coords = bossZones.get((int)random(bossZones.size()));
+      enemy.x = coords.x + random(1);
+      enemy.y = coords.y + random(1);
+    } while (!enemy.validPosition(this, enemy.x, enemy.y));
+  }
+  
 }
 
 class Cave extends Level {
@@ -135,26 +171,41 @@ class Cave extends Level {
 
   void generateEnemies() {
    //Add enemies to level
-    StandardEnemy goblin;
-    for(int i = 0; i < 20; ++i) {
-      goblin = new GoblinArcher(random(w), random(h), 1);
-      validSpawn(goblin);
-      addEnemy(goblin);
+    StandardEnemy enemy;
+    for(int i = 0; i < 30; ++i) {
+      enemy = new GoblinArcher(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
-    for(int i = 0; i < 20; ++i) {
-      goblin = new GoblinMage(random(w), random(h), 1);
-      validSpawn(goblin);
-      addEnemy(goblin);
+    for(int i = 0; i < 30; ++i) {
+      enemy = new GoblinMage(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
-    for(int i = 0; i < 20; ++i) {
-      goblin = new GoblinSpearman(random(w), random(h), 1);
-      validSpawn(goblin);
-      addEnemy(goblin);
+    for(int i = 0; i < 30; ++i) {
+      enemy = new GoblinSpearman(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
-    for(int i = 0; i < 20; ++i) {
-      goblin = new GoblinWarrior(random(w), random(h), 1);
-      validSpawn(goblin);
-      addEnemy(goblin);
+    for(int i = 0; i < 30; ++i) {
+      enemy = new GoblinWarrior(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Spider(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Crawler(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Bat(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
     }
   }
   

@@ -2,7 +2,7 @@ class Projectile {
   
   private PVector direction;
   private float startX, startY, speed, range;
-  public float x, y, px, py;  
+  public float x, y, px, py;
   public int damage;
   private PImage sprite;
   private ArrayList<Pair> statusEffects = new ArrayList();
@@ -36,6 +36,8 @@ class Projectile {
   
   public void update(double delta) {
     //need to add speed * direction * delta to the x and y
+    px = x;
+    py = y;
     x += direction.x * speed * delta;
     y += direction.y * speed * delta;
   }

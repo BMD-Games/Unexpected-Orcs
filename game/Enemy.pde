@@ -57,6 +57,7 @@ abstract class StandardEnemy implements Enemy {
     this.tier = tier;
     this.x = x;
     this.y = y;
+    if(this instanceof RectangleObject) radius = max(((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight()) / 2;
   }
 
   /* Enemies need to update on tics */
@@ -69,6 +70,7 @@ abstract class StandardEnemy implements Enemy {
 
   /* Displays enemy to screen */
   public void show(PGraphics screen, PVector renderOffset) {
+    if(!engine.currentLevel.visited[(int)x][(int)y]) return;
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
 
@@ -82,11 +84,11 @@ abstract class StandardEnemy implements Enemy {
     }
 
     if((angle < PI/2) && (angle > -PI/2)) {
-      /*if(this instanceof MeleeEnemy)*/ screen.rotate(angle);
+      screen.rotate(angle);
       screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
       screen.scale(-1.0, 1.0);
-      /*if(this instanceof MeleeEnemy)*/ screen.rotate(PI-angle);
+      screen.rotate(PI-angle);
       screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
@@ -124,6 +126,11 @@ abstract class StandardEnemy implements Enemy {
 
   /* Checks collision with line */
   public boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2) {
+    if(this instanceof RectangleObject) {
+      return Rectangle.lineCollides(lineX1, lineY1,lineX2, lineY2, x, y, ((RectangleObject) this).getWidth(), ((RectangleObject) this).getHeight());
+    } else if(this instanceof CircleObject) {
+      return Circle.lineCollides(lineX1, lineY1,lineX2, lineY2, x, y, ((CircleObject) this).getRadius());
+    }
     return false;
   }
 
@@ -207,7 +214,9 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   
   protected PImage projectileSprite = projectileSprites.get("WAND");
   protected float shotWaitTime = 1;
-  protected float shootDistance = 3;
+  protected float shootDistance = 3.2;
+  protected float retreatDistance = 2.7;
+  protected float accuracy = 0;
   
   public RangedEnemy(float x, float y, int tier) {
     super(x, y, tier);
@@ -226,10 +235,10 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
     float moveX = 0;
     float moveY = 0;
     float playerDistance = Util.distance(x, y, engine.player.x, engine.player.y);
-    if(playerDistance > shootDistance + 0.2) {
+    if(playerDistance > shootDistance) {
       moveX = cos(angle);
       moveY = sin(angle);
-    } else if(playerDistance < shootDistance - 0.3) {
+    } else if(playerDistance < retreatDistance) {
       moveX = -cos(angle);
       moveY = -sin(angle);
     }
@@ -251,7 +260,8 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   protected void attack() {
     if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
       stats.fireTimer = 0;
-      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprite));
+      float shotAccuracy = randomGaussian() * accuracy;
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle + shotAccuracy), sin(angle + shotAccuracy)), stats.speed * 8, range, stats.attack, projectileSprite));
     }
   }
   
@@ -389,16 +399,24 @@ public static class Circle {
     return (Util.distance(x, y, pointX, pointY) < radius);
   }
 
-  public static boolean lineCollides(float px, float py, float cx, float cy, float r) {
-    // get distance between the point and circle's center
-    float distance = dist(px, py, cx, cy);
-
-    // if the distance is less than the circle's
-    // radius the point is inside!
-    if (distance <= r) {
-      return true;
-    }
-    return false;
+  public static boolean lineCollides(float lx1, float ly1, float lx2, float ly2, float cx, float cy, float r) {
+    // if end points are inside the circle
+    if(Circle.pointCollides(lx1, ly1, cx, cy, r)) return true;
+    if(Circle.pointCollides(lx2, ly2, cx, cy, r)) return true;
+    
+    //line length
+    float len = dist(lx1, ly1, lx2, ly2);
+    //dot product of line and circle
+    float dot = (((cx - lx1) * (lx2 - lx1)) + ((cy - ly1) * (ly2 - ly1)))/sq(len);
+    //closest point on line
+    float closestX = lx1 + (dot * (lx2 - lx1));
+    float closestY = ly1 + (dot * (ly2 - ly1));
+    //check if point is actually on line segment
+    if(!Util.linePoint(lx1, ly1, lx2, ly2, closestX, closestY)) return false;
+    
+    float distance = dist(closestX, closestY, cx, cy);
+    
+    return distance < r;
   }
 }
 
@@ -459,17 +477,19 @@ public static class Rectangle {
     y = y + moveY;
     int xDir = Util.sign(moveX);
     int yDir = Util.sign(moveY);
-    if(xDir == 1 && !validRight(level, x, y, w, h)) {
-      x = ceil(x) - w/2;
+    float checkX = xDir == 1 ? ceil(x) - w/2 - 0.01 : floor(x) + w/2 + 0.01;
+    float checkY = yDir == 1 ? ceil(y) - h/2 - 0.01 : floor(y) + h/2 + 0.01;
+    if(xDir == 1 && !validRight(level, x, checkY, w, h)) {
+      x = ceil(x) - w/2 - 0.01;
     }
-    if(xDir == -1 && !validLeft(level, x, y, w, h)) {
-      x = floor(x) + w/2;
+    if(xDir == -1 && !validLeft(level, x, checkY, w, h)) {
+      x = floor(x) + w/2 + 0.01;
     }
-    if(yDir == 1 && !validBottom(level, x, y, w, h)) {
-      y = ceil(y) - h/2;
+    if(yDir == 1 && !validBottom(level, checkX, y, w, h)) {
+      y = ceil(y) - h/2 - 0.01;
     }
-    if(yDir == -1 && !validTop(level, x, y, w, h)) {
-      y = floor(y) + h/2;
+    if(yDir == -1 && !validTop(level, checkX, y, w, h)) {
+      y = floor(y) + h/2 + 0.01;
     }
     return new float[] {x, y};
   }
@@ -479,16 +499,16 @@ public static class Rectangle {
   }
   
   public static boolean lineCollides(float x1, float y1, float x2, float y2, float rx, float ry, float rw, float rh) {
-    // check if the line has hit any of the rectangle's sides
-    // uses the Line/Line function below
+    //check if either end is inside the box
     if (Util.pointInBox(x1, y1, rx, ry, rw, rh) || Util.pointInBox(x2, y2, rx, ry, rw, rh)) return true;
+    
+    //check if the line has hit any of the rectangle's sides
     boolean left =   Util.lineLine(x1, y1, x2, y2, rx, ry, rx, ry+rh);
     boolean right =  Util.lineLine(x1, y1, x2, y2, rx+rw, ry, rx+rw, ry+rh);
     boolean top =    Util.lineLine(x1, y1, x2, y2, rx, ry, rx+rw, ry);
     boolean bottom = Util.lineLine(x1, y1, x2, y2, rx, ry+rh, rx+rw, ry+rh);
 
-    // if ANY of the above are true, the line
-    // has hit the rectangle
+    //if ANY of the above are true, the line has hit the rectangle
     if (left || right || top || bottom) {
       return true;
     }

@@ -2,9 +2,8 @@ class Player {
 
   public float x, y, w = 0.5, h = 0.5, knockbackX, knockbackY;
   private float ang;
-  private int size = TILE_SIZE/2;
 
-  private float cooldown, cooldownTimer = 0, textTimer;
+  private float cooldownTimer = 0, textTimer;
 
   private PImage headSprite;
   private PImage bodySprite;
@@ -17,13 +16,10 @@ class Player {
 
   private AABB bound;
 
-  boolean slowed = false;
-
   Player(float x, float y) {
     this.x = x; //in tile space, not screen space;
     this.y = y;
     bound = new AABB(x, y, w, h);
-    stats.addStatusEffect("BEZERK", 4);
   }
 
   public void move(double delta, int[] neighbours) {
@@ -98,8 +94,7 @@ class Player {
   }
 
   private void ability() {
-    if (keys[ability] == 1 && inv.currentAbility() != null) {
-      inv.currentAbility().ability();
+    if (keys[ability] == 1 && inv.currentAbility() != null && inv.currentAbility().ability()) {
       inv.currentAbility().makeText();
     }
   }

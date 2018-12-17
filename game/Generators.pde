@@ -524,7 +524,7 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
   tiles = finishingPass(tiles, level.tileset);
   level.setTiles(tiles);
   level.setStart(placedRooms.get(0).midPoint());
-  level.setZones(new ArrayList[] {bossRegions, generalRegions});
+  level.setZones(bossRegions, generalRegions);
 }
 
 public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {

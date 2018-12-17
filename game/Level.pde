@@ -1,7 +1,8 @@
 class Level {
   
   protected int[][] tiles;
-  protected ArrayList<PVector>[] zones;
+  protected ArrayList<PVector> bossZones;
+  protected ArrayList<PVector> generalZones;
 
   protected boolean[][] visited;
   protected boolean[][] visitedCalcLocations;
@@ -17,6 +18,7 @@ class Level {
   public TileSet tileset  = new TileSet();
   protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
 
+  public ArrayList<Enemy> bosses = new ArrayList<Enemy>();
 
   private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
   private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
@@ -73,6 +75,7 @@ class Level {
     updateVisited((int)x, (int)y, visitRadius, false);
     updateVisitedSmooth();
     updateMapEntities((int)x, (int)y);
+    updateBosses();
   }
 
   public void show(PGraphics screen, PVector renderOffset) {    
@@ -162,6 +165,14 @@ class Level {
       if (tiles[i][j] > WALL) {
         tiles[i][j] = tileset.spawn;
         start = new PVector(i, j);
+      }
+    }
+  }
+
+  protected void updateBosses() {
+    for(int i = bosses.size() - 1; i >= 0; i --) {
+      if(((StandardEnemy)bosses.get(i)).stats.health < 0) {
+        bosses.remove(i);
       }
     }
   }
@@ -368,8 +379,9 @@ class Level {
     saveLevel();
   }
   
-  public void setZones(ArrayList<PVector>[] zones) { //sets the zones
-    this.zones = zones;
+  public void setZones(ArrayList<PVector> bossZones, ArrayList<PVector> generalZones) { //sets the zones
+    this.bossZones = bossZones;
+    this.generalZones = generalZones;
   }
   
 

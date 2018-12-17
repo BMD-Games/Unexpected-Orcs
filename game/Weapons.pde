@@ -32,7 +32,10 @@ class Weapon extends Item {
 
 public class WeaponFactory {
   
-  public String[] weaponTypes = new String[] {"Wand", "Staff", "Spear", "Bow"};
+  private String[] weaponTypes = new String[] {"Wand", "Staff", "Spear", "Bow"};
+  private String[] scrollTypes = new String[] {};
+  private String[] armourTypes = new String[] {};
+  private String[] abilityTypes = new String[] {};
   
   public Weapon createRandomWeapon(int tier) {
     Weapon weapon = null;
@@ -54,12 +57,13 @@ public class WeaponFactory {
   }
   
   public Wand createWand(int tier) {
-    Wand wand = new Wand(color(random(255), random(255), random(255)));
-    wand.damage =  2 + 6 * tier + (int)(randomGaussian() * tier);
-    wand.range = 5;
-    wand.bulletSpeed = 12 + abs((int)(randomGaussian() * tier * 2));
+    Wand wand = new Wand(randomColour(tier));
+    wand.damage =  4 + 6 * tier + (int)(randomGaussian() * tier);
+    wand.range = 6;
+    wand.bulletSpeed = 25 + abs((int)(randomGaussian() * tier * 2));
     wand.fireRate = Util.roundTo(0.6 - tier * abs(randomGaussian()) / 32, 100);
     wand.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 80, 100);  
+    wand.tier = tier;
     return wand;
   }
   
@@ -70,12 +74,13 @@ public class WeaponFactory {
   }
   
   public Staff createStaff(int tier) {
-    Staff staff = new Staff(color(random(255), random(255), random(255)));
+    Staff staff = new Staff(randomColour(tier));
     staff.damage =  4 + 8 * tier + (int)(randomGaussian() * tier);
     staff.range = 6;
     staff.bulletSpeed = 12 + abs((int)(randomGaussian() * tier));
     staff.fireRate = Util.roundTo(0.6 - tier * abs(randomGaussian()) / 32, 100);
     staff.accuracy = Util.roundTo(0.03 + tier * randomGaussian() / 160, 100);
+    staff.tier = tier;
     return staff;
   }
   
@@ -86,12 +91,13 @@ public class WeaponFactory {
   }
   
   public Spear createSpear(int tier) {
-    Spear spear = new Spear(color(random(255), random(255), random(255)));
+    Spear spear = new Spear(randomColour(tier));
     spear.damage =  4 + 10 * tier + (int)(randomGaussian() * tier);
     spear.range = 3;
     spear.bulletSpeed = 8 + abs((int)(randomGaussian() * tier));
     spear.fireRate = Util.roundTo(0.5 - tier * abs(randomGaussian()) / 20, 100);
     spear.accuracy = Util.roundTo(0.03 + tier * randomGaussian() / 400, 100); 
+    spear.tier = tier;
     return spear;
   }
   
@@ -102,12 +108,13 @@ public class WeaponFactory {
   }
   
   public Bow createBow(int tier) {
-    Bow bow = new Bow(color(random(255), random(255), random(255)));
+    Bow bow = new Bow(randomColour(tier));
     bow.damage =  16 * tier + (int)(randomGaussian() * tier);
     bow.range = 10;
     bow.bulletSpeed = 20 + abs((int)(randomGaussian() * tier));
-    bow.fireRate = Util.roundTo(0.3 - tier * abs(randomGaussian()) / 20, 100);
-    bow.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 160, 100); 
+    bow.fireRate = Util.roundTo(0.38 - tier * abs(randomGaussian()) / 40, 100);
+    bow.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 160, 100);    
+    bow.tier = tier;
     return bow;
   }
   
@@ -163,12 +170,12 @@ class GreenRod extends Weapon {
   
   GreenRod() {
     super("GREENROD", "Green Rod", new ArrayList<Pair>());
-    this.damage = 25;
-    this.fireRate = 0.3;
-    this.numBullets = 2;
-    this.range = 6;
-    this.accuracy = 0.05;
-    this.bulletSpeed = 15;
+    this.damage = 5;
+    this.fireRate = 0.5;
+    this.numBullets = 1;
+    this.range = 8;
+    this.accuracy = 0.03;
+    this.bulletSpeed = 10;
     this.bulletSprite = projectileSprites.get("GREENROD");
     
   }
@@ -177,13 +184,4 @@ class GreenRod extends Weapon {
   public void playSound() {
     // soundFiles.get("WHOOSH").play();
   }
-}
-
-private PImage getCombinedSprite(PImage baseImage, PImage tintImage, color colour) {
-  PGraphics temp = createGraphics(baseImage.width, baseImage.height);
-  temp.beginDraw();
-  temp.image(baseImage, 0, 0);
-  temp.image(applyColourToImage(tintImage, colour), 0, 0);
-  temp.endDraw();
-  return temp.get();
 }

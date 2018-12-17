@@ -16,10 +16,12 @@ public float zoomMax = 5;
 public float zoomMin = 1;
 public boolean inMenu = false;
 
-public boolean assetsLoaded = false;
+public PFont bitcell;
 
 public String STATE;
 public String PREV_STATE;
+
+public String loadMessage = "Litty";
 
 public Engine engine;
 public GUI gui;
@@ -30,25 +32,25 @@ void setup() {
   noSmooth();
   frameRate(60);
 
+  setState("LOADING");
   thread("loadAssets");
   thread("loadSettings");
   // thread("loadSounds");
-
+  
+  bitcell = createFont("./assets/fonts/bitcell.ttf", TILE_SIZE);
+  textFont(bitcell);
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
-
-  setState("MENU");
-
+  
   gui = new GUI();
   engine = new Engine();
 }
 
 void draw() {
-  if (!assetsLoaded) {
-    gui.drawLoading();
-    println("yeet");
-  }
   switch(STATE) {
+  case "LOADING": 
+    gui.drawLoading();
+    break;
   case "MENU":
     gui.drawMenu();
     break;
@@ -86,7 +88,7 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent e) {
-  miniMapZoom -= e.getCount()/10.0;
+  miniMapZoom -= e.getCount()/4.0;
   miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
 }
 

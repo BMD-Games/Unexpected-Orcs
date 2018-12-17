@@ -84,10 +84,6 @@ public class BossChomp extends Chomp {
   }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 public abstract class Elemental extends MeleeEnemy implements Enemy, CircleObject {
   
   protected float animationTime = 0;
@@ -193,6 +189,61 @@ public class PoisonElemental extends Elemental implements Enemy {
   
 }
 
+public class KingElemental extends Elemental implements Enemy {
+  
+  private float summonWait;
+  
+  public KingElemental(float x, float y, int tier) {
+    super(x, y, tier);
+    radius = 1;
+    stats.health = 30 + 60 * tier;
+    stats.attack = 60 * tier;
+    stats.speed = 0.01 * tier;
+    stats.defence = 2 + 8 * tier;
+    attackWaitTime = 1;
+    statusEffect = "DAZED";
+    sprite = charSprites.get("KING_ELEMENTAL");
+    sprites[0] = getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_1"));
+    sprites[1] = getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_2"));
+    sprites[2] = getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_3"));
+    sprites[3] = getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_4"));
+  }
+  
+  public boolean update(double delta) {
+    summonWait += delta;
+    if(summonWait > (3 - 0.1 * tier) && Util.distance(x, y, engine.player.x, engine.player.y) < range) {
+      summon();
+      summonWait = 0;
+    }
+    return super.update(delta);
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+    engine.addDrop(new CavePortal(x, y));
+  }
+  
+  private void summon() {
+    Elemental elemental = null;
+      switch((int)random(4)) {
+        case 0:
+          elemental = new FireElemental(x + 0.25, y - 0.25, tier);
+          break;
+        case 1:
+          elemental = new IceElemental(x + 0.25, y + 0.25, tier);
+          break;
+        case 2:
+          elemental = new MagicElemental(x - 0.25, y - 0.25, tier);
+          break;
+        case 3:
+          elemental = new PoisonElemental(x - 0.25, y, tier);
+          break;
+      }
+      engine.currentLevel.addEnemy(elemental);
+  }
+  
+}
+
 public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject {
   
   private float w = 0.5, h = 0.5;
@@ -206,6 +257,8 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
     stats.vitality = 1;
     shotWaitTime = 0.9 - abs(0.03 * tier * randomGaussian());
     shootDistance = 2.6;
+    retreatDistance = 2;
+    accuracy = 0.04;
     sprite = charSprites.get("GOBLIN_ARCHER");
     projectileSprite = getCombinedSprite(projectileSprites.get("ARROW"), projectileSprites.get("ARROW_TIP"), color(50,50,50));
   }
@@ -242,6 +295,8 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
     stats.vitality = 1;
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
+    retreatDistance = 2.6;
+    accuracy = 0.02;
     sprite = charSprites.get("GOBLIN_MAGE");
     projectileSprite = applyColourToImage(projectileSprites.get("STAFF"), color(124, 10, 10));
   }
@@ -299,7 +354,6 @@ public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject
 
 }
 
-
 public class GoblinWarrior extends MeleeEnemy implements Enemy, RectangleObject {
   
   private float w = 0.5, h = 0.5;
@@ -327,6 +381,287 @@ public class GoblinWarrior extends MeleeEnemy implements Enemy, RectangleObject 
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.05) {
       itembag.addItem(weaponFactory.createWand(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class GoblinBoxer extends MeleeEnemy implements Enemy, RectangleObject {
+  
+  private float w = 1, h = 1;
+  
+  public GoblinBoxer(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 0.6 + 0.15 * tier;
+    stats.attack = 20 + 30 * tier;
+    stats.defence = 8 * tier;
+    stats.health = 40 + 35 * tier;
+    stats.vitality = 6;
+    sprite = charSprites.get("GOBLIN_BOXER");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.5) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    }
+    if(random(1) < 0.5) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
+  
+  private float w = 1, h = 1;
+  
+  public Basilisk(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 1.2 + 0.2 * tier;
+    stats.attack = 20 + 30 * tier;
+    stats.defence = 3 * tier;
+    stats.health = 30 + 25 * tier;
+    stats.vitality = 3;
+    sprite = charSprites.get("BASILSIK");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.5) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    }
+    if(random(1) < 0.5) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Rose extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.5, h = 0.5;
+  
+  public Rose(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 0.6 + 0.1 * tier;
+    stats.attack = 10 + 12 * tier;
+    stats.defence = 2 * tier;
+    stats.health = 8 + 6 * tier;
+    stats.vitality = 1;
+    shotWaitTime = 0.6 - abs(0.03 * tier * randomGaussian());
+    shootDistance = 4;
+    retreatDistance = 0.3;
+    accuracy = 0.05;
+    sprite = charSprites.get("ROSE");
+    projectileSprite = projectileSprites.get("THORN");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "WISDOM"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Daisy extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.5, h = 0.5;
+  
+  public Daisy(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 0.6 + 0.1 * tier;
+    stats.attack = 24 + 20 * tier;
+    stats.defence = 2 * tier;
+    stats.health = 8 + 6 * tier;
+    stats.vitality = 1;
+    shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
+    shootDistance = 4;
+    retreatDistance = 0.3;
+    accuracy = 0.03;
+    sprite = charSprites.get("DAISY");
+    projectileSprite = projectileSprites.get("LEAF");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Spider extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.5, h = 0.5;
+  
+  public Spider(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 0.6 + 0.1 * tier;
+    stats.attack = 12 + 12 * tier;
+    stats.defence = 2 * tier;
+    stats.health = 8 + 6 * tier;
+    stats.vitality = 1;
+    shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
+    shootDistance = 2;
+    retreatDistance = 0.3;
+    accuracy = 0.01;
+    sprite = charSprites.get("SPIDER");
+    projectileSprite = projectileSprites.get("STAFF");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    }
+    engine.addDrop(itembag);
+  }
+  
+  protected void attack() {
+    if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
+      stats.fireTimer = 0;
+      ArrayList<Pair> statusEffects = new ArrayList(1);
+      statusEffects.add(new Pair("ALL", "SLOWED"));
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprite, statusEffects));
+    }
+  }
+
+}
+
+public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.5, h = 0.5;
+  
+  public Crawler(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 1.2 + 0.2 * tier;
+    stats.attack = 8 + 12 * tier;
+    stats.defence = 4 * tier;
+    stats.health = 25 + 25 * tier;
+    stats.vitality = 2;
+    attackWaitTime = 0.5;
+    sprite = charSprites.get("CRAWLER");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.5, h = 0.5;
+  private float animationTime = 0;
+  private int lastAnim = 1;
+  protected PImage[] sprites = {charSprites.get("BAT_SPREAD"), charSprites.get("BAT_FLAPPING")};
+  
+  public Bat(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 1.2 + 0.2 * tier;
+    stats.attack = 8 + 12 * tier;
+    stats.defence = 4 * tier;
+    stats.health = 25 + 25 * tier;
+    stats.vitality = 2;
+    attackWaitTime = 0.5;
+    sprite = charSprites.get("BAT_SPREAD");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public boolean update(double delta) {
+    animationTime += delta + random((float)delta / 2);
+    animationTime %= 0.6;
+    int currentAnim = (int)(animationTime / 0.2);
+    if((currentAnim == 0) && (lastAnim != 0)) {
+      y += 0.05;
+      sprite = sprites[1];
+    } else if((currentAnim != 0) && (currentAnim != lastAnim)) {
+      y -= 0.025;
+      sprite = sprites[0];
+    }
+    lastAnim = currentAnim;
+    return super.update(delta);
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(weaponFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itembag);
   }
