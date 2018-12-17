@@ -70,7 +70,11 @@ void draw() {
   case "DEAD":
     gui.drawDead();
     break;
+  case "SAVE":
+    gui.drawSave();
+    break;
   }
+    
 }
 
 public void update() {
