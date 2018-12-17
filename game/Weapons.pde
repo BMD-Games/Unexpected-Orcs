@@ -30,12 +30,12 @@ class Weapon extends Item {
 
 
 
-public class WeaponFactory {
+public class ItemFactory {
   
-  private String[] weaponTypes = new String[] {"Wand", "Staff", "Spear", "Bow"};
-  private String[] scrollTypes = new String[] {};
-  private String[] armourTypes = new String[] {};
-  private String[] abilityTypes = new String[] {};
+  //Weapons: Wand, Staff, Spear, Bow
+  //Scrolls: Debuff Scroll
+  //Armours: Leather, 
+  //Abilities: Telescope, FireBomb, SpellBomb, SwiftBoots
   
   public Weapon createRandomWeapon(int tier) {
     Weapon weapon = null;
@@ -54,6 +54,22 @@ public class WeaponFactory {
         break;
     }
     return weapon;
+  }
+  
+  public Armour createRandomArmour(int tier) {
+    switch((int)random(5)) {
+      case 0:
+        return new Armour("LEATHER_ARMOUR", "Plain Leather Armour", tier * 5);
+      case 1:
+        return new Armour("STEEL_ARMOUR", "Plain Steel Armour", tier * 7 + 2);
+      case 2:
+        return new Armour("GILDED_LEATHER_ARMOUR", "Improved Leather Armour", tier * 5 + 2);
+      case 3:
+        return new Armour("STRONG_STEEL_ARMOUR", "Strong Steel Armour", tier * 7 + 4);
+      case 4:
+        return new Armour("BLOOD_ARMOUR", "Blood Armour", tier * 9 + 1);
+    }
+    return new Armour("LEATHER_ARMOUR", "hOl' uP", 0);
   }
   
   public Wand createWand(int tier) {

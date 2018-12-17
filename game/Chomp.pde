@@ -15,7 +15,7 @@ class Chomp extends MeleeEnemy implements Enemy, CircleObject {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
     ItemBag itemBag = new ItemBag(x, y, tier);
     if(random(1) < 0.12) {
-      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
   }
@@ -46,7 +46,7 @@ public class BigChomp extends Chomp {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
     ItemBag itemBag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
   }
@@ -74,10 +74,10 @@ public class BossChomp extends Chomp {
     engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
     ItemBag itemBag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(itemFactory.createRandomWeapon(tier));
     }
     if(random(1) < 0.3) {
-      itemBag.addItem(weaponFactory.createRandomWeapon(tier));
+      itemBag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itemBag);
     engine.addDrop(new CavePortal(x, y));
@@ -275,7 +275,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
     engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itembag.addItem(weaponFactory.createBow(tier));
+      itembag.addItem(itemFactory.createBow(tier));
     }
     engine.addDrop(itembag);
   }
@@ -313,7 +313,7 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
     engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itembag.addItem(weaponFactory.createStaff(tier));
+      itembag.addItem(itemFactory.createStaff(tier));
     }
     engine.addDrop(itembag);
   }
@@ -347,7 +347,7 @@ public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject
     engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itembag.addItem(weaponFactory.createSpear(tier));
+      itembag.addItem(itemFactory.createSpear(tier));
     }
     engine.addDrop(itembag);
   }
@@ -380,7 +380,7 @@ public class GoblinWarrior extends MeleeEnemy implements Enemy, RectangleObject 
     engine.addDrop(new StatOrb(x, y, tier, "DEFENCE"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.05) {
-      itembag.addItem(weaponFactory.createWand(tier));
+      itembag.addItem(itemFactory.createWand(tier));
     }
     engine.addDrop(itembag);
   }
@@ -413,12 +413,13 @@ public class GoblinBoxer extends MeleeEnemy implements Enemy, RectangleObject {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.5) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+      itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     if(random(1) < 0.5) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+      itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itembag);
+    engine.addDrop(new CellarPortal(x, y));
   }
 
 }
@@ -434,7 +435,7 @@ public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
     stats.defence = 3 * tier;
     stats.health = 30 + 25 * tier;
     stats.vitality = 3;
-    sprite = charSprites.get("BASILSIK");
+    sprite = charSprites.get("BASILISK");
   }
   
   public float getWidth() {
@@ -449,12 +450,13 @@ public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
     engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.5) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+      itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     if(random(1) < 0.5) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+      itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itembag);
+    engine.addDrop(new GrassPortal(x, y));
   }
 
 }
@@ -490,7 +492,7 @@ public class Rose extends RangedEnemy implements Enemy, RectangleObject {
     engine.addDrop(new StatOrb(x, y, tier, "WISDOM"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+      itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itembag);
   }
@@ -528,7 +530,7 @@ public class Daisy extends RangedEnemy implements Enemy, RectangleObject {
     engine.addDrop(new StatOrb(x, y, tier, "MANA"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+      itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itembag);
   }
@@ -566,7 +568,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
     engine.addDrop(new StatOrb(x, y, tier, "MANA"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+      itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itembag);
   }
@@ -609,7 +611,7 @@ public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
     engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.2) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+      itembag.addItem(itemFactory.createRandomArmour(tier));
     }
     engine.addDrop(itembag);
   }
@@ -625,7 +627,7 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
   
   public Bat(float x, float y, int tier) {
     super(x, y, tier);
-    stats.speed = 1.2 + 0.2 * tier;
+    stats.speed = 2.2 + 0.3 * tier;
     stats.attack = 8 + 12 * tier;
     stats.defence = 4 * tier;
     stats.health = 25 + 25 * tier;
@@ -644,8 +646,8 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
   
   public boolean update(double delta) {
     animationTime += delta + random((float)delta / 2);
-    animationTime %= 0.6;
-    int currentAnim = (int)(animationTime / 0.2);
+    animationTime %= 0.3;
+    int currentAnim = (int)(animationTime / 0.1);
     if((currentAnim == 0) && (lastAnim != 0)) {
       y += 0.05;
       sprite = sprites[1];
@@ -660,10 +662,15 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
     ItemBag itembag = new ItemBag(x, y, tier);
-    if(random(1) < 0.2) {
-      itembag.addItem(weaponFactory.createRandomWeapon(tier));
+    if(random(1) < 0.1) {
+      itembag.addItem(new DebuffScroll(new String[] {"DAZED"}));
     }
     engine.addDrop(itembag);
+  }
+  
+  protected void attack() {
+    super.attack();
+    engine.player.stats.addStatusEffect("DAZED", 5);
   }
 
 }

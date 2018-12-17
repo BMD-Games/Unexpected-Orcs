@@ -26,7 +26,7 @@ public String loadedPlayerName = "";
 
 public Engine engine;
 public GUI gui;
-public WeaponFactory weaponFactory = new WeaponFactory();
+public ItemFactory itemFactory = new ItemFactory();
 
 void setup() {
   size(1080, 720, FX2D);
