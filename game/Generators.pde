@@ -388,7 +388,6 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
     Room room = new Room(rooms[(int)random(rooms.length)]);
 
     //find a place to put the room
-    //DEFS COULD GET INFINITE LOOPS HERE :0
     int tries = 0;
     boolean success = true;
     while (hit) {
@@ -454,13 +453,15 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
 
     //find a place to put the room
     //DEFS COULD GET INFINITE LOOPS HERE :0
-    while (hit) {
+    int j = 0;
+    while (hit) { 
       hit = false;
       float ang = random(dir - spread, dir + spread);
       float r = random(minRadius, maxRadius);
       room.x = (int)(sx + cos(ang) * r);
       room.y = (int)(sy + sin(ang) * r);
       for (int i = 0; i < placedRooms.size(); i ++) {
+        //Issue here
         if (placedRooms.get(i).collides(room)) {
           hit = true;
           break;
@@ -512,15 +513,12 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
         }
       }
     }
-    
     for(int j = 0; j < graph.get(i).size(); j ++) {
       if(graph.get(i).get(j) > i) {
         tiles = connectRooms(tiles, placedRooms.get(i), placedRooms.get(graph.get(i).get(j)));
       }
     }
   }
-
-  
   tiles = finishingPass(tiles, level.tileset);
   level.setTiles(tiles);
   level.setStart(placedRooms.get(0).midPoint());
@@ -538,27 +536,27 @@ public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
   int dy = 0;
   try { dx = (stop[0] - start[0])/(int)fastAbs(stop[0] - start[0]); } catch(Exception e) {};
   try { dy = (stop[1] - start[1])/(int)fastAbs(stop[1] - start[1]); } catch(Exception e) {};
-
+  
   int[] dir = {dx, 0};
   int[] dir2 = {0, dy};
-  if (dx < dy) { 
-    dir = new int[] {0, dy}; 
-    dir2 = new int[] {dx, 0};
-  } //random chance of starting horizontal of veritcally
-
-  boolean started = false;
-
+  if (dx < dy) { //do large axis first
+    dir[0] = 0; 
+    dir[1] = dy;
+    dir2[0] = dx;
+    dir2[1] = 0;
+  }
+  boolean changed = false;
   while(x != stop[0] || y != stop[1]) {
     if(tiles[x][y] == WALL) {
       tiles[x][y] = FLOOR;
-      started = true;
-    }
-    //if(started && tiles[x][y] != WALL) break; //if we've left the start room and we hit a floor tile, stop adding the tiles
+    }    
     x += dir[0];
     y += dir[1];
-    if (x == stop[0] || y == stop[1]) {
+    if(!changed && (x == stop[0] || y == stop[1])) {
+      changed = true;
       dir[0] = dir2[0];
       dir[1] = dir2[1];
+      if(dir[0] == 0 && dir[1] == 0) break;
     }
   }
 
