@@ -8,7 +8,7 @@ final int GUI_WIDTH = 240;
 
 final int TILE_SIZE = 64;
 final int SPRITE_SIZE = 16;
-final int SCALE = TILE_SIZE/SPRITE_SIZE;
+final int SCALE = TILE_SIZE/SPRITE_SIZE; 
 
 public int[] keys = {0, 0, 0, 0, 0};
 public float miniMapZoom = 1;
@@ -72,7 +72,11 @@ void draw() {
   case "DEAD":
     gui.drawDead();
     break;
+  case "SAVE":
+    gui.drawSave();
+    break;
   }
+    
 }
 
 public void update() {

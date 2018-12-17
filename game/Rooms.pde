@@ -55,6 +55,10 @@ class Room {
     w = tiles.length;
     h = tiles[0].length;
   }
+  
+  public void getClosestPoints(Room room) {
+    
+  }  
 }
 
 public Room randomRoom(int minSize, int maxSize, int w, int h) {  

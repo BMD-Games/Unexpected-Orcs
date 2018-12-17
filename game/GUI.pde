@@ -3,7 +3,7 @@ class GUI {
    This class is used for drawing and handeling all UI related screens and elements  
    **/
 
-  private Button play, back, options, menu, exit, pause, newGame, load;
+  private Button play, back, options, menu, exit, pause, newGame, load, save, save1, save2, save3;
   private Button keyUp, keyDown, keyLeft, keyRight, keyAbility;
   private DisplayBar healthBar, manaBar;
   private Button enterPortal;
@@ -35,6 +35,11 @@ class GUI {
     exit = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "EXIT");  
     back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 3, "BACK");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+    save = new Button(width/2 - TILE_SIZE, height/2, "SAVE");
+    save1 = new Button(width/2 - TILE_SIZE * 3.5, height/2, "SAVE1");
+    save2 = new Button(width/2 - TILE_SIZE * 0.5, height/2, "SAVE2");
+    save3 = new Button(width/2 + TILE_SIZE * 2.5, height/2, "SAVE3");
+    
     //newGame = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "NEW");
     
     
@@ -116,6 +121,22 @@ class GUI {
     menu.show(screen);
     options.show(screen);
     play.show(screen);
+    save.show(screen);
+    screen.endDraw();
+    image(screen, 0, 0);
+  }
+  
+  public void drawSave() {
+    
+    screen.beginDraw();
+    screen.background(c);
+    screen.fill(0, 100);
+    screen.rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
+    back.show(screen);
+    save1.show(screen);
+    save2.show(screen);
+    save3.show(screen);
+    
     screen.endDraw();
     image(screen, 0, 0);
   }
@@ -205,10 +226,16 @@ class GUI {
       println("clicked");
       engine.enterClosestPortal();
     } else if(STATE == "DEAD" && back.pressed()) {
-      STATE = "MENU";
+      setState("MENU");
       //Add reset function;
+    } else if(STATE == "PAUSED" && save.pressed()) {
+      setState("SAVE");
+    } else if(STATE == "SAVE" && back.pressed()) {
+       setState("PAUSED");
+    } else if(STATE == "SAVE" && save1.pressed()) {
+      saveStats("./saves/save1.txt");
+      setState("PAUSED");
     }
-    
     //-----Settings Buttons
     else if(STATE == "OPTIONS") {
       if(keyUp.pressed())      { remapNextKey = true; remapAction = up; }
@@ -576,8 +603,10 @@ class GUI {
     float y = height/2;
     float r = min(x, y) - TILE_SIZE/2;
     for(Enemy boss : engine.currentLevel.bosses) {
-      if(dist(((StandardEnemy)boss).x, ((StandardEnemy)boss).y, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
-      float ang = atan2(((StandardEnemy)boss).y - engine.player.y, ((StandardEnemy)boss).x - engine.player.x);
+      float bx = ((StandardEnemy)boss).x;
+      float by = ((StandardEnemy)boss).y;
+      if(engine.currentLevel.visited[(int)bx][(int)by] && dist(bx, by, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
+      float ang = atan2(by - engine.player.y, bx - engine.player.x);
       screen.pushMatrix();
       screen.translate(x, y);
       screen.rotate(ang);
