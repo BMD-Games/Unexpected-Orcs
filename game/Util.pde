@@ -7,7 +7,7 @@ public static class Util {
   }
 
   public static int sign(float value) {
-    if (value == 0) {
+    if(value == 0) {
       return 0;
     } else {
       return (value > 0 ? 1 : -1);

@@ -419,6 +419,7 @@ public class GoblinBoxer extends MeleeEnemy implements Enemy, RectangleObject {
       itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itembag);
+    engine.addDrop(new CellarPortal(x, y));
   }
 
 }
@@ -455,6 +456,7 @@ public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
       itembag.addItem(itemFactory.createRandomWeapon(tier));
     }
     engine.addDrop(itembag);
+    engine.addDrop(new GrassPortal(x, y));
   }
 
 }

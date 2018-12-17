@@ -207,6 +207,15 @@ class Cave extends Level {
       validSpawn(enemy);
       addEnemy(enemy);
     }
+    enemy = new GoblinBoxer(random(w), random(h), 1);
+    validSpawn(enemy);
+    addEnemy(enemy);
+    bosses.add(enemy);
+    
+    enemy = new Basilisk(random(w), random(h), 1);
+    validSpawn(enemy);
+    addEnemy(enemy);
+    bosses.add(enemy);
   }
   
   void validSpawn(StandardEnemy enemy) {
