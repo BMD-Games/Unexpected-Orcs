@@ -660,7 +660,7 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
   }
   
   public void onDeath() {
-    engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+    engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
     ItemBag itembag = new ItemBag(x, y, tier);
     if(random(1) < 0.1) {
       itembag.addItem(new DebuffScroll(new String[] {"DAZED"}));
