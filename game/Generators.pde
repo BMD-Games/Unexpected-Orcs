@@ -453,7 +453,7 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
 
     //find a place to put the room
     //DEFS COULD GET INFINITE LOOPS HERE :0
-    int j = 0;
+    int tries = 0;
     while (hit) { 
       hit = false;
       float ang = random(dir - spread, dir + spread);
@@ -464,6 +464,10 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
         //Issue here
         if (placedRooms.get(i).collides(room)) {
           hit = true;
+          if((tries ++) > 10) {
+            minRadius += 1;
+            maxRadius += 1;
+          }
           break;
         }
       }
@@ -491,6 +495,7 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
   int w = maxX - minX;
   int h = maxY - minY;
   
+  
   int[][] tiles = new int[w][h];
   //offset all rooms to make them fit into the tile grid
   //MUST do this first so that all rooms are offset
@@ -498,6 +503,9 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
     placedRooms.get(i).x -= minX;
     placedRooms.get(i).y -= minY;
   }
+  
+  saveRoomGraph(minX, maxX, minY, maxY, placedRooms, graph);
+  
   //place rooms into tile grid
   for(int i = 0; i < placedRooms.size(); i ++) {
     Room room = placedRooms.get(i);
@@ -534,12 +542,12 @@ public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
 
   int dx = 0;
   int dy = 0;
-  try { dx = (stop[0] - start[0])/(int)fastAbs(stop[0] - start[0]); } catch(Exception e) {};
-  try { dy = (stop[1] - start[1])/(int)fastAbs(stop[1] - start[1]); } catch(Exception e) {};
+  try { dx = Util.sign(stop[0] - start[0]); } catch(Exception e) {};
+  try { dy = Util.sign(stop[1] - start[1]); } catch(Exception e) {};
   
   int[] dir = {dx, 0};
   int[] dir2 = {0, dy};
-  if (dx < dy) { //do large axis first
+  if (fastAbs(dx) < fastAbs(dy)) { //do large axis first
     dir[0] = 0; 
     dir[1] = dy;
     dir2[0] = dx;
@@ -552,11 +560,13 @@ public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
     }    
     x += dir[0];
     y += dir[1];
-    if(!changed && (x == stop[0] || y == stop[1])) {
+    if(!changed && ((x == stop[0] && dx != 0) || (y == stop[1] && dy != 0))) {
       changed = true;
       dir[0] = dir2[0];
       dir[1] = dir2[1];
-      if(dir[0] == 0 && dir[1] == 0) break;
+      if(dir[0] == 0 && dir[1] == 0) {
+        break;
+      }
     }
   }
 
@@ -601,6 +611,28 @@ public int getBitMaskValue(int[][] tiles, int i, int j) {
   if (isWall(tiles, i, j+1)) bmValue += 8;
 
   return bmValue;
+}
+
+public void saveRoomGraph(int minX, int maxX, int minY, int maxY, ArrayList<Room> placedRooms, ArrayList<ArrayList<Integer>> graph) {
+  PGraphics pg = createGraphics((maxX - minX) * 10, (maxY - minY) * 10);
+  pg.beginDraw();
+  pg.background(0);
+  pg.textAlign(CENTER, CENTER);
+  pg.textSize(20);
+  pg.stroke(255);
+  for (int i = 0; i < graph.size(); i ++) {
+    pg.fill(255);
+    Room room = placedRooms.get(i);
+    pg.rect(room.x * 10, room.y * 10, room.w * 10, room.h * 10);
+    for (int j = 0; j < graph.get(i).size(); j ++) {
+      Room room2 = placedRooms.get(graph.get(i).get(j));
+      pg.line(room.midPoint().x * 10, room.midPoint().y * 10, room2.midPoint().x * 10, room2.midPoint().y * 10);
+    }
+    pg.fill(0);
+    pg.text(i, room.midPoint().x * 10, room.midPoint().y * 10);
+  }
+  pg.endDraw();
+  pg.save("/out/TestGen.png");
 }
 
 /*
