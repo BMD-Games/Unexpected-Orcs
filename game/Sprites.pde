@@ -229,6 +229,10 @@ public void loadAssets() {
   guiSprites.put("QUEST", getSprite(sheet, 0, 5, 1, 1, guiSize));
   guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
   guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
+  guiSprites.put("SAVE", getSprite(sheet, 3, 2, 2, 1, guiSize));
+  guiSprites.put("SAVE1", getSprite(sheet, 5, 2, 1, 1, guiSize));
+  guiSprites.put("SAVE2", getSprite(sheet, 6, 2, 1, 1, guiSize));
+  guiSprites.put("SAVE3", getSprite(sheet, 7, 2, 1, 1, guiSize));
   
   //-----CHAR SPRITES-----
   PImage charsheet = loadImage("/assets/sprites/charsheet.png");
