@@ -435,7 +435,7 @@ public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
     stats.defence = 3 * tier;
     stats.health = 30 + 25 * tier;
     stats.vitality = 3;
-    sprite = charSprites.get("BASILSIK");
+    sprite = charSprites.get("BASILISK");
   }
   
   public float getWidth() {
