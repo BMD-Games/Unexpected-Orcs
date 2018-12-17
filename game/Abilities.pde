@@ -109,11 +109,33 @@ class SpellBomb extends Ability {
   public boolean ability() {
     float x = screenToTileCoordX(mouseX);
     float y = screenToTileCoordY(mouseY);
-    if(engine.currentLevel.visited[(int)x][(int)y] && engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
+    if(engine.currentLevel.visited((int)x, (int)y) && engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
       for (int i = 0; i < 8; i++) {
         engine.playerProjectiles.add(new Projectile(x, y, PVector.fromAngle(PI * i / 4), 
                 5, 3, 100, projectileSprites.get("FIREBALL")));
       }
+      return true;
+      // soundFiles.get("FLAME").play();
+    }
+    return false;
+  }
+}
+
+class Teleport extends Ability {
+  
+  Teleport() {
+    super("TELESCOPE", "Teleport", "Teleport");
+    this.cooldown = 0.5;
+    this.manaCost = 5;
+  }
+  
+  @Override
+  public boolean ability() {
+    float x = screenToTileCoordX(mouseX);
+    float y = screenToTileCoordY(mouseY);
+    if(engine.currentLevel.visited((int)x, (int)y) && engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
+      engine.player.x = x;
+      engine.player.y = y;
       return true;
       // soundFiles.get("FLAME").play();
     }

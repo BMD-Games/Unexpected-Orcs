@@ -79,7 +79,7 @@ abstract class StandardEnemy implements Enemy {
     PImage statusSprite;
     for (String status : stats.statusEffects.keySet()) {
       statusSprite = statusSprites.get(status);
-      screen.image(statusSprite, x + radius / 2 + TILE_SIZE * i / 4, y + SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
+      screen.image(statusSprite, radius / 2 + TILE_SIZE * i / 4, SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
       i++;
     }
 

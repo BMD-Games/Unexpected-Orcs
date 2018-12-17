@@ -88,7 +88,7 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent e) {
-  miniMapZoom -= e.getCount()/4.0;
+  miniMapZoom -= e.getCount()/2.0;
   miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
 }
 

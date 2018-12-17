@@ -440,6 +440,14 @@ class Level {
     file.flush();
     file.close();
   }
+  
+  public boolean visited(int x, int y) {
+    try {
+      return visited[x][y];
+    } catch(Exception e) {
+      return false;
+    }
+  }
 }
 
 class PVectorZComparator implements Comparator<PVector> {

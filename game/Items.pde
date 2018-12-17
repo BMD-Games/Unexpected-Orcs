@@ -26,6 +26,7 @@ class Inventory {
     inv[1] = new FireBomb();    
     inv[2] = new SpellBomb();
     inv[3] = new Telescope();
+    inv[4] = new Teleport();
   }
   
   void swapItemsInv(int i, int j) {

@@ -223,7 +223,6 @@ class GUI {
     } else if ((STATE == "OPTIONS") && back.pressed()) {
       revertState();
     } else if(STATE == "PLAYING" && showingPortal && enterPortal.pressed()) {
-      println("clicked");
       engine.enterClosestPortal();
     } else if(STATE == "DEAD" && back.pressed()) {
       setState("MENU");
@@ -333,16 +332,19 @@ class GUI {
     float vw = GUI_WIDTH - (2 * invBuff); //width of the view
     float vh = vw * 0.8;
     
-    int scale = (int)((vw/engine.currentLevel.w) * miniMapZoom);
+    int minScale = ceil(vw/engine.currentLevel.w);
+    int scale = max((int)((vw/engine.currentLevel.w) * miniMapZoom), minScale);
     
     int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
     int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
     
-    //when you get close to the edges - stop centering on the player
+    //when you get close to the edges - stop centering on the player    
     if(sx < 0) sx = 0;
     if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
     if(sy < 0) sy = 0;
     if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
+    
+    
     
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
