@@ -1,9 +1,9 @@
-public void saveMap(String filename) throws IOException {
+public void saveStats(String filename){
   // set up file reader
   PrintWriter printer;
   try {
     File file = new File(filename);
-    printer =  new PrintWriter(file);
+    printer =  new PrintWriter(filename);
     printer.println(engine.player.stats.attack);
     printer.println(engine.player.stats.defence);
     printer.println(engine.player.stats.vitality);
@@ -16,6 +16,11 @@ public void saveMap(String filename) throws IOException {
   } catch (IOException ioe) {
     System.out.println(ioe);
   }
+  
+  
+}
+
+public void readStats(String filename){
   
   
 }
