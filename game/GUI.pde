@@ -628,8 +628,10 @@ class GUI {
     float y = height/2;
     float r = min(x, y) - TILE_SIZE/2;
     for(Enemy boss : engine.currentLevel.bosses) {
-      if(dist(((StandardEnemy)boss).x, ((StandardEnemy)boss).y, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
-      float ang = atan2(((StandardEnemy)boss).y - engine.player.y, ((StandardEnemy)boss).x - engine.player.x);
+      float bx = ((StandardEnemy)boss).x;
+      float by = ((StandardEnemy)boss).y;
+      if(engine.currentLevel.visited[(int)bx][(int)by] && dist(bx, by, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
+      float ang = atan2(by - engine.player.y, bx - engine.player.x);
       screen.pushMatrix();
       screen.translate(x, y);
       screen.rotate(ang);
