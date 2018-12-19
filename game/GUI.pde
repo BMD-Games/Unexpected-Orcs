@@ -509,15 +509,15 @@ class GUI {
     if (type == "Weapon") {
       int fireRate = (int)(60 / ((Weapon)item).fireRate);
       desc += "Fire rate:" + fireRate + "\n";
-      desc += "Range:" + ((Weapon)item).range + "\n";
+      desc += "Range: " + ((Weapon)item).range + "\n";
       float accuracy = 1 - ((Weapon)item).accuracy;
-      desc += "Accuracy:" + accuracy + "\n";
-      desc += "Damage:" + ((Weapon)item).damage + "\n";
+      desc += "Accuracy: " + accuracy + "\n";
+      desc += "Damage: " + ((Weapon)item).damage + "\n";
     } else if (type == "Ability") {
-      desc += "Mana cost:" + ((Ability)item).manaCost + "\n";
-      desc += "Cooldown:" + ((Ability)item).cooldown + "s\n";
+      desc += "Mana cost: " + ((Ability)item).manaCost + "\n";
+      desc += "Cooldown: " + ((Ability)item).cooldown + "s\n";
     } else if (type == "Armour") {
-      desc += "Defence:" + ((Armour)item).defence + "\n";
+      desc += "Defence: " + ((Armour)item).defence + "\n";
     } else if (type == "Scroll") {
       desc += ((Scroll)item).description;      
     }
@@ -575,9 +575,9 @@ class GUI {
   
   private void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
       int mouseOverWidth = 3 * GUI_WIDTH/4;
-      
-      screen.textAlign(LEFT, TOP);
       int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
+     
+      screen.textAlign(LEFT, TOP);
       
       screen.fill(100);
       screen.rect(x, y, mouseOverWidth, mouseOverHeight);
@@ -614,17 +614,36 @@ class GUI {
     float x = (width - GUI_WIDTH)/2 + GUI_WIDTH;
     float y = height/2;
     float r = min(x, y) - TILE_SIZE/2;
+    PImage sprite = null;
     for(Enemy boss : engine.currentLevel.bosses) {
       float bx = ((StandardEnemy)boss).x;
       float by = ((StandardEnemy)boss).y;
       if(engine.currentLevel.visited[(int)bx][(int)by] && dist(bx, by, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
       float ang = atan2(by - engine.player.y, bx - engine.player.x);
+      float dx = x + cos(ang) * r;
+      float dy = y + sin(ang) * r;
       screen.pushMatrix();
-      screen.translate(x, y);
+      screen.translate(dx, dy);
       screen.rotate(ang);
-      screen.image(guiSprites.get("QUEST"), r, 0, TILE_SIZE/2, TILE_SIZE/2);
+      screen.image(guiSprites.get("QUEST"), -TILE_SIZE/4, -TILE_SIZE/4, TILE_SIZE/2, TILE_SIZE/2);
       screen.popMatrix();
+      if(dist(mouseX, mouseY, dx, dy) < TILE_SIZE/2) {
+        sprite = ((StandardEnemy)boss).sprite;
+      }
     }
+    if(sprite != null) {
+      drawMouseOverSprite(mouseX, mouseY, sprite);
+    }
+  }
+  
+  private void drawMouseOverSprite(float x, float y, PImage sprite) {
+    int mouseOverSize = TILE_SIZE + buff * 4;
+    screen.fill(100);
+    screen.rect(x, y, mouseOverSize, mouseOverSize);
+    screen.noFill();
+    screen.stroke(130);
+    screen.rect(x + buff, y + buff, mouseOverSize - buff * 2, mouseOverSize - buff * 2);
+    screen.image(sprite, x + buff * 2, y + buff * 2, TILE_SIZE, TILE_SIZE);
   }
   
 }
