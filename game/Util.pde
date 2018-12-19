@@ -97,6 +97,7 @@ public color randomColour(int tier) {
 
 public PImage applyColourToImage(PImage img, color c) {
   img.loadPixels();
+  
   for(int i = 0; i < img.pixels.length; i ++) {
     img.pixels[i] = color(red(c), green(c), blue(c), alpha(img.pixels[i]));
   }

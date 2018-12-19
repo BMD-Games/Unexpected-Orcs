@@ -300,9 +300,8 @@ public float screenToTileCoordY(float y) {
 }
 
 public float tileToScreenCoordX(float x) {
-  x -= GUI_WIDTH; //remove gui offset
   PVector renderOff = engine.getRenderOffset();
-  return (x  * TILE_SIZE) - renderOff.x;
+  return (x  * TILE_SIZE) - renderOff.x + GUI_WIDTH;
 }
 
 public float tileToScreenCoordY(float y) {

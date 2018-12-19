@@ -539,7 +539,6 @@ public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
   
   int x = (int)start.x;
   int y = (int)start.y;
-  println(x, y);
 
   int dx = 0;
   int dy = 0;
@@ -556,7 +555,6 @@ public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
   }
   boolean changed = false;
   while(x != (int)stop.x || y != (int)stop.y) {
-    println(x, y, tiles.length, tiles[0].length, tiles[x][y]);
     if(tiles[x][y] <= WALL) {
       tiles[x][y] = FLOOR;
     } 

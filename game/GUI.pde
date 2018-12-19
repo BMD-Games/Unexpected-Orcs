@@ -382,7 +382,7 @@ class GUI {
     float vw = GUI_WIDTH - (2 * invBuff); //width of the view
     float vh = vw * 0.8;
     
-    int minScale = min(ceil(vw/engine.currentLevel.w), ceil(vh/engine.currentLevel.h));
+    int minScale = max(ceil(vw/engine.currentLevel.w), ceil(vh/engine.currentLevel.h));
     int scale = max((int)((vw/engine.currentLevel.w) * miniMapZoom), minScale);
     
     int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
@@ -652,17 +652,22 @@ class GUI {
 
   private void showStatusEffects() {
     int i = 0;
+    String mouseOverEffect = "";
     for (String effect : engine.player.stats.statusEffects.keySet()) {
       i++;
       screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
       if(Util.pointInBox(mouseX, mouseY, screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE)) {
-        int mouseOverWidth = 3 * GUI_WIDTH/4;
-        WrappedText title = wrapText(effect, mouseOverWidth - buff * 4, TILE_SIZE/2);
-        WrappedText subtitle = wrapText(Util.roundTo(engine.player.stats.statusEffects.get(effect), 10) + "s remaining", mouseOverWidth - buff * 4, TILE_SIZE/2);
-        WrappedText description = wrapText("", mouseOverWidth - buff * 4, 0);
-        drawMouseOverText(mouseX, mouseY, title, subtitle, description);
+        mouseOverEffect = effect;
       }
     }
+    
+    if(!mouseOverEffect.equals("")) {
+      int mouseOverWidth = 3 * GUI_WIDTH/4;
+      WrappedText title = wrapText(mouseOverEffect, mouseOverWidth - buff * 4, TILE_SIZE/2);
+      WrappedText subtitle = wrapText(Util.roundTo(engine.player.stats.statusEffects.get(mouseOverEffect), 10) + "s remaining", mouseOverWidth - buff * 4, TILE_SIZE/2);
+      WrappedText description = wrapText("", mouseOverWidth - buff * 4, 0);
+      drawMouseOverText(mouseX, mouseY, title, subtitle, description);
+    }    
   }
 
   private void drawQuest() {
@@ -673,7 +678,7 @@ class GUI {
     for(Enemy boss : engine.currentLevel.bosses) {
       float bx = ((StandardEnemy)boss).x;
       float by = ((StandardEnemy)boss).y;
-      if (engine.currentLevel.visited[(int)bx][(int)by] && dist(bx, by, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
+      if (engine.currentLevel.visited((int)bx, (int)by) && dist(bx, by, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
       float ang = atan2(by - engine.player.y, bx - engine.player.x);
       float dx = x + cos(ang) * r;
       float dy = y + sin(ang) * r;

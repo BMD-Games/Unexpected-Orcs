@@ -70,7 +70,7 @@ abstract class StandardEnemy implements Enemy {
 
   /* Displays enemy to screen */
   public void show(PGraphics screen, PVector renderOffset) {
-    if(!engine.currentLevel.visited[(int)x][(int)y]) return;
+    if(!engine.currentLevel.visited((int)x, (int)y)) return;
     screen.pushMatrix();
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
 
@@ -127,7 +127,18 @@ abstract class StandardEnemy implements Enemy {
   /* Checks collision with line */
   public boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2) {
     if(this instanceof RectangleObject) {
-      return Rectangle.lineCollides(lineX1, lineY1,lineX2, lineY2, x, y, ((RectangleObject) this).getWidth(), ((RectangleObject) this).getHeight());
+      
+      float w = ((RectangleObject) this).getWidth();
+      float h = ((RectangleObject) this).getHeight();
+      if(drawDebug) {
+        debugScreen.beginDraw();
+        debugScreen.noFill();
+        debugScreen.stroke(255);
+        debugScreen.line(tileToScreenCoordX(lineX1), tileToScreenCoordY(lineY1), tileToScreenCoordX(lineX2), tileToScreenCoordY(lineY2));
+        debugScreen.rect(tileToScreenCoordX(x-w/2), tileToScreenCoordY(y-h/2), w * TILE_SIZE, h * TILE_SIZE);
+        debugScreen.endDraw();
+      }
+      return Rectangle.lineCollides(lineX1, lineY1,lineX2, lineY2, x - w/2, y - h/2, w, h);
     } else if(this instanceof CircleObject) {
       return Circle.lineCollides(lineX1, lineY1,lineX2, lineY2, x, y, ((CircleObject) this).getRadius());
     }
