@@ -383,7 +383,7 @@ class GUI {
     float vh = vw * 0.8;
     
     println((int)(vw/engine.currentLevel.w), (int)(vh/engine.currentLevel.h));
-    int minScale = min((int)(vw/engine.currentLevel.w), (int)(vh/engine.currentLevel.h));
+    int minScale = min(ceil(vw/engine.currentLevel.w), ceil(vh/engine.currentLevel.h));
     int scale = max((int)((vw/engine.currentLevel.w) * miniMapZoom), minScale);
     
     int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
@@ -391,12 +391,12 @@ class GUI {
     
     print(sx, sy, minScale, scale);
     
-    //when you get close to the edges - stop centering on the player    
-    if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
+    //when you get close to the edges - stop centering on the player
     if(sx < 0) sx = 0;
-        
-    if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
     if(sy < 0) sy = 0;
+    if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
+    if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
+    
     println(",", sx, sy);
     
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);

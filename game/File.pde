@@ -73,7 +73,7 @@ public Player readStats(String filename) throws IOException{
   String[] splitLine = line.split(";");
   println("here");
   playerToReturn.stats.attackKills = makeHashmap(splitLine);
-  
+  playerToReturn.stats.calcAllStats();
   // defence
   
   
