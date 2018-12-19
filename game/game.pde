@@ -45,6 +45,11 @@ void setup() {
   
   gui = new GUI();
   engine = new Engine();
+  try {
+    engine.player = readStats(sketchPath() + "/saves/SUPERSS.txt");
+  } catch (IOException ioe) {
+    println(ioe);
+  }
 }
 
 void draw() {
