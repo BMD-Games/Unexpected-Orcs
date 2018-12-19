@@ -197,8 +197,8 @@ public class KingElemental extends Elemental implements Enemy {
     super(x, y, tier);
     radius = 1;
     stats.health = 30 + 60 * tier;
-    stats.attack = 60 * tier;
-    stats.speed = 0.01 * tier;
+    stats.attack = 20 + 60 * tier;
+    stats.speed = 0.2 * tier;
     stats.defence = 2 + 8 * tier;
     attackWaitTime = 1;
     statusEffect = "DAZED";
