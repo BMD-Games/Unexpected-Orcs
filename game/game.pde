@@ -61,10 +61,9 @@ void draw() {
     //thread("update");
     engine.update();
     engine.show();
-    gui.drawUnpaused(engine.player);
+    gui.drawPlay(engine.player);
     break;
   case "PAUSED":
-    gui.drawUnpaused(engine.player);
     engine.show();
     gui.drawPaused();
 

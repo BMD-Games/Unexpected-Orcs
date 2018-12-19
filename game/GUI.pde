@@ -115,7 +115,7 @@ class GUI {
 
   public void drawPaused() {
     //Draws the paused overlay
-    drawUnpaused(engine.player);
+    drawPlay(engine.player);
     screen.beginDraw();
     //clearScreen();
     screen.fill(0, 100);
@@ -143,9 +143,9 @@ class GUI {
     image(screen, 0, 0);
   }
 
-  public void drawUnpaused(Player player) {
+  public void drawPlay(Player player) {
 
-    //Draws the pause button during gameplay
+    //Draws the GUI during gameplay
 
     healthBar.updateBar(player.stats.health, player.stats.healthMax);
     manaBar.updateBar(player.stats.mana, player.stats.manaMax);

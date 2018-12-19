@@ -6,7 +6,7 @@ class Level {
 
   protected boolean[][] visited;
   protected boolean[][] visitedCalcLocations;
-  protected int visitRadius = 8;  
+  protected int visitRadius = 8;
   
   private final int CHUNK_SIZE = 7;
   private int CHUNK_W, CHUNK_H;
