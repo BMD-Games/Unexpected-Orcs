@@ -62,10 +62,9 @@ void draw() {
     //thread("update");
     engine.update();
     engine.show();
-    gui.drawUnpaused(engine.player);
+    gui.drawPlay(engine.player);
     break;
   case "PAUSED":
-    gui.drawUnpaused(engine.player);
     engine.show();
     gui.drawPaused();
 
@@ -92,7 +91,7 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent e) {
-  miniMapZoom -= e.getCount()/4.0;
+  miniMapZoom -= e.getCount()/2.0;
   miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
 }
 

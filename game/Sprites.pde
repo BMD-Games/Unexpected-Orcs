@@ -157,7 +157,7 @@ public void loadAssets() {
   itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
   itemSprites.put("STEEL_ARMOUR", getSprite(itemsheet, 1, 4, 1, 1, itemSize));
   itemSprites.put("GILDED_LEATHER_ARMOUR", getSprite(itemsheet, 2, 4, 1, 1, itemSize));
-  itemSprites.put("RE-ENFORCED_LEATHER_ARMOUR", getSprite(itemsheet, 3, 4, 1, 1, itemSize));
+  itemSprites.put("STRONG_STEEL_ARMOUR", getSprite(itemsheet, 3, 4, 1, 1, itemSize));
   itemSprites.put("BLOOD_ARMOUR", getSprite(itemsheet, 4, 4, 1, 1, itemSize));
   
   //Guns
@@ -325,10 +325,6 @@ public void loadAssets() {
   projectileSprites.put("THORN", getSprite(projectilesheet, 1, 2, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
-  
-  SPAWN_TILES.add(STAR_WOOD);
-  SPAWN_TILES.add(X_STONE);
-  SPAWN_TILES.add(PATCH_GRASS);
   
   loadStats();
   setState("MENU");

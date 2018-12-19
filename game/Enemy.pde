@@ -79,7 +79,7 @@ abstract class StandardEnemy implements Enemy {
     PImage statusSprite;
     for (String status : stats.statusEffects.keySet()) {
       statusSprite = statusSprites.get(status);
-      screen.image(statusSprite, x + radius / 2 + TILE_SIZE * i / 4, y + SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
+      screen.image(statusSprite, radius / 2 + TILE_SIZE * i / 4, SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
       i++;
     }
 
@@ -479,16 +479,18 @@ public static class Rectangle {
     int yDir = Util.sign(moveY);
     float checkX = xDir == 1 ? ceil(x) - w/2 - 0.01 : floor(x) + w/2 + 0.01;
     float checkY = yDir == 1 ? ceil(y) - h/2 - 0.01 : floor(y) + h/2 + 0.01;
-    if(xDir == 1 && !validRight(level, x, checkY, w, h)) {
+    float useX = false ? x : checkX;
+    float useY = level.getTile((int)x + xDir, (int)y + yDir) > WALL ? y : checkY;
+    if(xDir == 1 && !validRight(level, x, useY, w, h)) {
       x = ceil(x) - w/2 - 0.01;
     }
-    if(xDir == -1 && !validLeft(level, x, checkY, w, h)) {
+    if(xDir == -1 && !validLeft(level, x, useY, w, h)) {
       x = floor(x) + w/2 + 0.01;
     }
-    if(yDir == 1 && !validBottom(level, checkX, y, w, h)) {
+    if(yDir == 1 && !validBottom(level, useX, y, w, h)) {
       y = ceil(y) - h/2 - 0.01;
     }
-    if(yDir == -1 && !validTop(level, checkX, y, w, h)) {
+    if(yDir == -1 && !validTop(level, useX, y, w, h)) {
       y = floor(y) + h/2 + 0.01;
     }
     return new float[] {x, y};
