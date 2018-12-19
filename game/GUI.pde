@@ -382,15 +382,12 @@ class GUI {
     float vw = GUI_WIDTH - (2 * invBuff); //width of the view
     float vh = vw * 0.8;
     
-    println((int)(vw/engine.currentLevel.w), (int)(vh/engine.currentLevel.h));
     int minScale = min(ceil(vw/engine.currentLevel.w), ceil(vh/engine.currentLevel.h));
     int scale = max((int)((vw/engine.currentLevel.w) * miniMapZoom), minScale);
     
     int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
     int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
-    
-    print(sx, sy, minScale, scale);
-    
+        
     //when you get close to the edges - stop centering on the player
     if(sx < 0) sx = 0;
     if(sy < 0) sy = 0;
@@ -624,32 +621,35 @@ class GUI {
   }
   
   private void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
-      int mouseOverWidth = 3 * GUI_WIDTH/4;
-      int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
-     
-      screen.textAlign(LEFT, TOP);
-      
-      screen.fill(100);
-      screen.rect(x, y, mouseOverWidth, mouseOverHeight);
-      screen.noFill();
-      screen.stroke(130);
-      screen.rect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
-      screen.line(x + buff, y + title.textHeight + buff/2, x + mouseOverWidth - buff, y + title.textHeight + buff/2);
-      screen.line(x + buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2, x + mouseOverWidth - buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2);
-      
-      screen.fill(210);
-      screen.textSize(title.textSize);
-      screen.textLeading(title.textSize);
-      screen.text(title.string, x + buff * 2, y + buff);
-  
-      screen.textSize(subtitle.textSize);
-      screen.textLeading(subtitle.textSize);
-      screen.text(subtitle.string, x + buff * 2, y + title.textHeight + (buff * 2));
-          
-      screen.fill(255);
-      screen.textSize(description.textSize);
-      screen.textLeading(description.textSize);
-      screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
+    int mouseOverWidth = 3 * GUI_WIDTH/4;
+    int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
+   
+    if(x + mouseOverWidth > screen.width) x = screen.width - mouseOverWidth;
+    if(y + mouseOverHeight > screen.height) y = screen.height - mouseOverHeight;
+   
+    screen.textAlign(LEFT, TOP);
+    
+    screen.fill(100);
+    screen.rect(x, y, mouseOverWidth, mouseOverHeight);
+    screen.noFill();
+    screen.stroke(130);
+    screen.rect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
+    screen.line(x + buff, y + title.textHeight + buff/2, x + mouseOverWidth - buff, y + title.textHeight + buff/2);
+    screen.line(x + buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2, x + mouseOverWidth - buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2);
+    
+    screen.fill(210);
+    screen.textSize(title.textSize);
+    screen.textLeading(title.textSize);
+    screen.text(title.string, x + buff * 2, y + buff);
+
+    screen.textSize(subtitle.textSize);
+    screen.textLeading(subtitle.textSize);
+    screen.text(subtitle.string, x + buff * 2, y + title.textHeight + (buff * 2));
+        
+    screen.fill(255);
+    screen.textSize(description.textSize);
+    screen.textLeading(description.textSize);
+    screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
   }
 
   private void showStatusEffects() {
@@ -717,6 +717,10 @@ class GUI {
   
   private void drawMouseOverSprite(float x, float y, PImage sprite) {
     int mouseOverSize = TILE_SIZE + buff * 4;
+    
+    if(x + mouseOverSize > screen.width) x = screen.width - mouseOverSize;
+    if(y + mouseOverSize > screen.height) y = screen.height - mouseOverSize;
+    
     screen.fill(100);
     screen.rect(x, y, mouseOverSize, mouseOverSize);
     screen.noFill();
