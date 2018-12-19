@@ -20,7 +20,7 @@ class Inventory {
     active[0] = new GreenRod();
     active[1] = new SwiftBoots();
     active[2] = new Armour("LEATHER_ARMOUR", "Plain Leather Armour", 5);
-    active[3] = new DebuffScroll(new String[] {"SLOWED", "WEAK", "ARMOUR_BREAK", "SICK", "CURSED", "DAZED"});
+    active[3] = new DebuffScroll(new String[] {"SLOWED"});
     
     inv[0] = itemFactory.createRandomWeapon(4);
     inv[1] = new FireBomb();    
