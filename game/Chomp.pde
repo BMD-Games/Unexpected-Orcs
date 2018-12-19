@@ -246,7 +246,7 @@ public class KingElemental extends Elemental implements Enemy {
 
 public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject {
   
-  private float w = 0.5, h = 0.5;
+  private float w = 0.4, h = 0.5;
   
   public GoblinArcher(float x, float y, int tier) {
     super(x, y, tier);
@@ -284,7 +284,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
 
 public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
   
-  private float w = 0.5, h = 0.5;
+  private float w = 0.4, h = 0.5;
   
   public GoblinMage(float x, float y, int tier) {
     super(x, y, tier);
@@ -322,7 +322,7 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
 
 public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject {
   
-  private float w = 0.5, h = 0.5;
+  private float w = 0.4, h = 0.5;
   
   public GoblinSpearman(float x, float y, int tier) {
     super(x, y, tier);
@@ -356,7 +356,7 @@ public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject
 
 public class GoblinWarrior extends MeleeEnemy implements Enemy, RectangleObject {
   
-  private float w = 0.5, h = 0.5;
+  private float w = 0.4, h = 0.5;
   
   public GoblinWarrior(float x, float y, int tier) {
     super(x, y, tier);
@@ -578,7 +578,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
       stats.fireTimer = 0;
       ArrayList<Pair> statusEffects = new ArrayList(1);
       statusEffects.add(new Pair("ALL", "SLOWED"));
-      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 8, range, stats.attack, projectileSprite, statusEffects));
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle), sin(angle)), stats.speed * 3, range, stats.attack, projectileSprite, statusEffects));
     }
   }
 
@@ -610,7 +610,7 @@ public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
   public void onDeath() {
     engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
     ItemBag itembag = new ItemBag(x, y, tier);
-    if(random(1) < 0.2) {
+    if(random(1) < 0.3) {
       itembag.addItem(itemFactory.createRandomArmour(tier));
     }
     engine.addDrop(itembag);
