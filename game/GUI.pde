@@ -394,8 +394,6 @@ class GUI {
     if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
     if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
     
-    println(",", sx, sy);
-    
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
 
@@ -657,6 +655,13 @@ class GUI {
     for (String effect : engine.player.stats.statusEffects.keySet()) {
       i++;
       screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      if(Util.pointInBox(mouseX, mouseY, screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE)) {
+        int mouseOverWidth = 3 * GUI_WIDTH/4;
+        WrappedText title = wrapText(effect, mouseOverWidth - buff * 4, TILE_SIZE/2);
+        WrappedText subtitle = wrapText(Util.roundTo(engine.player.stats.statusEffects.get(effect), 10) + "s remaining", mouseOverWidth - buff * 4, TILE_SIZE/2);
+        WrappedText description = wrapText("", mouseOverWidth - buff * 4, 0);
+        drawMouseOverText(mouseX, mouseY, title, subtitle, description);
+      }
     }
   }
 
@@ -817,6 +822,9 @@ class WrappedText {
   returns the number of lines it will take.
 */
 public WrappedText wrapText(String string, float w, int textSize) {
+  if(textSize == 0) {
+    return new WrappedText("", 0, 1);
+  }
   textSize(textSize);
   float charSize = textWidth("A"); //get width of a single character
   String newString = "";
