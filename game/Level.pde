@@ -183,6 +183,17 @@ class Level {
     miniMapOverlay.stroke(0, 0, 255);
     miniMapOverlay.point(playerX, playerY);
     //can add monsters here too;
+    miniMapOverlay.stroke(255, 0, 0);
+    for(Enemy boss : bosses) {
+      miniMapOverlay.point(((StandardEnemy)boss).x, ((StandardEnemy)boss).y); 
+    }
+    
+    /*for(int i : getChunks((int)engine.player.x, (int)engine.player.y)) {
+      for(Enemy enemy : enemies[i]) {
+        miniMapOverlay.point(((StandardEnemy)enemy).x, ((StandardEnemy)enemy).y);        
+      }
+    }*/
+    
     miniMapOverlay.endDraw();
   }
 
@@ -458,34 +469,3 @@ class PVectorZComparator implements Comparator<PVector> {
     return 0;
   }
 }
-
-
-/*
-int x = visitRadius - 1;
- int y = 0;
- int dx = 1;
- int dy = 1;
- int err = dx - (visitRadius << 1);
- while (x >= y) {
- visitTilesInLine(x0, y0, x0 + x, y0 + y); //need to do it for all 8 octants 
- visitTilesInLine(x0, y0, x0 + y, y0 + x); //  
- visitTilesInLine(x0, y0, x0 - y, y0 + x); //  \|/
- visitTilesInLine(x0, y0, x0 - x, y0 + y); //  -+-
- visitTilesInLine(x0, y0, x0 - x, y0 - y); //  /|\
- visitTilesInLine(x0, y0, x0 - y, y0 - x); //
- visitTilesInLine(x0, y0, x0 + y, y0 - x);
- visitTilesInLine(x0, y0, x0 + x, y0 - y);
- 
- if (err <= 0) {
- y++;
- err += dy;
- dy += 2;
- }
- if (err > 0) {
- x--;
- dx += 2;
- err += dx - (visitRadius << 1);
- }
- }
- try { visitedCalcLocations[x0][y0] = true; } catch(Exception e) {} //should always work but good to be safe
- */

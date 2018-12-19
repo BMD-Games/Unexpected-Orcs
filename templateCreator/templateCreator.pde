@@ -25,6 +25,7 @@ void setup() {
   size(1080, 720);
   noSmooth();
   background(200);
+  
   loadAssets();
 }
 
