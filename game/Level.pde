@@ -39,8 +39,7 @@ class Level {
 
     renderW = width/TILE_SIZE + 2 * buffer;
     renderH = height/TILE_SIZE + 2 * buffer;
-
-    //Initialise minimap
+    
     background = createGraphics(width - GUI_WIDTH, height);
     miniMapOverlay = createGraphics(w, h);
     miniMap = createGraphics(w, h);
@@ -381,13 +380,25 @@ class Level {
   
   public void setTiles(int[][] tiles) { //Tiles with tileset
     this.tiles = tiles;
+    resizeLevel();
+    saveLevel();
+  }
+  
+  private void resizeLevel() {
     this.w = tiles.length;
     this.h = tiles[0].length;
     
     initialiseChunks();
     visited = new boolean[w][h];
     visitedCalcLocations = new boolean[w][h];
-    saveLevel();
+    
+    background = createGraphics(width - GUI_WIDTH, height);
+    miniMapOverlay = createGraphics(w, h);
+    miniMap = createGraphics(w, h);
+    miniMap.beginDraw();
+    miniMap.background(0);
+    miniMap.noStroke();
+    miniMap.endDraw();
   }
   
   public void setZones(ArrayList<PVector> bossZones, ArrayList<PVector> generalZones) { //sets the zones

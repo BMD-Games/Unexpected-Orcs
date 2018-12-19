@@ -334,19 +334,22 @@ class GUI {
     float vw = GUI_WIDTH - (2 * invBuff); //width of the view
     float vh = vw * 0.8;
     
-    int minScale = ceil(vw/engine.currentLevel.w);
+    println((int)(vw/engine.currentLevel.w), (int)(vh/engine.currentLevel.h));
+    int minScale = min((int)(vw/engine.currentLevel.w), (int)(vh/engine.currentLevel.h));
     int scale = max((int)((vw/engine.currentLevel.w) * miniMapZoom), minScale);
     
     int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
     int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
     
+    print(sx, sy, minScale, scale);
+    
     //when you get close to the edges - stop centering on the player    
-    if(sx < 0) sx = 0;
     if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
-    if(sy < 0) sy = 0;
+    if(sx < 0) sx = 0;
+        
     if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
-    
-    
+    if(sy < 0) sy = 0;
+    println(",", sx, sy);
     
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
@@ -508,7 +511,7 @@ class GUI {
     String type = item.type;
     if (type == "Weapon") {
       int fireRate = (int)(60 / ((Weapon)item).fireRate);
-      desc += "Fire rate:" + fireRate + "\n";
+      desc += "Fire rate: " + fireRate + "\n";
       desc += "Range: " + ((Weapon)item).range + "\n";
       float accuracy = 1 - ((Weapon)item).accuracy;
       desc += "Accuracy: " + accuracy + "\n";

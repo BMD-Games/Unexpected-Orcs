@@ -157,6 +157,94 @@ class CellarDungeon extends Level {
   
 }
 
+class CircleDungeon extends Level {
+
+  /***
+   Creates a dungeon and appends the tiles to the Level it's been given.
+   
+   level     - The level being generated for
+   maxRooms  - Number of rooms the dungeon will have
+   spread    - Angle variation of the rooms from existing rooms
+   minRadius - minimum distance between rooms
+   maxRadius - maximum distance between rooms
+   spawnRoom - Preset for the spawn room
+   bossRoom  - Preset for the boss romm
+   rooms     - Presets for all other rooms
+   ***/
+
+  CircleDungeon() {
+    super(60, 45, "Circle", cellarTileset());
+    generateConnectedDungeon(this, 20, PI/4, 10, 15, diamondSpawn(), circleBoss(), new Room[]{circle5(), circle7(), circle11()});
+    generateEnemies();
+  }
+  
+  void generateEnemies() {
+    //Add enemies to level
+    StandardEnemy enemy;
+    for(int i = 0; i < 20; i ++) {
+      enemy = new FireElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 20; i ++) {
+      enemy = new IceElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 20; i ++) {
+      enemy = new MagicElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 20; i ++) {
+      enemy = new PoisonElemental(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 3; i ++) {
+      enemy = new FireElemental(random(w), random(h), 1);
+      validBossSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 3; i ++) {
+      enemy = new IceElemental(random(w), random(h), 1);
+      validBossSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 3; i ++) {
+      enemy = new MagicElemental(random(w), random(h), 1);
+      validBossSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 3; i ++) {
+      enemy = new PoisonElemental(random(w), random(h), 1);
+      validBossSpawn(enemy);
+      addEnemy(enemy);
+    }
+    enemy = new KingElemental(random(w), random(h), 1);
+    validBossSpawn(enemy);
+    addEnemy(enemy);
+    bosses.add(enemy);
+  }
+  
+  private void validSpawn(StandardEnemy enemy) {
+    do {
+      PVector coords = generalZones.get((int)random(generalZones.size()));
+      enemy.x = coords.x + random(1);
+      enemy.y = coords.y + random(1);
+    } while (!enemy.validPosition(this, enemy.x, enemy.y));
+  }
+  
+  private void validBossSpawn(StandardEnemy enemy) {
+    do {
+      PVector coords = bossZones.get((int)random(bossZones.size()));
+      enemy.x = coords.x + random(1);
+      enemy.y = coords.y + random(1);
+    } while (!enemy.validPosition(this, enemy.x, enemy.y));
+  }
+  
+}
+
 class Cave extends Level {
   float chance = 0.4; //chance the a cell will be a wall
   int iterations = 5;
