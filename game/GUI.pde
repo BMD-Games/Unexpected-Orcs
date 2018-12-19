@@ -381,20 +381,6 @@ class GUI {
 
     float vw = GUI_WIDTH - (2 * invBuff); //width of the view
     float vh = vw * 0.8;
-<<<<<<< HEAD
-
-    int scale = (int)((vw/engine.currentLevel.w) * miniMapZoom);
-
-    int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
-    int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
-
-    //when you get close to the edges - stop centering on the player
-    if (sx < 0) sx = 0;
-    if (sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
-    if (sy < 0) sy = 0;
-    if (sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
-
-=======
     
     int minScale = ceil(vw/engine.currentLevel.w);
     int scale = max((int)((vw/engine.currentLevel.w) * miniMapZoom), minScale);
@@ -408,9 +394,6 @@ class GUI {
     if(sy < 0) sy = 0;
     if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
     
-    
-    
->>>>>>> 534ff3e965512c06e62447e0dd6048c66724240e
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
 
@@ -501,12 +484,7 @@ class GUI {
         if (currSelection && b1Type == inv && b1 == i) { 
           screen.image(engine.player.inv()[i].sprite, mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
         } else {
-<<<<<<< HEAD
-          screen.image(engine.player.inv()[i].sprite, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-          screen.noStroke();
-=======
           screen.image(engine.player.inv()[i].sprite,invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
->>>>>>> 534ff3e965512c06e62447e0dd6048c66724240e
         }
       }
     }
@@ -589,21 +567,6 @@ class GUI {
     } else if (type == "Scroll") {
       desc += ((Scroll)item).description;      
     }
-<<<<<<< HEAD
-
-    screen.textSize(TILE_SIZE/2);
-    screen.textAlign(LEFT);
-    int mouseOverWidth = max((int)(screen.textWidth(item.name) + 20), 100), mouseOverHeight = 120;
-    screen.fill(100);
-    screen.rect(x, y, mouseOverWidth, mouseOverHeight);
-    screen.fill(200);
-    screen.text(item.name, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
-    screen.textSize(TILE_SIZE/3);
-    screen.text("Tier " + item.tier + " " + type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
-    screen.fill(255);
-    screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
-=======
-    
     int mouseOverWidth = 3 * GUI_WIDTH/4;
     WrappedText title = wrapText(item.name, mouseOverWidth - buff * 4, TILE_SIZE/2);
     WrappedText subtitle = wrapText("Tier " + item.tier + " " + type, mouseOverWidth - buff * 4, TILE_SIZE/3);
@@ -611,7 +574,6 @@ class GUI {
         
     drawMouseOverText(x, y, title, subtitle, description);
     
->>>>>>> 534ff3e965512c06e62447e0dd6048c66724240e
   }
 
   private void mouseOverStat() {
@@ -680,14 +642,9 @@ class GUI {
       screen.text(subtitle.string, x + buff * 2, y + title.textHeight + (buff * 2));
           
       screen.fill(255);
-<<<<<<< HEAD
-      screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
-    }
-=======
       screen.textSize(description.textSize);
       screen.textLeading(description.textSize);
       screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
->>>>>>> 534ff3e965512c06e62447e0dd6048c66724240e
   }
 
   private void showStatusEffects() {
@@ -702,12 +659,8 @@ class GUI {
     float x = (width - GUI_WIDTH)/2 + GUI_WIDTH;
     float y = height/2;
     float r = min(x, y) - TILE_SIZE/2;
-<<<<<<< HEAD
-    for (Enemy boss : engine.currentLevel.bosses) {
-=======
     PImage sprite = null;
     for(Enemy boss : engine.currentLevel.bosses) {
->>>>>>> 534ff3e965512c06e62447e0dd6048c66724240e
       float bx = ((StandardEnemy)boss).x;
       float by = ((StandardEnemy)boss).y;
       if (engine.currentLevel.visited[(int)bx][(int)by] && dist(bx, by, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
@@ -727,7 +680,6 @@ class GUI {
       drawMouseOverSprite(mouseX, mouseY, sprite);
     }
   }
-<<<<<<< HEAD
 
   private void keyPressed(char key) {
     if (key == ENTER || key == RETURN && playerName.length() > 0) {
@@ -757,7 +709,6 @@ class GUI {
     }   
     return false;
   }
-=======
   
   private void drawMouseOverSprite(float x, float y, PImage sprite) {
     int mouseOverSize = TILE_SIZE + buff * 4;
@@ -768,8 +719,6 @@ class GUI {
     screen.rect(x + buff, y + buff, mouseOverSize - buff * 2, mouseOverSize - buff * 2);
     screen.image(sprite, x + buff * 2, y + buff * 2, TILE_SIZE, TILE_SIZE);
   }
-  
->>>>>>> 534ff3e965512c06e62447e0dd6048c66724240e
 }
 
 class HUDElement {
