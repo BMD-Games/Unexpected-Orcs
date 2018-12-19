@@ -103,13 +103,13 @@ class Stats {
 class PlayerStats extends Stats {
   
   //-----KEEP TRACK OF KILLS AND TIERS----
-  private HashMap<Integer, Integer> healthKills = new HashMap<Integer, Integer>();
-  private HashMap<Integer, Integer> manaKills = new HashMap<Integer, Integer>();
+  private HashMap<Integer, Integer> healthKills   = new HashMap<Integer, Integer>();
+  private HashMap<Integer, Integer> manaKills     = new HashMap<Integer, Integer>();
   private HashMap<Integer, Integer> vitalityKills = new HashMap<Integer, Integer>();
-  private HashMap<Integer, Integer> attackKills = new HashMap<Integer, Integer>();
-  private HashMap<Integer, Integer> wisdomKills = new HashMap<Integer, Integer>();
-  private HashMap<Integer, Integer> defenceKills = new HashMap<Integer, Integer>();
-  private HashMap<Integer, Integer> speedKills = new HashMap<Integer, Integer>();
+  private HashMap<Integer, Integer> attackKills   = new HashMap<Integer, Integer>();  
+  private HashMap<Integer, Integer> wisdomKills   = new HashMap<Integer, Integer>();
+  private HashMap<Integer, Integer> defenceKills  = new HashMap<Integer, Integer>();
+  private HashMap<Integer, Integer> speedKills    = new HashMap<Integer, Integer>();
   
   private int baseHealth = 100, baseMana = 100;
   private int baseVitality = 5, baseAttack = 1, baseWisdom = 5, baseDefence = 1;

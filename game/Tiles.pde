@@ -99,7 +99,3 @@ public final static int PATCH_GRASS    = 11;
 public final static int MUSHROOM_GRASS = 12;
 public final static int GRASS_TUFT     = 13;
 public final static int GRASS_LEAF     = 14;
-
-
-//----Spawn tiles
-public ArrayList<Integer> SPAWN_TILES = new ArrayList<Integer>();

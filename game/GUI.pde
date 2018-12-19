@@ -25,6 +25,8 @@ class GUI {
   private int b1Type, b2Type, menuType; // if inv box is in active or not
   private int b1 = -1, b2 = -1, itemOver, active = 0, inv = 1, bag = 2, out = 3;; //inv box 1 and 2 for drag and swap
   private Item mouseOverItem;
+  
+  int buff = 6; //for mouseOver stuff;
 
   GUI() {
     //-----Main
@@ -422,14 +424,10 @@ class GUI {
 
     for (int i = 0; i < engine.player.active().length; i++) {
       if (engine.player.active()[i] != null) {
-        screen.stroke(0);
-        screen.strokeWeight(1);
         if (currSelection && b1Type == active && b1 == i) { 
           screen.image(engine.player.active()[i].sprite, mouseX - invSize/2+ itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-          screen.noStroke();
         } else {
           screen.image(engine.player.active()[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-          screen.noStroke();
         }
       }
     }
@@ -437,14 +435,10 @@ class GUI {
     for (int i = 0; i < engine.player.inv().length; i++) {
       j = (int)(i/Inventory.WIDTH);
       if (engine.player.inv()[i] != null) {
-        screen.stroke(0);
-        screen.strokeWeight(1);
         if (currSelection && b1Type == inv && b1 == i) { 
           screen.image(engine.player.inv()[i].sprite, mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-          screen.noStroke();
         } else {
           screen.image(engine.player.inv()[i].sprite,invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-          screen.noStroke();
         }
       }
     }
@@ -452,14 +446,10 @@ class GUI {
     if(items != null) {
       for (int i = 0; i < items.length; i++) {
         if (items[i] != null) {
-          screen.stroke(0);
-          screen.strokeWeight(1);
           if (currSelection && b1Type == bag && b1 == i) { 
             screen.image(items[i].sprite, mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-            screen.noStroke();
           } else {
             screen.image(items[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, 3 * invBuff + invY + 4 * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-            screen.noStroke();
           }
         }
       }
@@ -524,26 +514,21 @@ class GUI {
       desc += "Accuracy:" + accuracy + "\n";
       desc += "Damage:" + ((Weapon)item).damage + "\n";
     } else if (type == "Ability") {
-      screen.rect(x, y, 100, 110);
       desc += "Mana cost:" + ((Ability)item).manaCost + "\n";
       desc += "Cooldown:" + ((Ability)item).cooldown + "s\n";
     } else if (type == "Armour") {
       desc += "Defence:" + ((Armour)item).defence + "\n";
     } else if (type == "Scroll") {
-      desc += ((Scroll)item).description;
+      desc += ((Scroll)item).description;      
     }
     
-    screen.textSize(TILE_SIZE/2);
-    screen.textAlign(LEFT);
-    int mouseOverWidth = max((int)(screen.textWidth(item.name) + 20), 100), mouseOverHeight = 120;
-    screen.fill(100);
-    screen.rect(x, y, mouseOverWidth, mouseOverHeight);
-    screen.fill(200);
-    screen.text(item.name, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
-    screen.textSize(TILE_SIZE/3);
-    screen.text("Tier " + item.tier + " " + type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
-    screen.fill(255);
-    screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
+    int mouseOverWidth = 3 * GUI_WIDTH/4;
+    WrappedText title = wrapText(item.name, mouseOverWidth - buff * 4, TILE_SIZE/2);
+    WrappedText subtitle = wrapText("Tier " + item.tier + " " + type, mouseOverWidth - buff * 4, TILE_SIZE/3);
+    WrappedText description = wrapText(desc, mouseOverWidth - buff * 4, TILE_SIZE/3);
+        
+    drawMouseOverText(x, y, title, subtitle, description);
+    
   }
   
   private void mouseOverStat() {
@@ -578,18 +563,43 @@ class GUI {
     }
 
     if (!statName.equals("")) {
-      screen.textSize(TILE_SIZE/2);
-      screen.textAlign(LEFT);
-      int mouseOverWidth = max((int)(screen.textWidth(statName) + 20), 150), mouseOverHeight = 90;
+      
+      int mouseOverWidth = 3 * GUI_WIDTH/4;
+      WrappedText title = wrapText(statName, mouseOverWidth - buff * 4, TILE_SIZE/2);
+      WrappedText subtitle = wrapText(type, mouseOverWidth - buff * 4, TILE_SIZE/3);
+      WrappedText description = wrapText(desc, mouseOverWidth - buff * 4, TILE_SIZE/3);
+          
+      drawMouseOverText(x, y, title, subtitle, description);
+    } 
+  }
+  
+  private void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
+      int mouseOverWidth = 3 * GUI_WIDTH/4;
+      
+      screen.textAlign(LEFT, TOP);
+      int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
+      
       screen.fill(100);
       screen.rect(x, y, mouseOverWidth, mouseOverHeight);
-      screen.fill(200);
-      screen.text(statName, x + 5, y + 5, mouseOverWidth - 10, mouseOverHeight);
-      screen.textSize(TILE_SIZE/3);
-      screen.text(type, x + 5, y + 25, mouseOverWidth - 10, mouseOverHeight);
+      screen.noFill();
+      screen.stroke(130);
+      screen.rect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
+      screen.line(x + buff, y + title.textHeight + buff/2, x + mouseOverWidth - buff, y + title.textHeight + buff/2);
+      screen.line(x + buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2, x + mouseOverWidth - buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2);
+      
+      screen.fill(210);
+      screen.textSize(title.textSize);
+      screen.textLeading(title.textSize);
+      screen.text(title.string, x + buff * 2, y + buff);
+  
+      screen.textSize(subtitle.textSize);
+      screen.textLeading(subtitle.textSize);
+      screen.text(subtitle.string, x + buff * 2, y + title.textHeight + (buff * 2));
+          
       screen.fill(255);
-      screen.text(desc, x + 5, y + 55, mouseOverWidth - 10, mouseOverHeight);
-    } 
+      screen.textSize(description.textSize);
+      screen.textLeading(description.textSize);
+      screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
   }
   
   private void showStatusEffects() {
@@ -684,4 +694,56 @@ class DisplayBar {
     this.total = (int)total;
     percentFull = current / total;
   }
+}
+
+class WrappedText {
+  
+  public String string;
+  public int lines;
+  public int textSize;
+  public int textHeight;
+  
+  WrappedText(String string, int lines, int textSize) {
+    this.string = string;
+    this.lines = lines;
+    this.textSize = textSize;
+    this.textHeight = lines * textSize;
+  }
+  
+}
+
+/*Manually wrap text that goes over a certain width
+  returns the number of lines it will take.
+*/
+public WrappedText wrapText(String string, float w, int textSize) {
+  textSize(textSize);
+  float charSize = textWidth("A"); //get width of a single character
+  String newString = "";
+  int numLines = 1;
+  int lastSpace = 0;
+  int lastNewLine = 0;
+  
+  for(int i = 0; i < string.length(); i ++) {
+    if(string.charAt(i) == '\n') {
+      newString += string.substring(lastNewLine, i + 1);
+      numLines += 1;
+      lastNewLine = i + 1;
+    } else if(string.charAt(i) == ' ') {
+      lastSpace = i;
+    } else if(i == string.length() - 1) {
+      newString += string.substring(lastNewLine, i + 1);
+    } else if((i - lastNewLine) * charSize >= w) {
+      if(lastSpace > lastNewLine) {
+        newString += string.substring(lastNewLine, lastSpace);
+        lastNewLine = lastSpace + 1;
+      } else {
+        newString += string.substring(lastNewLine, i + 1);
+        lastNewLine = i + 1;
+      }
+      newString += '\n';
+      numLines += 1;
+    }
+  }
+  
+  return new WrappedText(newString, numLines, textSize);
 }

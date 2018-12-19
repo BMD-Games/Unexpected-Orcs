@@ -326,10 +326,6 @@ public void loadAssets() {
   
   cursor(guiSprites.get("CURSOR"));
   
-  SPAWN_TILES.add(STAR_WOOD);
-  SPAWN_TILES.add(X_STONE);
-  SPAWN_TILES.add(PATCH_GRASS);
-  
   loadStats();
   setState("MENU");
 }
