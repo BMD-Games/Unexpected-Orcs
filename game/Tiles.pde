@@ -82,6 +82,23 @@ public final static int HEDGE_13 = -63;
 public final static int HEDGE_14 = -64;
 public final static int HEDGE_15 = -65;
 
+public final static int SANDSTONE_00 = -66;
+public final static int SANDSTONE_01 = -67;
+public final static int SANDSTONE_02 = -68;
+public final static int SANDSTONE_03 = -69;
+public final static int SANDSTONE_04 = -70;
+public final static int SANDSTONE_05 = -71;
+public final static int SANDSTONE_06 = -72;
+public final static int SANDSTONE_07 = -73;
+public final static int SANDSTONE_08 = -74;
+public final static int SANDSTONE_09 = -75;
+public final static int SANDSTONE_10 = -76;
+public final static int SANDSTONE_11 = -77;
+public final static int SANDSTONE_12 = -78;
+public final static int SANDSTONE_13 = -79;
+public final static int SANDSTONE_14 = -80;
+public final static int SANDSTONE_15 = -81;
+
 //----Floor Tiles------
 public final static int WOOD         = 2;
 public final static int STAR_WOOD    = 3;
@@ -99,3 +116,7 @@ public final static int PATCH_GRASS    = 11;
 public final static int MUSHROOM_GRASS = 12;
 public final static int GRASS_TUFT     = 13;
 public final static int GRASS_LEAF     = 14;
+
+public final static int SAND        = 15;
+public final static int SAND_ROCK   = 16;
+public final static int SAND_CACTUS = 17;

@@ -2,7 +2,6 @@ import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
-HashMap<Integer, PImage> tileSprites;
 
 int SPRITE_SIZE = 16;
 int MAX_SCALE = 8;
@@ -11,7 +10,7 @@ int TILE_SIZE = SPRITE_SIZE * SCALE;
 
 int GUI_WIDTH = SPRITE_SIZE * MAX_SCALE + 20;
 
-final int MIN_TILE = -65, MAX_TILE = 14;
+final int MIN_TILE = -81, MAX_TILE = 17;
 int tile = WALL;
 
 int w = 7;
