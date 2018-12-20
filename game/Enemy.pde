@@ -115,7 +115,6 @@ abstract class StandardEnemy implements Enemy {
 
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    
     if(this instanceof RectangleObject) {
       return Rectangle.pointCollides(pointX, pointY, x, y, ((RectangleObject) this).getWidth(), ((RectangleObject) this).getHeight());
     } else if(this instanceof CircleObject) {
@@ -127,7 +126,6 @@ abstract class StandardEnemy implements Enemy {
   /* Checks collision with line */
   public boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2) {
     if(this instanceof RectangleObject) {
-      
       float w = ((RectangleObject) this).getWidth();
       float h = ((RectangleObject) this).getHeight();
       if(drawDebug) {
@@ -185,7 +183,7 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   public boolean update(double delta) {
     if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
       attackWait += delta;
-      if (Util.distance(x, y, engine.player.x, engine.player.y) < radius) {
+      if (pointCollides(engine.player.x, engine.player.y)) {
         attack();
       } else {
         move(delta);
@@ -228,6 +226,8 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   protected float shootDistance = 3.2;
   protected float retreatDistance = 2.7;
   protected float accuracy = 0;
+  protected boolean predictAim = false;
+  protected float bulletSpeed = 10;
   
   public RangedEnemy(float x, float y, int tier) {
     super(x, y, tier);
@@ -235,11 +235,18 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   }
   
   public boolean update(double delta) {
+    boolean alive = super.update(delta);
+    if(predictAim) {
+      float timeAway = Util.distance(x, y, engine.player.x, engine.player.y) / bulletSpeed;
+      float playerX = engine.player.x + engine.player.dirX * timeAway;
+      float playerY = engine.player.y + engine.player.dirY * timeAway;
+      angle = atan2(playerY - y, playerX - x);  
+    }
     if(active) {
       move(delta);
       attack();
     }
-    return super.update(delta);
+    return alive;
   }
   
   protected void move(double delta) {
@@ -272,7 +279,7 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
     if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
       stats.fireTimer = 0;
       float shotAccuracy = randomGaussian() * accuracy;
-      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle + shotAccuracy), sin(angle + shotAccuracy)), stats.speed * 8, range, stats.attack, projectileSprite));
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle + shotAccuracy), sin(angle + shotAccuracy)), bulletSpeed, range, stats.attack, projectileSprite));
     }
   }
   
