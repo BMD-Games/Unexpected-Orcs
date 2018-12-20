@@ -440,6 +440,49 @@ class Level {
     file.flush();
     file.close();
   }
+  
+  protected void validSpawnRooms(StandardEnemy enemy) {
+    do {
+      PVector coords = generalZones.get((int)random(generalZones.size()));
+      enemy.x = coords.x + random(1);
+      enemy.y = coords.y + random(1);
+    } while (!enemy.validPosition(this, enemy.x, enemy.y));
+  }
+  
+  protected void validBossSpawn(StandardEnemy enemy) {
+    do {
+      PVector coords = bossZones.get((int)random(bossZones.size()));
+      enemy.x = coords.x + random(1);
+      enemy.y = coords.y + random(1);
+    } while (!enemy.validPosition(this, enemy.x, enemy.y));
+  }
+  
+  protected void validSpawn(StandardEnemy enemy) {
+    while (!enemy.validPosition(this, enemy.x, enemy.y)) {
+      enemy.x = random(w);
+      enemy.y = random(h);
+    }
+  }
+  
+  protected void addEnemies(Class className, int number, int tier) {
+    StandardEnemy enemy;
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Bat(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+  }
+  
+  /*protected void addBoss(StandardEnemy, int tier) {
+    //StandardEnemy enemy = className.getConstructors()[0].newInstance(random(w), random(h), tier);
+    if (this instanceof RoomLevel) {
+      validBossSpawn(enemy);
+    } else {
+      validSpawn(enemy);
+    }
+    addEnemy(enemy);
+    bosses.add(enemy);
+  }*/
 }
 
 class PVectorZComparator implements Comparator<PVector> {
@@ -451,6 +494,7 @@ class PVectorZComparator implements Comparator<PVector> {
   }
 }
 
+interface RoomLevel {}
 
 /*
 int x = visitRadius - 1;

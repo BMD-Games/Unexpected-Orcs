@@ -69,7 +69,7 @@ class GrassDungeon extends Level {
   }
 }
 
-class CellarDungeon extends Level {
+class CellarDungeon extends Level implements RoomLevel {
 
   /***
    Creates a dungeon and appends the tiles to the Level it's been given.
@@ -138,22 +138,8 @@ class CellarDungeon extends Level {
     addEnemy(enemy);
     bosses.add(enemy);
   }
+
   
-  private void validSpawn(StandardEnemy enemy) {
-    do {
-      PVector coords = generalZones.get((int)random(generalZones.size()));
-      enemy.x = coords.x + random(1);
-      enemy.y = coords.y + random(1);
-    } while (!enemy.validPosition(this, enemy.x, enemy.y));
-  }
-  
-  private void validBossSpawn(StandardEnemy enemy) {
-    do {
-      PVector coords = bossZones.get((int)random(bossZones.size()));
-      enemy.x = coords.x + random(1);
-      enemy.y = coords.y + random(1);
-    } while (!enemy.validPosition(this, enemy.x, enemy.y));
-  }
   
 }
 
