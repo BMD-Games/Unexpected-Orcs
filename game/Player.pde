@@ -1,6 +1,6 @@
 class Player {
 
-  public float x, y, w = 0.5, h = 0.5, knockbackX, knockbackY;
+  public float x, y, w = 0.5, h = 0.5, knockbackX, knockbackY, dirX = 0, dirY = 0;
   private float ang;
 
   private float cooldownTimer = 0, textTimer;
@@ -25,7 +25,10 @@ class Player {
   public void move(double delta, int[] neighbours) {
     PVector movement = new PVector(getDX(delta, neighbours), getDY(delta, neighbours));
     movement.normalize();
-    movement.mult((float)delta * stats.getSpeed());
+    movement.mult(stats.getSpeed());
+    dirX = movement.x;
+    dirY = movement.y;
+    movement.mult((float)delta);
     x += movement.x; 
     y += movement.y;
     getMoving(movement);

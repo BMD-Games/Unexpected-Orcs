@@ -20,8 +20,6 @@ public void loadAssets() {
   statusSprites = new HashMap<String, PImage>();
   playerStatusSprites = new HashMap<String, PImage>();
   
-  vingette = loadImage("/assets/sprites/vingette.png");
-  
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("/assets/sprites/tilesheet.png");
   
@@ -99,6 +97,23 @@ public void loadAssets() {
   tileSprites.put(HEDGE_13, getSprite(tilesheet, 13, 28, 1, 1, SPRITE_SIZE));
   tileSprites.put(HEDGE_14, getSprite(tilesheet, 14, 28, 1, 1, SPRITE_SIZE));
   tileSprites.put(HEDGE_15, getSprite(tilesheet, 15, 28, 1, 1, SPRITE_SIZE));
+  
+  tileSprites.put(SANDSTONE_00, getSprite(tilesheet, 0, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_01, getSprite(tilesheet, 1, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_02, getSprite(tilesheet, 2, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_03, getSprite(tilesheet, 3, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_04, getSprite(tilesheet, 4, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_05, getSprite(tilesheet, 5, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_06, getSprite(tilesheet, 6, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_07, getSprite(tilesheet, 7, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_08, getSprite(tilesheet, 8, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_09, getSprite(tilesheet, 9, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_10, getSprite(tilesheet, 10, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_11, getSprite(tilesheet, 11, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_12, getSprite(tilesheet, 12, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_13, getSprite(tilesheet, 13, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_14, getSprite(tilesheet, 14, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_15, getSprite(tilesheet, 15, 27, 1, 1, SPRITE_SIZE));
 
   //--Floor--
   tileSprites.put(WOOD, getSprite(tilesheet, 0, 1, 1, 1, SPRITE_SIZE));
@@ -116,6 +131,10 @@ public void loadAssets() {
   tileSprites.put(MUSHROOM_GRASS,  getSprite(tilesheet, 2, 3, 1, 1, SPRITE_SIZE));
   tileSprites.put(GRASS_TUFT, getSprite(tilesheet, 3, 3, 1, 1, SPRITE_SIZE));
   tileSprites.put(GRASS_LEAF, getSprite(tilesheet, 4, 3, 1, 1, SPRITE_SIZE));
+  
+  tileSprites.put(SAND, getSprite(tilesheet, 0, 4, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SAND_ROCK, getSprite(tilesheet, 1, 4, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SAND_CACTUS,  getSprite(tilesheet, 2, 4, 1, 1, SPRITE_SIZE));
   
   
   //-----ITEM SPRITES-----
@@ -155,6 +174,10 @@ public void loadAssets() {
   
   //Armour
   itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));
+  itemSprites.put("STEEL_ARMOUR", getSprite(itemsheet, 1, 4, 1, 1, itemSize));
+  itemSprites.put("GILDED_LEATHER_ARMOUR", getSprite(itemsheet, 2, 4, 1, 1, itemSize));
+  itemSprites.put("STRONG_STEEL_ARMOUR", getSprite(itemsheet, 3, 4, 1, 1, itemSize));
+  itemSprites.put("BLOOD_ARMOUR", getSprite(itemsheet, 4, 4, 1, 1, itemSize));
   
   //Guns
   itemSprites.put("SHOTGUN", getSprite(itemsheet, 0, 7, 1, 1, itemSize));
@@ -188,7 +211,7 @@ public void loadAssets() {
   int playerStatusSize = 16;
   
   playerStatusSprites.put("DAMAGING", getSprite(playerStatusSheet, 0, 0, 1, 1, playerStatusSize));
-  playerStatusSprites.put("SLOWED", getSprite(playerStatusSheet, 0, 1, 1, 1, playerStatusSize));
+  playerStatusSprites.put("WEAK", getSprite(playerStatusSheet, 0, 1, 1, 1, playerStatusSize));
   playerStatusSprites.put("ARMOURED", getSprite(playerStatusSheet, 1, 0, 1, 1, playerStatusSize));
   playerStatusSprites.put("ARMOURBREAK", getSprite(playerStatusSheet, 1, 1, 1, 1, playerStatusSize));
   playerStatusSprites.put("HEALING", getSprite(playerStatusSheet, 2, 0, 1, 1, playerStatusSize));
@@ -229,6 +252,10 @@ public void loadAssets() {
   guiSprites.put("QUEST", getSprite(sheet, 0, 5, 1, 1, guiSize));
   guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
   guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
+  guiSprites.put("SAVE", getSprite(sheet, 3, 2, 2, 1, guiSize));
+  guiSprites.put("SAVE1", getSprite(sheet, 5, 2, 1, 1, guiSize));
+  guiSprites.put("SAVE2", getSprite(sheet, 6, 2, 1, 1, guiSize));
+  guiSprites.put("SAVE3", getSprite(sheet, 7, 2, 1, 1, guiSize));
   
   //-----CHAR SPRITES-----
   PImage charsheet = loadImage("/assets/sprites/charsheet.png");
@@ -317,10 +344,6 @@ public void loadAssets() {
   projectileSprites.put("THORN", getSprite(projectilesheet, 1, 2, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
-  
-  SPAWN_TILES.add(STAR_WOOD);
-  SPAWN_TILES.add(X_STONE);
-  SPAWN_TILES.add(PATCH_GRASS);
   
   loadStats();
   setState("MENU");
@@ -429,6 +452,29 @@ public int[] hedgeWalls() {
   return wall;
 }
 
+public int[] sandstoneWalls() {
+  int[] wall = new int[16];
+  
+  wall[0] = SANDSTONE_00;
+  wall[1] = SANDSTONE_01;
+  wall[2] = SANDSTONE_02;
+  wall[3] = SANDSTONE_03;
+  wall[4] = SANDSTONE_04;
+  wall[5] = SANDSTONE_05;
+  wall[6] = SANDSTONE_06;
+  wall[7] = SANDSTONE_07;
+  wall[8] = SANDSTONE_08;
+  wall[9] = SANDSTONE_09;
+  wall[10] = SANDSTONE_10;
+  wall[11] = SANDSTONE_11;
+  wall[12] = SANDSTONE_12;
+  wall[13] = SANDSTONE_13;
+  wall[14] = SANDSTONE_14;
+  wall[15] = SANDSTONE_15;
+  
+  return wall;
+}
+
 public TileSet testTileset() {
   TileSet tileset = new TileSet();
   
@@ -466,7 +512,7 @@ public TileSet caveTileset() {
   return tileset;
 }
 
-public TileSet cellarTileset() {
+public TileSet cellarTileSet() {
   TileSet tileset = new TileSet();
 
   tileset.walls = stoneBrickWalls();
@@ -475,6 +521,19 @@ public TileSet cellarTileset() {
   tileset.spawn = STAR_WOOD;
   tileset.extras.add(BROKEN_WOOD);
   tileset.extras.add(LONG_WOOD);
+  
+  return tileset;
+}
+
+public TileSet desertTileSet() {
+  TileSet tileset = new TileSet();
+
+  tileset.walls = sandstoneWalls();
+
+  tileset.floor = SAND;
+  tileset.spawn = SAND;
+  tileset.extras.add(SAND_ROCK);
+  tileset.extras.add(SAND_CACTUS);
   
   return tileset;
 }

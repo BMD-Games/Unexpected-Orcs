@@ -12,8 +12,6 @@ class Engine {
   private ArrayList<Drop> drops = new ArrayList<Drop>();  
   private ArrayList<Text> text = new ArrayList<Text>();
 
-  public boolean finishedLoadingLevel = false;
-
   public int closestBag = -1;
   public int closestPortal = -1;
   private float closestBagDist = (float)Double.POSITIVE_INFINITY;
@@ -27,8 +25,7 @@ class Engine {
 
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new CellarDungeon(); //CellarDungeon(); //Cave() //GrassDungeon;
-    finishedLoadingLevel = true;
+    currentLevel = new DesertDungeon();//Cave();//CircleDungeon(); //Cave(); //CellarDungeon(); //Cave() //GrassDungeon;
 
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
 
@@ -92,7 +89,6 @@ class Engine {
     for (Text txt : text) {
       txt.show(screen, getRenderOffset());
     }
-    screen.image(vingette, 0, 0, screen.width, screen.height);
     screen.endDraw();
     image(screen, GUI_WIDTH, 0);
   }
@@ -272,16 +268,16 @@ class Engine {
   public void enterClosestPortal() {
     //empty drops, enemies etc
     setState("LOADING");
+    loadMessage = "Generating " + getClosestPortal().name;
     thread("loadClosestPortal");
-    while (!finishedLoadingLevel) gui.drawLoading();
-    this.player.x = currentLevel.start.x;
-    this.player.y = currentLevel.start.y;
   }
 }
 
 public void loadClosestPortal() {
   engine.currentLevel = engine.getClosestPortal().getLevel();
   engine.clearDrops();
+  engine.player.x = engine.currentLevel.start.x;
+  engine.player.y = engine.currentLevel.start.y;
   setState("PLAYING");
 }
 
@@ -300,6 +296,16 @@ public float screenToTileCoordX(float x) {
 public float screenToTileCoordY(float y) {
   PVector renderOff = engine.getRenderOffset();
   return (y + renderOff.y)/TILE_SIZE;
+}
+
+public float tileToScreenCoordX(float x) {
+  PVector renderOff = engine.getRenderOffset();
+  return (x  * TILE_SIZE) - renderOff.x + GUI_WIDTH;
+}
+
+public float tileToScreenCoordY(float y) {
+  PVector renderOff = engine.getRenderOffset();
+  return (y  * TILE_SIZE) - renderOff.y;
 }
 
 class Text {

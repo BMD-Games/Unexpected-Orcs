@@ -85,7 +85,7 @@ class CellarDungeon extends Level implements RoomLevel {
    ***/
 
   CellarDungeon() {
-    super(60, 45, "Cellar", cellarTileset());
+    super(60, 45, "Cellar", cellarTileSet());
     generateConnectedDungeon(this, 20, PI/4, 10, 15, testSpawn(), testBoss(), new Room[]{testRoom()});
     generateEnemies();
   }
@@ -143,6 +143,49 @@ class CellarDungeon extends Level implements RoomLevel {
   
 }
 
+class CircleDungeon extends Level {
+
+  /***
+   Creates a dungeon and appends the tiles to the Level it's been given.
+   
+   level     - The level being generated for
+   maxRooms  - Number of rooms the dungeon will have
+   spread    - Angle variation of the rooms from existing rooms
+   minRadius - minimum distance between rooms
+   maxRadius - maximum distance between rooms
+   spawnRoom - Preset for the spawn room
+   bossRoom  - Preset for the boss romm
+   rooms     - Presets for all other rooms
+   ***/
+
+  CircleDungeon() {
+    super(60, 45, "Circle", cellarTileSet());
+    generateConnectedDungeon(this, 20, PI/4, 10, 15, diamondSpawn(), circleBoss(), new Room[]{circle5(), circle7(), circle11()});
+  }  
+}
+
+class DesertDungeon extends Level {
+
+  /***
+   Creates a dungeon and appends the tiles to the Level it's been given.
+   
+   level     - The level being generated for
+   maxRooms  - Number of rooms the dungeon will have
+   spread    - Angle variation of the rooms from existing rooms
+   minRadius - minimum distance between rooms
+   maxRadius - maximum distance between rooms
+   spawnRoom - Preset for the spawn room
+   bossRoom  - Preset for the boss romm
+   rooms     - Presets for all other rooms
+   ***/
+
+  DesertDungeon() {
+   super(120, 90, "Desert", desertTileSet());
+   this.setTiles(finishingPass(generateCave(w, h, 5, 0.4), tileset));
+   generateStart();
+  }  
+}
+
 class Cave extends Level {
   float chance = 0.4; //chance the a cell will be a wall
   int iterations = 5;
@@ -193,6 +236,15 @@ class Cave extends Level {
       validSpawn(enemy);
       addEnemy(enemy);
     }
+    enemy = new GoblinBoxer(random(w), random(h), 1);
+    validSpawn(enemy);
+    addEnemy(enemy);
+    bosses.add(enemy);
+    
+    enemy = new Basilisk(random(w), random(h), 1);
+    validSpawn(enemy);
+    addEnemy(enemy);
+    bosses.add(enemy);
   }
   
   void validSpawn(StandardEnemy enemy) {

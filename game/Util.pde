@@ -7,7 +7,7 @@ public static class Util {
   }
 
   public static int sign(float value) {
-    if (value == 0) {
+    if(value == 0) {
       return 0;
     } else {
       return (value > 0 ? 1 : -1);
@@ -96,12 +96,15 @@ public color randomColour(int tier) {
 }
 
 public PImage applyColourToImage(PImage img, color c) {
+  PImage temp = createImage(img.width, img.height, ARGB);
+  temp.loadPixels();
   img.loadPixels();
-  for(int i = 0; i < img.pixels.length; i ++) {
-    img.pixels[i] = color(red(c), green(c), blue(c), alpha(img.pixels[i]));
+
+  for(int i = 0; i < img.pixels.length; i++) {
+    temp.pixels[i] = color(red(c), green(c), blue(c), alpha(img.pixels[i]));
   }
-  img.updatePixels();
-  return img;
+  //temp.updatePixels();
+  return temp;
 }
 
 public PImage scaleImage(PImage img, int scale) {
@@ -141,4 +144,57 @@ private PImage getCombinedSprite(PImage baseImage, PImage secondImage) {
   temp.image(secondImage, 0, 0);
   temp.endDraw();
   return temp.get();
+}
+
+private String debuffToVerb(String debuff) {
+  switch(debuff) {
+     case "SLOWED":
+       return "slowing";
+     case "DAZED":
+       return "dazing";
+     case "WEAK":
+       return "weakening";
+     case "ARMOUR_BREAK":
+       return "armour piercing";
+     case "CURSED":
+       return "cursing";
+     case "SICK":
+       return "illness";
+  }
+  return "No such debuff";
+}
+
+private String debuffToPresentVerb(String debuff) {
+  switch(debuff) {
+     case "SLOWED":
+       return "slows";
+     case "DAZED":
+       return "dazes";
+     case "WEAK":
+       return "weakens";
+     case "ARMOUR_BREAK":
+       return "breaks the armour of";
+     case "CURSED":
+       return "curses";
+     case "SICK":
+       return "poisons";
+  }
+  return "No such debuff";
+}
+
+private String linkWords(String[] words) {
+  if(words.length == 1) {
+    return words[0];
+  } else {
+    String linked = words[0];
+    for(int i = 1; i < words.length - 1; ++i) {
+      linked += ", " + words[i];
+    }
+    linked += " and " + words[words.length - 1];
+    return linked;
+  }
+}
+
+private String capFirstLetter(String word) {
+  return word.substring(0,1).toUpperCase() + word.substring(1);
 }

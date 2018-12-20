@@ -8,7 +8,7 @@ final int GUI_WIDTH = 240;
 
 final int TILE_SIZE = 64;
 final int SPRITE_SIZE = 16;
-final int SCALE = TILE_SIZE/SPRITE_SIZE;
+final int SCALE = TILE_SIZE/SPRITE_SIZE; 
 
 public int[] keys = {0, 0, 0, 0, 0};
 public float miniMapZoom = 1;
@@ -21,9 +21,15 @@ public PFont bitcell;
 public String STATE;
 public String PREV_STATE;
 
+public PGraphics debugScreen;
+public boolean drawDebug = true;
+
+public String loadMessage = "Litty";
+public String loadedPlayerName = "";
+
 public Engine engine;
 public GUI gui;
-public WeaponFactory weaponFactory = new WeaponFactory();
+public ItemFactory itemFactory = new ItemFactory();
 
 void setup() {
   size(1080, 720, FX2D);
@@ -40,8 +46,15 @@ void setup() {
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
   
+  debugScreen = createGraphics(width, height);
+  
   gui = new GUI();
   engine = new Engine();
+  try {
+    engine.player = readStats(sketchPath() + "/saves/SUPERSS.txt");
+  } catch (IOException ioe) {
+    println(ioe);
+  }
 }
 
 void draw() {
@@ -59,18 +72,29 @@ void draw() {
     //thread("update");
     engine.update();
     engine.show();
-    gui.drawUnpaused(engine.player);
+    gui.drawPlay(engine.player);
+    if(drawDebug) {
+      image(debugScreen, 0, 0);
+      debugScreen.beginDraw();
+      debugScreen.clear();
+      debugScreen.endDraw();
+    }
     break;
   case "PAUSED":
-    gui.drawUnpaused(engine.player);
     engine.show();
     gui.drawPaused();
-
     break;
   case "DEAD":
     gui.drawDead();
     break;
+  case "SAVE":
+    gui.drawSave();
+    break;
+  case "NEWGAME":
+    gui.drawNewGame();
+    break;
   }
+    
 }
 
 public void update() {
@@ -82,7 +106,7 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent e) {
-  miniMapZoom -= e.getCount()/4.0;
+  miniMapZoom -= e.getCount();
   miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
 }
 
@@ -93,6 +117,7 @@ void keyPressed() {
   if (keyCode == DOWN_KEY) keys[down] = 1;
   if (keyCode == RIGHT_KEY) keys[right] = 1;
   if (keyCode == ABILITY_KEY) keys[ability] = 1;
+  if(characterNaming) gui.keyPressed(key);
 }
 void keyReleased() {
   if (keyCode == UP_KEY) keys[up] = 0;

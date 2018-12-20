@@ -30,12 +30,12 @@ class Weapon extends Item {
 
 
 
-public class WeaponFactory {
+public class ItemFactory {
   
-  private String[] weaponTypes = new String[] {"Wand", "Staff", "Spear", "Bow"};
-  private String[] scrollTypes = new String[] {};
-  private String[] armourTypes = new String[] {};
-  private String[] abilityTypes = new String[] {};
+  //Weapons: Wand, Staff, Spear, Bow
+  //Scrolls: Debuff Scroll
+  //Armours: Leather, 
+  //Abilities: Telescope, FireBomb, SpellBomb, SwiftBoots
   
   public Weapon createRandomWeapon(int tier) {
     Weapon weapon = null;
@@ -56,9 +56,25 @@ public class WeaponFactory {
     return weapon;
   }
   
+  public Armour createRandomArmour(int tier) {
+    switch((int)random(5)) {
+      case 0:
+        return new Armour("LEATHER_ARMOUR", "Plain Leather Armour", tier * 5);
+      case 1:
+        return new Armour("STEEL_ARMOUR", "Plain Steel Armour", tier * 7 + 2);
+      case 2:
+        return new Armour("GILDED_LEATHER_ARMOUR", "Improved Leather Armour", tier * 5 + 2);
+      case 3:
+        return new Armour("STRONG_STEEL_ARMOUR", "Strong Steel Armour", tier * 7 + 4);
+      case 4:
+        return new Armour("BLOOD_ARMOUR", "Blood Armour", tier * 9 + 1);
+    }
+    return new Armour("LEATHER_ARMOUR", "hOl' uP", 0);
+  }
+  
   public Wand createWand(int tier) {
     Wand wand = new Wand(randomColour(tier));
-    wand.damage =  4 + 6 * tier + (int)(randomGaussian() * tier);
+    wand.damage =  4 + 9 * tier + (int)(randomGaussian() * tier);
     wand.range = 6;
     wand.bulletSpeed = 25 + abs((int)(randomGaussian() * tier * 2));
     wand.fireRate = Util.roundTo(0.6 - tier * abs(randomGaussian()) / 32, 100);
@@ -75,9 +91,9 @@ public class WeaponFactory {
   
   public Staff createStaff(int tier) {
     Staff staff = new Staff(randomColour(tier));
-    staff.damage =  4 + 8 * tier + (int)(randomGaussian() * tier);
+    staff.damage =  4 + 10 * tier + (int)(randomGaussian() * tier);
     staff.range = 6;
-    staff.bulletSpeed = 12 + abs((int)(randomGaussian() * tier));
+    staff.bulletSpeed = 8 + abs((int)(randomGaussian() * tier));
     staff.fireRate = Util.roundTo(0.6 - tier * abs(randomGaussian()) / 32, 100);
     staff.accuracy = Util.roundTo(0.03 + tier * randomGaussian() / 160, 100);
     staff.tier = tier;
@@ -92,10 +108,10 @@ public class WeaponFactory {
   
   public Spear createSpear(int tier) {
     Spear spear = new Spear(randomColour(tier));
-    spear.damage =  4 + 10 * tier + (int)(randomGaussian() * tier);
+    spear.damage =  4 + 12 * tier + (int)(randomGaussian() * tier);
     spear.range = 3;
     spear.bulletSpeed = 8 + abs((int)(randomGaussian() * tier));
-    spear.fireRate = Util.roundTo(0.5 - tier * abs(randomGaussian()) / 20, 100);
+    spear.fireRate = Util.roundTo(0.5 - tier * abs(randomGaussian()) / 32, 100);
     spear.accuracy = Util.roundTo(0.03 + tier * randomGaussian() / 400, 100); 
     spear.tier = tier;
     return spear;
@@ -109,9 +125,9 @@ public class WeaponFactory {
   
   public Bow createBow(int tier) {
     Bow bow = new Bow(randomColour(tier));
-    bow.damage =  16 * tier + (int)(randomGaussian() * tier);
+    bow.damage =  2 + 8 * tier + (int)(randomGaussian() * tier);
     bow.range = 10;
-    bow.bulletSpeed = 20 + abs((int)(randomGaussian() * tier));
+    bow.bulletSpeed = 15 + abs((int)(randomGaussian() * tier));
     bow.fireRate = Util.roundTo(0.38 - tier * abs(randomGaussian()) / 40, 100);
     bow.accuracy = Util.roundTo(0.05 + tier * randomGaussian() / 160, 100);    
     bow.tier = tier;

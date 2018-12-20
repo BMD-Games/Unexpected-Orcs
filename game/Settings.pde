@@ -2,6 +2,7 @@ public int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY;
 public JSONObject settings, controls;
 
 public boolean remapNextKey = false;
+public boolean characterNaming = false;
 public int remapAction = -1;
 
 public final int up = 0, down = 1, left = 2, right = 3, ability = 4, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
