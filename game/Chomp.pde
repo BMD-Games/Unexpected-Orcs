@@ -587,7 +587,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
 
 public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
   
-  private float w = 0.5, h = 0.5;
+  private float w = 0.44, h = 0.5;
   
   public Crawler(float x, float y, int tier) {
     super(x, y, tier);

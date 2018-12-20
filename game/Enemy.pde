@@ -493,23 +493,28 @@ public static class Rectangle {
   public static float[] adjust(Level level, float x, float y, float w, float h, float moveX, float moveY) {
     x = x + moveX;
     y = y + moveY;
-    int xDir = Util.sign(moveX);
-    int yDir = Util.sign(moveY);
-    float checkX = xDir == 1 ? ceil(x) - w/2 - 0.01 : floor(x) + w/2 + 0.01;
-    float checkY = yDir == 1 ? ceil(y) - h/2 - 0.01 : floor(y) + h/2 + 0.01;
-    float useX = false ? x : checkX;
-    float useY = level.getTile((int)x + xDir, (int)y + yDir) > WALL ? y : checkY;
-    if(xDir == 1 && !validRight(level, x, useY, w, h)) {
-      x = ceil(x) - w/2 - 0.01;
-    }
-    if(xDir == -1 && !validLeft(level, x, useY, w, h)) {
-      x = floor(x) + w/2 + 0.01;
-    }
-    if(yDir == 1 && !validBottom(level, useX, y, w, h)) {
-      y = ceil(y) - h/2 - 0.01;
-    }
-    if(yDir == -1 && !validTop(level, useX, y, w, h)) {
-      y = floor(y) + h/2 + 0.01;
+    if(!validPosition(level, x, y, w, h)) {
+      int xDir = Util.sign(moveX);
+      int yDir = Util.sign(moveY);
+      float checkX = xDir == 1 ? ceil(x) - w/2 - 0.01 : floor(x) + w/2 + 0.01;
+      float checkY = yDir == 1 ? ceil(y) - h/2 - 0.01 : floor(y) + h/2 + 0.01;
+      boolean adjusted = false;
+      if((xDir == 1 && !validRight(level, x, checkY, w, h)) || (xDir == -1 && !validLeft(level, x, checkY, w, h))) {
+        x = checkX;
+        adjusted = true;
+      }
+      if((yDir == 1 && !validBottom(level, checkX, y, w, h)) || (yDir == -1 && !validTop(level, checkX, y, w, h))) {
+        y = checkY;
+        adjusted = true;
+      }
+      if(!adjusted) {
+        if((xDir == 1 && !validRight(level, x, y, w, h)) || (xDir == -1 && !validLeft(level, x, yx, w, h))) {
+          x = checkX;
+        }
+        if((yDir == 1 && !validBottom(level, x, y, w, h)) || (yDir == -1 && !validTop(level, checkX, y, w, h))) {
+          y = checkY;
+        }
+      }
     }
     return new float[] {x, y};
   }
