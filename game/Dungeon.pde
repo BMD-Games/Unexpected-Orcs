@@ -86,7 +86,7 @@ class CellarDungeon extends Level {
 
   CellarDungeon() {
     super(60, 45, "Cellar", cellarTileSet());
-    generateConnectedDungeon(this, 20, PI/4, 10, 15, testSpawn(), testBoss(), new Room[]{testRoom()});
+    generateConnectedDungeon(this, 20, PI/4, 5, 10, testSpawn(), testBoss(), new Room[]{testRoom()});
     generateEnemies();
   }
   

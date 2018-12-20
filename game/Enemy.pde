@@ -47,16 +47,25 @@ abstract class StandardEnemy implements Enemy {
   
   protected boolean hasSeen = false;
   
+  private boolean tookDamage = false;
+  private float damageTime = 0;
+  private float damageMax = 0.25;
+  
   protected float angle;
   protected PImage sprite;
+  private PImage damageSprite;
   protected Stats stats = new Stats();
 
   public ArrayList<String> typeList = new ArrayList();
 
-  public StandardEnemy(float x, float y, int tier) {
+  public StandardEnemy(float x, float y, int tier, PImage sprite) {
     this.tier = tier;
     this.x = x;
     this.y = y;
+    
+    this.sprite = sprite;
+    this.damageSprite = applyColourToImage(sprite, color(200, 0, 0));
+    
     if(this instanceof RectangleObject) radius = max(((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight()) / 2;
   }
 
@@ -65,6 +74,9 @@ abstract class StandardEnemy implements Enemy {
     angle = atan2(engine.player.y - y, engine.player.x - x);
     active = Util.distance(x, y, engine.player.x, engine.player.y) < range;
     stats.update(delta);
+    if(tookDamage) {
+      damageTime += delta;
+    }
     return stats.health > 0;
   }
 
@@ -82,14 +94,20 @@ abstract class StandardEnemy implements Enemy {
       screen.image(statusSprite, radius / 2 + TILE_SIZE * i / 4, SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
       i++;
     }
+    
+    PImage currSprite = sprite;
+    if(tookDamage) {
+      currSprite = damageSprite;
+      tookDamage = damageTime < damageMax;
+    }
 
     if((angle < PI/2) && (angle > -PI/2)) {
       screen.rotate(angle);
-      screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+      screen.image(currSprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
     } else {
       screen.scale(-1.0, 1.0);
       screen.rotate(PI-angle);
-      screen.image(sprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
+      screen.image(currSprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
     }
     screen.popMatrix();
   }
@@ -110,6 +128,8 @@ abstract class StandardEnemy implements Enemy {
       stats.health -= damage;
       engine.addText(String.valueOf(damage), x, y - radius, 0.5, color(200, 0, 0));
     }
+    tookDamage = true;
+    damageTime = 0;
   }
 
 
@@ -172,17 +192,15 @@ abstract class StandardEnemy implements Enemy {
 
 abstract class MeleeEnemy extends StandardEnemy implements Enemy {
 
-  protected float attackWait = 0;
   protected float attackWaitTime = 0.8;
 
-  public MeleeEnemy(float x, float y, int tier) {
-    super(x, y, tier);
+  public MeleeEnemy(float x, float y, int tier, PImage sprite) {
+    super(x, y, tier, sprite);
     type = "MELEE";
   }
 
   public boolean update(double delta) {
     if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
-      attackWait += delta;
       if (pointCollides(engine.player.x, engine.player.y)) {
         attack();
       } else {
@@ -193,8 +211,8 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   }
 
   protected void attack() {
-    if (attackWait > attackWaitTime) {
-      attackWait = 0;
+    if (stats.fireTimer > attackWaitTime * stats.getFireRate()) {
+      stats.fireTimer = 0;
       engine.player.damage(stats.attack * 2);
     }
   }
@@ -229,8 +247,8 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   protected boolean predictAim = false;
   protected float bulletSpeed = 10;
   
-  public RangedEnemy(float x, float y, int tier) {
-    super(x, y, tier);
+  public RangedEnemy(float x, float y, int tier, PImage sprite) {
+    super(x, y, tier, sprite);
     type = "RANGED";
   }
   
@@ -276,7 +294,7 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   }
   
   protected void attack() {
-    if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
+    if((stats.fireTimer > shotWaitTime * stats.getFireRate()) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
       stats.fireTimer = 0;
       float shotAccuracy = randomGaussian() * accuracy;
       engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle + shotAccuracy), sin(angle + shotAccuracy)), bulletSpeed, range, stats.attack, projectileSprite));

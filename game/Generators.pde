@@ -393,7 +393,7 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
     while (hit) {
       hit = false;
       float ang = random(dir - spread, dir + spread);
-      float r = random(minRadius, maxRadius);
+      float r = random(minRadius, maxRadius) + max(max(placedRooms.get(startPos).w, placedRooms.get(startPos).h), max(room.w, room.h));
       room.x = (int)(sx + cos(ang) * r);
       room.y = (int)(sy + sin(ang) * r);
       for (int i = 0; i < placedRooms.size(); i ++) {

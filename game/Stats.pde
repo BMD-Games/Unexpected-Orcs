@@ -25,7 +25,7 @@ class Stats {
     if(mana < manaMax) {
       mana = mana + (float)(getWisdom() * delta);
     }
-    fireTimer = (float)(getFireTimer() + delta);
+    fireTimer += (float)(delta);
   }
   
   public void addStatusEffect(String name, float duration) {
@@ -79,14 +79,14 @@ class Stats {
     return defence;
   }
   
-  public float getFireTimer() {
+  public float getFireRate() {
     if(statusEffects.containsKey("DAZED") && !statusEffects.containsKey("BEZERK")) {
-      return fireTimer/2;
+      return 2;
     } 
     if(!statusEffects.containsKey("SICK") && statusEffects.containsKey("HEALING")) {
-      return fireTimer * 2;
+      return 1/2;
     }
-    return fireTimer;
+    return 1;
   }
   
   public float getSpeed() {
