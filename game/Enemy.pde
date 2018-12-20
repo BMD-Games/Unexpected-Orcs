@@ -115,7 +115,6 @@ abstract class StandardEnemy implements Enemy {
 
   /* Checks collision with point */
   public boolean pointCollides(float pointX, float pointY) {
-    
     if(this instanceof RectangleObject) {
       return Rectangle.pointCollides(pointX, pointY, x, y, ((RectangleObject) this).getWidth(), ((RectangleObject) this).getHeight());
     } else if(this instanceof CircleObject) {
@@ -127,7 +126,6 @@ abstract class StandardEnemy implements Enemy {
   /* Checks collision with line */
   public boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2) {
     if(this instanceof RectangleObject) {
-      
       float w = ((RectangleObject) this).getWidth();
       float h = ((RectangleObject) this).getHeight();
       if(drawDebug) {
@@ -185,7 +183,7 @@ abstract class MeleeEnemy extends StandardEnemy implements Enemy {
   public boolean update(double delta) {
     if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
       attackWait += delta;
-      if (Util.distance(x, y, engine.player.x, engine.player.y) < radius) {
+      if (pointCollides(engine.player.x, engine.player.y)) {
         attack();
       } else {
         move(delta);
@@ -228,6 +226,8 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   protected float shootDistance = 3.2;
   protected float retreatDistance = 2.7;
   protected float accuracy = 0;
+  protected boolean predictAim = false;
+  protected float bulletSpeed = 10;
   
   public RangedEnemy(float x, float y, int tier) {
     super(x, y, tier);
@@ -235,11 +235,18 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
   }
   
   public boolean update(double delta) {
+    boolean alive = super.update(delta);
+    if(predictAim) {
+      float timeAway = Util.distance(x, y, engine.player.x, engine.player.y) / bulletSpeed;
+      float playerX = engine.player.x + engine.player.dirX * timeAway;
+      float playerY = engine.player.y + engine.player.dirY * timeAway;
+      angle = atan2(playerY - y, playerX - x);  
+    }
     if(active) {
       move(delta);
       attack();
     }
-    return super.update(delta);
+    return alive;
   }
   
   protected void move(double delta) {
@@ -272,7 +279,7 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
     if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
       stats.fireTimer = 0;
       float shotAccuracy = randomGaussian() * accuracy;
-      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle + shotAccuracy), sin(angle + shotAccuracy)), stats.speed * 8, range, stats.attack, projectileSprite));
+      engine.enemyProjectiles.add(new Projectile(x, y, new PVector(cos(angle + shotAccuracy), sin(angle + shotAccuracy)), bulletSpeed, range, stats.attack, projectileSprite));
     }
   }
   
@@ -486,23 +493,28 @@ public static class Rectangle {
   public static float[] adjust(Level level, float x, float y, float w, float h, float moveX, float moveY) {
     x = x + moveX;
     y = y + moveY;
-    int xDir = Util.sign(moveX);
-    int yDir = Util.sign(moveY);
-    float checkX = xDir == 1 ? ceil(x) - w/2 - 0.01 : floor(x) + w/2 + 0.01;
-    float checkY = yDir == 1 ? ceil(y) - h/2 - 0.01 : floor(y) + h/2 + 0.01;
-    float useX = false ? x : checkX;
-    float useY = level.getTile((int)x + xDir, (int)y + yDir) > WALL ? y : checkY;
-    if(xDir == 1 && !validRight(level, x, useY, w, h)) {
-      x = ceil(x) - w/2 - 0.01;
-    }
-    if(xDir == -1 && !validLeft(level, x, useY, w, h)) {
-      x = floor(x) + w/2 + 0.01;
-    }
-    if(yDir == 1 && !validBottom(level, useX, y, w, h)) {
-      y = ceil(y) - h/2 - 0.01;
-    }
-    if(yDir == -1 && !validTop(level, useX, y, w, h)) {
-      y = floor(y) + h/2 + 0.01;
+    if(!validPosition(level, x, y, w, h)) {
+      int xDir = Util.sign(moveX);
+      int yDir = Util.sign(moveY);
+      float checkX = xDir == 1 ? ceil(x) - w/2 - 0.01 : floor(x) + w/2 + 0.01;
+      float checkY = yDir == 1 ? ceil(y) - h/2 - 0.01 : floor(y) + h/2 + 0.01;
+      boolean adjusted = false;
+      if((xDir == 1 && !validRight(level, x, checkY, w, h)) || (xDir == -1 && !validLeft(level, x, checkY, w, h))) {
+        x = checkX;
+        adjusted = true;
+      }
+      if((yDir == 1 && !validBottom(level, checkX, y, w, h)) || (yDir == -1 && !validTop(level, checkX, y, w, h))) {
+        y = checkY;
+        adjusted = true;
+      }
+      if(!adjusted) {
+        if((xDir == 1 && !validRight(level, x, y, w, h)) || (xDir == -1 && !validLeft(level, x, yx, w, h))) {
+          x = checkX;
+        }
+        if((yDir == 1 && !validBottom(level, x, y, w, h)) || (yDir == -1 && !validTop(level, checkX, y, w, h))) {
+          y = checkY;
+        }
+      }
     }
     return new float[] {x, y};
   }

@@ -296,6 +296,7 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
     retreatDistance = 2.6;
+    predictAim = true;
     accuracy = 0.02;
     sprite = charSprites.get("GOBLIN_MAGE");
     projectileSprite = applyColourToImage(projectileSprites.get("STAFF"), color(124, 10, 10));
@@ -586,7 +587,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
 
 public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
   
-  private float w = 0.5, h = 0.5;
+  private float w = 0.44, h = 0.5;
   
   public Crawler(float x, float y, int tier) {
     super(x, y, tier);
