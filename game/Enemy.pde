@@ -508,7 +508,7 @@ public static class Rectangle {
         adjusted = true;
       }
       if(!adjusted) {
-        if((xDir == 1 && !validRight(level, x, y, w, h)) || (xDir == -1 && !validLeft(level, x, yx, w, h))) {
+        if((xDir == 1 && !validRight(level, x, y, w, h)) || (xDir == -1 && !validLeft(level, x, y, w, h))) {
           x = checkX;
         }
         if((yDir == 1 && !validBottom(level, x, y, w, h)) || (yDir == -1 && !validTop(level, checkX, y, w, h))) {
