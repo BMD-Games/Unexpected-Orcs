@@ -183,7 +183,28 @@ class DesertDungeon extends Level {
    super(120, 90, "Desert", desertTileSet());
    this.setTiles(finishingPass(generateCave(w, h, 5, 0.4), tileset));
    generateStart();
+   generateEnemies();
   }  
+  
+  void generateEnemies() {
+   //Add enemies to level
+    StandardEnemy enemy;
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Cactus(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Antlion(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Scorpion(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+  }
 }
 
 class Cave extends Level {

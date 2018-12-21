@@ -289,6 +289,11 @@ public void loadAssets() {
   charSprites.put("BAT_SPREAD", getSprite(charsheet, 6, 3, 1, 1, charSize));
   charSprites.put("BAT_FLAPPING", getSprite(charsheet, 7, 3, 1, 1, charSize));
   
+  //Load desert mobs
+  charSprites.put("CACTUS", getSprite(charsheet, 8, 0, 1, 1, charSize));
+  charSprites.put("ANTLION", getSprite(charsheet, 9, 0, 1, 1, charSize));
+  charSprites.put("SCORPION", getSprite(charsheet, 8, 1, 2, 1, charSize));
+  
   //Load element sprites
   charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
   charSprites.put("ICE_ELEMENTAL", getSprite(charsheet, 1, 4, 1, 1, charSize));
@@ -342,6 +347,7 @@ public void loadAssets() {
   
   projectileSprites.put("LEAF", getSprite(projectilesheet, 0, 2, 1, 1, projectileSize));
   projectileSprites.put("THORN", getSprite(projectilesheet, 1, 2, 1, 1, projectileSize));
+  projectileSprites.put("STINGER", getSprite(projectilesheet, 2, 2, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
   

@@ -675,3 +675,127 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
   }
 
 }
+
+public class Cactus extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.4, h = 0.5;
+  
+  public Cactus(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 0;
+    stats.attack = 5 + 15 * tier;
+    stats.defence = 2 + 2 * tier;
+    stats.health = 10 + 8 * tier;
+    stats.vitality = 1;
+    shotWaitTime = 0.8 - abs(0.03 * tier * randomGaussian());
+    shootDistance = 10;
+    retreatDistance = 0;
+    accuracy = 0.04;
+    predictAim = true;
+    sprite = charSprites.get("CACTUS");
+    projectileSprite = applyColourToImage(projectileSprites.get("WAND"), color(0,0,0));
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(itemFactory.createWand(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Antlion extends MeleeEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.44, h = 0.5;
+  
+  public Antlion(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 1.2 + 0.2 * tier;
+    stats.attack = 8 + 12 * tier;
+    stats.defence = 8 + 4 * tier;
+    stats.health = 25 + 25 * tier;
+    stats.vitality = 2;
+    attackWaitTime = 0.5;
+    sprite = charSprites.get("ANTLION");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "DEFENCE"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.3) {
+      itembag.addItem(itemFactory.createRandomArmour(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.4, h = 0.5;
+  protected float attackWait = 0;
+  protected float attackWaitTime = 0.8;
+  
+  public Scorpion(float x, float y, int tier) {
+    super(x, y, tier);
+    stats.speed = 0;
+    stats.attack = 5 + 15 * tier;
+    stats.defence = 2 + 2 * tier;
+    stats.health = 10 + 8 * tier;
+    stats.vitality = 1;
+    shotWaitTime = 0.8 - abs(0.03 * tier * randomGaussian());
+    shootDistance = 0.1;
+    retreatDistance = 0;
+    accuracy = 0.04;
+    sprite = charSprites.get("SCORPION");
+    projectileSprite = projectileSprites.get("STINGER");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+
+  public boolean update(double delta) {
+    if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
+      attackWait += delta;
+      if (pointCollides(engine.player.x, engine.player.y) && attackWait > attackWaitTime) {
+        engine.player.damage(18);
+        attackWait = 0;
+      }
+    }
+    return super.update(delta);
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(itemFactory.createRandomArmour(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
