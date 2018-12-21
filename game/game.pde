@@ -22,7 +22,7 @@ public String STATE;
 public String PREV_STATE;
 
 public PGraphics debugScreen;
-public boolean drawDebug = true;
+public boolean drawDebug = false;
 
 public String loadMessage = "Litty";
 public String loadedPlayerName = "";
