@@ -25,7 +25,7 @@ class Engine {
 
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new DesertDungeon();//Cave();//CircleDungeon(); //Cave(); //CellarDungeon(); //Cave() //GrassDungeon;
+    currentLevel = new Cave();//CircleDungeon(); //GrassDungeon(); //CellarDungeon(); //DesertDungeon();
 
     player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
 
@@ -105,7 +105,7 @@ class Engine {
     Weapon weapon = player.currentWeapon();
     if (weapon != null) {
 
-      if (player.stats.getFireTimer() >= weapon.fireRate) {
+      if (player.stats.fireTimer >= weapon.fireRate * player.stats.getFireRate()) {
         weapon.playSound();
 
         ArrayList<Pair> projectileStats = weapon.statusEffects == null ? new ArrayList<Pair>() : weapon.statusEffects;
