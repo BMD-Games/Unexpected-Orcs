@@ -1,7 +1,8 @@
+HashMap<Integer, PImage> tileSprites;
+
 public void loadAssets() {
   
   tileSprites = new HashMap<Integer, PImage>();
-  
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("../game/assets/sprites/tilesheet.png");
   
@@ -79,6 +80,23 @@ public void loadAssets() {
   tileSprites.put(HEDGE_13, getSprite(tilesheet, 13, 28, 1, 1, SPRITE_SIZE));
   tileSprites.put(HEDGE_14, getSprite(tilesheet, 14, 28, 1, 1, SPRITE_SIZE));
   tileSprites.put(HEDGE_15, getSprite(tilesheet, 15, 28, 1, 1, SPRITE_SIZE));
+  
+  tileSprites.put(SANDSTONE_00, getSprite(tilesheet, 0, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_01, getSprite(tilesheet, 1, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_02, getSprite(tilesheet, 2, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_03, getSprite(tilesheet, 3, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_04, getSprite(tilesheet, 4, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_05, getSprite(tilesheet, 5, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_06, getSprite(tilesheet, 6, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_07, getSprite(tilesheet, 7, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_08, getSprite(tilesheet, 8, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_09, getSprite(tilesheet, 9, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_10, getSprite(tilesheet, 10, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_11, getSprite(tilesheet, 11, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_12, getSprite(tilesheet, 12, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_13, getSprite(tilesheet, 13, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_14, getSprite(tilesheet, 14, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_15, getSprite(tilesheet, 15, 27, 1, 1, SPRITE_SIZE));
 
   //--Floor--
   tileSprites.put(WOOD, getSprite(tilesheet, 0, 1, 1, 1, SPRITE_SIZE));
@@ -96,15 +114,12 @@ public void loadAssets() {
   tileSprites.put(MUSHROOM_GRASS,  getSprite(tilesheet, 2, 3, 1, 1, SPRITE_SIZE));
   tileSprites.put(GRASS_TUFT, getSprite(tilesheet, 3, 3, 1, 1, SPRITE_SIZE));
   tileSprites.put(GRASS_LEAF, getSprite(tilesheet, 4, 3, 1, 1, SPRITE_SIZE));
+  
+  tileSprites.put(SAND, getSprite(tilesheet, 0, 4, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SAND_ROCK, getSprite(tilesheet, 1, 4, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SAND_CACTUS,  getSprite(tilesheet, 2, 4, 1, 1, SPRITE_SIZE));
 }
 
 public PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {
   return image.get(x * spriteSize, y * spriteSize, w * spriteSize, h * spriteSize);
-}
-
-class TileSet {
-  //this tile holds reference to a collection of Sprites, these can be used when generating a dungeon, to make them look nice
-  public int floor, spawn;
-  public ArrayList<Integer> extras = new ArrayList<Integer>();  //Extras are variations of floor tiles to spice shit up a bit
-  public int[] walls = new int[16];
 }

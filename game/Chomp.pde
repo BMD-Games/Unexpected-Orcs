@@ -1,10 +1,9 @@
 class Chomp extends MeleeEnemy implements Enemy, CircleObject {
   
   public Chomp(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier,charSprites.get("CHOMP_BLACK_SMALL"));
     radius = 0.25;
     range = 6;
-    sprite = charSprites.get("CHOMP_BLACK_SMALL");
     stats.health = 14 * tier;
     stats.attack = 5 * tier;
     stats.speed = 1.3 * tier;
@@ -91,7 +90,7 @@ public abstract class Elemental extends MeleeEnemy implements Enemy, CircleObjec
   protected String statusEffect;
   
   public Elemental(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("FIRE_ELEMENTAL"));
     radius = 0.25;
     stats.health = 6 * tier;
     stats.attack = 10 * tier;
@@ -197,8 +196,8 @@ public class KingElemental extends Elemental implements Enemy {
     super(x, y, tier);
     radius = 1;
     stats.health = 30 + 60 * tier;
-    stats.attack = 60 * tier;
-    stats.speed = 0.01 * tier;
+    stats.attack = 20 + 60 * tier;
+    stats.speed = 0.2 * tier;
     stats.defence = 2 + 8 * tier;
     attackWaitTime = 1;
     statusEffect = "DAZED";
@@ -249,7 +248,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
   private float w = 0.4, h = 0.5;
   
   public GoblinArcher(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("GOBLIN_ARCHER"));
     stats.speed = 0.7 + 0.2 * tier;
     stats.attack = 5 + 15 * tier;
     stats.defence = 2 + 2 * tier;
@@ -259,7 +258,6 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
     shootDistance = 2.6;
     retreatDistance = 2;
     accuracy = 0.04;
-    sprite = charSprites.get("GOBLIN_ARCHER");
     projectileSprite = getCombinedSprite(projectileSprites.get("ARROW"), projectileSprites.get("ARROW_TIP"), color(50,50,50));
   }
   
@@ -287,7 +285,7 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
   private float w = 0.4, h = 0.5;
   
   public GoblinMage(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("GOBLIN_MAGE"));
     stats.speed = 0.6 + 0.1 * tier;
     stats.attack = 10 + 20 * tier;
     stats.defence = 2 * tier;
@@ -296,8 +294,9 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
     shotWaitTime = 1.2 - abs(0.03 * tier * randomGaussian());
     shootDistance = 4;
     retreatDistance = 2.6;
+    predictAim = true;
     accuracy = 0.02;
-    sprite = charSprites.get("GOBLIN_MAGE");
+    bulletSpeed = 6;
     projectileSprite = applyColourToImage(projectileSprites.get("STAFF"), color(124, 10, 10));
   }
   
@@ -325,14 +324,13 @@ public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject
   private float w = 0.4, h = 0.5;
   
   public GoblinSpearman(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("GOBLIN_SPEARMAN"));
     stats.speed = 1.2 + 0.2 * tier;
     stats.attack = 8 + 12 * tier;
     stats.defence = 3 * tier;
     stats.health = 20 + 15 * tier;
     stats.vitality = 2;
     attackWaitTime = 0.6;
-    sprite = charSprites.get("GOBLIN_SPEARMAN");
   }
   
   public float getWidth() {
@@ -359,13 +357,12 @@ public class GoblinWarrior extends MeleeEnemy implements Enemy, RectangleObject 
   private float w = 0.4, h = 0.5;
   
   public GoblinWarrior(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("GOBLIN_WARRIOR"));
     stats.speed = 0.9 + 0.2 * tier;
     stats.attack = 12 + 20 * tier;
     stats.defence = 5 * tier;
     stats.health = 30 + 20 * tier;
     stats.vitality = 3;
-    sprite = charSprites.get("GOBLIN_WARRIOR");
   }
   
   public float getWidth() {
@@ -392,13 +389,12 @@ public class GoblinBoxer extends MeleeEnemy implements Enemy, RectangleObject {
   private float w = 1, h = 1;
   
   public GoblinBoxer(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("GOBLIN_BOXER"));
     stats.speed = 0.6 + 0.15 * tier;
     stats.attack = 20 + 30 * tier;
     stats.defence = 8 * tier;
     stats.health = 40 + 35 * tier;
     stats.vitality = 6;
-    sprite = charSprites.get("GOBLIN_BOXER");
   }
   
   public float getWidth() {
@@ -429,13 +425,12 @@ public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
   private float w = 1, h = 1;
   
   public Basilisk(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("BASILISK"));
     stats.speed = 1.2 + 0.2 * tier;
     stats.attack = 20 + 30 * tier;
     stats.defence = 3 * tier;
     stats.health = 30 + 25 * tier;
     stats.vitality = 3;
-    sprite = charSprites.get("BASILISK");
   }
   
   public float getWidth() {
@@ -466,7 +461,7 @@ public class Rose extends RangedEnemy implements Enemy, RectangleObject {
   private float w = 0.5, h = 0.5;
   
   public Rose(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("ROSE"));
     stats.speed = 0.6 + 0.1 * tier;
     stats.attack = 10 + 12 * tier;
     stats.defence = 2 * tier;
@@ -476,7 +471,6 @@ public class Rose extends RangedEnemy implements Enemy, RectangleObject {
     shootDistance = 4;
     retreatDistance = 0.3;
     accuracy = 0.05;
-    sprite = charSprites.get("ROSE");
     projectileSprite = projectileSprites.get("THORN");
   }
   
@@ -504,7 +498,7 @@ public class Daisy extends RangedEnemy implements Enemy, RectangleObject {
   private float w = 0.5, h = 0.5;
   
   public Daisy(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("DAISY"));
     stats.speed = 0.6 + 0.1 * tier;
     stats.attack = 24 + 20 * tier;
     stats.defence = 2 * tier;
@@ -514,7 +508,6 @@ public class Daisy extends RangedEnemy implements Enemy, RectangleObject {
     shootDistance = 4;
     retreatDistance = 0.3;
     accuracy = 0.03;
-    sprite = charSprites.get("DAISY");
     projectileSprite = projectileSprites.get("LEAF");
   }
   
@@ -542,7 +535,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
   private float w = 0.5, h = 0.5;
   
   public Spider(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("SPIDER"));
     stats.speed = 0.6 + 0.1 * tier;
     stats.attack = 12 + 12 * tier;
     stats.defence = 2 * tier;
@@ -552,7 +545,6 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
     shootDistance = 2;
     retreatDistance = 0.3;
     accuracy = 0.01;
-    sprite = charSprites.get("SPIDER");
     projectileSprite = projectileSprites.get("STAFF");
   }
   
@@ -574,7 +566,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
   }
   
   protected void attack() {
-    if((stats.fireTimer > shotWaitTime) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
+    if((stats.fireTimer > shotWaitTime * stats.getFireRate()) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
       stats.fireTimer = 0;
       ArrayList<Pair> statusEffects = new ArrayList(1);
       statusEffects.add(new Pair("ALL", "SLOWED"));
@@ -586,17 +578,16 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
 
 public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
   
-  private float w = 0.5, h = 0.5;
+  private float w = 0.44, h = 0.5;
   
   public Crawler(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("CRAWLER"));
     stats.speed = 1.2 + 0.2 * tier;
     stats.attack = 8 + 12 * tier;
     stats.defence = 4 * tier;
     stats.health = 25 + 25 * tier;
     stats.vitality = 2;
     attackWaitTime = 0.5;
-    sprite = charSprites.get("CRAWLER");
   }
   
   public float getWidth() {
@@ -626,14 +617,13 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
   protected PImage[] sprites = {charSprites.get("BAT_SPREAD"), charSprites.get("BAT_FLAPPING")};
   
   public Bat(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("BAT_SPREAD"));
     stats.speed = 2.2 + 0.3 * tier;
     stats.attack = 8 + 12 * tier;
     stats.defence = 4 * tier;
     stats.health = 25 + 25 * tier;
     stats.vitality = 2;
     attackWaitTime = 0.5;
-    sprite = charSprites.get("BAT_SPREAD");
   }
   
   public float getWidth() {
@@ -671,6 +661,127 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
   protected void attack() {
     super.attack();
     engine.player.stats.addStatusEffect("DAZED", 5);
+  }
+
+}
+
+public class Cactus extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.4, h = 0.5;
+  
+  public Cactus(float x, float y, int tier) {
+    super(x, y, tier, charSprites.get("CACTUS"));
+    stats.speed = 0;
+    stats.attack = 5 + 15 * tier;
+    stats.defence = 2 + 2 * tier;
+    stats.health = 10 + 8 * tier;
+    stats.vitality = 1;
+    shotWaitTime = 0.8 - abs(0.03 * tier * randomGaussian());
+    shootDistance = 10;
+    retreatDistance = 0;
+    accuracy = 0.04;
+    predictAim = true;
+    projectileSprite = applyColourToImage(projectileSprites.get("WAND"), color(0,0,0));
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(itemFactory.createWand(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Antlion extends MeleeEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.44, h = 0.5;
+  
+  public Antlion(float x, float y, int tier) {
+    super(x, y, tier, charSprites.get("ANTLION"));
+    stats.speed = 1.2 + 0.2 * tier;
+    stats.attack = 8 + 12 * tier;
+    stats.defence = 8 + 4 * tier;
+    stats.health = 25 + 25 * tier;
+    stats.vitality = 2;
+    attackWaitTime = 0.5;
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "DEFENCE"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.3) {
+      itembag.addItem(itemFactory.createRandomArmour(tier));
+    }
+    engine.addDrop(itembag);
+  }
+
+}
+
+public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
+  
+  private float w = 0.4, h = 0.5;
+  protected float attackWait = 0;
+  protected float attackWaitTime = 0.8;
+  
+  public Scorpion(float x, float y, int tier) {
+    super(x, y, tier, charSprites.get("SCORPION"));
+    stats.speed = 0;
+    stats.attack = 5 + 15 * tier;
+    stats.defence = 2 + 2 * tier;
+    stats.health = 10 + 8 * tier;
+    stats.vitality = 1;
+    shotWaitTime = 0.8 - abs(0.03 * tier * randomGaussian());
+    shootDistance = 0.1;
+    retreatDistance = 0;
+    accuracy = 0.04;
+    projectileSprite = projectileSprites.get("STINGER");
+  }
+  
+  public float getWidth() {
+    return w;
+  }
+  
+  public float getHeight() {
+    return h;
+  }
+
+  public boolean update(double delta) {
+    if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
+      attackWait += delta;
+      if (pointCollides(engine.player.x, engine.player.y) && attackWait > attackWaitTime) {
+        engine.player.damage(18);
+        attackWait = 0;
+      }
+    }
+    return super.update(delta);
+  }
+  
+  public void onDeath() {
+    engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+    ItemBag itembag = new ItemBag(x, y, tier);
+    if(random(1) < 0.2) {
+      itembag.addItem(itemFactory.createRandomArmour(tier));
+    }
+    engine.addDrop(itembag);
   }
 
 }

@@ -393,7 +393,7 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
     while (hit) {
       hit = false;
       float ang = random(dir - spread, dir + spread);
-      float r = random(minRadius, maxRadius);
+      float r = random(minRadius, maxRadius) + max(max(placedRooms.get(startPos).w, placedRooms.get(startPos).h), max(room.w, room.h));
       room.x = (int)(sx + cos(ang) * r);
       room.y = (int)(sy + sin(ang) * r);
       for (int i = 0; i < placedRooms.size(); i ++) {
@@ -534,16 +534,16 @@ public void generateConnectedDungeon(Level level, int maxRooms, float spread, in
 }
 
 public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
-  int[] start = {(int)random(r1.x, r1.x + r1.w), (int)random(r1.y, r1.y + r1.h)}; //random point in r1
-  int[] stop = {(int)random(r2.x, r2.x + r2.w), (int)random(r2.y, r2.y + r2.h)}; //random point in r2
-
-  int x = start[0];
-  int y = start[1];
+  PVector start = r1.midPoint();
+  PVector stop = r2.midPoint();
+  
+  int x = (int)start.x;
+  int y = (int)start.y;
 
   int dx = 0;
   int dy = 0;
-  try { dx = Util.sign(stop[0] - start[0]); } catch(Exception e) {};
-  try { dy = Util.sign(stop[1] - start[1]); } catch(Exception e) {};
+  try { dx = Util.sign(stop.x - start.x); } catch(Exception e) {};
+  try { dy = Util.sign(stop.y - start.y); } catch(Exception e) {};
   
   int[] dir = {dx, 0};
   int[] dir2 = {0, dy};
@@ -554,13 +554,13 @@ public int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
     dir2[1] = 0;
   }
   boolean changed = false;
-  while(x != stop[0] || y != stop[1]) {
-    if(tiles[x][y] == WALL) {
+  while(x != (int)stop.x || y != (int)stop.y) {
+    if(tiles[x][y] <= WALL) {
       tiles[x][y] = FLOOR;
-    }    
+    } 
     x += dir[0];
     y += dir[1];
-    if(!changed && ((x == stop[0] && dx != 0) || (y == stop[1] && dy != 0))) {
+    if(!changed && ((x == (int)stop.x && dx != 0) || (y == (int)stop.y && dy != 0))) {
       changed = true;
       dir[0] = dir2[0];
       dir[1] = dir2[1];

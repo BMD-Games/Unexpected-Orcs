@@ -21,6 +21,9 @@ public PFont bitcell;
 public String STATE;
 public String PREV_STATE;
 
+public PGraphics debugScreen;
+public boolean drawDebug = false;
+
 public String loadMessage = "Litty";
 public String loadedPlayerName = "";
 
@@ -42,6 +45,8 @@ void setup() {
   textFont(bitcell);
   textAlign(CENTER, CENTER);
   textSize(TILE_SIZE);
+  
+  debugScreen = createGraphics(width, height);
   
   gui = new GUI();
   engine = new Engine();
@@ -68,11 +73,16 @@ void draw() {
     engine.update();
     engine.show();
     gui.drawPlay(engine.player);
+    if(drawDebug) {
+      image(debugScreen, 0, 0);
+      debugScreen.beginDraw();
+      debugScreen.clear();
+      debugScreen.endDraw();
+    }
     break;
   case "PAUSED":
     engine.show();
     gui.drawPaused();
-
     break;
   case "DEAD":
     gui.drawDead();
@@ -83,7 +93,11 @@ void draw() {
   case "NEWGAME":
     gui.drawNewGame();
     break;
+  case "LOAD":
+    gui.drawLoad();
+    break;
   }
+  
     
 }
 
@@ -96,7 +110,7 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent e) {
-  miniMapZoom -= e.getCount()/2.0;
+  miniMapZoom -= e.getCount();
   miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
 }
 

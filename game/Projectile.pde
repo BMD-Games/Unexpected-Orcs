@@ -47,7 +47,7 @@ class Projectile {
     screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
     screen.rotate(atan2(direction.y, direction.x));
     screen.image(sprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
-    screen.popMatrix();
+    screen.popMatrix();    
   }
   
   private boolean alive() {

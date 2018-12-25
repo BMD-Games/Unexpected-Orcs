@@ -25,9 +25,9 @@ class Engine {
 
   Engine() {
     //Can initialise stuff here (eg generate the first cave)
-    currentLevel = new Cave(); //CellarDungeon(); //Cave() //GrassDungeon;
-    
-    player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);    
+    currentLevel = new Cave(); //Cave();//CircleDungeon(); //GrassDungeon(); //CellarDungeon(); //
+
+    player = new Player(currentLevel.start.x + 0.5, currentLevel.start.y + 0.5);
 
     screen = createGraphics(width - GUI_WIDTH, height);
     screen.beginDraw();
@@ -89,7 +89,6 @@ class Engine {
     for (Text txt : text) {
       txt.show(screen, getRenderOffset());
     }
-    screen.image(vingette, 0, 0, screen.width, screen.height);
     screen.endDraw();
     image(screen, GUI_WIDTH, 0);
   }
@@ -106,7 +105,7 @@ class Engine {
     Weapon weapon = player.currentWeapon();
     if (weapon != null) {
 
-      if (player.stats.getFireTimer() >= weapon.fireRate) {
+      if (player.stats.fireTimer >= weapon.fireRate * player.stats.getFireRate()) {
         weapon.playSound();
 
         ArrayList<Pair> projectileStats = weapon.statusEffects == null ? new ArrayList<Pair>() : weapon.statusEffects;
@@ -300,9 +299,8 @@ public float screenToTileCoordY(float y) {
 }
 
 public float tileToScreenCoordX(float x) {
-  x -= GUI_WIDTH; //remove gui offset
   PVector renderOff = engine.getRenderOffset();
-  return (x  * TILE_SIZE) - renderOff.x;
+  return (x  * TILE_SIZE) - renderOff.x + GUI_WIDTH;
 }
 
 public float tileToScreenCoordY(float y) {

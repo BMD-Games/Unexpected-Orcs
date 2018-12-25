@@ -20,8 +20,6 @@ public void loadAssets() {
   statusSprites = new HashMap<String, PImage>();
   playerStatusSprites = new HashMap<String, PImage>();
   
-  vingette = loadImage("/assets/sprites/vingette.png");
-  
   //-----TILE SPRITES-----
   PImage tilesheet = loadImage("/assets/sprites/tilesheet.png");
   
@@ -99,6 +97,23 @@ public void loadAssets() {
   tileSprites.put(HEDGE_13, getSprite(tilesheet, 13, 28, 1, 1, SPRITE_SIZE));
   tileSprites.put(HEDGE_14, getSprite(tilesheet, 14, 28, 1, 1, SPRITE_SIZE));
   tileSprites.put(HEDGE_15, getSprite(tilesheet, 15, 28, 1, 1, SPRITE_SIZE));
+  
+  tileSprites.put(SANDSTONE_00, getSprite(tilesheet, 0, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_01, getSprite(tilesheet, 1, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_02, getSprite(tilesheet, 2, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_03, getSprite(tilesheet, 3, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_04, getSprite(tilesheet, 4, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_05, getSprite(tilesheet, 5, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_06, getSprite(tilesheet, 6, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_07, getSprite(tilesheet, 7, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_08, getSprite(tilesheet, 8, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_09, getSprite(tilesheet, 9, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_10, getSprite(tilesheet, 10, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_11, getSprite(tilesheet, 11, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_12, getSprite(tilesheet, 12, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_13, getSprite(tilesheet, 13, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_14, getSprite(tilesheet, 14, 27, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SANDSTONE_15, getSprite(tilesheet, 15, 27, 1, 1, SPRITE_SIZE));
 
   //--Floor--
   tileSprites.put(WOOD, getSprite(tilesheet, 0, 1, 1, 1, SPRITE_SIZE));
@@ -116,6 +131,10 @@ public void loadAssets() {
   tileSprites.put(MUSHROOM_GRASS,  getSprite(tilesheet, 2, 3, 1, 1, SPRITE_SIZE));
   tileSprites.put(GRASS_TUFT, getSprite(tilesheet, 3, 3, 1, 1, SPRITE_SIZE));
   tileSprites.put(GRASS_LEAF, getSprite(tilesheet, 4, 3, 1, 1, SPRITE_SIZE));
+  
+  tileSprites.put(SAND, getSprite(tilesheet, 0, 4, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SAND_ROCK, getSprite(tilesheet, 1, 4, 1, 1, SPRITE_SIZE));
+  tileSprites.put(SAND_CACTUS,  getSprite(tilesheet, 2, 4, 1, 1, SPRITE_SIZE));
   
   
   //-----ITEM SPRITES-----
@@ -270,6 +289,11 @@ public void loadAssets() {
   charSprites.put("BAT_SPREAD", getSprite(charsheet, 6, 3, 1, 1, charSize));
   charSprites.put("BAT_FLAPPING", getSprite(charsheet, 7, 3, 1, 1, charSize));
   
+  //Load desert mobs
+  charSprites.put("CACTUS", getSprite(charsheet, 8, 0, 1, 1, charSize));
+  charSprites.put("ANTLION", getSprite(charsheet, 9, 0, 1, 1, charSize));
+  charSprites.put("SCORPION", getSprite(charsheet, 8, 1, 2, 1, charSize));
+  
   //Load element sprites
   charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
   charSprites.put("ICE_ELEMENTAL", getSprite(charsheet, 1, 4, 1, 1, charSize));
@@ -323,6 +347,7 @@ public void loadAssets() {
   
   projectileSprites.put("LEAF", getSprite(projectilesheet, 0, 2, 1, 1, projectileSize));
   projectileSprites.put("THORN", getSprite(projectilesheet, 1, 2, 1, 1, projectileSize));
+  projectileSprites.put("STINGER", getSprite(projectilesheet, 2, 2, 1, 1, projectileSize));
   
   cursor(guiSprites.get("CURSOR"));
   
@@ -433,6 +458,29 @@ public int[] hedgeWalls() {
   return wall;
 }
 
+public int[] sandstoneWalls() {
+  int[] wall = new int[16];
+  
+  wall[0] = SANDSTONE_00;
+  wall[1] = SANDSTONE_01;
+  wall[2] = SANDSTONE_02;
+  wall[3] = SANDSTONE_03;
+  wall[4] = SANDSTONE_04;
+  wall[5] = SANDSTONE_05;
+  wall[6] = SANDSTONE_06;
+  wall[7] = SANDSTONE_07;
+  wall[8] = SANDSTONE_08;
+  wall[9] = SANDSTONE_09;
+  wall[10] = SANDSTONE_10;
+  wall[11] = SANDSTONE_11;
+  wall[12] = SANDSTONE_12;
+  wall[13] = SANDSTONE_13;
+  wall[14] = SANDSTONE_14;
+  wall[15] = SANDSTONE_15;
+  
+  return wall;
+}
+
 public TileSet testTileset() {
   TileSet tileset = new TileSet();
   
@@ -470,7 +518,7 @@ public TileSet caveTileset() {
   return tileset;
 }
 
-public TileSet cellarTileset() {
+public TileSet cellarTileSet() {
   TileSet tileset = new TileSet();
 
   tileset.walls = stoneBrickWalls();
@@ -479,6 +527,19 @@ public TileSet cellarTileset() {
   tileset.spawn = STAR_WOOD;
   tileset.extras.add(BROKEN_WOOD);
   tileset.extras.add(LONG_WOOD);
+  
+  return tileset;
+}
+
+public TileSet desertTileSet() {
+  TileSet tileset = new TileSet();
+
+  tileset.walls = sandstoneWalls();
+
+  tileset.floor = SAND;
+  tileset.spawn = SAND;
+  tileset.extras.add(SAND_ROCK);
+  tileset.extras.add(SAND_CACTUS);
   
   return tileset;
 }

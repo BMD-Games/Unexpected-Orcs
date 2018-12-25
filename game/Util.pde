@@ -96,12 +96,15 @@ public color randomColour(int tier) {
 }
 
 public PImage applyColourToImage(PImage img, color c) {
+  PImage temp = createImage(img.width, img.height, ARGB);
+  temp.loadPixels();
   img.loadPixels();
-  for(int i = 0; i < img.pixels.length; i ++) {
-    img.pixels[i] = color(red(c), green(c), blue(c), alpha(img.pixels[i]));
+
+  for(int i = 0; i < img.pixels.length; i++) {
+    temp.pixels[i] = color(red(c), green(c), blue(c), alpha(img.pixels[i]));
   }
-  img.updatePixels();
-  return img;
+  //temp.updatePixels();
+  return temp;
 }
 
 public PImage scaleImage(PImage img, int scale) {

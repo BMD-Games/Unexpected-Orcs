@@ -11,6 +11,8 @@ class GUI {
   private PGraphics screen;
   private color c = 100;
   private String playerName = "";
+  
+  public ScrollWindow loadScroll = new ScrollWindow(width/4, height/4, width/2, height/2, new ScrollElement[]{new ScrollElement("Nigga","nigga", 120), new ScrollElement("","",100), new ScrollElement("","",200)});
 
   //Stat sprites
   private PImage attackSprite = itemSprites.get("ATTACK_ICON");
@@ -27,7 +29,7 @@ class GUI {
   private int b1 = -1, b2 = -1, itemOver, active = 0, inv = 1, bag = 2, out = 3;
   ; //inv box 1 and 2 for drag and swap
   private Item mouseOverItem;
-  
+
   int buff = 6; //for mouseOver stuff;
 
   GUI() {
@@ -208,6 +210,27 @@ class GUI {
   }
 
   public void drawLoad() {
+    
+    screen.beginDraw();
+    image(title, 0, 0, width, height);
+    loadScroll.show(screen);
+    
+    
+    screen.endDraw();
+    image(screen, 0, 0);
+    
+    /*
+    screen.beginDraw();
+    clearScreen();
+    println("here");
+    loadScroll.show(screen);
+    screen.fill(255, 0, 0);
+    screen.rect(100, 100, 100, 100);
+    
+    screen.endDraw();
+    image(screen, 0, 0);
+    */
+    
   }
 
   public void drawNewGame() {
@@ -224,7 +247,7 @@ class GUI {
     screen.textAlign(CENTER);
     screen.text(playerName, width/2, height/2);
     screen.textSize(TILE_SIZE/2);
-    if(checkFileAlreadyExists(playerName)) {
+    if (checkFileAlreadyExists(playerName)) {
       screen.text("A hero with that name already exists.", width/2, height/2 + TILE_SIZE);
     }
     play.show(screen);
@@ -242,6 +265,8 @@ class GUI {
       engine.updateMillis();
     } else if ((STATE == "MENU" || STATE == "PAUSED") && options.pressed()) {
       setState("OPTIONS");
+    } else if ((STATE == "MENU") && load.pressed()) {
+      setState("LOAD");
     } else if (STATE == "PAUSED" && menu.pressed()) {
       //SAVE GAME HERE!!!!
       //saveGame();
@@ -381,19 +406,19 @@ class GUI {
 
     float vw = GUI_WIDTH - (2 * invBuff); //width of the view
     float vh = vw * 0.8;
-    
-    int minScale = ceil(vw/engine.currentLevel.w);
+
+    int minScale = max(ceil(vw/engine.currentLevel.w), ceil(vh/engine.currentLevel.h));
     int scale = max((int)((vw/engine.currentLevel.w) * miniMapZoom), minScale);
-    
+
     int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start 
     int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
-    
-    //when you get close to the edges - stop centering on the player    
-    if(sx < 0) sx = 0;
-    if(sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
-    if(sy < 0) sy = 0;
-    if(sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
-    
+
+    //when you get close to the edges - stop centering on the player
+    if (sx < 0) sx = 0;
+    if (sy < 0) sy = 0;
+    if (sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
+    if (sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
+
     PImage map = scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
     PImage over = scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
 
@@ -484,7 +509,7 @@ class GUI {
         if (currSelection && b1Type == inv && b1 == i) { 
           screen.image(engine.player.inv()[i].sprite, mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
         } else {
-          screen.image(engine.player.inv()[i].sprite,invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+          screen.image(engine.player.inv()[i].sprite, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
         }
       }
     }
@@ -554,7 +579,7 @@ class GUI {
     String type = item.type;
     if (type == "Weapon") {
       int fireRate = (int)(60 / ((Weapon)item).fireRate);
-      desc += "Fire rate:" + fireRate + "\n";
+      desc += "Fire rate: " + fireRate + "\n";
       desc += "Range: " + ((Weapon)item).range + "\n";
       float accuracy = 1 - ((Weapon)item).accuracy;
       desc += "Accuracy: " + accuracy + "\n";
@@ -565,15 +590,14 @@ class GUI {
     } else if (type == "Armour") {
       desc += "Defence: " + ((Armour)item).defence + "\n";
     } else if (type == "Scroll") {
-      desc += ((Scroll)item).description;      
+      desc += ((Scroll)item).description;
     }
     int mouseOverWidth = 3 * GUI_WIDTH/4;
     WrappedText title = wrapText(item.name, mouseOverWidth - buff * 4, TILE_SIZE/2);
     WrappedText subtitle = wrapText("Tier " + item.tier + " " + type, mouseOverWidth - buff * 4, TILE_SIZE/3);
     WrappedText description = wrapText(desc, mouseOverWidth - buff * 4, TILE_SIZE/3);
-        
+
     drawMouseOverText(x, y, title, subtitle, description);
-    
   }
 
   private void mouseOverStat() {
@@ -608,50 +632,65 @@ class GUI {
     }
 
     if (!statName.equals("")) {
-      
+
       int mouseOverWidth = 3 * GUI_WIDTH/4;
       WrappedText title = wrapText(statName, mouseOverWidth - buff * 4, TILE_SIZE/2);
       WrappedText subtitle = wrapText(type, mouseOverWidth - buff * 4, TILE_SIZE/3);
       WrappedText description = wrapText(desc, mouseOverWidth - buff * 4, TILE_SIZE/3);
-          
+
       drawMouseOverText(x, y, title, subtitle, description);
-    } 
+    }
   }
-  
+
   private void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
-      int mouseOverWidth = 3 * GUI_WIDTH/4;
-      int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
-     
-      screen.textAlign(LEFT, TOP);
-      
-      screen.fill(100);
-      screen.rect(x, y, mouseOverWidth, mouseOverHeight);
-      screen.noFill();
-      screen.stroke(130);
-      screen.rect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
-      screen.line(x + buff, y + title.textHeight + buff/2, x + mouseOverWidth - buff, y + title.textHeight + buff/2);
-      screen.line(x + buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2, x + mouseOverWidth - buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2);
-      
-      screen.fill(210);
-      screen.textSize(title.textSize);
-      screen.textLeading(title.textSize);
-      screen.text(title.string, x + buff * 2, y + buff);
-  
-      screen.textSize(subtitle.textSize);
-      screen.textLeading(subtitle.textSize);
-      screen.text(subtitle.string, x + buff * 2, y + title.textHeight + (buff * 2));
-          
-      screen.fill(255);
-      screen.textSize(description.textSize);
-      screen.textLeading(description.textSize);
-      screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
+    int mouseOverWidth = 3 * GUI_WIDTH/4;
+    int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
+
+    if (x + mouseOverWidth > screen.width) x = screen.width - mouseOverWidth;
+    if (y + mouseOverHeight > screen.height) y = screen.height - mouseOverHeight;
+
+    screen.textAlign(LEFT, TOP);
+
+    screen.fill(100);
+    screen.rect(x, y, mouseOverWidth, mouseOverHeight);
+    screen.noFill();
+    screen.stroke(130);
+    screen.rect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
+    screen.line(x + buff, y + title.textHeight + buff/2, x + mouseOverWidth - buff, y + title.textHeight + buff/2);
+    screen.line(x + buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2, x + mouseOverWidth - buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2);
+
+    screen.fill(210);
+    screen.textSize(title.textSize);
+    screen.textLeading(title.textSize);
+    screen.text(title.string, x + buff * 2, y + buff);
+
+    screen.textSize(subtitle.textSize);
+    screen.textLeading(subtitle.textSize);
+    screen.text(subtitle.string, x + buff * 2, y + title.textHeight + (buff * 2));
+
+    screen.fill(255);
+    screen.textSize(description.textSize);
+    screen.textLeading(description.textSize);
+    screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
   }
 
   private void showStatusEffects() {
     int i = 0;
+    String mouseOverEffect = "";
     for (String effect : engine.player.stats.statusEffects.keySet()) {
       i++;
       screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      if (Util.pointInBox(mouseX, mouseY, screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE)) {
+        mouseOverEffect = effect;
+      }
+    }
+
+    if (!mouseOverEffect.equals("")) {
+      int mouseOverWidth = 3 * GUI_WIDTH/4;
+      WrappedText title = wrapText(mouseOverEffect, mouseOverWidth - buff * 4, TILE_SIZE/2);
+      WrappedText subtitle = wrapText(Util.roundTo(engine.player.stats.statusEffects.get(mouseOverEffect), 10) + "s remaining", mouseOverWidth - buff * 4, TILE_SIZE/2);
+      WrappedText description = wrapText("", mouseOverWidth - buff * 4, 0);
+      drawMouseOverText(mouseX, mouseY, title, subtitle, description);
     }
   }
 
@@ -660,10 +699,10 @@ class GUI {
     float y = height/2;
     float r = min(x, y) - TILE_SIZE/2;
     PImage sprite = null;
-    for(Enemy boss : engine.currentLevel.bosses) {
+    for (Enemy boss : engine.currentLevel.bosses) {
       float bx = ((StandardEnemy)boss).x;
       float by = ((StandardEnemy)boss).y;
-      if (engine.currentLevel.visited[(int)bx][(int)by] && dist(bx, by, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
+      if (engine.currentLevel.visited((int)bx, (int)by) && dist(bx, by, engine.player.x, engine.player.y) < min(x, y)/TILE_SIZE) continue;
       float ang = atan2(by - engine.player.y, bx - engine.player.x);
       float dx = x + cos(ang) * r;
       float dy = y + sin(ang) * r;
@@ -672,11 +711,11 @@ class GUI {
       screen.rotate(ang);
       screen.image(guiSprites.get("QUEST"), -TILE_SIZE/4, -TILE_SIZE/4, TILE_SIZE/2, TILE_SIZE/2);
       screen.popMatrix();
-      if(dist(mouseX, mouseY, dx, dy) < TILE_SIZE/2) {
+      if (dist(mouseX, mouseY, dx, dy) < TILE_SIZE/2) {
         sprite = ((StandardEnemy)boss).sprite;
       }
     }
-    if(sprite != null) {
+    if (sprite != null) {
       drawMouseOverSprite(mouseX, mouseY, sprite);
     }
   }
@@ -709,9 +748,13 @@ class GUI {
     }   
     return false;
   }
-  
+
   private void drawMouseOverSprite(float x, float y, PImage sprite) {
     int mouseOverSize = TILE_SIZE + buff * 4;
+
+    if (x + mouseOverSize > screen.width) x = screen.width - mouseOverSize;
+    if (y + mouseOverSize > screen.height) y = screen.height - mouseOverSize;
+
     screen.fill(100);
     screen.rect(x, y, mouseOverSize, mouseOverSize);
     screen.noFill();
@@ -789,43 +832,45 @@ class DisplayBar {
 }
 
 class WrappedText {
-  
+
   public String string;
   public int lines;
   public int textSize;
   public int textHeight;
-  
+
   WrappedText(String string, int lines, int textSize) {
     this.string = string;
     this.lines = lines;
     this.textSize = textSize;
     this.textHeight = lines * textSize;
   }
-  
 }
 
 /*Manually wrap text that goes over a certain width
-  returns the number of lines it will take.
-*/
+ returns the number of lines it will take.
+ */
 public WrappedText wrapText(String string, float w, int textSize) {
+  if (textSize == 0) {
+    return new WrappedText("", 0, 1);
+  }
   textSize(textSize);
   float charSize = textWidth("A"); //get width of a single character
   String newString = "";
   int numLines = 1;
   int lastSpace = 0;
   int lastNewLine = 0;
-  
-  for(int i = 0; i < string.length(); i ++) {
-    if(string.charAt(i) == '\n') {
+
+  for (int i = 0; i < string.length(); i ++) {
+    if (string.charAt(i) == '\n') {
       newString += string.substring(lastNewLine, i + 1);
       numLines += 1;
       lastNewLine = i + 1;
-    } else if(string.charAt(i) == ' ') {
+    } else if (string.charAt(i) == ' ') {
       lastSpace = i;
-    } else if(i == string.length() - 1) {
+    } else if (i == string.length() - 1) {
       newString += string.substring(lastNewLine, i + 1);
-    } else if((i - lastNewLine) * charSize >= w) {
-      if(lastSpace > lastNewLine) {
+    } else if ((i - lastNewLine) * charSize >= w) {
+      if (lastSpace > lastNewLine) {
         newString += string.substring(lastNewLine, lastSpace);
         lastNewLine = lastSpace + 1;
       } else {
@@ -836,6 +881,87 @@ public WrappedText wrapText(String string, float w, int textSize) {
       numLines += 1;
     }
   }
-  
+
   return new WrappedText(newString, numLines, textSize);
+}
+
+class ScrollWindow {
+  
+  private int x, y, w, h;
+  public int scrollPosition = 0;
+  public int maxScrollPosition;
+  private int buffer = 10;
+  private ScrollElement[] scrollElements;
+  
+  
+  public ScrollWindow(int x, int y, int w, int h, ScrollElement[] scrollElements) {
+     this.x = x;
+     this.y = y;
+     this.w = w;
+     this.h = h;
+     this.scrollElements = scrollElements;
+     
+     calcMaxHeight();
+  }
+  
+  
+  private void calcMaxHeight() {
+    
+    int maxHeight = 0;
+    for(ScrollElement scrollElement : scrollElements) {
+      maxHeight += scrollElement.h + buffer;
+    }
+    this.maxScrollPosition = maxHeight - this.h + buffer;
+  }
+  
+  
+  
+  public void show(PGraphics screen) {
+    
+    int currentHeight = buffer;
+    
+    
+    
+    for(ScrollElement scrollElement : scrollElements) {
+      if(currentHeight + scrollElement.h >= scrollPosition || currentHeight <= scrollPosition) {
+        scrollElement.show(screen, x + buffer, y + currentHeight - scrollPosition, w - 2 * buffer);
+      }
+      currentHeight += scrollElement.h + buffer;
+    }
+    
+    screen.noStroke();
+    screen.fill(0,0);
+    screen.blendMode(REPLACE);
+    screen.rect(0, 0, screen.width, y + buffer);
+    screen.rect(0, 0, x, screen.height);
+    screen.rect(0, y + h - buffer, screen.width, screen.height - y - h);
+    screen.rect(x + w, 0, screen.width - x - w, screen.height);
+    screen.blendMode(BLEND);
+    screen.noFill();
+    screen.stroke(255);
+    screen.rect(x, y, w, h);
+  }
+  
+  
+}
+
+class ScrollElement {
+  
+  String title, text;
+  int h;
+  
+  public ScrollElement(String title, String text, int h) {
+    this.title = title;
+    this.text = text;
+    this.h = h;
+  }
+  
+  public void show(PGraphics screen, int xpos, int ypos, int w) {
+    
+    println("niggadrawn");
+    screen.fill(255, 0 , 0);
+    screen.rect(xpos, ypos, w, h);
+    
+  }
+   
 }

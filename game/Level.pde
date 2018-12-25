@@ -39,8 +39,7 @@ class Level {
 
     renderW = width/TILE_SIZE + 2 * buffer;
     renderH = height/TILE_SIZE + 2 * buffer;
-
-    //Initialise minimap
+    
     background = createGraphics(width - GUI_WIDTH, height);
     miniMapOverlay = createGraphics(w, h);
     miniMap = createGraphics(w, h);
@@ -381,13 +380,25 @@ class Level {
   
   public void setTiles(int[][] tiles) { //Tiles with tileset
     this.tiles = tiles;
+    resizeLevel();
+    saveLevel();
+  }
+  
+  private void resizeLevel() {
     this.w = tiles.length;
     this.h = tiles[0].length;
     
     initialiseChunks();
     visited = new boolean[w][h];
     visitedCalcLocations = new boolean[w][h];
-    saveLevel();
+    
+    background = createGraphics(width - GUI_WIDTH, height);
+    miniMapOverlay = createGraphics(w, h);
+    miniMap = createGraphics(w, h);
+    miniMap.beginDraw();
+    miniMap.background(0);
+    miniMap.noStroke();
+    miniMap.endDraw();
   }
   
   public void setZones(ArrayList<PVector> bossZones, ArrayList<PVector> generalZones) { //sets the zones
@@ -452,6 +463,49 @@ class Level {
     file.close();
   }
   
+  protected void validSpawnRooms(StandardEnemy enemy) {
+    do {
+      PVector coords = generalZones.get((int)random(generalZones.size()));
+      enemy.x = coords.x + random(1);
+      enemy.y = coords.y + random(1);
+    } while (!enemy.validPosition(this, enemy.x, enemy.y));
+  }
+  
+  protected void validBossSpawn(StandardEnemy enemy) {
+    do {
+      PVector coords = bossZones.get((int)random(bossZones.size()));
+      enemy.x = coords.x + random(1);
+      enemy.y = coords.y + random(1);
+    } while (!enemy.validPosition(this, enemy.x, enemy.y));
+  }
+  
+  protected void validSpawn(StandardEnemy enemy) {
+    while (!enemy.validPosition(this, enemy.x, enemy.y)) {
+      enemy.x = random(w);
+      enemy.y = random(h);
+    }
+  }
+  
+  protected void addEnemies(Class className, int number, int tier) {
+    StandardEnemy enemy;
+    for(int i = 0; i < 30; ++i) {
+      enemy = new Bat(random(w), random(h), 1);
+      validSpawn(enemy);
+      addEnemy(enemy);
+    }
+  }
+  
+  /*protected void addBoss(StandardEnemy, int tier) {
+    //StandardEnemy enemy = className.getConstructors()[0].newInstance(random(w), random(h), tier);
+    if (this instanceof RoomLevel) {
+      validBossSpawn(enemy);
+    } else {
+      validSpawn(enemy);
+    }
+    addEnemy(enemy);
+    bosses.add(enemy);
+  }*/
+  
   public boolean visited(int x, int y) {
     try {
       return visited[x][y];
@@ -469,3 +523,5 @@ class PVectorZComparator implements Comparator<PVector> {
     return 0;
   }
 }
+
+interface RoomLevel {}
