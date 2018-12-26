@@ -186,6 +186,23 @@ class PlayerStats extends Stats {
   public int getTotalKills() {
     return totalKills;
   }
+  
+  @Override
+  public String toString() {
+    String text = "";
+    
+    text += " Health: " + this.getHealthMax();
+    text += " Mana: " + this.getManaMax();
+    text += " Attack: " + this.getAttack();
+    text += " Defence: " + this.getDefence();
+    text += " Vitality: " + this.getVitality();
+    text += " Wisdom: " + this.getWisdom();
+    text += " Speed: " + (int)(100 * this.getSpeed());
+    
+    
+    return text;
+    
+  }
 }
 
 public HashMap<String, Boolean> STATUSES = new HashMap<String, Boolean>();

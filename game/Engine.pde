@@ -278,6 +278,7 @@ public void loadClosestPortal() {
   engine.clearDrops();
   engine.player.x = engine.currentLevel.start.x;
   engine.player.y = engine.currentLevel.start.y;
+  saveStats(loadedPlayerName);
   setState("PLAYING");
 }
 

@@ -3,7 +3,7 @@ class GUI {
    This class is used for drawing and handeling all UI related screens and elements  
    **/
 
-  private Button play, back, options, menu, exit, pause, newGame, load, save, save1, save2, save3;
+  private Button play, back, options, menu, exit, pause, newGame, load, save, play2, deleteSave;
   private Button keyUp, keyDown, keyLeft, keyRight, keyAbility;
   private DisplayBar healthBar, manaBar;
   private Button enterPortal;
@@ -12,7 +12,7 @@ class GUI {
   private color c = 100;
   private String playerName = "";
   
-  public ScrollWindow loadScroll = new ScrollWindow(width/4, height/4, width/2, height/2, new ScrollElement[]{new ScrollElement("Nigga","nigga", 200), new ScrollElement("","",150), new ScrollElement("","",200), new ScrollElement("","",200)});
+  public ScrollWindow loadScroll = new ScrollWindow(width/8, height/4, width/4 * 3, height/2, loadSaves());
 
   //Stat sprites
   private PImage attackSprite = itemSprites.get("ATTACK_ICON");
@@ -42,9 +42,8 @@ class GUI {
     back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 3, "BACK");
     pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
     save = new Button(width/2 - TILE_SIZE, height/2, "SAVE");
-    save1 = new Button(width/2 - TILE_SIZE * 3.5, height/2, "SAVE1");
-    save2 = new Button(width/2 - TILE_SIZE * 0.5, height/2, "SAVE2");
-    save3 = new Button(width/2 + TILE_SIZE * 2.5, height/2, "SAVE3");
+    play2 = new Button(width/4 * 3, height/2 + TILE_SIZE * 3, "PLAY");
+    deleteSave = new Button(width/2 - TILE_SIZE * 0.5, height/2, "SAVE2");
 
     //newGame = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "NEW");
 
@@ -139,9 +138,6 @@ class GUI {
     screen.fill(0, 100);
     screen.rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
     back.show(screen);
-    save1.show(screen);
-    save2.show(screen);
-    save3.show(screen);
 
     screen.endDraw();
     image(screen, 0, 0);
@@ -217,6 +213,7 @@ class GUI {
     loadScroll.update();
     loadScroll.show(screen);
     back.show(screen);
+    play2.show(screen);
     
     screen.endDraw();
     image(screen, 0, 0);
@@ -288,9 +285,13 @@ class GUI {
       setState("SAVE");
     } else if (STATE == "SAVE" && back.pressed()) {
       setState("PAUSED");
-    } else if (STATE == "SAVE" && save1.pressed()) {
-      saveStats(loadedPlayerName);
-      setState("PAUSED");
+    } else if (STATE == "LOAD" && play2.pressed()) {
+      println("here");
+      if(loadScroll.selectedElement != -1) {
+        engine.player = loadedPlayers[loadScroll.selectedElement];
+        loadedPlayerName = loadScroll.scrollElements[loadScroll.selectedElement].title;
+        setState("PLAYING");
+      }
     } else if (STATE == "NEWGAME" && back.pressed()) {
       setState("MENU"); 
       playerName = "";
@@ -793,7 +794,6 @@ class HUDElement {
 
 class Button extends HUDElement {
 
-
   Button(float x, float y, String spriteName) {
     super(x, y, spriteName);
   }
@@ -801,6 +801,7 @@ class Button extends HUDElement {
   public boolean pressed() {
     return Util.pointInBox(mouseX, mouseY, x, y, w, h);
   }
+  
 }
 
 class DisplayBar {
@@ -920,10 +921,8 @@ class ScrollWindow {
     int maxHeight = 0;
     for(ScrollElement scrollElement : scrollElements) {
       maxHeight += scrollElement.h + buffer;
-      println(maxHeight);
     }
     this.maxScrollPosition = maxHeight - this.h + buffer;
-    println(maxScrollPosition);
 
   }
   
@@ -1008,6 +1007,7 @@ class ScrollElement {
   
   String title, text;
   int x, y, w, h;
+  int buffer = 10;
   
   public ScrollElement(String title, String text, int h) {
     this.title = title;
@@ -1030,9 +1030,9 @@ class ScrollElement {
     screen.fill(255);
     screen.textAlign(LEFT,TOP);
     screen.textSize(40);
-    screen.text(title, xpos, ypos);
+    screen.text(title, xpos + buffer, ypos + buffer);
     screen.textSize(20);
-    screen.text(text, xpos, ypos + TILE_SIZE / 2);
+    screen.text(text, xpos + buffer, ypos + TILE_SIZE / 2 + buffer);
     if (selected) {
       screen.strokeWeight(4);
       screen.stroke(200);
@@ -1042,5 +1042,10 @@ class ScrollElement {
     screen.strokeWeight(1);
     
   }
-   
+}
+
+public void makeSaveElements() {
+  
+  
+  
 }

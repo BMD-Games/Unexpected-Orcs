@@ -26,6 +26,7 @@ public boolean drawDebug = false;
 
 public String loadMessage = "Litty";
 public String loadedPlayerName = "";
+public Player[] loadedPlayers = new Player[0];
 
 public Engine engine;
 public GUI gui;
@@ -48,10 +49,11 @@ void setup() {
   
   debugScreen = createGraphics(width, height);
   
-  gui = new GUI();
   engine = new Engine();
+  gui = new GUI();
+  
   try {
-    engine.player = readStats(sketchPath() + "/saves/SUPERSS.txt");
+    engine.player = readStats("SUPERSS.txt");
   } catch (IOException ioe) {
     println(ioe);
   }

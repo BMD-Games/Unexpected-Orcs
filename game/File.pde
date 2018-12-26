@@ -36,9 +36,9 @@ public Player readStats(String filename) throws IOException{
   Player playerToReturn = new Player(engine.currentLevel.start.x + 0.5, engine.currentLevel.start.y + 0.5);
   BufferedReader reader = null;
   try { // read the file
-      reader = new BufferedReader(new FileReader(filename));
+    reader = new BufferedReader(new FileReader(sketchPath() + "/saves/" + filename));
   } catch (IOException ioException) {
-  
+    println(ioException);
   }
   
   if(reader == null) {
@@ -56,6 +56,23 @@ public Player readStats(String filename) throws IOException{
   
   return playerToReturn;
   
+}
+
+public ScrollElement[] loadSaves() {
+  
+  java.io.File folder = new java.io.File(sketchPath() + "/saves/");
+  String[] listOfFiles = folder.list();
+  ScrollElement[] scrollElements = new ScrollElement[listOfFiles.length];
+  loadedPlayers = new Player[listOfFiles.length];
+  
+  for(int i = 0; i < listOfFiles.length; i++) {
+    try {
+      loadedPlayers[i] = readStats(listOfFiles[i]);
+      scrollElements[i] = new ScrollElement(listOfFiles[i].substring(0, listOfFiles[i].indexOf('.')), loadedPlayers[i].stats.toString(), 200);
+    } catch (Exception ioe) {println(ioe);}
+  }
+  
+  return scrollElements;
 }
 
 public HashMap<Integer, Integer> makeHashmap(BufferedReader reader) {
