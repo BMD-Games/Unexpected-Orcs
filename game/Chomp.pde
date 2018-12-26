@@ -670,7 +670,7 @@ public class Cactus extends RangedEnemy implements Enemy, RectangleObject {
   private float w = 0.4, h = 0.5;
   
   public Cactus(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("CACTUS"));
     stats.speed = 0;
     stats.attack = 5 + 15 * tier;
     stats.defence = 2 + 2 * tier;
@@ -681,7 +681,6 @@ public class Cactus extends RangedEnemy implements Enemy, RectangleObject {
     retreatDistance = 0;
     accuracy = 0.04;
     predictAim = true;
-    sprite = charSprites.get("CACTUS");
     projectileSprite = applyColourToImage(projectileSprites.get("WAND"), color(0,0,0));
   }
   
@@ -709,14 +708,13 @@ public class Antlion extends MeleeEnemy implements Enemy, RectangleObject {
   private float w = 0.44, h = 0.5;
   
   public Antlion(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("ANTLION"));
     stats.speed = 1.2 + 0.2 * tier;
     stats.attack = 8 + 12 * tier;
     stats.defence = 8 + 4 * tier;
     stats.health = 25 + 25 * tier;
     stats.vitality = 2;
     attackWaitTime = 0.5;
-    sprite = charSprites.get("ANTLION");
   }
   
   public float getWidth() {
@@ -745,7 +743,7 @@ public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
   protected float attackWaitTime = 0.8;
   
   public Scorpion(float x, float y, int tier) {
-    super(x, y, tier);
+    super(x, y, tier, charSprites.get("SCORPION"));
     stats.speed = 0;
     stats.attack = 5 + 15 * tier;
     stats.defence = 2 + 2 * tier;
@@ -755,7 +753,6 @@ public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
     shootDistance = 0.1;
     retreatDistance = 0;
     accuracy = 0.04;
-    sprite = charSprites.get("SCORPION");
     projectileSprite = projectileSprites.get("STINGER");
   }
   
