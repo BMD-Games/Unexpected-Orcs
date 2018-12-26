@@ -45,7 +45,6 @@ public Player readStats(String filename) throws IOException{
     return playerToReturn;
   }
   
-  println("here");
   playerToReturn.stats.attackKills = makeHashmap(reader);
   playerToReturn.stats.defenceKills = makeHashmap(reader);
   playerToReturn.stats.vitalityKills = makeHashmap(reader);
@@ -74,11 +73,8 @@ public HashMap<Integer, Integer> makeHashmap(BufferedReader reader) {
     int i = pair.indexOf(',');
     Integer tier = Integer.parseInt(pair.substring(0,i));
     Integer killCount = Integer.parseInt(pair.substring(i + 1));
-    println(tier);
-    println(killCount);
     statsMap.put(tier, killCount);
     
   }
-  println(statsMap);
   return statsMap;
 }

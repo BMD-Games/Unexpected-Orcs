@@ -110,9 +110,14 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent e) {
-  miniMapZoom -= e.getCount();
-  miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
+  if(STATE == "PLAYING"){
+    miniMapZoom -= e.getCount();
+    miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
+  } else if(STATE == "LOAD") {
+    gui.loadScroll.changeScrollPosition(e.getCount());
+  }
 }
+
 
 void keyPressed() {
   if (remapNextKey) remapKey(remapAction, keyCode);

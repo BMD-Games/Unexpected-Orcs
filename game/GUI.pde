@@ -12,7 +12,7 @@ class GUI {
   private color c = 100;
   private String playerName = "";
   
-  public ScrollWindow loadScroll = new ScrollWindow(width/4, height/4, width/2, height/2, new ScrollElement[]{new ScrollElement("Nigga","nigga", 120), new ScrollElement("","",100), new ScrollElement("","",200)});
+  public ScrollWindow loadScroll = new ScrollWindow(width/4, height/4, width/2, height/2, new ScrollElement[]{new ScrollElement("Nigga","nigga", 200), new ScrollElement("","",150), new ScrollElement("","",200), new ScrollElement("","",200)});
 
   //Stat sprites
   private PImage attackSprite = itemSprites.get("ATTACK_ICON");
@@ -212,9 +212,11 @@ class GUI {
   public void drawLoad() {
     
     screen.beginDraw();
+    clearScreen();
     image(title, 0, 0, width, height);
+    loadScroll.update();
     loadScroll.show(screen);
-    
+    back.show(screen);
     
     screen.endDraw();
     image(screen, 0, 0);
@@ -275,7 +277,7 @@ class GUI {
       setState("PAUSED");
     } else if (STATE == "MENU" && exit.pressed()) {
       quitGame();
-    } else if ((STATE == "OPTIONS") && back.pressed()) {
+    } else if ((STATE == "OPTIONS" || STATE == "LOAD") && back.pressed()) {
       revertState();
     } else if (STATE == "PLAYING" && showingPortal && enterPortal.pressed()) {
       engine.enterClosestPortal();
@@ -321,7 +323,13 @@ class GUI {
         remapAction = ability;
       }
     }
+    
+    if (STATE == "LOAD") {
+      loadScroll.handleMouse();
+    }
   }
+  
+  
 
   private void drawCooldown() {
 
@@ -892,7 +900,9 @@ class ScrollWindow {
   public int maxScrollPosition;
   private int buffer = 10;
   private ScrollElement[] scrollElements;
-  
+  private boolean mousePressedInScroll = false;
+  private boolean mousePressedInPrev = false;
+  private int selectedElement = -1;
   
   public ScrollWindow(int x, int y, int w, int h, ScrollElement[] scrollElements) {
      this.x = x;
@@ -910,8 +920,11 @@ class ScrollWindow {
     int maxHeight = 0;
     for(ScrollElement scrollElement : scrollElements) {
       maxHeight += scrollElement.h + buffer;
+      println(maxHeight);
     }
     this.maxScrollPosition = maxHeight - this.h + buffer;
+    println(maxScrollPosition);
+
   }
   
   
@@ -920,11 +933,10 @@ class ScrollWindow {
     
     int currentHeight = buffer;
     
-    
-    
-    for(ScrollElement scrollElement : scrollElements) {
+    for(int i = 0; i < scrollElements.length ; i++) {
+      ScrollElement scrollElement = scrollElements[i];
       if(currentHeight + scrollElement.h >= scrollPosition || currentHeight <= scrollPosition) {
-        scrollElement.show(screen, x + buffer, y + currentHeight - scrollPosition, w - 2 * buffer);
+        scrollElement.show(screen, x + buffer, y + currentHeight - scrollPosition, w - 4 * buffer, i == selectedElement);
       }
       currentHeight += scrollElement.h + buffer;
     }
@@ -934,21 +946,68 @@ class ScrollWindow {
     screen.blendMode(REPLACE);
     screen.rect(0, 0, screen.width, y + buffer);
     screen.rect(0, 0, x, screen.height);
-    screen.rect(0, y + h - buffer, screen.width, screen.height - y - h);
+    screen.rect(0, y + h - buffer, screen.width, screen.height - y - h + 2 * buffer);
     screen.rect(x + w, 0, screen.width - x - w, screen.height);
     screen.blendMode(BLEND);
+    
+    screen.noStroke();
+    screen.fill(100);
+    screen.rect(x + w - 2 * buffer, y, 2 * buffer, h);
+    
+    float barHeight =  this.h * this.h/ (float)(this.h + maxScrollPosition);
+    if(barHeight > h) {
+      barHeight = h;
+    }
+    screen.fill(200);
+    screen.rect(x+ w - 2 * buffer, y + scrollPosition / (float)maxScrollPosition * (h - barHeight), 2 * buffer, barHeight);
+    
     screen.noFill();
     screen.stroke(255);
     screen.rect(x, y, w, h);
   }
   
+  public void changeScrollPosition(int scrollCount) {
+    if(maxScrollPosition > 0) {
+      scrollPosition = constrain(scrollPosition + 10 * scrollCount, 0, maxScrollPosition);
+    }
+  }
+  
+  public void update() {
+    if((mousePressed && Util.pointInBox(mouseX, mouseY, x + w - 2 * buffer, y, 2 * buffer, h) && !mousePressedInPrev)){
+      mousePressedInScroll = true;
+    }
+    if(mousePressedInScroll) {
+      float barHeight =  this.h * this.h/ (float)(this.h + maxScrollPosition);
+      scrollPosition = (int)map(mouseY - y - barHeight/2, 0, h - barHeight, 0, maxScrollPosition);
+      // scrollPosition = (int)((mouseY - h) * h / (float)maxScrollPosition);
+      scrollPosition = constrain(scrollPosition, 0, maxScrollPosition);
+    }
+    if(!mousePressed) {
+      mousePressedInScroll = false;
+    }
+    mousePressedInPrev = mousePressed;
+  }
+  
+  public void handleMouse() {
+    
+    if(Util.pointInBox(mouseX, mouseY, x, y, w, h)) {
+      
+      for(int i = 0; i < scrollElements.length; i++) {
+        ScrollElement selected = scrollElements[i];
+        if(Util.pointInBox(mouseX, mouseY, selected.x, selected.y, selected.w, selected.h)) {
+          selectedElement = i; 
+          break;
+        }
+      }
+    }    
+  }
   
 }
 
 class ScrollElement {
   
   String title, text;
-  int h;
+  int x, y, w, h;
   
   public ScrollElement(String title, String text, int h) {
     this.title = title;
@@ -956,11 +1015,31 @@ class ScrollElement {
     this.h = h;
   }
   
-  public void show(PGraphics screen, int xpos, int ypos, int w) {
+  public void show(PGraphics screen, int xpos, int ypos, int w, boolean selected) {
     
-    println("niggadrawn");
-    screen.fill(255, 0 , 0);
+    this.x = xpos;
+    this.y = ypos;
+    this.w = w;
+    
+    screen.fill(150);
+    if(selected) {
+      screen.fill(180);
+    }
+    screen.noStroke();
     screen.rect(xpos, ypos, w, h);
+    screen.fill(255);
+    screen.textAlign(LEFT,TOP);
+    screen.textSize(40);
+    screen.text(title, xpos, ypos);
+    screen.textSize(20);
+    screen.text(text, xpos, ypos + TILE_SIZE / 2);
+    if (selected) {
+      screen.strokeWeight(4);
+      screen.stroke(200);
+      screen.noFill();
+      screen.rect(x, y, w, h);
+    }
+    screen.strokeWeight(1);
     
   }
    
