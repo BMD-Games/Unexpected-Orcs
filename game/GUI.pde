@@ -11,7 +11,7 @@ class GUI {
   private PGraphics screen;
   private color c = 100;
   private String playerName = "";
-  
+
   public ScrollWindow loadScroll = new ScrollWindow(width/8, height/4, width/4 * 3, height/2, loadSaves());
 
   //Stat sprites
@@ -206,7 +206,7 @@ class GUI {
   }
 
   public void drawLoad() {
-    
+
     screen.beginDraw();
     clearScreen();
     image(title, 0, 0, width, height);
@@ -214,22 +214,21 @@ class GUI {
     loadScroll.show(screen);
     back.show(screen);
     play2.show(screen);
-    
+
     screen.endDraw();
     image(screen, 0, 0);
-    
+
     /*
     screen.beginDraw();
-    clearScreen();
-    println("here");
-    loadScroll.show(screen);
-    screen.fill(255, 0, 0);
-    screen.rect(100, 100, 100, 100);
-    
-    screen.endDraw();
-    image(screen, 0, 0);
-    */
-    
+     clearScreen();
+     println("here");
+     loadScroll.show(screen);
+     screen.fill(255, 0, 0);
+     screen.rect(100, 100, 100, 100);
+     
+     screen.endDraw();
+     image(screen, 0, 0);
+     */
   }
 
   public void drawNewGame() {
@@ -286,8 +285,7 @@ class GUI {
     } else if (STATE == "SAVE" && back.pressed()) {
       setState("PAUSED");
     } else if (STATE == "LOAD" && play2.pressed()) {
-      println("here");
-      if(loadScroll.selectedElement != -1) {
+      if (loadScroll.selectedElement != -1) {
         engine.player = loadedPlayers[loadScroll.selectedElement];
         loadedPlayerName = loadScroll.scrollElements[loadScroll.selectedElement].title;
         setState("PLAYING");
@@ -298,6 +296,7 @@ class GUI {
     } else if (STATE == "NEWGAME" && play.pressed()) {
       if (playerName.length() > 0 && !checkFileAlreadyExists(playerName)) {
         loadedPlayerName = playerName;
+        saveGame();
         setState("PLAYING");
       }
     }
@@ -324,13 +323,13 @@ class GUI {
         remapAction = ability;
       }
     }
-    
+
     if (STATE == "LOAD") {
       loadScroll.handleMouse();
     }
   }
-  
-  
+
+
 
   private void drawCooldown() {
 
@@ -751,7 +750,7 @@ class GUI {
     String[] listOfFiles = folder.list();
 
     for (int i = 0; i < listOfFiles.length; i++) {
-      if (listOfFiles[i].equals(fileName + ".txt")) {
+      if (listOfFiles[i].equals(fileName)) {
         return true;
       }
     }   
@@ -801,7 +800,6 @@ class Button extends HUDElement {
   public boolean pressed() {
     return Util.pointInBox(mouseX, mouseY, x, y, w, h);
   }
-  
 }
 
 class DisplayBar {
@@ -895,7 +893,7 @@ public WrappedText wrapText(String string, float w, int textSize) {
 }
 
 class ScrollWindow {
-  
+
   private int x, y, w, h;
   public int scrollPosition = 0;
   public int maxScrollPosition;
@@ -904,131 +902,129 @@ class ScrollWindow {
   private boolean mousePressedInScroll = false;
   private boolean mousePressedInPrev = false;
   private int selectedElement = -1;
-  
+
   public ScrollWindow(int x, int y, int w, int h, ScrollElement[] scrollElements) {
-     this.x = x;
-     this.y = y;
-     this.w = w;
-     this.h = h;
-     this.scrollElements = scrollElements;
-     
-     calcMaxHeight();
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.scrollElements = scrollElements;
+
+    calcMaxHeight();
   }
-  
-  
+
+
   private void calcMaxHeight() {
-    
+
     int maxHeight = 0;
-    for(ScrollElement scrollElement : scrollElements) {
+    for (ScrollElement scrollElement : scrollElements) {
       maxHeight += scrollElement.h + buffer;
     }
     this.maxScrollPosition = maxHeight - this.h + buffer;
-
   }
-  
-  
-  
+
+
+
   public void show(PGraphics screen) {
-    
+
     int currentHeight = buffer;
-    
-    for(int i = 0; i < scrollElements.length ; i++) {
+
+    for (int i = 0; i < scrollElements.length; i++) {
       ScrollElement scrollElement = scrollElements[i];
-      if(currentHeight + scrollElement.h >= scrollPosition || currentHeight <= scrollPosition) {
+      if (currentHeight + scrollElement.h >= scrollPosition || currentHeight <= scrollPosition) {
         scrollElement.show(screen, x + buffer, y + currentHeight - scrollPosition, w - 4 * buffer, i == selectedElement);
       }
       currentHeight += scrollElement.h + buffer;
     }
-    
+
     screen.noStroke();
-    screen.fill(0,0);
+    screen.fill(0, 0);
     screen.blendMode(REPLACE);
     screen.rect(0, 0, screen.width, y + buffer);
     screen.rect(0, 0, x, screen.height);
     screen.rect(0, y + h - buffer, screen.width, screen.height - y - h + 2 * buffer);
     screen.rect(x + w, 0, screen.width - x - w, screen.height);
     screen.blendMode(BLEND);
-    
+
     screen.noStroke();
     screen.fill(100);
     screen.rect(x + w - 2 * buffer, y, 2 * buffer, h);
-    
+
     float barHeight =  this.h * this.h/ (float)(this.h + maxScrollPosition);
-    if(barHeight > h) {
+    if (barHeight > h) {
       barHeight = h;
     }
     screen.fill(200);
     screen.rect(x+ w - 2 * buffer, y + scrollPosition / (float)maxScrollPosition * (h - barHeight), 2 * buffer, barHeight);
-    
+
     screen.noFill();
     screen.stroke(255);
     screen.rect(x, y, w, h);
   }
-  
+
   public void changeScrollPosition(int scrollCount) {
-    if(maxScrollPosition > 0) {
+    if (maxScrollPosition > 0) {
       scrollPosition = constrain(scrollPosition + 10 * scrollCount, 0, maxScrollPosition);
     }
   }
-  
+
   public void update() {
-    if((mousePressed && Util.pointInBox(mouseX, mouseY, x + w - 2 * buffer, y, 2 * buffer, h) && !mousePressedInPrev)){
+    if ((mousePressed && Util.pointInBox(mouseX, mouseY, x + w - 2 * buffer, y, 2 * buffer, h) && !mousePressedInPrev)) {
       mousePressedInScroll = true;
     }
-    if(mousePressedInScroll) {
+    if (mousePressedInScroll) {
       float barHeight =  this.h * this.h/ (float)(this.h + maxScrollPosition);
       scrollPosition = (int)map(mouseY - y - barHeight/2, 0, h - barHeight, 0, maxScrollPosition);
       // scrollPosition = (int)((mouseY - h) * h / (float)maxScrollPosition);
       scrollPosition = constrain(scrollPosition, 0, maxScrollPosition);
     }
-    if(!mousePressed) {
+    if (!mousePressed) {
       mousePressedInScroll = false;
     }
     mousePressedInPrev = mousePressed;
   }
-  
+
   public void handleMouse() {
-    
-    if(Util.pointInBox(mouseX, mouseY, x, y, w, h)) {
-      
-      for(int i = 0; i < scrollElements.length; i++) {
+
+    if (Util.pointInBox(mouseX, mouseY, x, y, w, h)) {
+
+      for (int i = 0; i < scrollElements.length; i++) {
         ScrollElement selected = scrollElements[i];
-        if(Util.pointInBox(mouseX, mouseY, selected.x, selected.y, selected.w, selected.h)) {
+        if (Util.pointInBox(mouseX, mouseY, selected.x, selected.y, selected.w, selected.h)) {
           selectedElement = i; 
           break;
         }
       }
-    }    
+    }
   }
-  
 }
 
 class ScrollElement {
-  
+
   String title, text;
   int x, y, w, h;
   int buffer = 10;
-  
+
   public ScrollElement(String title, String text, int h) {
     this.title = title;
     this.text = text;
     this.h = h;
   }
-  
+
   public void show(PGraphics screen, int xpos, int ypos, int w, boolean selected) {
-    
+
     this.x = xpos;
     this.y = ypos;
     this.w = w;
-    
+
     screen.fill(150);
-    if(selected) {
+    if (selected) {
       screen.fill(180);
     }
     screen.noStroke();
     screen.rect(xpos, ypos, w, h);
     screen.fill(255);
-    screen.textAlign(LEFT,TOP);
+    screen.textAlign(LEFT, TOP);
     screen.textSize(40);
     screen.text(title, xpos + buffer, ypos + buffer);
     screen.textSize(20);
@@ -1040,12 +1036,8 @@ class ScrollElement {
       screen.rect(x, y, w, h);
     }
     screen.strokeWeight(1);
-    
   }
 }
 
 public void makeSaveElements() {
-  
-  
-  
 }

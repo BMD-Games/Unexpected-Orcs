@@ -1,4 +1,6 @@
-class Inventory {
+import java.io.Serializable;
+
+public class Inventory implements Serializable {
   
   private int MAX_SIZE = 12;
   private Item[] active = new Item[4];
@@ -84,10 +86,10 @@ class Inventory {
   
 }
 
-class Item {
+public class Item implements Serializable {
   
   public String type, name;
-  public PImage sprite;
+  transient public PImage sprite;
   
   public int tier = 0;
   
@@ -100,4 +102,19 @@ class Item {
     this.sprite = sprite;
     this.name = name;
   }
+  
+  private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        sprite.loadPixels();
+        out.writeObject(sprite.pixels);
+        
+    }
+
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      sprite.loadPixels();
+      sprite.pixels = (int[])in.readObject();
+      sprite.updatePixels();
+  }
+  
 }

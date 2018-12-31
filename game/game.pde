@@ -52,11 +52,11 @@ void setup() {
   engine = new Engine();
   gui = new GUI();
   
-  try {
-    engine.player = readStats("SUPERSS.txt");
-  } catch (IOException ioe) {
-    println(ioe);
-  }
+  //try {
+  //  engine.player = readStats("SUPERSS.txt");
+  //} catch (IOException ioe) {
+  //  println(ioe);
+  //}
 }
 
 void draw() {
@@ -138,9 +138,15 @@ void keyReleased() {
   if (keyCode == ABILITY_KEY) keys[ability] = 0;
 }
 
+
+void dispose() {
+  //runs when the "x" button is pressed
+  quitGame();
+}
+
 public void quitGame() {
   //do all savey-stuff here
-  //saveGame();
+  saveGame();
   exit();
 }
 
