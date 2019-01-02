@@ -84,7 +84,7 @@ void draw() {
     break;
   case "PAUSED":
     engine.show();
-    gui.drawPaused();
+    gui.drawPaused(); 
     break;
   case "DEAD":
     gui.drawDead();

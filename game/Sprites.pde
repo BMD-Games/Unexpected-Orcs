@@ -7,8 +7,6 @@ HashMap<String, PImage> dropSprites;
 HashMap<String, PImage> statusSprites;
 HashMap<String, PImage> playerStatusSprites;
 
-PImage vingette;
-
 public void loadAssets() {
   
   tileSprites = new HashMap<Integer, PImage>();
