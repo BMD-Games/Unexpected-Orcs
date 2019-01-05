@@ -15,8 +15,8 @@ public class PlayerStats extends Stats {
     public HashMap<Integer, Integer> defenceKills = new HashMap<Integer, Integer>();
     public HashMap<Integer, Integer> speedKills = new HashMap<Integer, Integer>();
 
-    private int baseHealth = 100, baseMana = 100;
-    private int baseVitality = 5, baseAttack = 1, baseWisdom = 5, baseDefence = 1;
+    public int baseHealth = 100, baseMana = 100;
+    public int baseVitality = 5, baseAttack = 1, baseWisdom = 5, baseDefence = 1;
 
     private float baseSpeed = 2;
 
@@ -75,7 +75,7 @@ public class PlayerStats extends Stats {
         speed = calcStatValue(speedKills, baseSpeed, 1, 0.1f);
     }
 
-    private float calcStatValue(HashMap<Integer, Integer> stat, float base, int max, float rate) {
+    public float calcStatValue(HashMap<Integer, Integer> stat, float base, int max, float rate) {
         float value = base;
         for(int tier : stat.keySet()) {
             value += calcStatTierValue(max, rate, stat.get(tier)) * (tier + 1);

@@ -28,7 +28,7 @@ public class Main extends Application {
     public static final int height = 720;
     public static final String name = "Unexpected Orcs";
 
-    public GraphicsContext gc;
+    public static GraphicsContext gc;
     public static Stage primary;
 
     public static boolean mousePressed = false;
@@ -195,5 +195,7 @@ public class Main extends Application {
         System.out.println("UP " + keyCode.toString());
     }
 
+    public static void quitGame() {
 
+    }
 }

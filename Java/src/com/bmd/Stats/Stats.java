@@ -1,6 +1,7 @@
 package com.bmd.Stats;
 
-import java.awt.*;
+import javafx.scene.paint.Color;
+
 import java.util.HashMap;
 
 public class Stats {
@@ -122,12 +123,12 @@ public class Stats {
         STATUSES.put("SLOWED", true);
         STATUSES.put("SWIFT", true);
 
-        statColours.put("HEALTH", new Color(230, 100, 100));
-        statColours.put("MANA", new Color(153, 217, 234));
-        statColours.put("SPEED", new Color(100, 230, 100));
-        statColours.put("WISDOM", new Color(140, 50, 230));
-        statColours.put("DEFENCE", new Color(0, 15, 230));
-        statColours.put("ATTACK", new Color(230, 150, 0));
-        statColours.put("VITALITY", new Color(255, 105, 180));
+        statColours.put("HEALTH", Color.color(230, 100, 100));
+        statColours.put("MANA", Color.color(153, 217, 234));
+        statColours.put("SPEED", Color.color(100, 230, 100));
+        statColours.put("WISDOM", Color.color(140, 50, 230));
+        statColours.put("DEFENCE", Color.color(0, 15, 230));
+        statColours.put("ATTACK", Color.color(230, 150, 0));
+        statColours.put("VITALITY", Color.color(255, 105, 180));
     }
 }

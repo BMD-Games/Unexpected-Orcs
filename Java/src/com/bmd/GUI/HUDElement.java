@@ -2,7 +2,9 @@ package com.bmd.GUI;
 
 import com.bmd.Sprites.Sprites;
 import com.bmd.Util.Util;
-import javafx.scene.image.Image;
+import com.bmd.App.Graphics;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.awt.image.BufferedImage;
 
@@ -19,8 +21,9 @@ public class HUDElement {
         this.spriteName = spriteName;
     }
 
-    public void show(PGraphics screen) {
+    public void show(Canvas canvas) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         BufferedImage sprite = Sprites.guiSprites.get(spriteName);
-        screen.image(sprite, x, y, sprite.getWidth() * Util.SCALE, sprite.getHeight() * Util.SCALE);
+        Graphics.image(gc, sprite, x, y, sprite.getWidth() * Util.SCALE, sprite.getHeight() * Util.SCALE);
     }
 }

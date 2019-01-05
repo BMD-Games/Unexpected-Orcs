@@ -1,6 +1,11 @@
 package com.bmd.GUI;
 
 import com.bmd.Tiles.Tiles;
+import com.bmd.Util.Util;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 public class ScrollElement {
 
@@ -14,30 +19,29 @@ public class ScrollElement {
         this.h = h;
     }
 
-    public void show(PGraphics screen, int xpos, int ypos, int w, boolean selected) {
+    public void show(Canvas canvas, int xpos, int ypos, int w, boolean selected) {
+        GraphicsContext screen = canvas.getGraphicsContext2D();
 
         this.x = xpos;
         this.y = ypos;
         this.w = w;
 
-        screen.fill(150);
+        screen.setFill(Color.gray(150));
         if (selected) {
-            screen.fill(180);
+            screen.setFill(Color.gray(180));
         }
-        screen.noStroke();
-        screen.rect(xpos, ypos, w, h);
-        screen.fill(255);
-        screen.textAlign(LEFT, TOP);
-        screen.textSize(40);
-        screen.text(title, xpos + buffer, ypos + buffer);
-        screen.textSize(20);
-        screen.text(text, xpos + buffer, ypos + Tiles.TILE_SIZE / 2 + buffer);
+        screen.fillRect(xpos, ypos, w, h);
+        screen.setFill(Color.WHITE);
+        screen.setTextAlign(TextAlignment.LEFT);
+        screen.setFont(Util.font("bitcell", 40));
+        screen.fillText(title, xpos + buffer, ypos + buffer);
+        screen.setFont(Util.font("bitcell", 20));
+        screen.fillText(text, xpos + buffer, ypos + Tiles.TILE_SIZE / 2 + buffer);
         if (selected) {
-            screen.strokeWeight(4);
-            screen.stroke(200);
-            screen.noFill();
+            screen.setLineWidth(4);
+            screen.setStroke(Color.gray(200));
             screen.rect(x, y, w, h);
         }
-        screen.strokeWeight(1);
+        screen.setLineWidth(1);
     }
 }

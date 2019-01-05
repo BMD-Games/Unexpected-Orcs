@@ -2,6 +2,9 @@ package com.bmd.GUI;
 
 import com.bmd.App.Main;
 import com.bmd.Util.Util;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class ScrollWindow {
 
@@ -9,10 +12,10 @@ public class ScrollWindow {
     public int scrollPosition = 0;
     public int maxScrollPosition;
     private int buffer = 10;
-    private ScrollElement[] scrollElements;
+    public ScrollElement[] scrollElements;
     private boolean mousePressedInScroll = false;
     private boolean mousePressedInPrev = false;
-    private int selectedElement = -1;
+    public int selectedElement = -1;
 
     public ScrollWindow(int x, int y, int w, int h, ScrollElement[] scrollElements) {
         this.x = x;
@@ -36,7 +39,8 @@ public class ScrollWindow {
 
 
 
-    public void show(PGraphics screen) {
+    public void show(Canvas screen) {
+        GraphicsContext gc = screen.getGraphicsContext2D();
 
         int currentHeight = buffer;
 
@@ -48,29 +52,24 @@ public class ScrollWindow {
             currentHeight += scrollElement.h + buffer;
         }
 
-        screen.noStroke();
-        screen.fill(0, 0);
-        screen.blendMode(REPLACE);
-        screen.rect(0, 0, screen.width, y + buffer);
-        screen.rect(0, 0, x, screen.height);
-        screen.rect(0, y + h - buffer, screen.width, screen.height - y - h + 2 * buffer);
-        screen.rect(x + w, 0, screen.width - x - w, screen.height);
-        screen.blendMode(BLEND);
+        gc.clearRect(0, 0, screen.getWidth(), y + buffer);
+        gc.clearRect(0, 0, x, screen.getHeight());
+        gc.clearRect(0, y + h - buffer, screen.getWidth(), screen.getHeight() - y - h + 2 * buffer);
+        gc.clearRect(x + w, 0, screen.getWidth() - x - w, screen.getHeight());
 
-        screen.noStroke();
-        screen.fill(100);
-        screen.rect(x + w - 2 * buffer, y, 2 * buffer, h);
+        gc.setFill(Color.color(100, 100, 100));
+        gc.fillRect(x + w - 2 * buffer, y, 2 * buffer, h);
 
         float barHeight =  this.h * this.h/ (float)(this.h + maxScrollPosition);
         if (barHeight > h) {
             barHeight = h;
         }
-        screen.fill(200);
-        screen.rect(x+ w - 2 * buffer, y + scrollPosition / (float)maxScrollPosition * (h - barHeight), 2 * buffer, barHeight);
+        gc.setFill(Color.color(200, 200, 200));
+        gc.fillRect(x+ w - 2 * buffer, y + scrollPosition / (float)maxScrollPosition * (h - barHeight), 2 * buffer, barHeight);
 
-        screen.noFill();
-        screen.stroke(255);
-        screen.rect(x, y, w, h);
+
+        gc.setStroke(Color.WHITE);
+        gc.strokeRect(x, y, w, h);
     }
 
     public void changeScrollPosition(int scrollCount) {

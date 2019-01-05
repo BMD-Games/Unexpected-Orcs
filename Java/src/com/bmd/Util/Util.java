@@ -4,15 +4,13 @@ import com.bmd.App.Main;
 import com.bmd.Sprites.Sprites;
 import com.bmd.Tiles.Tiles;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.WritableImage;
-import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import java.util.BitSet;
 import java.util.Random;
 
 public class Util {
@@ -52,7 +50,6 @@ public class Util {
         }
     }
 
-    //Returns whether a point (px, py) is inside a box (bx, by, w, h);
     public  static boolean pointInBox(float px, float py, float bx, float by, float w, float h) {
         return((px > bx) && (px < bx + w) && (py > by) && (py < by + h));
     }
@@ -107,7 +104,9 @@ public class Util {
         return MouseInfo.getPointerInfo().getLocation().y;
     }
 
-    public static float random(float n) { return (float)Math.random() * n; }
+    public static float random(float n) {
+        return (float)Math.random() * n;
+    }
 
     public static float random(float min, float max) {
         return (float)((Math.random() * (max - min)) + min);
