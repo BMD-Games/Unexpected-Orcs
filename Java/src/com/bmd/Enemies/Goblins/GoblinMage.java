@@ -9,8 +9,7 @@ import com.bmd.Items.ItemFactory;
 import com.bmd.Sprites.Sprites;
 import com.bmd.Util.RectangleObject;
 import com.bmd.Util.Util;
-
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 import static com.bmd.Util.Util.randomGaussian;
 
@@ -31,7 +30,7 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
         predictAim = true;
         accuracy = 0.02f;
         bulletSpeed = 6;
-        projectileSprite = Util.applyColourToImage(Sprites.projectileSprites.get("STAFF"), new Color(124, 10, 10));
+        projectileSprite = Util.applyColourToImage(Sprites.projectileSprites.get("STAFF"), Util.color(124, 10, 10));
     }
 
     public float getWidth() {

@@ -1,6 +1,8 @@
 package com.bmd.Player;
 
+import com.bmd.App.Graphics;
 import com.bmd.App.Main;
+import com.bmd.Input.Input;
 import com.bmd.Items.*;
 import com.bmd.Sprites.Sprites;
 import com.bmd.Stats.PlayerStats;
@@ -8,6 +10,8 @@ import com.bmd.Tiles.Tiles;
 import com.bmd.Util.AABB;
 import com.bmd.Util.PVector;
 import com.bmd.Util.Util;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.awt.image.BufferedImage;
 
@@ -48,7 +52,7 @@ public class Player {
     }
 
     private float getDX(double delta, int[] neighbours) {
-        float dx = (float)((keys[Util.right] - keys[Util.left]) * (delta * stats.getSpeed()));
+        float dx = (float)((Input.keys[Util.right] - Input.keys[Util.left]) * (delta * stats.getSpeed()));
         int xpos = (int)x;
         int ypos = (int)y;
         if (dx < 0 && neighbours[Util.left] <= Tiles.WALL) {
@@ -62,7 +66,7 @@ public class Player {
     }
 
     private float getDY(double delta, int[] neighbours) {
-        float dy = (float)((keys[Util.down] - keys[Util.up]) * (delta * stats.getSpeed()));
+        float dy = (float)((Input.keys[Util.down] - Input.keys[Util.up]) * (delta * stats.getSpeed()));
         int xpos = (int)x;
         int ypos = (int)y;
         if (dy < 0 && neighbours[Util.up] <= Tiles.WALL) {
@@ -82,7 +86,7 @@ public class Player {
     }
 
     public void update(double delta, int[] neighbours) {
-        ang = (float)Math.atan2(Util.mouseY() - Main.height/2, Util.mouseX() - (Main.width/2 + Util.GUI_WIDTH/2));
+        ang = (float)Math.atan2(Input.mouseY() - Main.height/2, Input.mouseX() - (Main.width/2 + Util.GUI_WIDTH/2));
 
         if (inv.active[1] != null ) {
             updateCooldown(delta);
@@ -96,12 +100,14 @@ public class Player {
         stats.update(delta);
     }
 
-    public void show(PGraphics screen, PVector renderOffset) {
-        screen.pushMatrix();
+    public void show(Canvas canvas, PVector renderOffset) {
+        GraphicsContext screen = canvas.getGraphicsContext2D();
+
+        screen.save();
         screen.translate(x * Tiles.TILE_SIZE - renderOffset.x, y * Tiles.TILE_SIZE - renderOffset.y);
-        screen.image(headSprite, -headSprite.getWidth() * Util.SCALE/2, -headSprite.getHeight() * Util.SCALE/2, headSprite.getWidth() * Util.SCALE, headSprite.getHeight() * Util.SCALE);
-        screen.image(bodySprite, -bodySprite.getWidth() * Util.SCALE/2, -bodySprite.getHeight() * Util.SCALE/2, bodySprite.getWidth() * Util.SCALE, bodySprite.getHeight() * Util.SCALE);
-        screen.popMatrix();
+        Graphics.image(screen, headSprite, -headSprite.getWidth() * Util.SCALE/2, -headSprite.getHeight() * Util.SCALE/2, headSprite.getWidth() * Util.SCALE, headSprite.getHeight() * Util.SCALE);
+        Graphics.image(screen, bodySprite, -bodySprite.getWidth() * Util.SCALE/2, -bodySprite.getHeight() * Util.SCALE/2, bodySprite.getWidth() * Util.SCALE, bodySprite.getHeight() * Util.SCALE);
+        screen.restore();
     }
 
     private void updateBound() {
@@ -110,7 +116,7 @@ public class Player {
     }
 
     private void ability() {
-        if (keys[Util.ability] == 1 && inv.currentAbility() != null && inv.currentAbility().ability()) {
+        if (Input.keys[Util.ability] == 1 && inv.currentAbility() != null && inv.currentAbility().ability()) {
             inv.currentAbility().makeText();
         }
     }

@@ -1,5 +1,6 @@
 package com.bmd.GUI;
 
+import com.bmd.Input.Input;
 import com.bmd.Util.Util;
 
 public class Button extends HUDElement {
@@ -9,6 +10,6 @@ public class Button extends HUDElement {
     }
 
     public boolean pressed() {
-        return Util.pointInBox(Util.mouseX(), Util.mouseY(), x, y, w, h);
+        return Util.pointInBox(Input.mouseX(), Input.mouseY(), x, y, w, h);
     }
 }

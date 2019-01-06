@@ -1,8 +1,11 @@
 package com.bmd.Entities;
 
+import com.bmd.App.Graphics;
 import com.bmd.Tiles.Tiles;
 import com.bmd.Util.PVector;
 import com.bmd.Util.Util;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.awt.image.BufferedImage;
 
@@ -27,11 +30,11 @@ public class Drop {
         return (lifeTime > 0) && alive;
     }
 
-    public void show(PGraphics screen, PVector renderOffset) {
-        screen.tint(255, 255, 255, alpha);
-        screen.image(sprite, x * Tiles.TILE_SIZE - renderOffset.x - (sprite.width * Util.SCALE/2), y * Tiles.TILE_SIZE - renderOffset.y - (sprite.height * Util.SCALE/2),
-                sprite.width * Util.SCALE, sprite.height * Util.SCALE);
-        screen.tint(255);
+    public void show(Canvas canvas, PVector renderOffset) {
+        GraphicsContext screen = canvas.getGraphicsContext2D();
+        BufferedImage alphaSprite = Util.setOpacity(sprite, alpha);
+        Graphics.image(screen, alphaSprite, x * Tiles.TILE_SIZE - renderOffset.x - (alphaSprite.getWidth() * Util.SCALE/2), y * Tiles.TILE_SIZE - renderOffset.y - (alphaSprite.getHeight() * Util.SCALE/2),
+                alphaSprite.getWidth() * Util.SCALE, alphaSprite.getHeight() * Util.SCALE);
     }
 
     public boolean inRange(float xPos, float yPos) {

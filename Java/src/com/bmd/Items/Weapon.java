@@ -1,8 +1,9 @@
 package com.bmd.Items;
 
 import com.bmd.Util.Pair;
+import com.bmd.Util.Util;
+import javafx.scene.paint.Color;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class Weapon extends Item {
     public float accuracy = 0;
 
     public BufferedImage bulletSprite;
-    public Color tipColour = new Color(50, 50, 50);
+    public Color tipColour = Util.color(50, 50, 50);
 
     public ArrayList<Pair> statusEffects = new ArrayList<Pair>();
 

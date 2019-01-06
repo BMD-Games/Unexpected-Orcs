@@ -9,7 +9,7 @@ import com.bmd.Levels.RoomLevel;
 import com.bmd.Tiles.TileSet;
 import com.bmd.Util.Util;
 
-class CellarDungeon extends Level implements RoomLevel {
+public class CellarDungeon extends Level implements RoomLevel {
 
     /***
      Creates a dungeon and appends the tiles to the Level it's been given.
@@ -24,7 +24,7 @@ class CellarDungeon extends Level implements RoomLevel {
      rooms     - Presets for all other rooms
      ***/
 
-    CellarDungeon() {
+    public CellarDungeon() {
         super(60, 45, "Cellar", TileSet.cellarTileSet());
         Generator.generateConnectedDungeon(this, 20, (float)Math.PI/4f, 5, 10, Room.testSpawn(), Room.testBoss(), new Room[]{Room.testRoom()});
         generateEnemies();

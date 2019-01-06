@@ -1,18 +1,23 @@
 package com.bmd.Engine;
 
+import com.bmd.App.Graphics;
 import com.bmd.App.Main;
 import com.bmd.App.State;
 import com.bmd.Enemies.Enemy;
 import com.bmd.Enemies.StandardEnemy;
 import com.bmd.Entities.*;
+import com.bmd.File.GameFile;
 import com.bmd.Items.Item;
 import com.bmd.Items.Weapon;
+import com.bmd.Levels.Dungeons.Cave;
 import com.bmd.Levels.Level;
 import com.bmd.Player.Player;
 import com.bmd.Tiles.Tiles;
 import com.bmd.Util.*;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 public class Engine {
@@ -34,11 +39,14 @@ public class Engine {
 
     private static PVector camera = new PVector(0, 0);
 
-    private PGraphics screen;
+    private Canvas canvas;
+    private GraphicsContext screen;
+
+    private static int width, height;
 
     public Player player;
 
-    private Main main;
+    public Main main;
 
     public Engine(Main main) {
         this.main = main;
@@ -47,10 +55,11 @@ public class Engine {
 
         player = new Player(currentLevel.start.x + 0.5f, currentLevel.start.y + 0.5f);
 
-        screen = createGraphics(Main.width - Util.GUI_WIDTH, Main.height);
-        screen.beginDraw();
-        screen.noSmooth();
-        screen.endDraw();
+        width = Main.width - Util.GUI_WIDTH;
+        height = Main.height;
+
+        canvas = new Canvas(width, height);
+        screen = canvas.getGraphicsContext2D();
     }
 
     public void update(double delta) {
@@ -64,7 +73,7 @@ public class Engine {
             //setState("DEAD");
         }
         updateCamera(player.x, player.y);
-        currentLevel.update(screen, camera.x, camera.y);
+        currentLevel.update(canvas, camera.x, camera.y);
 
         updateProjectiles(delta);
         updateEnemies(delta, player.x, player.y);
@@ -74,39 +83,37 @@ public class Engine {
     }
 
     public void show() {
-        screen.beginDraw();
-        currentLevel.show(screen, getRenderOffset());
+        currentLevel.show(canvas, getRenderOffset());
 
         for (Drop drop : drops) {
-            drop.show(screen, getRenderOffset());
+            drop.show(canvas, getRenderOffset());
         }
 
         ArrayList<Integer> chunks = currentLevel.getChunks((int)player.x, (int)player.y);
         for (int i = 0; i < chunks.size(); i ++) {
             for (int j = 0; j < currentLevel.enemies[chunks.get(i)].size(); j ++) {
-                currentLevel.enemies[chunks.get(i)].get(j).show(screen, getRenderOffset());
+                currentLevel.enemies[chunks.get(i)].get(j).show(canvas, getRenderOffset());
             }
         }
 
         for (Projectile projectile : enemyProjectiles) {
-            projectile.show(screen, getRenderOffset());
+            projectile.show(canvas, getRenderOffset());
         }
         for (Projectile projectile : playerProjectiles) {
-            projectile.show(screen, getRenderOffset());
+            projectile.show(canvas, getRenderOffset());
         }
 
-        player.show(screen, getRenderOffset());
+        player.show(canvas, getRenderOffset());
 
         for (Text txt : text) {
-            txt.show(screen, getRenderOffset());
+            txt.show(canvas, getRenderOffset());
         }
-        screen.endDraw();
-        image(screen, Util.GUI_WIDTH, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), Util.GUI_WIDTH, 0);
     }
 
     public static PVector getRenderOffset() {
         //gets the position of the camera relative to the centre of the screen
-        return new PVector(camera.x * Tiles.TILE_SIZE - (screen.width/2), camera.y * Tiles.TILE_SIZE - (screen.height/2));
+        return new PVector(camera.x * Tiles.TILE_SIZE - (width/2), camera.y * Tiles.TILE_SIZE - (height/2));
     }
 
     public void handleMouse() {
@@ -136,10 +143,10 @@ public class Engine {
         camera.y = y;
     }
 
-    private void showCamera() {
+    /*private void showCamera() {
         fill(0, 0, 255);
         ellipse(camera.x * Tiles.TILE_SIZE - getRenderOffset().x, camera.y * Tiles.TILE_SIZE - getRenderOffset().y, 5, 5);
-    }
+    }*/
 
     private void updateProjectiles(double delta) {
         //---enemy projectiles
@@ -280,7 +287,8 @@ public class Engine {
         //empty drops, enemies etc
         Main.setState(State.LOADING);
         Main.loadMessage = "Generating " + getClosestPortal().name;
-        thread("loadClosestPortal");
+        //thread("loadClosestPortal");
+        loadClosestPortal();
     }
 
     public void loadClosestPortal() {
@@ -288,7 +296,7 @@ public class Engine {
         clearDrops();
         player.x = currentLevel.start.x;
         player.y = currentLevel.start.y;
-        saveStats(Main.loadedPlayerName);
+        GameFile.saveStats(Main.loadedPlayerName);
         Main.setState(State.PLAYING);
     }
 

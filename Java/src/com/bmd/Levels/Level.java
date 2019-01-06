@@ -1,5 +1,6 @@
 package com.bmd.Levels;
 
+import com.bmd.App.Graphics;
 import com.bmd.App.Main;
 import com.bmd.Enemies.CreepyCrawlies.Bat;
 import com.bmd.Enemies.Enemy;
@@ -10,8 +11,13 @@ import com.bmd.Tiles.Tiles;
 import com.bmd.Util.PVector;
 import com.bmd.Util.PVectorZComparator;
 import com.bmd.Util.Util;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -41,7 +47,7 @@ public class Level {
     private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
     private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
 
-    private PGraphics background, miniMap, miniMapOverlay;
+    private Canvas background, miniMap, miniMapOverlay;
 
     public Level(int w, int h, String name, TileSet tileset) {
         this.w = w;
@@ -58,19 +64,16 @@ public class Level {
         renderW = Main.width/Tiles.TILE_SIZE + 2 * buffer;
         renderH = Main.height/Tiles.TILE_SIZE + 2 * buffer;
 
-        background = createGraphics(Main.width - Util.GUI_WIDTH, Main.height);
-        miniMapOverlay = createGraphics(w, h);
-        miniMap = createGraphics(w, h);
-        miniMap.beginDraw();
-        miniMap.background(0);
-        miniMap.noStroke();
-        miniMap.endDraw();
+        background = new Canvas(Main.width - Util.GUI_WIDTH, Main.height);
+        miniMapOverlay = new Canvas(w, h);
+        miniMap = new Canvas(w, h);
     }
 
-    public PGraphics generateImage() {
-        PGraphics pg = createGraphics(Sprites.SPRITE_SIZE * w, Sprites.SPRITE_SIZE * h);
-        pg.beginDraw();
-        pg.background(0, 0);
+    public Canvas generateImage() {
+        Canvas canvas = new Canvas(Sprites.SPRITE_SIZE * w, Sprites.SPRITE_SIZE * h);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        Graphics.background(canvas, Util.gray(0, 0));
         for (int i = 0; i < w; i ++) {
             for (int j = 0; j < h; j ++) {
                 int tile = tileset.walls[15];
@@ -79,26 +82,29 @@ public class Level {
                 }
                 catch(Exception e) {
                 }
-                pg.image(Sprites.tileSprites.get(tile), i * Sprites.SPRITE_SIZE, j * Sprites.SPRITE_SIZE, Sprites.SPRITE_SIZE, Sprites.SPRITE_SIZE);
+                Graphics.image(gc, Sprites.tileSprites.get(tile), i * Sprites.SPRITE_SIZE, j * Sprites.SPRITE_SIZE, Sprites.SPRITE_SIZE, Sprites.SPRITE_SIZE);
             }
         }
-        pg.endDraw();
-        return pg;
+        return canvas;
     }
 
-    public void update(PGraphics screen, float x, float y) {
-        xTileOffset = (int)x - (screen.width/2)/Tiles.TILE_SIZE;
-        yTileOffset = (int)y - (screen.height/2)/Tiles.TILE_SIZE;
+    public void update(Canvas canvas, float x, float y) {
+        GraphicsContext screen = canvas.getGraphicsContext2D();
+        xTileOffset = (int)(x - (canvas.getWidth()/2)/Tiles.TILE_SIZE);
+        yTileOffset = (int)(y - (canvas.getHeight()/2)/Tiles.TILE_SIZE);
         updateVisited((int)x, (int)y, visitRadius, false);
         updateVisitedSmooth();
         updateMapEntities((int)x, (int)y);
         updateBosses();
     }
 
-    public void show(PGraphics screen, PVector renderOffset) {
+    public void show(Canvas canvas, PVector renderOffset) {
         //generate an image based off the tile map;
-        background.beginDraw();
-        background.background(0);
+
+        GraphicsContext screen = canvas.getGraphicsContext2D();
+        GraphicsContext bg = background.getGraphicsContext2D();
+
+        Graphics.background(background, Color.BLACK);
         for (int x = 0; x < renderW; x ++) {
             for (int y = 0; y < renderH; y ++) {
                 int i = (x + xTileOffset) - buffer;
@@ -117,12 +123,11 @@ public class Level {
                     catch(Exception e) {
                     }
                     BufferedImage sprite = Sprites.tileSprites.get(tile);
-                    background.image(sprite, i * Tiles.TILE_SIZE - renderOffset.x, j * Tiles.TILE_SIZE - renderOffset.y, (sprite.getWidth() * Util.SCALE), (sprite.getHeight() * Util.SCALE));
+                    Graphics.image(bg, sprite, i * Tiles.TILE_SIZE - renderOffset.x, j * Tiles.TILE_SIZE - renderOffset.y, (sprite.getWidth() * Util.SCALE), (sprite.getHeight() * Util.SCALE));
                 }
             }
         }
-        background.endDraw();
-        screen.image(background, 0, 0);
+        Graphics.image(screen, Util.getImage(background), 0, 0);
     }
 
     public boolean isEdge(int[][] tiles, int i, int j) {
@@ -301,17 +306,17 @@ public class Level {
     }
 
     protected void drawVisitedTile(int i, int j) {
-        miniMap.beginDraw();
+        GraphicsContext gc = miniMap.getGraphicsContext2D();
+
         int tile = Tiles.WALL;
         try {
             tile = tiles[i][j];
         }
         catch(Exception e) {
         }
-        miniMap.stroke(tileSprites.get(tile).get(1, 1)); //set the colour to a pixel from the tile
+        gc.setStroke(Util.getFXColor(Sprites.tileSprites.get(tile).getRGB(1, 1))); //set the colour to a pixel from the tile
 
-        miniMap.point(i, j);
-        miniMap.endDraw();
+        gc.fillRect(i, j, 1, 1);
     }
 
     public boolean canSee(int x1, int y1, int x2, int y2) {
@@ -410,13 +415,10 @@ public class Level {
         visited = new boolean[w][h];
         visitedCalcLocations = new boolean[w][h];
 
-        background = createGraphics(width - GUI_WIDTH, height);
-        miniMapOverlay = createGraphics(w, h);
-        miniMap = createGraphics(w, h);
-        miniMap.beginDraw();
-        miniMap.background(0);
-        miniMap.noStroke();
-        miniMap.endDraw();
+        background = new Canvas(Main.width - Util.GUI_WIDTH, Main.height);
+        miniMapOverlay = new Canvas(w, h);
+        miniMap = new Canvas(w, h);
+        Graphics.background(miniMap, Color.BLACK);
     }
 
     public void setZones(ArrayList<PVector> bossZones, ArrayList<PVector> generalZones) { //sets the zones
@@ -459,17 +461,22 @@ public class Level {
         return name;
     }
 
-    public PGraphics getMiniMap() {
+    public Canvas getMiniMap() {
         return miniMap;
     }
 
-    public PGraphics getOverlay() {
+    public Canvas getOverlay() {
         return miniMapOverlay;
     }
 
     public void saveLevel() {
-        generateImage().save("/out/image" + name + ".png");
-        PrintWriter file = createWriter("/out/" + name + ".txt");
+        //generateImage().save("/out/image" + name + ".png");
+        /*PrintWriter file = null;
+        try {
+            file = new PrintWriter("/out/" + name + ".txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         for (int j = 0; j < h; j ++) {
             for (int i = 0; i < w; i ++) {
                 file.print(tiles[i][j]);
@@ -479,6 +486,7 @@ public class Level {
         }
         file.flush();
         file.close();
+        */
     }
 
     protected void validSpawnRooms(StandardEnemy enemy) {

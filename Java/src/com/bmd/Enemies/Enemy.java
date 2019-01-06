@@ -5,6 +5,7 @@ import com.bmd.Levels.Level;
 import com.bmd.Util.AABB;
 import com.bmd.Util.PVector;
 import com.bmd.Util.Pair;
+import javafx.scene.canvas.Canvas;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public interface Enemy {
     public boolean update(double delta);
 
     /* Displays enemy to screen */
-    public void show(PGraphics screen, PVector renderOffset);
+    public void show(Canvas canvas, PVector renderOffset);
 
     /* This mob takes damage */
     public void damage(int amount, ArrayList<Pair> statusEffects);

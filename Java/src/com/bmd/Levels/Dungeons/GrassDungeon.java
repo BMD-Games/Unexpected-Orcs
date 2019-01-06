@@ -15,12 +15,12 @@ import com.bmd.Levels.Level;
 import com.bmd.Tiles.TileSet;
 import com.bmd.Util.Util;
 
-class GrassDungeon extends Level {
+public class GrassDungeon extends Level {
 
     private int roomAttempts = 300, minRoomSize = 3, maxRoomSize = 15;
     private float straightChance = 0.9f, loopChance = 0.05f;
 
-    GrassDungeon() {
+    public GrassDungeon() {
         super(60, 45, "DungeonGrass", TileSet.grassTileset());
 
         this.setTiles(Generator.finishingPass(Generator.generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance), tileset));

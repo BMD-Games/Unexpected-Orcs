@@ -26,9 +26,9 @@ public class ScrollElement {
         this.y = ypos;
         this.w = w;
 
-        screen.setFill(Color.gray(150));
+        screen.setFill(Util.gray(150));
         if (selected) {
-            screen.setFill(Color.gray(180));
+            screen.setFill(Util.gray(180));
         }
         screen.fillRect(xpos, ypos, w, h);
         screen.setFill(Color.WHITE);
@@ -39,7 +39,7 @@ public class ScrollElement {
         screen.fillText(text, xpos + buffer, ypos + Tiles.TILE_SIZE / 2 + buffer);
         if (selected) {
             screen.setLineWidth(4);
-            screen.setStroke(Color.gray(200));
+            screen.setStroke(Util.gray(200));
             screen.rect(x, y, w, h);
         }
         screen.setLineWidth(1);

@@ -12,7 +12,7 @@ public class StatOrb extends Drop {
     private int tier;
     private float pickUpRadius = 0.3f;
 
-    private boolean playerWasInRange = false;/
+    private boolean playerWasInRange = false;
     private float vel = 0, acc = 2.5f;
 
     public StatOrb(float x, float y, int tier, String stat) {

@@ -3,9 +3,13 @@ package com.bmd.GUI;
 import com.bmd.App.Graphics;
 import com.bmd.App.Main;
 import com.bmd.App.State;
+import com.bmd.Enemies.Enemy;
+import com.bmd.Enemies.StandardEnemy;
+import com.bmd.Entities.ItemBag;
+import com.bmd.Entities.Portal;
 import com.bmd.File.GameFile;
-import com.bmd.Items.Inventory;
-import com.bmd.Items.Item;
+import com.bmd.Input.Input;
+import com.bmd.Items.*;
 import com.bmd.Player.Player;
 import com.bmd.Settings.Settings;
 import com.bmd.Sprites.Sprites;
@@ -14,12 +18,11 @@ import com.bmd.Tiles.Tiles;
 import com.bmd.Util.Util;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 import java.awt.image.BufferedImage;
-
-import static java.awt.geom.Arc2D.PIE;
 
 public class GUI {
     /**
@@ -38,7 +41,7 @@ public class GUI {
     private BufferedImage title = Util.loadImage("com/bmd/assets/sprites/title.png");
     private Canvas canvas;
     private GraphicsContext screen;
-    private Color c = Color.gray(100);
+    private Color c = Util.gray(100);
     private String playerName = "";
 
     public ScrollWindow loadScroll = new ScrollWindow(Main.width/8, Main.height/4, Main.width/4 * 3, Main.height/2, GameFile.loadSaves());
@@ -85,8 +88,8 @@ public class GUI {
         keyAbility = new Button(Main.width/2, Main.height/2 - Tiles.TILE_SIZE * 0, "BLANK_1x1");
 
         //-----Gameplay
-        healthBar = new DisplayBar(Util.GUI_WIDTH/2 - Tiles.TILE_SIZE * 1.5f + 4, Tiles.TILE_SIZE/2 - invBuff, Color.color(230, 100, 100));
-        manaBar = new DisplayBar(Util.GUI_WIDTH/2 - Tiles.TILE_SIZE * 1.5f + 4, 2 * Tiles.TILE_SIZE/2, Color.color(153, 217, 234));
+        healthBar = new DisplayBar(Util.GUI_WIDTH/2 - Tiles.TILE_SIZE * 1.5f + 4, Tiles.TILE_SIZE/2 - invBuff, Util.color(230, 100, 100));
+        manaBar = new DisplayBar(Util.GUI_WIDTH/2 - Tiles.TILE_SIZE * 1.5f + 4, 2 * Tiles.TILE_SIZE/2, Util.color(153, 217, 234));
         enterPortal = new Button(Util.GUI_WIDTH/2 - Tiles.TILE_SIZE, 14 * Tiles.TILE_SIZE/2, "BLANK_2x1");
 
         canvas = new Canvas(Main.width, Main.height);
@@ -106,13 +109,13 @@ public class GUI {
         load.show(canvas);
         options.show(canvas);
         exit.show(canvas);
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
     }
 
     public void drawOptions() {
         //Draws the options menu
         screen.setTextAlign(TextAlignment.CENTER);
-        screen.setFont(Util.font("bitcell", (Tiles.TILE_SIZE/2));
+        screen.setFont(Util.font("bitcell", (Tiles.TILE_SIZE/2)));
         Graphics.background(canvas, c);
         back.show(canvas);
         keyUp.show(canvas);
@@ -120,13 +123,13 @@ public class GUI {
         keyLeft.show(canvas);
         keyRight.show(canvas);
         keyAbility.show(canvas);
-        screen.setFill(Color.color(0, 112, 188));
-        if (!remapNextKey || remapAction != Util.up) screen.fillText(getKeyString(Util.up), keyUp.x + keyUp.w/2, keyUp.y + keyUp.h/2);
-        if (!remapNextKey || remapAction != Util.down) screen.fillText(getKeyString(Util.down), keyDown.x + keyDown.w/2, keyDown.y + keyDown.h/2);
-        if (!remapNextKey || remapAction != Util.left) screen.fillText(getKeyString(Util.left), keyLeft.x + keyLeft.w/2, keyLeft.y + keyLeft.h/2);
-        if (!remapNextKey || remapAction != Util.right) screen.fillText(getKeyString(Util.right), keyRight.x + keyRight.w/2, keyRight.y + keyRight.h/2);
-        if (!remapNextKey || remapAction != Util.ability) screen.fillText(getKeyString(Util.ability), keyAbility.x + keyAbility.w/2, keyAbility.y + keyAbility.h/2);
-        screen.setFill(Color.gray(255));
+        screen.setFill(Util.color(0, 112, 188));
+        if (!Settings.remapNextKey || Settings.remapAction != Util.up) screen.fillText(Settings.getKeyString(Util.up), keyUp.x + keyUp.w/2, keyUp.y + keyUp.h/2);
+        if (!Settings.remapNextKey || Settings.remapAction != Util.down) screen.fillText(Settings.getKeyString(Util.down), keyDown.x + keyDown.w/2, keyDown.y + keyDown.h/2);
+        if (!Settings.remapNextKey || Settings.remapAction != Util.left) screen.fillText(Settings.getKeyString(Util.left), keyLeft.x + keyLeft.w/2, keyLeft.y + keyLeft.h/2);
+        if (!Settings.remapNextKey || Settings.remapAction != Util.right) screen.fillText(Settings.getKeyString(Util.right), keyRight.x + keyRight.w/2, keyRight.y + keyRight.h/2);
+        if (!Settings.remapNextKey || Settings.remapAction != Util.ability) screen.fillText(Settings.getKeyString(Util.ability), keyAbility.x + keyAbility.w/2, keyAbility.y + keyAbility.h/2);
+        screen.setFill(Util.gray(255));
         screen.setTextAlign(TextAlignment.RIGHT);
         screen.fillText("Forward", keyUp.x, keyUp.y + keyUp.h/2);
         screen.fillText("Back", keyDown.x, keyDown.y + keyDown.h/2);
@@ -134,30 +137,30 @@ public class GUI {
         screen.fillText("Right", keyRight.x, keyRight.y + keyRight.h/2);
         screen.fillText("Ability", keyAbility.x, keyAbility.y + keyAbility.h/2);
 
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
     }
 
     public void drawPaused() {
         //Draws the paused overlay
         drawPlay(Main.engine.player);
         //clearScreen();
-        screen.setFill(Color.gray(0, 100));
+        screen.setFill(Util.gray(0, 100));
         screen.rect(-Tiles.TILE_SIZE, -Tiles.TILE_SIZE, Main.width + Tiles.TILE_SIZE, Main.height + Tiles.TILE_SIZE);
         menu.show(canvas);
         options.show(canvas);
         play.show(canvas);
 
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
     }
 
     public void drawSave() {
 
         Graphics.background(canvas, c);
-        screen.setFill(Color.gray(0, 100));
+        screen.setFill(Util.gray(0, 100));
         screen.rect(-Tiles.TILE_SIZE, -Tiles.TILE_SIZE, Main.width + Tiles.TILE_SIZE, Main.height + Tiles.TILE_SIZE);
         back.show(canvas);
 
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
     }
 
     public void drawPlay(Player player) {
@@ -168,13 +171,13 @@ public class GUI {
         manaBar.updateBar(player.stats.mana, player.stats.manaMax);
 
         clearScreen();
-        screen.setFill(Color.gray(217));
+        screen.setFill(Util.gray(217));
         screen.fillRect(0, 0, Util.GUI_WIDTH, Main.height);
 
         pause.show(canvas);
         screen.setTextAlign(TextAlignment.CENTER);
-        screen.setFill(Color.color(50, 50, 50));
-        screen.setFont(Util.font("bitcell", (Tiles.TILE_SIZE / 2));
+        screen.setFill(Util.color(50, 50, 50));
+        screen.setFont(Util.font("bitcell", (Tiles.TILE_SIZE / 2)));
         screen.fillText(Main.loadedPlayerName, Util.GUI_WIDTH / 2, 20);
         healthBar.show(canvas);
         manaBar.show(canvas);
@@ -187,9 +190,9 @@ public class GUI {
         drawStats();
         drawCooldown();
 
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
 
-        if (Util.pointInBox(Util.mouseX(), Util.mouseY(), 0, 0, Util.GUI_WIDTH, Main.height)) {
+        if (Util.pointInBox(Input.mouseX(), Input.mouseY(), 0, 0, Util.GUI_WIDTH, Main.height)) {
             inMenu = true;
         } else {
             inMenu = false;
@@ -205,7 +208,7 @@ public class GUI {
         screen.fillText("Loading", Main.width/2, Main.height/2);
         screen.fillText(Main.loadMessage, Main.width/2, Main.height/2 + Tiles.TILE_SIZE);
 
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
     }
 
     public void drawDead() {
@@ -213,11 +216,11 @@ public class GUI {
         clearScreen();
 
         Graphics.image(screen, title, 0, 0, Main.width, Main.height);
-        screen.setFill(Color.color(200, 0, 0));
+        screen.setFill(Util.color(200, 0, 0));
         screen.fillText("Nibba u dead", Main.width/2, Main.height/2);
         back.show(canvas);
 
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
     }
 
     public void drawLoad() {
@@ -229,7 +232,7 @@ public class GUI {
         back.show(canvas);
         play2.show(canvas);
 
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
 
     /*
     screen.beginDraw();
@@ -240,7 +243,7 @@ public class GUI {
      screen.rect(100, 100, 100, 100);
 
      screen.endDraw();
-     image(screen, 0, 0);
+     Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
      */
     }
 
@@ -250,9 +253,9 @@ public class GUI {
         Graphics.image(screen, title, 0, 0, Main.width, Main.height);
         Settings.characterNaming = true;
         back.show(canvas);
-        screen.setFill(Color.gray(200));
+        screen.setFill(Util.gray(200));
         screen.fillRect(Main.width/2 - Tiles.TILE_SIZE * 2, Main.height/2 - Tiles.TILE_SIZE / 4 * 3, Tiles.TILE_SIZE * 4, Tiles.TILE_SIZE);
-        screen.setFill(Color.gray(50));
+        screen.setFill(Util.gray(50));
         screen.setFont(Util.font("bitcell", (Tiles.TILE_SIZE)));
         screen.setTextAlign(TextAlignment.CENTER);
         screen.fillText(playerName, Main.width/2, Main.height/2);
@@ -262,7 +265,7 @@ public class GUI {
         }
         play.show(canvas);
 
-        image(screen, 0, 0);
+        Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
     }
 
     public void handleMouseReleased() {
@@ -278,7 +281,7 @@ public class GUI {
             Main.setState(State.LOAD);
         } else if (Main.STATE == State.PAUSED && menu.pressed()) {
             //SAVE GAME HERE!!!!
-            //saveGame();
+            GameFile.saveGame();
             Main.setState(State.MENU);
         } else if (Main.STATE == State.PLAYING && pause.pressed()) {
             Main.setState(State.PAUSED);
@@ -342,7 +345,7 @@ public class GUI {
 
         if (Main.engine.player.inv.currentAbility() != null ) {
             float percentFull = Main.engine.player.getPercentCooldown();
-            screen.setFill(Color.gray(0, 100));
+            screen.setFill(Util.gray(0, 100));
             screen.arc(invBuff + invX + (invSize + invBuff) + itemOffset + Sprites.SPRITE_SIZE * invScale/2, invBuff + invY + itemOffset + Sprites.SPRITE_SIZE * invScale/2,
                     Sprites.SPRITE_SIZE * invScale, Sprites.SPRITE_SIZE * invScale, -Math.PI/2, 2 * Math.PI * percentFull - Math.PI/2);
         }
@@ -352,55 +355,55 @@ public class GUI {
 
         float attackFloat = Main.engine.player.stats.calcStatValue(Main.engine.player.stats.attackKills, Main.engine.player.stats.baseAttack, 1, 0.1f);
         attackFloat = attackFloat % 1;
-        screen.setFill(Color.gray(150));
-        screen.fillRect(Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE * 9 / 8, 73 + Tiles.TILE_SIZE / 2, 10, Sprites.SPRITE_SIZE * 2);
+        screen.setFill(Util.gray(150));
+        screen.fillRect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2f, 10, Sprites.SPRITE_SIZE * 2);
         screen.setFill(Stats.statColours.get("ATTACK"));
-        screen.rect(Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE * 9 / 8, 73 + Tiles.TILE_SIZE / 2 + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * attackFloat);
+        screen.rect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2 + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * attackFloat);
 
         float defenceFloat = Main.engine.player.stats.calcStatValue(Main.engine.player.stats.defenceKills, Main.engine.player.stats.baseDefence, 1, 0.1f);
         defenceFloat = defenceFloat % 1;
-        screen.setFill(Color.gray(150));
-        screen.rect(Util.GUI_WIDTH * 4 / 5 - Tiles.TILE_SIZE * 9 / 8, 73 + Tiles.TILE_SIZE / 2, 10, Sprites.SPRITE_SIZE * 2);
+        screen.setFill(Util.gray(150));
+        screen.rect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2f, 10, Sprites.SPRITE_SIZE * 2);
         screen.setFill(Stats.statColours.get("DEFENCE"));
-        screen.rect(Util.GUI_WIDTH * 4 / 5 - Tiles.TILE_SIZE * 9 / 8, 73 + Tiles.TILE_SIZE / 2 + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * defenceFloat);
+        screen.rect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2 + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * defenceFloat);
 
         float vitalityFloat = Main.engine.player.stats.calcStatValue(Main.engine.player.stats.vitalityKills, Main.engine.player.stats.baseVitality, 1, 0.1f);
         vitalityFloat = vitalityFloat % 1;
-        screen.setFill(Color.gray(150));
-        screen.rect(Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE * 9 / 8, 79 + Tiles.TILE_SIZE, 10, Sprites.SPRITE_SIZE * 2);
+        screen.setFill(Util.gray(150));
+        screen.rect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE, 10, Sprites.SPRITE_SIZE * 2);
         screen.setFill(Stats.statColours.get("VITALITY"));
-        screen.rect(Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE * 9 / 8, 79 + Tiles.TILE_SIZE + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * vitalityFloat);
+        screen.rect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * vitalityFloat);
 
         float wisdomFloat = Main.engine.player.stats.calcStatValue(Main.engine.player.stats.wisdomKills, Main.engine.player.stats.baseWisdom, 1, 0.1f);
         wisdomFloat = wisdomFloat % 1;
-        screen.setFill(Color.gray(150));
-        screen.rect(Util.GUI_WIDTH * 4 / 5 - Tiles.TILE_SIZE * 9 / 8, 79 + Tiles.TILE_SIZE, 10, Sprites.SPRITE_SIZE * 2);
+        screen.setFill(Util.gray(150));
+        screen.rect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE, 10, Sprites.SPRITE_SIZE * 2);
         screen.setFill(Stats.statColours.get("WISDOM"));
-        screen.rect(Util.GUI_WIDTH * 4 / 5 - Tiles.TILE_SIZE * 9 / 8, 79 + Tiles.TILE_SIZE + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * wisdomFloat);
+        screen.rect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * wisdomFloat);
     }
 
 
     private void drawStats() {
-        screen.pushMatrix();
+        screen.save();
 
-        screen.textAlign(LEFT);
-        screen.textSize(Tiles.TILE_SIZE/2);
-        screen.setFill(Color.(30);
+        screen.setTextAlign(TextAlignment.LEFT);
+        screen.setFont(Util.font("bitcell", (Tiles.TILE_SIZE/2)));
+        screen.setFill(Util.gray(30));
 
         //Draw stat values
-        screen.text(Main.engine.player.stats.attack, Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE / 8, 100 + Tiles.TILE_SIZE / 2);
-        screen.text(Main.engine.player.stats.defence, Util.GUI_WIDTH * 4 / 5 - Tiles.TILE_SIZE / 8, 100 + Tiles.TILE_SIZE / 2);
-        screen.text(Main.engine.player.stats.vitality, Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE / 8, 106 + Tiles.TILE_SIZE);
-        screen.text(Main.engine.player.stats.wisdom, Util.GUI_WIDTH * 4 / 5 - Tiles.TILE_SIZE / 8, 106 + Tiles.TILE_SIZE);
-        screen.text((int)(Main.engine.player.stats.speed * 100), Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE / 8, 112 + Tiles.TILE_SIZE * 3 / 2);
+        screen.fillText(Integer.toString(Main.engine.player.stats.attack), Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE / 8, 100 + Tiles.TILE_SIZE / 2);
+        screen.fillText(Integer.toString(Main.engine.player.stats.defence), Util.GUI_WIDTH * 4 / 5 - Tiles.TILE_SIZE / 8, 100 + Tiles.TILE_SIZE / 2);
+        screen.fillText(Integer.toString(Main.engine.player.stats.vitality), Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE / 8, 106 + Tiles.TILE_SIZE);
+        screen.fillText(Integer.toString(Main.engine.player.stats.wisdom), Util.GUI_WIDTH * 4 / 5 - Tiles.TILE_SIZE / 8, 106 + Tiles.TILE_SIZE);
+        screen.fillText(Integer.toString((int)(Main.engine.player.stats.speed * 100)), Util.GUI_WIDTH * 2 / 5 - Tiles.TILE_SIZE / 8, 112 + Tiles.TILE_SIZE * 3 / 2);
 
         //Draw stat sprites
-        screen.image(attackSprite, Util.GUI_WIDTH / 5 - Tiles.TILE_SIZE / 8, 104, attackSprite.Main.width * 2, attackSprite.Main.height * 2);
-        screen.image(defenceSprite, Util.GUI_WIDTH * 3 / 5 - Tiles.TILE_SIZE / 8, 104, defenceSprite.Main.width * 2, defenceSprite.Main.height * 2);
-        screen.image(vitalitySprite, Util.GUI_WIDTH / 5 - Tiles.TILE_SIZE / 8, 112 + Tiles.TILE_SIZE / 2, vitalitySprite.Main.width * 2, vitalitySprite.Main.height * 2);
-        screen.image(wisdomSprite, Util.GUI_WIDTH * 3 / 5 - Tiles.TILE_SIZE / 8, 112 + Tiles.TILE_SIZE / 2, wisdomSprite.Main.width * 2, wisdomSprite.Main.height * 2);
-        screen.image(speedSprite, Util.GUI_WIDTH / 5 - Tiles.TILE_SIZE / 8, 120 + Tiles.TILE_SIZE, speedSprite.Main.width * 2, speedSprite.Main.height * 2);
-        screen.popMatrix();
+        Graphics.image(screen, attackSprite, Util.GUI_WIDTH / 5 - Tiles.TILE_SIZE / 8, 104, attackSprite.getWidth() * 2, attackSprite.getHeight() * 2);
+        Graphics.image(screen, defenceSprite, Util.GUI_WIDTH * 3 / 5 - Tiles.TILE_SIZE / 8, 104, defenceSprite.getWidth() * 2, defenceSprite.getHeight() * 2);
+        Graphics.image(screen, vitalitySprite, Util.GUI_WIDTH / 5 - Tiles.TILE_SIZE / 8, 112 + Tiles.TILE_SIZE / 2, vitalitySprite.getWidth() * 2, vitalitySprite.getHeight() * 2);
+        Graphics.image(screen, wisdomSprite, Util.GUI_WIDTH * 3 / 5 - Tiles.TILE_SIZE / 8, 112 + Tiles.TILE_SIZE / 2, wisdomSprite.getWidth() * 2, wisdomSprite.getHeight() * 2);
+        Graphics.image(screen, speedSprite, Util.GUI_WIDTH / 5 - Tiles.TILE_SIZE / 8, 120 + Tiles.TILE_SIZE, speedSprite.getWidth() * 2, speedSprite.getHeight() * 2);
+        screen.restore();
 
         mouseOverStat();
     }
@@ -412,18 +415,19 @@ public class GUI {
             return;
         }
         showingPortal = true;
-        enterPortal.show(screen);
-        screen.textAlign(CENTER, CENTER);
-        screen.text("Enter " + portal.name, enterPortal.x, enterPortal.y, enterPortal.w, enterPortal.h);
+        enterPortal.show(canvas);
+        screen.setTextAlign(TextAlignment.CENTER);
+        screen.fillText("Enter", enterPortal.x, enterPortal.y);
+        screen.fillText(portal.name, enterPortal.x, enterPortal.y + Tiles.TILE_SIZE * 2);
     }
 
     private void renderMiniMap() {
 
         float vw = Util.GUI_WIDTH - (2 * invBuff); //Main.width of the view
-        float vh = vw * 0.8;
+        float vh = vw * 0.8f;
 
-        int minScale = max(ceil(vw/Main.engine.currentLevel.w), ceil(vh/Main.engine.currentLevel.h));
-        int scale = max((int)((vw/Main.engine.currentLevel.w) * miniMapZoom), minScale);
+        int minScale = Util.max(Util.ceil(vw/Main.engine.currentLevel.w), Util.ceil(vh/Main.engine.currentLevel.h));
+        int scale = Util.max((int)((vw/Main.engine.currentLevel.w) * miniMapZoom), minScale);
 
         int sx = (int)((Main.engine.player.x * scale) - vw/2); //get the x-cord to start
         int sy = (int)((Main.engine.player.y * scale) - vh/2); //get the y-cord to start
@@ -434,21 +438,21 @@ public class GUI {
         if (sx > (Main.engine.currentLevel.w * scale) - vw) sx = (int)((Main.engine.currentLevel.w * scale) - vw);
         if (sy > (Main.engine.currentLevel.h * scale) - vh) sy = (int)((Main.engine.currentLevel.h * scale) - vh);
 
-        PImage map = scaleImage(Main.engine.currentLevel.getMiniMap().get(), (int)scale);
-        PImage over = scaleImage(Main.engine.currentLevel.getOverlay().get(), (int)scale);
+        BufferedImage map = Util.scaleImage(Util.getImage(Main.engine.currentLevel.getMiniMap()), (int)scale);
+        BufferedImage over = Util.scaleImage(Util.getImage(Main.engine.currentLevel.getOverlay()), (int)scale);
 
-        screen.setFill(Color.(150);
+        screen.setFill(Util.gray(150));
         screen.rect(0, Main.height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);
-        screen.setFill(Color.(0);
+        screen.setFill(Color.BLACK);
         screen.rect(invBuff, Main.height - vh - invBuff, vw, vh);
-        screen.image(map.get(sx, sy, (int)vw, (int)vh), invBuff, Main.height - vh - invBuff, vw, vh);
-        screen.image(over.get(sx, sy, (int)vw, (int)vh), invBuff, Main.height - vh - invBuff, vw, vh);
+        Graphics.image(screen, map.getSubimage(sx, sy, (int)vw, (int)vh), invBuff, Main.height - vh - invBuff, vw, vh);
+        Graphics.image(screen, over.getSubimage(sx, sy, (int)vw, (int)vh), invBuff, Main.height - vh - invBuff, vw, vh);
     }
 
     private void renderInv() {
 
         prevSelection = currSelection;
-        currSelection = mousePressed;
+        currSelection = Main.mousePressed;
 
         ItemBag itemBag = Main.engine.getClosestBag();
         Item[] items = Main.engine.getClosestBagItems();
@@ -511,9 +515,9 @@ public class GUI {
         for (int i = 0; i < Main.engine.player.active().length; i++) {
             if (Main.engine.player.active()[i] != null) {
                 if (currSelection && b1Type == active && b1 == i) {
-                    screen.image(Main.engine.player.active()[i].sprite, mouseX - invSize/2+ itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                    Graphics.image(screen, Main.engine.player.active()[i].sprite, Input.mouseX() - invSize/2+ itemOffset, Input.mouseY() - invSize/2 + itemOffset, Sprites.SPRITE_SIZE * invScale, Sprites.SPRITE_SIZE * invScale);
                 } else {
-                    screen.image(Main.engine.player.active()[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                    Graphics.image(screen, Main.engine.player.active()[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, Sprites.SPRITE_SIZE * invScale, Sprites.SPRITE_SIZE * invScale);
                 }
             }
         }
@@ -522,9 +526,9 @@ public class GUI {
             j = (int)(i/Inventory.WIDTH);
             if (Main.engine.player.inv()[i] != null) {
                 if (currSelection && b1Type == inv && b1 == i) {
-                    screen.image(Main.engine.player.inv()[i].sprite, mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                    Graphics.image(screen, Main.engine.player.inv()[i].sprite, Input.mouseX() - invSize/2 + itemOffset, Input.mouseY() - invSize/2 + itemOffset, Sprites.SPRITE_SIZE * invScale, Sprites.SPRITE_SIZE * invScale);
                 } else {
-                    screen.image(Main.engine.player.inv()[i].sprite, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                    Graphics.image(screen, Main.engine.player.inv()[i].sprite, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, Sprites.SPRITE_SIZE * invScale, Sprites.SPRITE_SIZE * invScale);
                 }
             }
         }
@@ -533,21 +537,21 @@ public class GUI {
             for (int i = 0; i < items.length; i++) {
                 if (items[i] != null) {
                     if (currSelection && b1Type == bag && b1 == i) {
-                        screen.image(items[i].sprite, mouseX - invSize/2 + itemOffset, mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                        Graphics.image(screen, items[i].sprite, Input.mouseX() - invSize/2 + itemOffset, Input.mouseY() - invSize/2 + itemOffset, Sprites.SPRITE_SIZE * invScale, Sprites.SPRITE_SIZE * invScale);
                     } else {
-                        screen.image(items[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, 3 * invBuff + invY + 4 * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                        Graphics.image(screen, items[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, 3 * invBuff + invY + 4 * (invSize + invBuff) + itemOffset, Sprites.SPRITE_SIZE * invScale, Sprites.SPRITE_SIZE * invScale);
                     }
                 }
             }
         }
         if (inMenu && itemOver != -1 && mouseOverItem != null) {
-            mouseOver(mouseX, mouseY, mouseOverItem);
+            mouseOver(Input.mouseX(), Input.mouseY(), mouseOverItem);
         }
     }
 
     void drawBack(boolean showBag, Item[] items) {
         menuType = out;
-        screen.setFill(Color.(51);
+        screen.setFill(Util.gray(51));
         if (showBag) {
             screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, (Inventory.WIDTH + 1) * (invSize + invBuff) + invBuff * 3);
         } else {
@@ -556,9 +560,9 @@ public class GUI {
 
         itemOver = -1;
         for (int i = 0; i < Main.engine.player.active().length; i++) {
-            screen.setFill(Color.(150);
+            screen.setFill(Util.gray(150));
             screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
-            if (Util.pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
+            if (Util.pointInBox(Input.mouseX(), Input.mouseY(), invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
                 itemOver = i;
                 mouseOverItem = Main.engine.player.active()[i];
                 menuType = active;
@@ -567,9 +571,9 @@ public class GUI {
         int j = 0;
         for (int i = 0; i < Main.engine.player.inv().length; i++) {
             j = (int)(i/Inventory.WIDTH);
-            screen.setFill(Color.(150);
+            screen.setFill(Util.gray(150));
             screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
-            if (Util.pointInBox(mouseX, mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) {
+            if (Util.pointInBox(Input.mouseX(), Input.mouseY(), invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) {
                 itemOver = i;
                 mouseOverItem = Main.engine.player.inv()[i];
                 menuType = inv;
@@ -577,9 +581,9 @@ public class GUI {
         }
         if (showBag) {
             for (int i = 0; i < Main.engine.player.active().length; i++) {
-                screen.setFill(Color.(150);
+                screen.setFill(Util.gray(150));
                 screen.rect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
-                if (Util.pointInBox(mouseX, mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
+                if (Util.pointInBox(Input.mouseX(), Input.mouseY(), invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
                     itemOver = i;
                     mouseOverItem = items[i];
                     menuType = bag;
@@ -608,17 +612,17 @@ public class GUI {
             desc += ((Scroll)item).description;
         }
         int mouseOverWidth = 3 * Util.GUI_WIDTH/4;
-        WrappedText title = wrapText(item.name, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/2);
-        WrappedText subtitle = wrapText("Tier " + item.tier + " " + type, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/3);
-        WrappedText description = wrapText(desc, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/3);
+        WrappedText title = WrappedText.wrapText(item.name, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/2);
+        WrappedText subtitle = WrappedText.wrapText("Tier " + item.tier + " " + type, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/3);
+        WrappedText description = WrappedText.wrapText(desc, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/3);
 
         drawMouseOverText(x, y, title, subtitle, description);
     }
 
     private void mouseOverStat() {
 
-        int x = mouseX;
-        int y = mouseY;
+        int x = Input.mouseX();
+        int y = Input.mouseY();
 
         String statName = "";
         String type = "";
@@ -649,9 +653,9 @@ public class GUI {
         if (!statName.equals("")) {
 
             int mouseOverWidth = 3 * Util.GUI_WIDTH/4;
-            WrappedText title = wrapText(statName, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/2);
-            WrappedText subtitle = wrapText(type, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/3);
-            WrappedText description = wrapText(desc, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/3);
+            WrappedText title = WrappedText.wrapText(statName, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/2);
+            WrappedText subtitle = WrappedText.wrapText(type, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/3);
+            WrappedText description = WrappedText.wrapText(desc, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/3);
 
             drawMouseOverText(x, y, title, subtitle, description);
         }
@@ -661,32 +665,28 @@ public class GUI {
         int mouseOverWidth = 3 * Util.GUI_WIDTH/4;
         int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
 
-        if (x + mouseOverWidth > screen.Main.width) x = screen.Main.width - mouseOverWidth;
-        if (y + mouseOverHeight > screen.Main.height) y = screen.Main.height - mouseOverHeight;
+        if (x + mouseOverWidth > canvas.getWidth()) x = (float)canvas.getWidth() - mouseOverWidth;
+        if (y + mouseOverHeight > canvas.getHeight()) y = (float)canvas.getHeight() - mouseOverHeight;
 
-        screen.textAlign(LEFT, TOP);
+        screen.setTextAlign(TextAlignment.LEFT);
 
-        screen.setFill(Color.(100);
+        screen.setFill(Util.gray(100));
         screen.rect(x, y, mouseOverWidth, mouseOverHeight);
-        screen.noFill();
-        screen.stroke(130);
+        screen.setStroke(Util.gray(130));
         screen.rect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
-        screen.line(x + buff, y + title.textHeight + buff/2, x + mouseOverWidth - buff, y + title.textHeight + buff/2);
-        screen.line(x + buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2, x + mouseOverWidth - buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2);
+        Graphics.line(screen, x + buff, y + title.textHeight + buff/2, x + mouseOverWidth - buff, y + title.textHeight + buff/2);
+        Graphics.line(screen, x + buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2, x + mouseOverWidth - buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2);
 
-        screen.setFill(Color.(210);
-        screen.textSize(title.textSize);
-        screen.textLeading(title.textSize);
-        screen.text(title.string, x + buff * 2, y + buff);
+        screen.setFill(Util.gray(210));
+        screen.setFont(Util.font("bitcell", title.textSize));
+        screen.fillText(title.string, x + buff * 2, y + buff);
 
-        screen.textSize(subtitle.textSize);
-        screen.textLeading(subtitle.textSize);
-        screen.text(subtitle.string, x + buff * 2, y + title.textHeight + (buff * 2));
+        screen.setFont(Util.font("bitcell",  subtitle.textSize));
+        screen.fillText(subtitle.string, x + buff * 2, y + title.textHeight + (buff * 2));
 
-        screen.setFill(Color.(255);
-        screen.textSize(description.textSize);
-        screen.textLeading(description.textSize);
-        screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
+        screen.setFill(Util.gray(255));
+        screen.setFont(Util.font("bitcell",  description.textSize));
+        screen.fillText( description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
     }
 
     private void showStatusEffects() {
@@ -694,66 +694,67 @@ public class GUI {
         String mouseOverEffect = "";
         for (String effect : Main.engine.player.stats.statusEffects.keySet()) {
             i++;
-            screen.image(playerStatusSprites.get(effect), screen.Main.width - i * Tiles.TILE_SIZE, screen.Main.height - Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
-            if (Util.pointInBox(mouseX, mouseY, screen.Main.width - i * Tiles.TILE_SIZE, screen.Main.height - Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE)) {
+            Graphics.image(screen, Sprites.playerStatusSprites.get(effect), (int)canvas.getWidth() - i * Tiles.TILE_SIZE, (int)canvas.getHeight() - Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+            if (Util.pointInBox(Input.mouseX(), Input.mouseY(), (int)canvas.getWidth() - i * Tiles.TILE_SIZE, (int)canvas.getHeight() - Tiles.TILE_SIZE, Tiles.TILE_SIZE, Tiles.TILE_SIZE)) {
                 mouseOverEffect = effect;
             }
         }
 
         if (!mouseOverEffect.equals("")) {
             int mouseOverWidth = 3 * Util.GUI_WIDTH/4;
-            WrappedText title = wrapText(mouseOverEffect, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/2);
-            WrappedText subtitle = wrapText(Util.roundTo(Main.engine.player.stats.statusEffects.get(mouseOverEffect), 10) + "s remaining", mouseOverWidth - buff * 4, Tiles.TILE_SIZE/2);
-            WrappedText description = wrapText("", mouseOverWidth - buff * 4, 0);
-            drawMouseOverText(mouseX, mouseY, title, subtitle, description);
+            WrappedText title = WrappedText.wrapText(mouseOverEffect, mouseOverWidth - buff * 4, Tiles.TILE_SIZE/2);
+            WrappedText subtitle = WrappedText.wrapText(Util.roundTo(Main.engine.player.stats.statusEffects.get(mouseOverEffect), 10) + "s remaining", mouseOverWidth - buff * 4, Tiles.TILE_SIZE/2);
+            WrappedText description = WrappedText.wrapText("", mouseOverWidth - buff * 4, 0);
+            drawMouseOverText(Input.mouseX(), Input.mouseY(), title, subtitle, description);
         }
     }
 
     private void drawQuest() {
         float x = (Main.width - Util.GUI_WIDTH)/2 + Util.GUI_WIDTH;
         float y = Main.height/2;
-        float r = min(x, y) - Tiles.TILE_SIZE/2;
-        PImage sprite = null;
+        float r = Util.min(x, y) - Tiles.TILE_SIZE/2;
+        BufferedImage sprite = null;
         for (Enemy boss : Main.engine.currentLevel.bosses) {
             float bx = ((StandardEnemy)boss).x;
             float by = ((StandardEnemy)boss).y;
-            if (Main.engine.currentLevel.visited((int)bx, (int)by) && dist(bx, by, Main.engine.player.x, Main.engine.player.y) < min(x, y)/Tiles.TILE_SIZE) continue;
-            float ang = atan2(by - Main.engine.player.y, bx - Main.engine.player.x);
-            float dx = x + cos(ang) * r;
-            float dy = y + sin(ang) * r;
-            screen.pushMatrix();
+            if (Main.engine.currentLevel.visited((int)bx, (int)by) && Util.dist(bx, by, Main.engine.player.x, Main.engine.player.y) < Util.min(x, y)/Tiles.TILE_SIZE) continue;
+            float ang = (float)Math.atan2(by - Main.engine.player.y, bx - Main.engine.player.x);
+            float dx = x + (float)Math.cos(ang) * r;
+            float dy = y + (float)Math.sin(ang) * r;
+            screen.save();
             screen.translate(dx, dy);
             screen.rotate(ang);
-            screen.image(guiSprites.get("QUEST"), -Tiles.TILE_SIZE/4, -Tiles.TILE_SIZE/4, Tiles.TILE_SIZE/2, Tiles.TILE_SIZE/2);
-            screen.popMatrix();
-            if (dist(mouseX, mouseY, dx, dy) < Tiles.TILE_SIZE/2) {
+            Graphics.image(screen, Sprites.guiSprites.get("QUEST"), -Tiles.TILE_SIZE/4, -Tiles.TILE_SIZE/4, Tiles.TILE_SIZE/2, Tiles.TILE_SIZE/2);
+            screen.restore();
+            if (Util.dist(Input.mouseX(), Input.mouseY(), dx, dy) < Tiles.TILE_SIZE/2) {
                 sprite = ((StandardEnemy)boss).sprite;
             }
         }
         if (sprite != null) {
-            drawMouseOverSprite(mouseX, mouseY, sprite);
+            drawMouseOverSprite(Input.mouseX(), Input.mouseY(), sprite);
         }
     }
 
-    private void keyPressed(char key) {
-        if (key == ENTER || key == RETURN && playerName.length() > 0) {
+    public void keyPressed(char key) {
+        Util.println(key);
+        if (KeyCode.getKeyCode(key + "") == KeyCode.ENTER && playerName.length() > 0) {
             if (checkFileAlreadyExists(playerName)) {
-                screen.text("That name already exists", Main.width/2, Main.height/2 - Tiles.TILE_SIZE);
+                screen.fillText( "That name already exists", Main.width/2, Main.height/2 - Tiles.TILE_SIZE);
             } else {
-                loadedPlayerName = playerName;
+                Main.loadedPlayerName = playerName;
                 Main.setState(State.PLAYING);
-                characterNaming = false;
+                Settings.characterNaming = false;
             }
         } else if (Character.isLetter(key) && playerName.length() < 10) {
             playerName = playerName + key;
-        } else if (key == BACKSPACE) {
+        } else if (KeyCode.getKeyCode(key + "") == KeyCode.BACK_SPACE) {
             playerName = playerName.substring(0, playerName.length() - 1);
         }
     }
 
     private Boolean checkFileAlreadyExists(String fileName) {
 
-        java.io.File folder = new java.io.File(sketchPath() + "/saves/");
+        java.io.File folder = new java.io.File("./out/saves/");
         String[] listOfFiles = folder.list();
 
         for (int i = 0; i < listOfFiles.length; i++) {
@@ -764,17 +765,16 @@ public class GUI {
         return false;
     }
 
-    private void drawMouseOverSprite(float x, float y, PImage sprite) {
+    private void drawMouseOverSprite(float x, float y, BufferedImage sprite) {
         int mouseOverSize = Tiles.TILE_SIZE + buff * 4;
 
-        if (x + mouseOverSize > screen.Main.width) x = screen.Main.width - mouseOverSize;
-        if (y + mouseOverSize > screen.Main.height) y = screen.Main.height - mouseOverSize;
+        if (x + mouseOverSize > canvas.getWidth()) x = (float)canvas.getWidth() - mouseOverSize;
+        if (y + mouseOverSize > canvas.getHeight()) y = (float)canvas.getHeight() - mouseOverSize;
 
-        screen.setFill(Color.(100);
-        screen.rect(x, y, mouseOverSize, mouseOverSize);
-        screen.noFill();
-        screen.stroke(130);
-        screen.rect(x + buff, y + buff, mouseOverSize - buff * 2, mouseOverSize - buff * 2);
-        screen.image(sprite, x + buff * 2, y + buff * 2, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
+        screen.setFill(Util.gray(100));
+        screen.fillRect(x, y, mouseOverSize, mouseOverSize);
+        screen.setStroke(Util.gray(130));
+        screen.strokeRect(x + buff, y + buff, mouseOverSize - buff * 2, mouseOverSize - buff * 2);
+        Graphics.image(screen, sprite, x + buff * 2, y + buff * 2, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
     }
 }

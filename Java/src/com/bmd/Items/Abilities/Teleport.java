@@ -2,6 +2,7 @@ package com.bmd.Items.Abilities;
 
 import com.bmd.App.Main;
 import com.bmd.Engine.Engine;
+import com.bmd.Input.Input;
 import com.bmd.Items.Ability;
 import com.bmd.Util.Util;
 
@@ -15,8 +16,8 @@ public class Teleport  extends Ability {
 
     @Override
     public boolean ability() {
-        float x = Engine.screenToTileCoordX(Util.mouseX());
-        float y = Engine.screenToTileCoordY(Util.mouseY());
+        float x = Engine.screenToTileCoordX(Input.mouseX());
+        float y = Engine.screenToTileCoordY(Input.mouseY());
         if(Main.engine.currentLevel.visited((int)x, (int)y) && Main.engine.player.cooldownTimer <= 0 && manaCost <= Main.engine.player.stats.getMana()){
             Main.engine.player.x = x;
             Main.engine.player.y = y;

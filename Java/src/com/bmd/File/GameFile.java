@@ -21,13 +21,13 @@ public class GameFile {
     public static void saveGame() {
         if (Main.loadedPlayerName != null && Main.loadedPlayerName != "") {
             saveStats(Main.loadedPlayerName);
-            //saveInventory(loadedPlayerName);
+            saveInventory(Main.loadedPlayerName);
         }
     }
 
     public static void saveInventory(String savename) {
         try {
-            FileOutputStream invSaveFile = new FileOutputStream("/saves/" + savename + "/inventory.txt");
+            FileOutputStream invSaveFile = new FileOutputStream("./out/saves/" + savename + "/inventory.txt");
             ObjectOutputStream inv = new ObjectOutputStream(invSaveFile);
             inv.writeObject(Main.engine.player.inv);
             inv.close();
@@ -42,11 +42,9 @@ public class GameFile {
         Inventory inv = new Inventory();
 
         try {
-            FileInputStream invSaveFile = new FileInputStream("/saves/" + savename + "/inventory.txt");
+            FileInputStream invSaveFile = new FileInputStream("./out/saves/" + savename + "/inventory.txt");
             ObjectInputStream in = new ObjectInputStream(invSaveFile);
-            System.out.println("yeet");
             inv =  (Inventory) in.readObject();
-            System.out.println("peen");
             in.close();
             invSaveFile.close();
         }
@@ -63,21 +61,22 @@ public class GameFile {
 
         // attack
         try {
-            printer = new PrintWriter("/saves/" + savename + "/" + savename + ".txt");
+            printer = new PrintWriter("./out/saves/" + savename + "/" + savename + ".txt");
+            readStats(printer, Main.engine.player.stats.attackKills);
+            readStats(printer, Main.engine.player.stats.defenceKills);
+            readStats(printer, Main.engine.player.stats.vitalityKills);
+            readStats(printer, Main.engine.player.stats.wisdomKills);
+            readStats(printer, Main.engine.player.stats.healthKills);
+            readStats(printer, Main.engine.player.stats.manaKills);
+            readStats(printer, Main.engine.player.stats.speedKills);
+
+            printer.flush();
+            printer.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            File file = new File("./out/saves/" + savename + "/" + savename + ".txt");
+            file.getParentFile().mkdirs();
+            saveStats(savename);
         }
-
-        readStats(printer, Main.engine.player.stats.attackKills);
-        readStats(printer, Main.engine.player.stats.defenceKills);
-        readStats(printer, Main.engine.player.stats.vitalityKills);
-        readStats(printer, Main.engine.player.stats.wisdomKills);
-        readStats(printer, Main.engine.player.stats.healthKills);
-        readStats(printer, Main.engine.player.stats.manaKills);
-        readStats(printer, Main.engine.player.stats.speedKills);
-
-        printer.flush();
-        printer.close();
     }
 
     public static Player readStats(String savename) throws IOException {
@@ -85,9 +84,7 @@ public class GameFile {
         Player playerToReturn = new Player(Main.engine.currentLevel.start.x + 0.5f, Main.engine.currentLevel.start.y + 0.5f);
         BufferedReader reader = null;
         try { // read the file
-            System.out.println("yeet");
-            reader = new BufferedReader(new FileReader("/saves/" + savename + "/" + savename + ".txt"));
-            System.out.println("double yeet");
+            reader = new BufferedReader(new FileReader("./out/saves/" + savename + "/" + savename + ".txt"));
         }
         catch (IOException ioException) {
             System.out.println(ioException);
@@ -106,19 +103,27 @@ public class GameFile {
         playerToReturn.stats.speedKills = makeHashmap(reader);
         playerToReturn.stats.calcAllStats();
 
-        //playerToReturn.inv = loadInventory(savename);
+        playerToReturn.inv = loadInventory(savename);
 
         return playerToReturn;
     }
 
     public static ScrollElement[] loadSaves() {
 
-        java.io.File folder = new java.io.File("/saves/");
+        File folder = new File("./out/saves/");
+        try {
+            folder.mkdirs();
+        } catch (Exception e) {
+            System.out.println("twot");
+            e.printStackTrace();
+        }
         String[] listOfFiles = folder.list(new FilenameFilter() {
             public boolean accept(File current, String name) {
+                System.out.println(name);
                 return new File(current, name).isDirectory();
             }
        });
+        System.out.println(listOfFiles);
         ScrollElement[] scrollElements = new ScrollElement[listOfFiles.length];
         Main.loadedPlayers = new Player[listOfFiles.length];
 

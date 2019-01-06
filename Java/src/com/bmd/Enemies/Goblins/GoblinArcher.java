@@ -9,8 +9,7 @@ import com.bmd.Items.ItemFactory;
 import com.bmd.Sprites.Sprites;
 import com.bmd.Util.RectangleObject;
 import com.bmd.Util.Util;
-
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject {
 
@@ -27,7 +26,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
         shootDistance = 2.6f;
         retreatDistance = 2;
         accuracy = 0.04f;
-        projectileSprite = Util.getCombinedSprite(Sprites.projectileSprites.get("ARROW"), Sprites.projectileSprites.get("ARROW_TIP"), new Color(50,50,50));
+        projectileSprite = Util.getCombinedSprite(Sprites.projectileSprites.get("ARROW"), Sprites.projectileSprites.get("ARROW_TIP"), Util.color(50,50,50));
     }
 
     public float getWidth() {

@@ -1,9 +1,12 @@
 package com.bmd.Entities;
 
+import com.bmd.App.Graphics;
 import com.bmd.Tiles.Tiles;
 import com.bmd.Util.PVector;
 import com.bmd.Util.Pair;
 import com.bmd.Util.Util;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import java.awt.image.BufferedImage;
@@ -53,12 +56,13 @@ public class Projectile {
         y += direction.y * speed * delta;
     }
 
-    public void show(PGraphics screen, PVector renderOffset) {
-        screen.pushMatrix();
+    public void show(Canvas canvas, PVector renderOffset) {
+        GraphicsContext screen = canvas.getGraphicsContext2D();
+        screen.save();
         screen.translate(x * Tiles.TILE_SIZE - renderOffset.x, y * Tiles.TILE_SIZE - renderOffset.y);
         screen.rotate(Math.atan2(direction.y, direction.x));
-        screen.image(sprite, -sprite.getWidth() * Util.SCALE/2, -sprite.getHeight() * Util.SCALE/2, sprite.getWidth() * Util.SCALE, sprite.getHeight() * Util.SCALE);
-        screen.popMatrix();
+        Graphics.image(screen, sprite, -sprite.getWidth() * Util.SCALE/2, -sprite.getHeight() * Util.SCALE/2, sprite.getWidth() * Util.SCALE, sprite.getHeight() * Util.SCALE);
+        screen.restore();
     }
 
     public boolean alive() {

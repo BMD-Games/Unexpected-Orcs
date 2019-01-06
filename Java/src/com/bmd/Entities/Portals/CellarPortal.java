@@ -1,6 +1,7 @@
 package com.bmd.Entities.Portals;
 
 import com.bmd.Entities.Portal;
+import com.bmd.Levels.Dungeons.CellarDungeon;
 import com.bmd.Levels.Level;
 import com.bmd.Sprites.Sprites;
 

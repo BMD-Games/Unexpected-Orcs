@@ -18,8 +18,8 @@ public class WrappedText {
         if (textSize == 0) {
             return new WrappedText("", 0, 1);
         }
-        textSize(textSize);
-        float charSize = textWidth("A"); //get width of a single character
+        //textSize(textSize);
+        float charSize = textSize;//textWidth("A"); //get width of a single character
         String newString = "";
         int numLines = 1;
         int lastSpace = 0;

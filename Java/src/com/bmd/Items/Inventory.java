@@ -37,7 +37,7 @@ public class Inventory implements Serializable {
         inv[4] = new Teleport();
     }
 
-    void swapItemsInv(int i, int j) {
+    public void swapItemsInv(int i, int j) {
         try {
             Item save = inv[i];
             inv[i] = inv[j];
@@ -47,7 +47,7 @@ public class Inventory implements Serializable {
         }
     }
 
-    void swapItemsActive(int act, int in) {
+    public void swapItemsActive(int act, int in) {
         try {
             if(inv[in] != null) {
                 if(act == 0 && inv[in].type != "Weapon") return;

@@ -4,13 +4,22 @@ import com.bmd.App.Main;
 import com.bmd.Sprites.Sprites;
 import com.bmd.Tiles.Tiles;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Util {
@@ -96,14 +105,6 @@ public class Util {
         return Font.loadFont(Main.class.getResourceAsStream("../assets/fonts/" + name + ".ttf"), size);
     }
 
-    public static float mouseX() {
-        return MouseInfo.getPointerInfo().getLocation().x;
-    }
-
-    public static float mouseY() {
-        return MouseInfo.getPointerInfo().getLocation().y;
-    }
-
     public static float random(float n) {
         return (float)Math.random() * n;
     }
@@ -128,22 +129,22 @@ public class Util {
 
     public static Color randomColour(int tier) {
         float maxTier = 5;
-        return Color.getHSBColor(random(255), 255, ((tier + 1)/maxTier) * 255);
+        return hsb(random(255), 255, ((tier + 1)/maxTier) * 255);
     }
 
-    public static BufferedImage copyImage(BufferedImage image) {
-        ColorModel cm = image.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = image.copyData(null);
-        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    public static BufferedImage copyImage(BufferedImage source) {
+        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        Graphics g = b.getGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        return b;
     }
 
     public static BufferedImage applyColourToImage(BufferedImage img, Color color) {
         BufferedImage temp = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
         for(int i = 0; i < img.getWidth(); i ++) {
             for(int j = 0; j < img.getHeight(); j ++) {
-                Color c = new Color(img.getRGB(i, j), true);
-                Color pix = new Color(color.getRed(), color.getGreen(), color.getBlue(), c.getAlpha());
+                java.awt.Color pix = new java.awt.Color((int)color.getRed() * 255, (int)color.getGreen() * 255, (int)color.getBlue() * 255, (img.getRGB(i, j) >> 24) & 0xff);
                 temp.setRGB(i, j, pix.getRGB());
             }
         }
@@ -219,5 +220,158 @@ public class Util {
 
     public static BufferedImage loadImage(String path) {
         return SwingFXUtils.fromFXImage(new Image(path), null);
+    }
+
+    public static int max(int v1, int v2) {
+        if(v1 > v2) return v1;
+        return v2;
+    }
+
+    public static float max(float v1, float v2) {
+        if(v1 > v2) return v1;
+        return v2;
+    }
+
+    public static int min(int v1, int v2) {
+        if(v1 < v2) return v1;
+        return v2;
+    }
+
+    public static float min(float v1, float v2) {
+        if(v1 < v2) return v1;
+        return v2;
+    }
+
+    public static int ceil(float v) {
+        return (int)Math.ceil(v);
+    }
+
+    public static int floor(float v) {
+        return (int)v;
+    }
+
+    public static BufferedImage scaleImage(BufferedImage img, int scale) {
+        Image input = SwingFXUtils.toFXImage(img, null);
+
+        final int W = (int) input.getWidth();
+        final int H = (int) input.getHeight();
+        final int S = scale;
+
+        WritableImage output = new WritableImage(
+                W * S,
+                H * S
+        );
+
+        PixelReader reader = input.getPixelReader();
+        PixelWriter writer = output.getPixelWriter();
+
+        for (int y = 0; y < H; y++) {
+            for (int x = 0; x < W; x++) {
+                final int argb = reader.getArgb(x, y);
+                for (int dy = 0; dy < S; dy++) {
+                    for (int dx = 0; dx < S; dx++) {
+                        writer.setArgb(x * S + dx, y * S + dy, argb);
+                    }
+                }
+            }
+        }
+
+        return SwingFXUtils.fromFXImage(output, null);
+    }
+
+    public static BufferedImage scaleImage(BufferedImage img, float w, float h) {
+        return scaleImage(img, (int)Util.max(w/img.getWidth(), h/img.getHeight()));
+    }
+
+    public static BufferedImage setOpacity(BufferedImage img, int opacity) {
+        BufferedImage temp = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        for(int i = 0; i < img.getWidth(); i ++) {
+            for(int j = 0; j < img.getHeight(); j ++) {
+                temp.setRGB(i, j, modulateOpacity(img.getRGB(i, j), opacity));
+            }
+        }
+
+        return temp;
+    }
+
+    public static BufferedImage getImage(Canvas canvas) {
+        WritableImage img = new WritableImage((int)canvas.getWidth(), (int)canvas.getHeight());
+        img = canvas.snapshot(null, img);
+        return SwingFXUtils.fromFXImage(img, null);
+    }
+
+    public static java.awt.Color getColor(int c) {
+        return new java.awt.Color((c >> 16) & 0xff, (c >> 8) & 0xff, c & 0xff, (c >> 24) & 0xff);
+    }
+
+    public static Color getFXColor(int c) {
+        return Util.color((c >> 16) & 0xff, (c >> 8) & 0xff, c & 0xff, (c >> 24) & 0xff);
+    }
+
+    private static int modulateOpacity(int c, int opacity) {
+        java.awt.Color col = getColor(c);
+        int argb = (int)Util.map(col.getAlpha(), 0, 255, 0, opacity);
+        argb = (argb << 8) + col.getRed();
+        argb = (argb << 8) + col.getGreen();
+        argb = (argb << 8) + col.getBlue();
+
+        return argb;
+    }
+
+    public static Color convertColor(java.awt.Color col) {
+        return Util.color(col.getRed()/255, col.getGreen()/255, col.getBlue()/255, col.getAlpha()/255);
+    }
+
+    public static java.awt.Color convertColor(Color col) {
+        return new java.awt.Color((int)(col.getRed() * 255), (int)(col.getGreen() * 255), (int)(col.getBlue() * 255), (int)(col.getOpacity() * 255));
+    }
+
+    public static Color color(float r, float g, float b, float a) {
+        return Color.color(r/255, g/255, b/255, a/255);
+    }
+
+    public static Color color(float r, float g, float b) {
+        return Color.color(r/255, g/255, b/255);
+    }
+
+    public static Color gray(float v, float a) {
+        return Color.gray(v/255, a/255);
+    }
+
+    public static Color gray(float v) {
+        return Color.gray(v/255);
+    }
+
+    public static Color hsb(float h, float s, float b, float a) {
+        return Color.color(h/255, s/255, b/255, a/255);
+    }
+
+    public static Color hsb(float h, float s, float b) {
+        return Color.color(h/255, s/255, b/255);
+    }
+
+    public static void println(Object... objs) {
+        if(objs.length == 1) {
+            System.out.println(objs[0]);
+            return;
+        }
+        for(int i = 0; i < objs.length - 1; i ++) {
+            System.out.print(objs[i]);
+            System.out.print(", ");
+        }
+        System.out.println(objs[objs.length - 1]);
+    }
+
+    public static void print(Object... objs) {
+        if(objs.length == 1) {
+            System.out.print(objs[0]);
+            return;
+        }
+        for(int i = 0; i < objs.length - 1; i ++) {
+            System.out.print(objs[i]);
+            System.out.print(", ");
+        }
+        System.out.print(objs[objs.length - 1]);
     }
 }

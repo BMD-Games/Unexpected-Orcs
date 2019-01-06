@@ -3,8 +3,7 @@ package com.bmd.Items.Weapons;
 import com.bmd.Items.Weapon;
 import com.bmd.Sprites.Sprites;
 import com.bmd.Util.Util;
-
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class Wand extends Weapon {
 

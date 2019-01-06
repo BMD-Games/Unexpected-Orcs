@@ -9,8 +9,7 @@ import com.bmd.Items.ItemFactory;
 import com.bmd.Sprites.Sprites;
 import com.bmd.Util.RectangleObject;
 import com.bmd.Util.Util;
-
-import java.awt.*;
+import javafx.scene.paint.Color;
 
 public class Cactus extends RangedEnemy implements Enemy, RectangleObject {
 
@@ -28,7 +27,7 @@ public class Cactus extends RangedEnemy implements Enemy, RectangleObject {
         retreatDistance = 0;
         accuracy = 0.04f;
         predictAim = true;
-        projectileSprite = Util.applyColourToImage(Sprites.projectileSprites.get("WAND"), new Color(0,0,0));
+        projectileSprite = Util.applyColourToImage(Sprites.projectileSprites.get("WAND"), Util.color(0,0,0));
     }
 
     public float getWidth() {

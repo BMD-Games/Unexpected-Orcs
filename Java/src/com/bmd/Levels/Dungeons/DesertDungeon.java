@@ -9,7 +9,7 @@ import com.bmd.Levels.Level;
 import com.bmd.Tiles.TileSet;
 import com.bmd.Util.Util;
 
-class DesertDungeon extends Level {
+public class DesertDungeon extends Level {
 
     /***
      Creates a dungeon and appends the tiles to the Level it's been given.
@@ -24,14 +24,14 @@ class DesertDungeon extends Level {
      rooms     - Presets for all other rooms
      ***/
 
-    DesertDungeon() {
+    public DesertDungeon() {
         super(120, 90, "Desert", TileSet.desertTileSet());
         this.setTiles(Generator.finishingPass(Generator.generateCave(w, h, 5, 0.4f), tileset));
         generateStart();
         generateEnemies();
     }
 
-    void generateEnemies() {
+    private void generateEnemies() {
         //Add enemies to level
         StandardEnemy enemy;
         for(int i = 0; i < 30; ++i) {

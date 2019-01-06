@@ -11,11 +11,11 @@ import com.bmd.Levels.Level;
 import com.bmd.Tiles.TileSet;
 import com.bmd.Util.Util;
 
-class Cave extends Level {
+public class Cave extends Level {
     float chance = 0.4f; //chance the a cell will be a wall
     int iterations = 5;
 
-    Cave() {
+    public Cave() {
         super(120, 90, "Cave", TileSet.caveTileset());
 
         this.setTiles(Generator.finishingPass(Generator.generateCave(w, h, iterations, chance), tileset));

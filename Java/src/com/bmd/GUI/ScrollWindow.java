@@ -1,6 +1,7 @@
 package com.bmd.GUI;
 
 import com.bmd.App.Main;
+import com.bmd.Input.Input;
 import com.bmd.Util.Util;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -57,14 +58,14 @@ public class ScrollWindow {
         gc.clearRect(0, y + h - buffer, screen.getWidth(), screen.getHeight() - y - h + 2 * buffer);
         gc.clearRect(x + w, 0, screen.getWidth() - x - w, screen.getHeight());
 
-        gc.setFill(Color.color(100, 100, 100));
+        gc.setFill(Util.color(100, 100, 100));
         gc.fillRect(x + w - 2 * buffer, y, 2 * buffer, h);
 
         float barHeight =  this.h * this.h/ (float)(this.h + maxScrollPosition);
         if (barHeight > h) {
             barHeight = h;
         }
-        gc.setFill(Color.color(200, 200, 200));
+        gc.setFill(Util.color(200, 200, 200));
         gc.fillRect(x+ w - 2 * buffer, y + scrollPosition / (float)maxScrollPosition * (h - barHeight), 2 * buffer, barHeight);
 
 
@@ -79,12 +80,12 @@ public class ScrollWindow {
     }
 
     public void update() {
-        if ((Main.mousePressed && Util.pointInBox(Util.mouseX(), Util.mouseY(), x + w - 2 * buffer, y, 2 * buffer, h) && !mousePressedInPrev)) {
+        if ((Main.mousePressed && Util.pointInBox(Input.mouseX(), Input.mouseY(), x + w - 2 * buffer, y, 2 * buffer, h) && !mousePressedInPrev)) {
             mousePressedInScroll = true;
         }
         if (mousePressedInScroll) {
             float barHeight =  this.h * this.h/ (float)(this.h + maxScrollPosition);
-            scrollPosition = (int)Util.map(Util.mouseY() - y - barHeight/2, 0, h - barHeight, 0, maxScrollPosition);
+            scrollPosition = (int)Util.map(Input.mouseY() - y - barHeight/2, 0, h - barHeight, 0, maxScrollPosition);
             // scrollPosition = (int)((mouseY - h) * h / (float)maxScrollPosition);
             scrollPosition = (int)Util.constrain(scrollPosition, 0, maxScrollPosition);
         }
@@ -96,11 +97,11 @@ public class ScrollWindow {
 
     public void handleMouse() {
 
-        if (Util.pointInBox(Util.mouseX(), Util.mouseY(), x, y, w, h)) {
+        if (Util.pointInBox(Input.mouseX(), Input.mouseY(), x, y, w, h)) {
 
             for (int i = 0; i < scrollElements.length; i++) {
                 ScrollElement selected = scrollElements[i];
-                if (Util.pointInBox(Util.mouseX(), Util.mouseY(), selected.x, selected.y, selected.w, selected.h)) {
+                if (Util.pointInBox(Input.mouseX(), Input.mouseY(), selected.x, selected.y, selected.w, selected.h)) {
                     selectedElement = i;
                     break;
                 }
