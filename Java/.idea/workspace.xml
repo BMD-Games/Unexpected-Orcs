@@ -2,73 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/json_simple.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/json_simple_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/bmd/Settings/KeyMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Java.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/META-INF/Java.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/State.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/State.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Input/GameKeys.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Enemies/StandardEnemy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Enemies/StandardEnemy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/File/GameFile$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/File/GameFile$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/File/GameFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/File/GameFile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/GUI/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/GUI/GUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/GUI/HUDElement.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/GUI/HUDElement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Ability.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Ability.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Item.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Settings/Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Settings/Settings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Weapon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Weapon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Levels/Level.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Levels/Level.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Player/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Player/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Sprites/Sprites.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Sprites/Sprites.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Stats/PlayerStats.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Stats/PlayerStats.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Stats/Stats.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Stats/Stats.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Util/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Util/Util.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/App/Graphics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/App/Graphics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/W/W.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/W/inventory.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/asdwasd/asdwasd.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/asdwasd/inventory.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/asdwasdwsa/asdwasdwsa.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/asdwasdwsa/inventory.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bmd/App/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/App/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Enemies/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Enemies/Enemy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinArcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinArcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinMage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinMage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Enemies/Plants/Cactus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Enemies/Plants/Cactus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Engine/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Engine/Engine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Entities/Drop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Entities/Drop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Entities/ItemBag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Entities/ItemBag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Entities/Portals/CavePortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Entities/Portals/CavePortal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Entities/Portals/CellarPortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Entities/Portals/CellarPortal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Entities/Portals/GrassPortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Entities/Portals/GrassPortal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Entities/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Entities/Projectile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Entities/StatOrb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Entities/StatOrb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Entities/Text.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Entities/Text.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bmd/File/GameFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/File/GameFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/Button.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/DisplayBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/DisplayBar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/ScrollElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/ScrollElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/ScrollWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/ScrollWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/WrappedText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/WrappedText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Input/Keys.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Input/Input.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Abilities/SpellBomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Abilities/SpellBomb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Abilities/Teleport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Abilities/Teleport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Ability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Ability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Armour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Armour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Weapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Bow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Bow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Spear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Spear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Staff.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Staff.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Wand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Wand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/Cave.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/Cave.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CellarDungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CellarDungeon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CircleDungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CircleDungeon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/DesertDungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/DesertDungeon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/GrassDungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/GrassDungeon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bmd/Levels/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Levels/Level.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/bmd/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Settings/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Settings/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Stats/Stats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Stats/Stats.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/bmd/Util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Util/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -126,150 +89,69 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/App/Main.java">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Item.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="221" column="24" selection-start-line="221" selection-start-column="24" selection-end-line="221" selection-end-column="24" />
-              <folding>
-                <element signature="method#start#0;class#Main#0" />
-                <element signature="class#1899:2038" />
-                <element signature="class#2077:2217" />
-                <element signature="class#2257:2477" />
-                <element signature="class#3609:3751" />
-                <element signature="class#2456:2678" />
-                <element signature="class#2774:3278" />
-                <element signature="e#4661#4970#0" expanded="true" />
-                <element signature="e#4969#4970#0" expanded="true" />
-                <element signature="method#draw#0;class#Main#0" />
-                <element signature="e#3790#4828#0" />
-              </folding>
+            <state relative-caret-position="221">
+              <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Player/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="31" column="18" lean-forward="true" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Inventory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/GUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="281" column="66" lean-forward="true" selection-start-line="281" selection-start-column="66" selection-end-line="281" selection-end-column="66" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/Engine/Engine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="48" column="10" selection-start-line="48" selection-start-column="10" selection-end-line="48" selection-end-column="10" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/Settings/KeyMap.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" selection-start-line="2" selection-end-line="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/Input/Input.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/Settings/Settings.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="78" column="51" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="51" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/bmd/File/GameFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="86" column="61" selection-start-line="86" selection-start-column="61" selection-end-line="86" selection-end-column="61" />
+            <state relative-caret-position="276">
+              <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#saveInventory#0;class#GameFile#0" />
-                <element signature="method#loadInventory#0;class#GameFile#0" />
+                <element signature="method#readStats#0;class#GameFile#0" />
+                <element signature="method#saveGame#0;class#GameFile#0" />
                 <element signature="method#saveStats#0;class#GameFile#0" />
+                <element signature="method#readStats#1;class#GameFile#0" />
+                <element signature="method#loadSaves#0;class#GameFile#0" />
+                <element signature="method#makeHashmap#0;class#GameFile#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Level.java">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Ability.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="383" column="64" selection-start-line="383" selection-start-column="64" selection-end-line="383" selection-end-column="64" />
-              <folding>
-                <element signature="e#13009#13018#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/App/Graphics.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="15" column="104" selection-start-line="15" selection-start-column="104" selection-end-line="15" selection-end-column="104" />
+            <state relative-caret-position="102">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#image#0;class#Graphics#0" />
-                <element signature="e#1015#1016#0" expanded="true" />
-                <element signature="e#1084#1085#0" expanded="true" />
-                <element signature="method#background#0;class#Graphics#0" />
-                <element signature="method#line#0;class#Graphics#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/bmd/Util/Util.java">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapon.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="283" column="5" selection-start-line="283" selection-start-column="5" selection-end-line="283" selection-end-column="5" />
+            <state relative-caret-position="355">
+              <caret line="56" column="20" selection-start-line="56" selection-start-column="20" selection-end-line="56" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#969#1135#0" />
-                <element signature="e#1208#1430#0" />
-                <element signature="e#1436#1594#0" />
-                <element signature="e#1779#2284#0" />
-                <element signature="e#2290#3106#0" />
-                <element signature="e#3112#3263#0" />
-                <element signature="e#3749#3845#0" />
-                <element signature="e#3851#4032#0" />
-                <element signature="e#5057#5557#0" />
-                <element signature="e#5563#6069#0" />
-                <element signature="e#6075#6452#0" />
-                <element signature="e#6590#6914#0" />
-                <element signature="e#6920#7206#0" />
-                <element signature="e#7340#7435#0" />
-                <element signature="e#7982#8938#0" />
-                <element signature="e#8485#8906#0" />
-                <element signature="e#8912#9161#0" />
-                <element signature="e#9464#9792#0" />
-                <element signature="e#9968#10178#0" />
-                <element signature="e#11023#11295#0" />
-                <element signature="e#11320#11612#0" />
               </folding>
             </state>
           </provider>
@@ -287,17 +169,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>random</find>
-      <find>public</find>
-      <find>Main.Main.engine</find>
-      <find>fill(</find>
-      <find>new Color</find>
-      <find>text</find>
-      <find>mouseX</find>
-      <find>mouseY</find>
-      <find>SPRITE_SIZE</find>
-      <find>wrapText</find>
-      <find>textAlign(</find>
       <find>screen.line(</find>
       <find>textSize(</find>
       <find>text(</find>
@@ -316,20 +187,20 @@
       <find>insta</find>
       <find>exit.pr</find>
       <find>snap</find>
+      <find>rect</find>
+      <find>itemSize)</find>
+      <find>getInvSc</find>
+      <find>dropSize)</find>
+      <find>guiSize)</find>
+      <find>charSize)</find>
+      <find>projectileSize)</find>
+      <find>SPRITE_SIZE</find>
+      <find>SCALE</find>
+      <find>IOEx</find>
       <find>print</find>
+      <find>BufferedImage</find>
     </findStrings>
     <replaceStrings>
-      <replace>Main.STATE</replace>
-      <replace>State.SAVE</replace>
-      <replace>State.DEAD</replace>
-      <replace>(float)Math.sin</replace>
-      <replace>Tiles.WALL</replace>
-      <replace>(float)Math.floor</replace>
-      <replace>Util.random</replace>
-      <replace>Main.engine</replace>
-      <replace>setFill(Color.(</replace>
-      <replace>Color.color</replace>
-      <replace>fillText</replace>
       <replace>Input.mouseY()</replace>
       <replace>Sprites.SPRITE_SIZE</replace>
       <replace>WrappedText.wrapText</replace>
@@ -349,7 +220,21 @@
       <replace>Util.color</replace>
       <replace>Util.gray</replace>
       <replace>Input.mouse</replace>
+      <replace>fillRect</replace>
+      <replace>SPRITE_SIZE, Tiles.TILE_SIZE)</replace>
+      <replace>SPRITE_SIZE, GUI.invScale)</replace>
+      <replace>SPRITE_SIZE, Util.SCALE)</replace>
+      <replace>SPRITE_SIZE, Util.SCALE/2)</replace>
+      <replace>itemSize</replace>
+      <replace>playerStatusSize</replace>
+      <replace>dropSize</replace>
+      <replace>guiSize</replace>
+      <replace>charSize</replace>
+      <replace>projectileSize</replace>
     </replaceStrings>
+    <dirStrings>
+      <dir>C:\Users\barne\Documents\Other\BMD\UnexpectedOrcs\Java\src\com\bmd\Items</dir>
+    </dirStrings>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -362,11 +247,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/bmd/File.java" />
-        <option value="$PROJECT_DIR$/src/com/bmd/File/File.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Input/GameKeys.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/GUI/ScrollElement.java" />
-        <option value="$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/GUI/DisplayBar.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Stats/PlayerStats.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Items/Inventory.java" />
@@ -376,8 +258,6 @@
         <option value="$PROJECT_DIR$/src/com/bmd/Entities/Drop.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Entities/Projectile.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Enemies/Enemy.java" />
-        <option value="$PROJECT_DIR$/src/com/bmd/Player/Player.java" />
-        <option value="$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/Cave.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CellarDungeon.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CircleDungeon.java" />
@@ -397,10 +277,8 @@
         <option value="$PROJECT_DIR$/src/com/bmd/Items/Abilities/Teleport.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinArcher.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Enemies/Plants/Cactus.java" />
-        <option value="$PROJECT_DIR$/src/com/bmd/Levels/Level.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Entities/Text.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Stats/Stats.java" />
-        <option value="$PROJECT_DIR$/src/com/bmd/Items/Weapon.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Items/Ability.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Bow.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Input/Input.java" />
@@ -410,9 +288,16 @@
         <option value="$PROJECT_DIR$/src/com/bmd/App/Graphics.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/GUI/Button.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/Engine/Engine.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Player/Player.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/App/Main.java" />
-        <option value="$PROJECT_DIR$/src/com/bmd/File/GameFile.java" />
         <option value="$PROJECT_DIR$/src/com/bmd/GUI/GUI.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Levels/Level.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Weapon.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Item.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/File/GameFile.java" />
       </list>
     </option>
   </component>
@@ -448,6 +333,18 @@
             <path>
               <item name="Java" type="b2602c69:ProjectViewProjectNode" />
               <item name="Java" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="saves" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Java" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="settings" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Java" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -461,7 +358,7 @@
               <item name="Java" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="bmd" type="462c0819:PsiDirectoryNode" />
-              <item name="Engine" type="462c0819:PsiDirectoryNode" />
+              <item name="Items" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -478,9 +375,9 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546775797990" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546901989278" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/com/bmd/Libraries/json-simple.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/com/bmd/Items" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -600,9 +497,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1613" height="873" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.2" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.2" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" weight="0.32990354" />
       <window_info id="Designer" order="3" />
@@ -611,7 +507,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.23418574" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.23418574" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -646,123 +542,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Inventory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Armour.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="10" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/awt/Color.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Drop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Projectile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="58" column="59" lean-forward="true" selection-start-line="58" selection-start-column="59" selection-end-line="58" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Player/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="54" column="59" selection-start-line="54" selection-start-column="59" selection-end-line="54" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/Cave.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="7" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CellarDungeon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CircleDungeon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/DesertDungeon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/GrassDungeon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/WrappedText.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Wand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Staff.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Spear.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -794,13 +577,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Abilities/SpellBomb.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="22" column="55" selection-start-line="22" selection-start-column="55" selection-end-line="22" selection-end-column="55" />
         </state>
       </provider>
     </entry>
@@ -865,54 +641,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Ability.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Bow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="11" column="86" selection-start-line="11" selection-start-column="86" selection-end-line="11" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/bmd/Stats/Stats.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
           <caret line="126" column="34" selection-start-line="126" selection-start-column="34" selection-end-line="126" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5629">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -933,32 +665,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="119" column="21" selection-start-line="119" selection-start-column="16" selection-end-line="119" selection-end-column="21" />
-          <folding>
-            <element signature="method#StandardEnemy#0;class#StandardEnemy#0" />
-            <element signature="method#update#0;class#StandardEnemy#0" />
-            <element signature="method#show#0;class#StandardEnemy#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/out/settings/controls.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret lean-forward="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Level.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="383" column="64" selection-start-line="383" selection-start-column="64" selection-end-line="383" selection-end-column="64" />
-          <folding>
-            <element signature="e#13009#13018#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1038,36 +748,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/App/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="221" column="24" selection-start-line="221" selection-start-column="24" selection-end-line="221" selection-end-column="24" />
-          <folding>
-            <element signature="method#start#0;class#Main#0" />
-            <element signature="class#1899:2038" />
-            <element signature="class#2077:2217" />
-            <element signature="class#2257:2477" />
-            <element signature="class#3609:3751" />
-            <element signature="class#2456:2678" />
-            <element signature="class#2774:3278" />
-            <element signature="e#4661#4970#0" expanded="true" />
-            <element signature="e#4969#4970#0" expanded="true" />
-            <element signature="method#draw#0;class#Main#0" />
-            <element signature="e#3790#4828#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/Engine/Engine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="48" column="10" selection-start-line="48" selection-start-column="10" selection-end-line="48" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/bmd/Settings/KeyMap.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -1075,23 +755,226 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/bmd/File/GameFile.java">
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Drop.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="86" column="61" selection-start-line="86" selection-start-column="61" selection-end-line="86" selection-end-column="61" />
+        <state relative-caret-position="238">
+          <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Projectile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="58" column="16" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="24" column="59" selection-start-line="24" selection-start-column="59" selection-end-line="24" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#saveInventory#0;class#GameFile#0" />
-            <element signature="method#loadInventory#0;class#GameFile#0" />
-            <element signature="method#saveStats#0;class#GameFile#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="91" column="129" selection-start-line="91" selection-start-column="129" selection-end-line="91" selection-end-column="129" />
+          <folding>
+            <element signature="method#StandardEnemy#0;class#StandardEnemy#0" />
+            <element signature="method#update#0;class#StandardEnemy#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="152" lean-forward="true" selection-start-line="152" selection-end-line="152" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/ScrollElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="281" column="66" lean-forward="true" selection-start-line="281" selection-start-column="66" selection-end-line="281" selection-end-column="66" />
+        <state relative-caret-position="214">
+          <caret line="738" column="38" selection-start-line="738" selection-start-column="38" selection-end-line="738" selection-end-column="38" />
+          <folding>
+            <element signature="e#11292#14361#0" />
+            <element signature="e#14369#14908#0" />
+            <element signature="e#14914#17340#0" />
+            <element signature="e#17347#19259#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/App/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="method#start#0;class#Main#0" />
+            <element signature="method#draw#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Engine/Engine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="196" selection-start-line="196" selection-end-line="196" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Level.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="399" column="27" selection-start-line="399" selection-start-column="27" selection-end-line="399" selection-end-column="27" />
+          <folding>
+            <element signature="e#13009#13018#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Armour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Scroll.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Abilities/FireBomb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Abilities/SpellBomb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="22" column="55" selection-start-line="22" selection-start-column="55" selection-end-line="22" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Abilities/SwiftBoots.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Bow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="11" column="86" selection-start-line="11" selection-start-column="86" selection-end-line="11" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/GreenRod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Spear.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Staff.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Wand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Inventory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Player/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="31" column="18" lean-forward="true" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Ability.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="56" column="20" selection-start-line="56" selection-start-column="20" selection-end-line="56" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Item.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/File/GameFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#readStats#0;class#GameFile#0" />
+            <element signature="method#saveGame#0;class#GameFile#0" />
+            <element signature="method#saveStats#0;class#GameFile#0" />
+            <element signature="method#readStats#1;class#GameFile#0" />
+            <element signature="method#loadSaves#0;class#GameFile#0" />
+            <element signature="method#makeHashmap#0;class#GameFile#0" />
+          </folding>
         </state>
       </provider>
     </entry>

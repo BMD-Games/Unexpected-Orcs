@@ -68,7 +68,7 @@ public class Main extends Application {
             @Override
             public void handle(KeyEvent event) {
                 KeyCode keyCode = event.getCode();
-                Util.println(event.getText());
+
                 if (Settings.remapNextKey) Settings.remapKey(Settings.remapAction, keyCode);
                 if (keyCode == Settings.controls.UP_KEY) Input.keys[Util.up] = 1;
                 if (keyCode == Settings.controls.LEFT_KEY) Input.keys[Util.left] = 1;

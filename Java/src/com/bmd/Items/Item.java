@@ -1,14 +1,19 @@
 package com.bmd.Items;
 
 import com.bmd.Sprites.Sprites;
+import com.bmd.Util.Util;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Item implements Serializable {
 
     public String type, name;
-    public BufferedImage sprite;
+    public transient BufferedImage sprite;
 
     public int tier = 0;
 
@@ -22,18 +27,20 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    /*private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        sprite.loadPixels();
-        out.writeObject(sprite.pixels);
+    private void writeObject(ObjectOutputStream out) {
+
+        try {
+            out.defaultWriteObject();
+            ImageIO.write(sprite, "png", out);
+        } catch (IOException e) {
+            Util.println(e);
+        }
 
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        sprite.loadPixels();
-        sprite.pixels = (int[])in.readObject();
-        sprite.updatePixels();
-    }*/
+        sprite = ImageIO.read(in);
+    }
 
 }

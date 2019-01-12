@@ -105,8 +105,8 @@ public class Player {
 
         screen.save();
         screen.translate(x * Tiles.TILE_SIZE - renderOffset.x, y * Tiles.TILE_SIZE - renderOffset.y);
-        Graphics.image(screen, headSprite, -headSprite.getWidth() * Util.SCALE/2, -headSprite.getHeight() * Util.SCALE/2, headSprite.getWidth() * Util.SCALE, headSprite.getHeight() * Util.SCALE);
-        Graphics.image(screen, bodySprite, -bodySprite.getWidth() * Util.SCALE/2, -bodySprite.getHeight() * Util.SCALE/2, bodySprite.getWidth() * Util.SCALE, bodySprite.getHeight() * Util.SCALE);
+        Graphics.image(screen, headSprite, -headSprite.getWidth()/2, -headSprite.getHeight()/2, headSprite.getWidth(), headSprite.getHeight());
+        Graphics.image(screen, bodySprite, -bodySprite.getWidth()/2, -bodySprite.getHeight()/2, bodySprite.getWidth(), bodySprite.getHeight());
         screen.restore();
     }
 

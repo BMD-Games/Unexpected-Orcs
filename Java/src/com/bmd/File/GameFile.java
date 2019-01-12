@@ -4,11 +4,13 @@ import com.bmd.App.Main;
 import com.bmd.GUI.ScrollElement;
 import com.bmd.Items.Inventory;
 import com.bmd.Player.Player;
+import com.bmd.Util.Util;
 
 import java.io.*;
 import java.util.HashMap;
 
 public class GameFile {
+
     public static void readStats(PrintWriter printer, HashMap<Integer, Integer> killsMap) {
         if(printer == null) return;
         for (Integer tier : killsMap.keySet()) {
@@ -16,7 +18,6 @@ public class GameFile {
         }
         printer.println();
     }
-
 
     public static void saveGame() {
         if (Main.loadedPlayerName != null && Main.loadedPlayerName != "") {
@@ -34,7 +35,8 @@ public class GameFile {
             invSaveFile.close();
         }
         catch(Exception e) {
-            System.out.println(e);
+
+            Util.println(e);
         }
     }
 
@@ -51,7 +53,6 @@ public class GameFile {
         catch(Exception e) {
             System.out.println("load: " + e);
         }
-        System.out.println(inv);
         return inv;
     }
 
@@ -114,22 +115,18 @@ public class GameFile {
         try {
             folder.mkdirs();
         } catch (Exception e) {
-            System.out.println("twot");
             e.printStackTrace();
         }
         String[] listOfFiles = folder.list(new FilenameFilter() {
             public boolean accept(File current, String name) {
-                System.out.println(name);
                 return new File(current, name).isDirectory();
             }
-       });
-        System.out.println(listOfFiles);
+        });
         ScrollElement[] scrollElements = new ScrollElement[listOfFiles.length];
         Main.loadedPlayers = new Player[listOfFiles.length];
 
         for (int i = 0; i < listOfFiles.length; i++) {
             try {
-                System.out.println(listOfFiles[i]);
                 Main.loadedPlayers[i] = readStats(listOfFiles[i]);
                 scrollElements[i] = new ScrollElement(listOfFiles[i], Main.loadedPlayers[i].stats.toString(), 200);
             }

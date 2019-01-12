@@ -54,7 +54,8 @@ public class GUI {
     private BufferedImage speedSprite = Sprites.itemSprites.get("SPEED_ICON");
 
     //Inventory drag and drop stuff
-    private final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = Sprites.SPRITE_SIZE * invScale + 2 * itemOffset;
+    public static final int invScale = 2;
+    private static final int invBuff = 5, itemOffset = 1, invSize = Sprites.SPRITE_SIZE * invScale + 2 * itemOffset;
     private final int invX = (Util.GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH + itemOffset)))/2, invY = 7 * Tiles.TILE_SIZE/2;
     private boolean prevSelection = false, currSelection = false, showingPortal = false;
     private int b1Type, b2Type, menuType; // if inv box is in active or not
@@ -145,7 +146,7 @@ public class GUI {
         drawPlay(Main.engine.player);
         //clearScreen();
         screen.setFill(Util.gray(0, 100));
-        screen.rect(-Tiles.TILE_SIZE, -Tiles.TILE_SIZE, Main.width + Tiles.TILE_SIZE, Main.height + Tiles.TILE_SIZE);
+        screen.fillRect(-Tiles.TILE_SIZE, -Tiles.TILE_SIZE, Main.width + Tiles.TILE_SIZE, Main.height + Tiles.TILE_SIZE);
         menu.show(canvas);
         options.show(canvas);
         play.show(canvas);
@@ -157,7 +158,7 @@ public class GUI {
 
         Graphics.background(canvas, c);
         screen.setFill(Util.gray(0, 100));
-        screen.rect(-Tiles.TILE_SIZE, -Tiles.TILE_SIZE, Main.width + Tiles.TILE_SIZE, Main.height + Tiles.TILE_SIZE);
+        screen.fillRect(-Tiles.TILE_SIZE, -Tiles.TILE_SIZE, Main.width + Tiles.TILE_SIZE, Main.height + Tiles.TILE_SIZE);
         back.show(canvas);
 
         Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
@@ -202,7 +203,7 @@ public class GUI {
     public void drawLoading() {
         clearScreen();
         screen.setFill(Color.BLACK);
-        screen.rect(0, 0, Main.width, Main.width);
+        screen.fillRect(0, 0, Main.width, Main.width);
         screen.setFill(Color.WHITE);
         screen.setTextAlign(TextAlignment.CENTER);
         screen.fillText("Loading", Main.width/2, Main.height/2);
@@ -240,7 +241,7 @@ public class GUI {
      println("here");
      loadScroll.show(screen);
      screen.fill(255, 0, 0);
-     screen.rect(100, 100, 100, 100);
+     screen.fillRect(100, 100, 100, 100);
 
      screen.endDraw();
      Graphics.image(Main.gc, Util.getImage(canvas), 0, 0);
@@ -358,28 +359,28 @@ public class GUI {
         screen.setFill(Util.gray(150));
         screen.fillRect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2f, 10, Sprites.SPRITE_SIZE * 2);
         screen.setFill(Stats.statColours.get("ATTACK"));
-        screen.rect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2 + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * attackFloat);
+        screen.fillRect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2 + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * attackFloat);
 
         float defenceFloat = Main.engine.player.stats.calcStatValue(Main.engine.player.stats.defenceKills, Main.engine.player.stats.baseDefence, 1, 0.1f);
         defenceFloat = defenceFloat % 1;
         screen.setFill(Util.gray(150));
-        screen.rect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2f, 10, Sprites.SPRITE_SIZE * 2);
+        screen.fillRect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2f, 10, Sprites.SPRITE_SIZE * 2);
         screen.setFill(Stats.statColours.get("DEFENCE"));
-        screen.rect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2 + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * defenceFloat);
+        screen.fillRect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 73 + Tiles.TILE_SIZE / 2 + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * defenceFloat);
 
         float vitalityFloat = Main.engine.player.stats.calcStatValue(Main.engine.player.stats.vitalityKills, Main.engine.player.stats.baseVitality, 1, 0.1f);
         vitalityFloat = vitalityFloat % 1;
         screen.setFill(Util.gray(150));
-        screen.rect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE, 10, Sprites.SPRITE_SIZE * 2);
+        screen.fillRect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE, 10, Sprites.SPRITE_SIZE * 2);
         screen.setFill(Stats.statColours.get("VITALITY"));
-        screen.rect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * vitalityFloat);
+        screen.fillRect(Util.GUI_WIDTH * 2 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * vitalityFloat);
 
         float wisdomFloat = Main.engine.player.stats.calcStatValue(Main.engine.player.stats.wisdomKills, Main.engine.player.stats.baseWisdom, 1, 0.1f);
         wisdomFloat = wisdomFloat % 1;
         screen.setFill(Util.gray(150));
-        screen.rect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE, 10, Sprites.SPRITE_SIZE * 2);
+        screen.fillRect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE, 10, Sprites.SPRITE_SIZE * 2);
         screen.setFill(Stats.statColours.get("WISDOM"));
-        screen.rect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * wisdomFloat);
+        screen.fillRect(Util.GUI_WIDTH * 4 / 5f - Tiles.TILE_SIZE * 9 / 8f, 79 + Tiles.TILE_SIZE + Sprites.SPRITE_SIZE * 2, 10, - Sprites.SPRITE_SIZE * 2 * wisdomFloat);
     }
 
 
@@ -442,9 +443,9 @@ public class GUI {
         BufferedImage over = Util.scaleImage(Util.getImage(Main.engine.currentLevel.getOverlay()), (int)scale);
 
         screen.setFill(Util.gray(150));
-        screen.rect(0, Main.height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);
+        screen.fillRect(0, Main.height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);
         screen.setFill(Color.BLACK);
-        screen.rect(invBuff, Main.height - vh - invBuff, vw, vh);
+        screen.fillRect(invBuff, Main.height - vh - invBuff, vw, vh);
         Graphics.image(screen, map.getSubimage(sx, sy, (int)vw, (int)vh), invBuff, Main.height - vh - invBuff, vw, vh);
         Graphics.image(screen, over.getSubimage(sx, sy, (int)vw, (int)vh), invBuff, Main.height - vh - invBuff, vw, vh);
     }
@@ -553,15 +554,15 @@ public class GUI {
         menuType = out;
         screen.setFill(Util.gray(51));
         if (showBag) {
-            screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, (Inventory.WIDTH + 1) * (invSize + invBuff) + invBuff * 3);
+            screen.fillRect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, (Inventory.WIDTH + 1) * (invSize + invBuff) + invBuff * 3);
         } else {
-            screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, Inventory.WIDTH * (invSize + invBuff) + invBuff * 2);
+            screen.fillRect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, Inventory.WIDTH * (invSize + invBuff) + invBuff * 2);
         }
 
         itemOver = -1;
         for (int i = 0; i < Main.engine.player.active().length; i++) {
             screen.setFill(Util.gray(150));
-            screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
+            screen.fillRect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
             if (Util.pointInBox(Input.mouseX(), Input.mouseY(), invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
                 itemOver = i;
                 mouseOverItem = Main.engine.player.active()[i];
@@ -572,7 +573,7 @@ public class GUI {
         for (int i = 0; i < Main.engine.player.inv().length; i++) {
             j = (int)(i/Inventory.WIDTH);
             screen.setFill(Util.gray(150));
-            screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
+            screen.fillRect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
             if (Util.pointInBox(Input.mouseX(), Input.mouseY(), invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) {
                 itemOver = i;
                 mouseOverItem = Main.engine.player.inv()[i];
@@ -582,7 +583,7 @@ public class GUI {
         if (showBag) {
             for (int i = 0; i < Main.engine.player.active().length; i++) {
                 screen.setFill(Util.gray(150));
-                screen.rect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
+                screen.fillRect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
                 if (Util.pointInBox(Input.mouseX(), Input.mouseY(), invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
                     itemOver = i;
                     mouseOverItem = items[i];
@@ -671,9 +672,9 @@ public class GUI {
         screen.setTextAlign(TextAlignment.LEFT);
 
         screen.setFill(Util.gray(100));
-        screen.rect(x, y, mouseOverWidth, mouseOverHeight);
+        screen.fillRect(x, y, mouseOverWidth, mouseOverHeight);
         screen.setStroke(Util.gray(130));
-        screen.rect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
+        screen.fillRect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
         Graphics.line(screen, x + buff, y + title.textHeight + buff/2, x + mouseOverWidth - buff, y + title.textHeight + buff/2);
         Graphics.line(screen, x + buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2, x + mouseOverWidth - buff, (y + mouseOverHeight) - description.textHeight - 3 * buff/2);
 
@@ -736,7 +737,6 @@ public class GUI {
     }
 
     public void keyPressed(char key) {
-        Util.println(key);
         if (KeyCode.getKeyCode(key + "") == KeyCode.ENTER && playerName.length() > 0) {
             if (checkFileAlreadyExists(playerName)) {
                 screen.fillText( "That name already exists", Main.width/2, Main.height/2 - Tiles.TILE_SIZE);

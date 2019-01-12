@@ -16,14 +16,14 @@ public class HUDElement {
     HUDElement(float x, float y, String spriteName) {
         this.x = x;
         this.y = y;
-        this.w = (float)Sprites.guiSprites.get(spriteName).getWidth() * Util.SCALE;
-        this.h = (float)Sprites.guiSprites.get(spriteName).getHeight() * Util.SCALE;
+        this.w = (float)Sprites.guiSprites.get(spriteName).getWidth();
+        this.h = (float)Sprites.guiSprites.get(spriteName).getHeight();
         this.spriteName = spriteName;
     }
 
     public void show(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         BufferedImage sprite = Sprites.guiSprites.get(spriteName);
-        Graphics.image(gc, sprite, x, y, sprite.getWidth() * Util.SCALE, sprite.getHeight() * Util.SCALE);
+        Graphics.image(gc, sprite, x, y, w, h);
     }
 }

@@ -85,11 +85,11 @@ abstract public class StandardEnemy implements Enemy {
 
         if((angle < Math.PI/2) && (angle > -Math.PI/2)) {
             screen.rotate(angle);
-            Graphics.image(screen, currSprite, -sprite.getWidth() * Util.SCALE/2, -sprite.getHeight() * Util.SCALE/2, sprite.getWidth() * Util.SCALE, sprite.getHeight() * Util.SCALE);
+            Graphics.image(screen, currSprite, -sprite.getWidth()/2, -sprite.getHeight()/2, sprite.getWidth(), sprite.getHeight());
         } else {
             screen.scale(-1.0, 1.0);
             screen.rotate(Math.PI-angle);
-            Graphics.image(screen, currSprite, sprite.getWidth() * Util.SCALE/2, -sprite.getHeight() * Util.SCALE/2, -sprite.getWidth() * Util.SCALE, sprite.getHeight() * Util.SCALE);
+            Graphics.image(screen, currSprite, sprite.getWidth()/2, -sprite.getHeight()/2, -sprite.getWidth(), sprite.getHeight());
         }
         screen.restore();
     }

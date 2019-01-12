@@ -2,7 +2,6 @@ package com.bmd.Items;
 
 import com.bmd.App.Main;
 import com.bmd.Util.Util;
-import javafx.scene.paint.Color;
 
 
 public class Ability extends Item {

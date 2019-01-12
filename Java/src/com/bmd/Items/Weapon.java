@@ -4,10 +4,15 @@ import com.bmd.Util.Pair;
 import com.bmd.Util.Util;
 import javafx.scene.paint.Color;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Weapon extends Item {
+public class Weapon extends Item implements Serializable {
 
     //Bulletspeed in  tiles per second?
     public int damage = 1, numBullets = 1, range = 1, bulletSpeed = 1;
@@ -17,7 +22,7 @@ public class Weapon extends Item {
     //Accuracy, angle in radians the weapon will shoot within
     public float accuracy = 0;
 
-    public BufferedImage bulletSprite;
+    public transient BufferedImage bulletSprite;
     public Color tipColour = Util.color(50, 50, 50);
 
     public ArrayList<Pair> statusEffects = new ArrayList<Pair>();
@@ -35,4 +40,20 @@ public class Weapon extends Item {
     }
 
     public void playSound() {}
+
+    private void writeObject(ObjectOutputStream out) {
+
+        try {
+            out.defaultWriteObject();
+            ImageIO.write(bulletSprite, "png", out);
+        } catch (IOException e) {
+            Util.println("tits", e);
+        }
+
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        bulletSprite = ImageIO.read(in);
+    }
 }

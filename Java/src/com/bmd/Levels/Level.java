@@ -123,7 +123,7 @@ public class Level {
                     catch(Exception e) {
                     }
                     BufferedImage sprite = Sprites.tileSprites.get(tile);
-                    Graphics.image(bg, sprite, i * Tiles.TILE_SIZE - renderOffset.x, j * Tiles.TILE_SIZE - renderOffset.y, (sprite.getWidth() * Util.SCALE), (sprite.getHeight() * Util.SCALE));
+                    Graphics.image(bg, sprite, i * Tiles.TILE_SIZE - renderOffset.x, j * Tiles.TILE_SIZE - renderOffset.y, Tiles.TILE_SIZE, Tiles.TILE_SIZE);
                 }
             }
         }
@@ -375,7 +375,11 @@ public class Level {
     }
 
     public void addEnemy(StandardEnemy enemy) {
-        if(enemies[getChunk((int)enemy.x, (int)enemy.y)] == null) enemies[getChunk((int)enemy.x, (int)enemy.y)] = new ArrayList<Enemy>();
+
+        Util.println(getChunk((int)enemy.x, (int)enemy.y));
+        if(enemies[getChunk((int)enemy.x, (int)enemy.y)] == null) {
+            enemies[getChunk((int)enemy.x, (int)enemy.y)] = new ArrayList<Enemy>();
+        }
         enemies[getChunk((int)enemy.x, (int)enemy.y)].add(enemy);
     }
 
@@ -393,6 +397,7 @@ public class Level {
     }
 
     public int getChunk(int x, int y) {
+        Util.println(x, y);
         return (x/CHUNK_SIZE) + (y/CHUNK_SIZE) * CHUNK_W;
     }
 
