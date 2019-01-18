@@ -24,7 +24,7 @@ public class GameFile {
     public static void saveGame() {
         if (loadedPlayerName != null && loadedPlayerName != "") {
             saveStats(loadedPlayerName);
-            //saveInventory(loadedPlayerName);
+            saveInventory(loadedPlayerName);
         }
     }
 
@@ -54,7 +54,7 @@ public class GameFile {
             invSaveFile.close();
         }
         catch(Exception e) {
-            game.println("load: " + e);
+            e.printStackTrace();
         }
         game.println(inv);
         return inv;
@@ -84,9 +84,7 @@ public class GameFile {
         Player playerToReturn = new Player(engine.currentLevel.start.x + 0.5f, engine.currentLevel.start.y + 0.5f);
         BufferedReader reader = null;
         try { // read the file
-            game.println("yeet");
             reader = new BufferedReader(new FileReader(game.sketchPath() + "/saves/" + savename + "/" + savename + ".txt"));
-            game.println("double yeet");
         }
         catch (IOException ioException) {
             game.println("wank", ioException);
@@ -105,7 +103,7 @@ public class GameFile {
         playerToReturn.stats.speedKills = makeHashmap(reader);
         playerToReturn.stats.calcAllStats();
 
-        //playerToReturn.inv = loadInventory(savename);
+        playerToReturn.inv = loadInventory(savename);
 
         return playerToReturn;
     }

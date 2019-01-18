@@ -644,7 +644,7 @@ public class Generator {
             pg.text(i, room.midPoint().x * 10, room.midPoint().y * 10);
         }
         pg.endDraw();
-        pg.save("/out/TestGen.png");
+        pg.save("/out/level/TestGen.png");
     }
 
 /*

@@ -9,6 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import static Utility.Constants.SPRITE_SIZE;
+import static Utility.Constants.game;
+
 public class Item  implements Serializable {
 
     public String type, name;
@@ -35,6 +38,7 @@ public class Item  implements Serializable {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
+        sprite = game.createImage(SPRITE_SIZE, SPRITE_SIZE, game.ARGB);
         sprite.loadPixels();
         sprite.pixels = (int[])in.readObject();
         sprite.updatePixels();

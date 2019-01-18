@@ -1,6 +1,8 @@
 package Utility;
 
-public class Pair {
+import java.io.Serializable;
+
+public class Pair implements Serializable {
 
     public String a;
     public String b;

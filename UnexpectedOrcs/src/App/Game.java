@@ -52,10 +52,6 @@ public class Game extends PApplet{
 
         debugScreen = createGraphics(width, height);
 
-
-        Constants.setEngine(new Engine());
-        Constants.setGUI(new GUI());
-
         //try {
         //  engine.player = readStats("SUPERSS.txt");
         //} catch (IOException ioe) {
@@ -66,7 +62,7 @@ public class Game extends PApplet{
     public void draw() {
         switch(STATE) {
             case "LOADING":
-                gui.drawLoading();
+                drawLoading();
                 break;
             case "MENU":
                 gui.drawMenu();
@@ -162,12 +158,21 @@ public class Game extends PApplet{
         Sprites.loadAssets(this);
         loadStats();
         Settings.loadSettings();
+
+        Constants.setEngine(new Engine());
+        Constants.setGUI(new GUI());
+
         setState("MENU");
     }
 
-    public float fastAbs(float v) {
-        if (v < 0) return v * -1;
-        return v;
+    public void drawLoading() {
+        clear();
+        fill(0);
+        rect(0, 0, width, height);
+        fill(255);
+        textAlign(game.CENTER, game.CENTER);
+        text("Loading", width/2, height/2);
+        text(loadMessage, width/2, height/2 + TILE_SIZE);
     }
 
     public void loadClosestPortal() {
