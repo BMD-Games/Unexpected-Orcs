@@ -26,7 +26,7 @@ public class GUI {
     private DisplayBar healthBar, manaBar;
     private Button enterPortal;
     private PImage title = game.loadImage("/assets/sprites/title.png");
-    private PGraphics screen;
+    public PGraphics screen;
     private int c = 100;
     private String playerName = "";
 
@@ -48,7 +48,7 @@ public class GUI {
     ; //inv box 1 and 2 for drag and swap
     private Item mouseOverItem;
 
-    int buff = 6; //for mouseOver stuff;
+    public int buff = 6; //for mouseOver stuff;
 
     public GUI() {
         //-----Main
@@ -136,7 +136,7 @@ public class GUI {
 
     public void drawPaused() {
         //Draws the paused overlay
-        drawPlay(engine.player);
+        drawPlay();
         screen.beginDraw();
         //clearScreen();
         screen.fill(0, 100);
@@ -161,12 +161,11 @@ public class GUI {
         game.image(screen, 0, 0);
     }
 
-    public void drawPlay(Player player) {
-
+    public void drawPlay() {
         //Draws the GUI during gameplay
 
-        healthBar.updateBar(player.stats.health, player.stats.healthMax);
-        manaBar.updateBar(player.stats.mana, player.stats.manaMax);
+        healthBar.updateBar(engine.player.stats.health, engine.player.stats.healthMax);
+        manaBar.updateBar(engine.player.stats.mana, engine.player.stats.manaMax);
         screen.beginDraw();
         clearScreen();
         screen.fill(217);
@@ -183,9 +182,9 @@ public class GUI {
         drawQuest();
         renderMiniMap();
         drawPortal();
-        drawStatProgress();
         renderInv();
-        drawStats();
+        engine.player.stats.show(screen, GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2);
+
         drawCooldown();
         screen.endDraw();
         game.image(screen, 0, 0);
@@ -195,19 +194,6 @@ public class GUI {
         } else {
             inMenu = false;
         }
-    }
-
-    public void drawLoading() {
-        screen.beginDraw();
-        clearScreen();
-        screen.fill(0);
-        screen.rect(0, 0, screen.width, screen.height);
-        screen.fill(255);
-        screen.textAlign(game.CENTER, game.CENTER);
-        screen.text("Loading", width/2, height/2);
-        screen.text(loadMessage, width/2, height/2 + TILE_SIZE);
-        screen.endDraw();
-        game.image(screen, 0, 0);
     }
 
     public void drawDead() {
@@ -357,63 +343,6 @@ public class GUI {
             screen.noStroke();
             screen.arc(invBuff + invX + (invSize + invBuff) + itemOffset + SPRITE_SIZE * invScale/2, invBuff + invY + itemOffset + SPRITE_SIZE * invScale/2, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale, -game.PI/2, 2 * game.PI * percentFull - game.PI/2, game.PIE);
         }
-    }
-
-    private void drawStatProgress() {
-
-        float attackFloat = engine.player.stats.calcStatValue(engine.player.stats.attackKills, engine.player.stats.baseAttack, 1, 0.1f);
-        attackFloat = attackFloat % 1;
-        screen.fill(150, 150, 150);
-        screen.rect(GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2, 10, SPRITE_SIZE * 2);
-        screen.fill(statColours.get("ATTACK"));
-        screen.rect(GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2 + SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * attackFloat);
-
-        float defenceFloat = engine.player.stats.calcStatValue(engine.player.stats.defenceKills, engine.player.stats.baseDefence, 1, 0.1f);
-        defenceFloat = defenceFloat % 1;
-        screen.fill(150, 150, 150);
-        screen.rect(GUI_WIDTH * 4 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2, 10, SPRITE_SIZE * 2);
-        screen.fill(statColours.get("DEFENCE"));
-        screen.rect(GUI_WIDTH * 4 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2 + SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * defenceFloat);
-
-        float vitalityFloat = engine.player.stats.calcStatValue(engine.player.stats.vitalityKills, engine.player.stats.baseVitality, 1, 0.1f);
-        vitalityFloat = vitalityFloat % 1;
-        screen.fill(150, 150, 150);
-        screen.rect(GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 79 + TILE_SIZE, 10, SPRITE_SIZE * 2);
-        screen.fill(statColours.get("VITALITY"));
-        screen.rect(GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 79 + TILE_SIZE + SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * vitalityFloat);
-
-        float wisdomFloat = engine.player.stats.calcStatValue(engine.player.stats.wisdomKills, engine.player.stats.baseWisdom, 1, 0.1f);
-        wisdomFloat = wisdomFloat % 1;
-        screen.fill(150, 150, 150);
-        screen.rect(GUI_WIDTH * 4 / 5 - TILE_SIZE * 9 / 8, 79 + TILE_SIZE, 10, SPRITE_SIZE * 2);
-        screen.fill(statColours.get("WISDOM"));
-        screen.rect(GUI_WIDTH * 4 / 5 - TILE_SIZE * 9 / 8, 79 + TILE_SIZE + SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * wisdomFloat);
-    }
-
-
-    private void drawStats() {
-        screen.pushMatrix();
-
-        screen.textAlign(game.LEFT);
-        screen.textSize(TILE_SIZE/2);
-        screen.fill(30);
-
-        //Draw stat values
-        screen.text(engine.player.stats.attack, GUI_WIDTH * 2 / 5 - TILE_SIZE / 8, 100 + TILE_SIZE / 2);
-        screen.text(engine.player.stats.defence, GUI_WIDTH * 4 / 5 - TILE_SIZE / 8, 100 + TILE_SIZE / 2);
-        screen.text(engine.player.stats.vitality, GUI_WIDTH * 2 / 5 - TILE_SIZE / 8, 106 + TILE_SIZE);
-        screen.text(engine.player.stats.wisdom, GUI_WIDTH * 4 / 5 - TILE_SIZE / 8, 106 + TILE_SIZE);
-        screen.text((int)(engine.player.stats.speed * 100), GUI_WIDTH * 2 / 5 - TILE_SIZE / 8, 112 + TILE_SIZE * 3 / 2);
-
-        //Draw stat sprites
-        screen.image(attackSprite, GUI_WIDTH / 5 - TILE_SIZE / 8, 104, attackSprite.width * 2, attackSprite.height * 2);
-        screen.image(defenceSprite, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 104, defenceSprite.width * 2, defenceSprite.height * 2);
-        screen.image(vitalitySprite, GUI_WIDTH / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, vitalitySprite.width * 2, vitalitySprite.height * 2);
-        screen.image(wisdomSprite, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, wisdomSprite.width * 2, wisdomSprite.height * 2);
-        screen.image(speedSprite, GUI_WIDTH / 5 - TILE_SIZE / 8, 120 + TILE_SIZE, speedSprite.width * 2, speedSprite.height * 2);
-        screen.popMatrix();
-
-        mouseOverStat();
     }
 
     private void drawPortal() {
@@ -626,49 +555,7 @@ public class GUI {
         drawMouseOverText(x, y, title, subtitle, description);
     }
 
-    private void mouseOverStat() {
-
-        int x = game.mouseX;
-        int y = game.mouseY;
-
-        String statName = "";
-        String type = "";
-        String desc = "";
-
-        if (Util.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 104, TILE_SIZE / 2, TILE_SIZE / 2)) { // attack sprite hover
-            statName = "Attack";
-            type = String.valueOf(engine.player.stats.getAttack());
-            desc = "Increases Damage dealt by player projectiles";
-        } else if (Util.pointInBox(x, y, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 104, TILE_SIZE / 2, TILE_SIZE / 2)) { // defence sprite hover
-            statName = "Defence";
-            type = String.valueOf(engine.player.stats.getDefence());
-            desc = "Decreases damage taken from enemies";
-        } else if (Util.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2)) { // vitality hover
-            statName = "Vitality";
-            type = String.valueOf(engine.player.stats.getVitality());
-            desc = "Increases health regeneration rate";
-        } else if (Util.pointInBox(x, y, GUI_WIDTH * 3 / 5 - TILE_SIZE / 8, 112 + TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2)) { // wisdom hover
-            statName = "Wisdom";
-            type = String.valueOf(engine.player.stats.getVitality());
-            desc = "Increases mana regeneration rate";
-        } else if (Util.pointInBox(x, y, GUI_WIDTH / 5 - TILE_SIZE / 8, 120 + TILE_SIZE, TILE_SIZE / 2, TILE_SIZE / 2)) { // speed hover
-            statName = "Speed";
-            type = String.valueOf((int)(engine.player.stats.speed * 100));
-            desc = "Increases player speed";
-        }
-
-        if (!statName.equals("")) {
-
-            int mouseOverWidth = 3 * GUI_WIDTH/4;
-            WrappedText title = WrappedText.wrapText(statName, mouseOverWidth - buff * 4, TILE_SIZE/2);
-            WrappedText subtitle = WrappedText.wrapText(type, mouseOverWidth - buff * 4, TILE_SIZE/3);
-            WrappedText description = WrappedText.wrapText(desc, mouseOverWidth - buff * 4, TILE_SIZE/3);
-
-            drawMouseOverText(x, y, title, subtitle, description);
-        }
-    }
-
-    private void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
+    public void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
         int mouseOverWidth = 3 * GUI_WIDTH/4;
         int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
 

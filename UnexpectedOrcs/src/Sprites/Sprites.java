@@ -180,6 +180,8 @@ public class Sprites {
         itemSprites.put("BOOTS", getSprite(itemsheet, 0, 3, 1, 1, itemSize));
         itemSprites.put("FIREBOMB", getSprite(itemsheet, 1, 3, 1, 1, itemSize));
         itemSprites.put("TELESCOPE", getSprite(itemsheet, 2, 3, 1, 1, itemSize));
+        itemSprites.put("TELEPORT", getSprite(itemsheet, 3, 3, 1, 1, itemSize));
+        itemSprites.put("SPELLBOMB", getSprite(itemsheet, 4, 3, 1, 1, itemSize));
 
         //Armour
         itemSprites.put("LEATHER_ARMOUR", getSprite(itemsheet, 0, 4, 1, 1, itemSize));

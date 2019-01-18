@@ -37,7 +37,7 @@ public class GameFile {
             invSaveFile.close();
         }
         catch(Exception e) {
-            game.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -47,16 +47,13 @@ public class GameFile {
         try {
             FileInputStream invSaveFile = new FileInputStream(game.sketchPath() + "/saves/" + savename + "/inventory.txt");
             ObjectInputStream in = new ObjectInputStream(invSaveFile);
-            game.println("yeet");
             inv =  (Inventory) in.readObject();
-            game.println("peen");
             in.close();
             invSaveFile.close();
         }
         catch(Exception e) {
             e.printStackTrace();
         }
-        game.println(inv);
         return inv;
     }
 
@@ -87,7 +84,7 @@ public class GameFile {
             reader = new BufferedReader(new FileReader(game.sketchPath() + "/saves/" + savename + "/" + savename + ".txt"));
         }
         catch (IOException ioException) {
-            game.println("wank", ioException);
+            ioException.printStackTrace();
         }
 
         if (reader == null) {
@@ -134,7 +131,7 @@ public class GameFile {
                 scrollElements[i] = new ScrollElement(listOfFiles[i], loadedPlayers[i].stats.toString(), 200);
             }
             catch (Exception ioe) {
-                game.println("twat", ioe);
+                ioe.printStackTrace();
             }
         }
 

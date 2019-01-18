@@ -11,7 +11,7 @@ import static Utility.Constants.*;
 public class SpellBomb extends Ability {
 
     public SpellBomb() {
-        super("FIREBOMB", "Spell Bomb", "Spell Bomb");
+        super("SPELLBOMB", "Spell Bomb", "Spell Bomb");
         this.cooldown = 0.5f;
         this.manaCost = 30;
     }

@@ -74,13 +74,16 @@ public class Game extends PApplet{
                 //thread("update");
                 engine.update();
                 engine.show();
-                gui.drawPlay(engine.player);
+                gui.drawPlay();
                 if(drawDebug) {
                     image(debugScreen, 0, 0);
                     debugScreen.beginDraw();
                     debugScreen.clear();
                     debugScreen.endDraw();
                 }
+                //background(255);
+                //engine.player.stats.show(this.getGraphics(), 0, 0);
+
                 break;
             case "PAUSED":
                 engine.show();

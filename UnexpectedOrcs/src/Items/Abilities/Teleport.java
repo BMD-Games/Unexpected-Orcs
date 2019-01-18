@@ -9,7 +9,7 @@ import static Utility.Constants.*;
 public class Teleport extends Ability {
 
     public Teleport() {
-        super("TELESCOPE", "Teleport", "Teleport");
+        super("TELEPORT", "Teleport", "Teleport");
         this.cooldown = 0.5f;
         this.manaCost = 5;
     }
