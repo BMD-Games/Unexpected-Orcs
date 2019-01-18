@@ -41,12 +41,9 @@ public class GUI {
 
     //Inventory drag and drop stuff
     private final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
-    private final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 7 * TILE_SIZE/2;
-    private boolean prevSelection = false, currSelection = false, showingPortal = false;
-    private int b1Type, b2Type, menuType; // if inv box is in active or not
-    private int b1 = -1, b2 = -1, itemOver, active = 0, inv = 1, bag = 2, out = 3;
-    ; //inv box 1 and 2 for drag and swap
-    private Item mouseOverItem;
+    public final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH+ itemOffset)))/2, invY = 7 * TILE_SIZE/2;
+    private boolean showingPortal = false;
+
 
     public int buff = 6; //for mouseOver stuff;
 
@@ -182,10 +179,12 @@ public class GUI {
         drawQuest();
         renderMiniMap();
         drawPortal();
-        renderInv();
+        //renderInv();
+        engine.player.inv.show(screen, invX, invY);
+        engine.player.inv.drawCooldown(screen, invX, invY);
+
         engine.player.stats.show(screen, GUI_WIDTH * 2 / 5 - TILE_SIZE * 9 / 8, 73 + TILE_SIZE / 2);
 
-        drawCooldown();
         screen.endDraw();
         game.image(screen, 0, 0);
 
@@ -333,18 +332,6 @@ public class GUI {
         }
     }
 
-
-
-    private void drawCooldown() {
-
-        if (engine.player.inv.currentAbility() != null ) {
-            float percentFull = engine.player.getPercentCooldown();
-            screen.fill(0, 100);
-            screen.noStroke();
-            screen.arc(invBuff + invX + (invSize + invBuff) + itemOffset + SPRITE_SIZE * invScale/2, invBuff + invY + itemOffset + SPRITE_SIZE * invScale/2, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale, -game.PI/2, 2 * game.PI * percentFull - game.PI/2, game.PIE);
-        }
-    }
-
     private void drawPortal() {
         Portal portal = engine.getClosestPortal();
         if (portal == null) {
@@ -383,176 +370,6 @@ public class GUI {
         screen.rect(invBuff, height - vh - invBuff, vw, vh);
         screen.image(map.get(sx, sy, (int)vw, (int)vh), invBuff, height - vh - invBuff, vw, vh);
         screen.image(over.get(sx, sy, (int)vw, (int)vh), invBuff, height - vh - invBuff, vw, vh);
-    }
-
-    private void renderInv() {
-
-        prevSelection = currSelection;
-        currSelection = game.mousePressed;
-
-        ItemBag itemBag = engine.getClosestBag();
-        Item[] items = engine.getClosestBagItems();
-
-        drawBack(items != null, items);
-
-        if (itemOver != -1 || b1 != -1) {
-            if (currSelection && !prevSelection) {
-                b1 = itemOver;
-                b1Type = menuType;
-            }
-            if (!currSelection && prevSelection) {
-                b2 = itemOver;
-                b2Type = menuType;
-                if (b1Type == active && b2Type == inv) { //----INV/ACTIVE
-                    engine.player.inv.swapItemsActive(b1, b2);
-                } else if (b2Type == active && b1Type == inv) {
-                    engine.player.inv.swapItemsActive(b2, b1);
-                } else if (b1Type == inv && b2Type == inv) {
-                    engine.player.inv.swapItemsInv(b1, b2);
-                } else if (b1Type == inv && b2Type == bag) { //----INV/BAG
-                    Item bagItem = itemBag.takeItem(b2);
-                    itemBag.addItem(engine.player.inv.addItemInv(bagItem, b1));
-                } else if (b1Type == bag && b2Type == inv) {
-                    Item bagItem = itemBag.takeItem(b1);
-                    itemBag.addItem(engine.player.inv.addItemInv(bagItem, b2));
-                } else if (b1Type == active && b2Type == bag) { //-----ACTIVE/BAG
-                    Item bagItem = itemBag.takeItem(b2);
-                    itemBag.addItem(engine.player.inv.addItemActive(bagItem, b1));
-                } else if (b1Type == bag && b2Type == active) {
-                    Item bagItem = itemBag.takeItem(b1);
-                    itemBag.addItem(engine.player.inv.addItemActive(bagItem, b2));
-                } else if (b1Type == active && b2Type == out && !inMenu) { //----ACTIVE/GROUND
-                    if (itemBag == null || itemBag.isFull()) {
-                        ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
-                        newBag.addItem(engine.player.inv.addItemActive(null, b1));
-                        engine.addDrop(newBag);
-                    } else {
-                        itemBag.addItem(engine.player.inv.addItemActive(null, b1));
-                    }
-                } else if (b1Type == inv && b2Type == out && !inMenu) { //----INV/GROUND
-                    if (itemBag == null || itemBag.isFull()) {
-                        ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
-                        newBag.addItem(engine.player.inv.addItemInv(null, b1));
-                        engine.addDrop(newBag);
-                    } else {
-                        itemBag.addItem(engine.player.inv.addItemInv(null, b1));
-                    }
-                }
-                b1 = -1;
-                b2 = -1;
-            }
-        } else {
-            if (!currSelection && prevSelection) {
-                b1 = -1;
-                b2 = -1;
-            }
-        }
-
-        for (int i = 0; i < engine.player.active().length; i++) {
-            if (engine.player.active()[i] != null) {
-                if (currSelection && b1Type == active && b1 == i) {
-                    screen.image(engine.player.active()[i].sprite, game.mouseX - invSize/2+ itemOffset, game.mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-                } else {
-                    screen.image(engine.player.active()[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-                }
-            }
-        }
-        int j = 0;
-        for (int i = 0; i < engine.player.inv().length; i++) {
-            j = (int)(i/Inventory.WIDTH);
-            if (engine.player.inv()[i] != null) {
-                if (currSelection && b1Type == inv && b1 == i) {
-                    screen.image(engine.player.inv()[i].sprite, game.mouseX - invSize/2 + itemOffset, game.mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-                } else {
-                    screen.image(engine.player.inv()[i].sprite, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-                }
-            }
-        }
-
-        if (items != null) {
-            for (int i = 0; i < items.length; i++) {
-                if (items[i] != null) {
-                    if (currSelection && b1Type == bag && b1 == i) {
-                        screen.image(items[i].sprite, game.mouseX - invSize/2 + itemOffset, game.mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-                    } else {
-                        screen.image(items[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, 3 * invBuff + invY + 4 * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
-                    }
-                }
-            }
-        }
-        if (inMenu && itemOver != -1 && mouseOverItem != null) {
-            mouseOver(game.mouseX, game.mouseY, mouseOverItem);
-        }
-    }
-
-    void drawBack(boolean showBag, Item[] items) {
-        menuType = out;
-        screen.fill(51);
-        if (showBag) {
-            screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, (Inventory.WIDTH + 1) * (invSize + invBuff) + invBuff * 3);
-        } else {
-            screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, Inventory.WIDTH * (invSize + invBuff) + invBuff * 2);
-        }
-
-        itemOver = -1;
-        for (int i = 0; i < engine.player.active().length; i++) {
-            screen.fill(150);
-            screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
-            if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
-                itemOver = i;
-                mouseOverItem = engine.player.active()[i];
-                menuType = active;
-            }
-        }
-        int j = 0;
-        for (int i = 0; i < engine.player.inv().length; i++) {
-            j = (int)(i/Inventory.WIDTH);
-            screen.fill(150);
-            screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
-            if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) {
-                itemOver = i;
-                mouseOverItem = engine.player.inv()[i];
-                menuType = inv;
-            }
-        }
-        if (showBag) {
-            for (int i = 0; i < engine.player.active().length; i++) {
-                screen.fill(150);
-                screen.rect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
-                if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
-                    itemOver = i;
-                    mouseOverItem = items[i];
-                    menuType = bag;
-                }
-            }
-        }
-    }
-
-    private void mouseOver(float x, float y, Item item) {
-
-        String desc = "";
-        String type = item.type;
-        if (type == "Weapon") {
-            int fireRate = (int)(60 / ((Weapon)item).fireRate);
-            desc += "Fire rate: " + fireRate + "\n";
-            desc += "Range: " + ((Weapon)item).range + "\n";
-            float accuracy = 1 - ((Weapon)item).accuracy;
-            desc += "Accuracy: " + accuracy + "\n";
-            desc += "Damage: " + ((Weapon)item).damage + "\n";
-        } else if (type == "Ability") {
-            desc += "Mana cost: " + ((Ability)item).manaCost + "\n";
-            desc += "Cooldown: " + ((Ability)item).cooldown + "s\n";
-        } else if (type == "Armour") {
-            desc += "Defence: " + ((Armour)item).defence + "\n";
-        } else if (type == "Scroll") {
-            desc += ((Scroll)item).description;
-        }
-        int mouseOverWidth = 3 * GUI_WIDTH/4;
-        WrappedText title = WrappedText.wrapText(item.name, mouseOverWidth - buff * 4, TILE_SIZE/2);
-        WrappedText subtitle = WrappedText.wrapText("Tier " + item.tier + " " + type, mouseOverWidth - buff * 4, TILE_SIZE/3);
-        WrappedText description = WrappedText.wrapText(desc, mouseOverWidth - buff * 4, TILE_SIZE/3);
-
-        drawMouseOverText(x, y, title, subtitle, description);
     }
 
     public void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {

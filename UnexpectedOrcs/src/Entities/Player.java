@@ -92,6 +92,7 @@ public class Player {
         move(delta, neighbours);
         updateBound();
 
+        inv.update(gui.invX, gui.invY);
         stats.update(delta);
     }
 
