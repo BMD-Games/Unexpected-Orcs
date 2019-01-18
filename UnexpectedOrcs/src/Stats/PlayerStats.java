@@ -125,19 +125,21 @@ public class PlayerStats extends Stats {
         screen.translate(x, y);
         screen.noStroke();
 
+
+        //Stat progress
         float attackFloat = engine.player.stats.calcStatValue(engine.player.stats.attackKills, engine.player.stats.baseAttack, 1, 0.1f);
         attackFloat = attackFloat % 1;
         screen.fill(150, 150, 150);
         screen.rect(0, 0, SPRITE_SIZE/2, SPRITE_SIZE * 2);
         screen.fill(statColours.get("ATTACK"));
-        screen.rect(0, SPRITE_SIZE * 2, 10, - SPRITE_SIZE * 2 * attackFloat);
+        screen.rect(0, SPRITE_SIZE * 2, SPRITE_SIZE/2, - SPRITE_SIZE * 2 * attackFloat);
 
         float defenceFloat = engine.player.stats.calcStatValue(engine.player.stats.defenceKills, engine.player.stats.baseDefence, 1, 0.1f);
         defenceFloat = defenceFloat % 1;
         screen.fill(150, 150, 150);
         screen.rect(TILE_SIZE * 3/2, 0, SPRITE_SIZE/2, SPRITE_SIZE * 2);
         screen.fill(statColours.get("DEFENCE"));
-        screen.rect(TILE_SIZE * 3/2, 0, SPRITE_SIZE/2, - SPRITE_SIZE * 2 * defenceFloat);
+        screen.rect(TILE_SIZE * 3/2, 0, SPRITE_SIZE/2, SPRITE_SIZE * 2 * defenceFloat);
 
         float vitalityFloat = engine.player.stats.calcStatValue(engine.player.stats.vitalityKills, engine.player.stats.baseVitality, 1, 0.1f);
         vitalityFloat = vitalityFloat % 1;

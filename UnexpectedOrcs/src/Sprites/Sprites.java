@@ -258,6 +258,7 @@ public class Sprites {
         guiSprites.put("EXIT", getSprite(sheet, 1, 1, 2, 1, guiSize));
         guiSprites.put("NEW", getSprite(sheet, 3, 1, 2, 1, guiSize));
         guiSprites.put("LOAD", getSprite(sheet, 5, 1, 2, 1, guiSize));
+        guiSprites.put("DELETE", getSprite(sheet, 7, 1, 1, 1, guiSize));
         guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2, guiSize));
         guiSprites.put("BAR", getSprite(sheet, 0, 4, 3, 1, guiSize));
         guiSprites.put("QUEST", getSprite(sheet, 0, 5, 1, 1, guiSize));
@@ -267,6 +268,7 @@ public class Sprites {
         guiSprites.put("SAVE1", getSprite(sheet, 5, 2, 1, 1, guiSize));
         guiSprites.put("SAVE2", getSprite(sheet, 6, 2, 1, 1, guiSize));
         guiSprites.put("SAVE3", getSprite(sheet, 7, 2, 1, 1, guiSize));
+        guiSprites.put("QUICK", getSprite(sheet, 3, 3, 2, 1, guiSize));
 
         //-----CHAR SPRITES-----
         PImage charsheet = app.loadImage("/assets/sprites/charsheet.png");

@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Scroll;
 
 import Utility.Util;
 import processing.core.PGraphics;

@@ -22,7 +22,7 @@ public class Inventory implements Serializable {
     private final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
     private boolean prevSelection = false, currSelection = false;
     private int b1Type, b2Type, menuType; // if inv box is in active or not
-    private int b1 = -1, b2 = -1, itemOver, ACTIVE = 0, INV = 1, bag = 2, out = 3;//inv box 1 and 2 for drag and swap
+    private int b1 = -1, b2 = -1, itemOver, ACTIVE = 0, INV = 1, BAG = 2, OUT = 3;//inv box 1 and 2 for drag and swap
     private Item mouseOverItem;
 
     public final static int WIDTH = 4;
@@ -118,41 +118,11 @@ public class Inventory implements Serializable {
         return (Scroll) active[3];
     }
 
-    public void update(float invX, float invY) {
+    public void update() {
         prevSelection = currSelection;
         currSelection = game.mousePressed;
 
         ItemBag itemBag = engine.getClosestBag();
-        Item[] items = engine.getClosestBagItems();
-
-        menuType = out;
-        itemOver = -1;
-
-        for (int i = 0; i < engine.player.active().length; i++) {
-           if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
-                itemOver = i;
-                mouseOverItem = engine.player.active()[i];
-                menuType = ACTIVE;
-            }
-        }
-        int j = 0;
-        for (int i = 0; i < engine.player.inv().length; i++) {
-            j = (int)(i/Inventory.WIDTH);
-            if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) {
-                itemOver = i;
-                mouseOverItem = engine.player.inv()[i];
-                menuType = INV;
-            }
-        }
-        if (items != null) {
-            for (int i = 0; i < engine.player.active().length; i++) {
-               if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
-                    itemOver = i;
-                    mouseOverItem = items[i];
-                    menuType = bag;
-                }
-            }
-        }
 
         if (itemOver != -1 || b1 != -1) {
             if (currSelection && !prevSelection) {
@@ -168,19 +138,19 @@ public class Inventory implements Serializable {
                     engine.player.inv.swapItemsActive(b2, b1);
                 } else if (b1Type == INV && b2Type == INV) {
                     engine.player.inv.swapItemsInv(b1, b2);
-                } else if (b1Type == INV && b2Type == bag) { //----INV/BAG
+                } else if (b1Type == INV && b2Type == BAG) { //----INV/BAG
                     Item bagItem = itemBag.takeItem(b2);
                     itemBag.addItem(engine.player.inv.addItemInv(bagItem, b1));
-                } else if (b1Type == bag && b2Type == INV) {
+                } else if (b1Type == BAG && b2Type == INV) {
                     Item bagItem = itemBag.takeItem(b1);
                     itemBag.addItem(engine.player.inv.addItemInv(bagItem, b2));
-                } else if (b1Type == ACTIVE && b2Type == bag) { //-----ACTIVE/BAG
+                } else if (b1Type == ACTIVE && b2Type == BAG) { //-----ACTIVE/BAG
                     Item bagItem = itemBag.takeItem(b2);
                     itemBag.addItem(engine.player.inv.addItemActive(bagItem, b1));
-                } else if (b1Type == bag && b2Type == ACTIVE) {
+                } else if (b1Type == BAG && b2Type == ACTIVE) {
                     Item bagItem = itemBag.takeItem(b1);
                     itemBag.addItem(engine.player.inv.addItemActive(bagItem, b2));
-                } else if (b1Type == ACTIVE && b2Type == out && !inMenu) { //----ACTIVE/GROUND
+                } else if (b1Type == ACTIVE && b2Type == OUT && !inMenu) { //----ACTIVE/GROUND
                     if (itemBag == null || itemBag.isFull()) {
                         ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
                         newBag.addItem(engine.player.inv.addItemActive(null, b1));
@@ -188,7 +158,7 @@ public class Inventory implements Serializable {
                     } else {
                         itemBag.addItem(engine.player.inv.addItemActive(null, b1));
                     }
-                } else if (b1Type == INV && b2Type == out && !inMenu) { //----INV/GROUND
+                } else if (b1Type == INV && b2Type == OUT && !inMenu) { //----INV/GROUND
                     if (itemBag == null || itemBag.isFull()) {
                         ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
                         newBag.addItem(engine.player.inv.addItemInv(null, b1));
@@ -210,7 +180,6 @@ public class Inventory implements Serializable {
 
     public void show(PGraphics screen, float invX, float invY) {
 
-        ItemBag itemBag = engine.getClosestBag();
         Item[] items = engine.getClosestBagItems();
 
         drawBack(screen,items != null, items, invX, invY);
@@ -239,7 +208,7 @@ public class Inventory implements Serializable {
         if (items != null) {
             for (int i = 0; i < items.length; i++) {
                 if (items[i] != null) {
-                    if (currSelection && b1Type == bag && b1 == i) {
+                    if (currSelection && b1Type == BAG && b1 == i) {
                         screen.image(items[i].sprite, game.mouseX - invSize/2 + itemOffset, game.mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
                     } else {
                         screen.image(items[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, 3 * invBuff + invY + 4 * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
@@ -247,13 +216,14 @@ public class Inventory implements Serializable {
                 }
             }
         }
-        if (inMenu && itemOver != -1 && mouseOverItem != null) {
+        if (itemOver != -1 && mouseOverItem != null) {
             mouseOverItem(game.mouseX, game.mouseY, mouseOverItem);
         }
     }
 
     private void drawBack(PGraphics screen, boolean showBag, Item[] items, float invX, float invY) {
 
+        menuType = OUT;
         screen.fill(51);
         if (showBag) {
             screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, (Inventory.WIDTH + 1) * (invSize + invBuff) + invBuff * 3);
@@ -261,20 +231,36 @@ public class Inventory implements Serializable {
             screen.rect(invX, invY, Inventory.WIDTH * (invSize + invBuff) + invBuff, Inventory.WIDTH * (invSize + invBuff) + invBuff * 2);
         }
 
+        itemOver = -1;
         for (int i = 0; i < engine.player.active().length; i++) {
             screen.fill(150);
             screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
+            if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
+                itemOver = i;
+                mouseOverItem = engine.player.active()[i];
+                menuType = ACTIVE;
+            }
         }
         int j = 0;
         for (int i = 0; i < engine.player.inv().length; i++) {
             j = (int)(i/Inventory.WIDTH);
             screen.fill(150);
             screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
+            if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) {
+                itemOver = i;
+                mouseOverItem = engine.player.inv()[i];
+                menuType = INV;
+            }
         }
         if (showBag) {
             for (int i = 0; i < engine.player.active().length; i++) {
                 screen.fill(150);
                 screen.rect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
+                if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
+                    itemOver = i;
+                    mouseOverItem = items[i];
+                    menuType = BAG;
+                }
             }
         }
     }

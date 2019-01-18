@@ -1,12 +1,13 @@
-package GUI;
+package GUI.Scroll;
 
+import GUI.GUI;
 import processing.core.PGraphics;
 
 import static Utility.Constants.*;
 
 public class ScrollElement {
 
-    String title, text;
+    public String title, text;
     int x, y, w, h;
     int buffer = 10;
 
@@ -22,9 +23,9 @@ public class ScrollElement {
         this.y = ypos;
         this.w = w;
 
-        screen.fill(150);
+        screen.fill(180);
         if (selected) {
-            screen.fill(180);
+            screen.fill(200);
         }
         screen.noStroke();
         screen.rect(xpos, ypos, w, h);

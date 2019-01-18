@@ -39,6 +39,10 @@ public class Game extends PApplet{
     public void setup() {
         frameRate(60);
 
+        surface.setTitle("Unexpected Orcs");
+        surface.setIcon(loadImage("/assets/sprites/icon.png"));
+
+
         Constants.setGame(this);
 
         setState("LOADING");
@@ -51,12 +55,6 @@ public class Game extends PApplet{
         textSize(TILE_SIZE);
 
         debugScreen = createGraphics(width, height);
-
-        //try {
-        //  engine.player = readStats("SUPERSS.txt");
-        //} catch (IOException ioe) {
-        //  println(ioe);
-        //}
     }
 
     public void draw() {
@@ -142,7 +140,6 @@ public class Game extends PApplet{
     }
 
     public void quitGame() {
-        //do all savey-stuff here
         GameFile.saveGame();
         exit();
     }
@@ -159,6 +156,7 @@ public class Game extends PApplet{
 
     public void load() {
         Sprites.loadAssets(this);
+
         loadStats();
         Settings.loadSettings();
 

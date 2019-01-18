@@ -2,18 +2,17 @@ package GUI;
 
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
-import Entities.Drops.ItemBag;
 import Entities.Drops.Portal;
-import Entities.Player;
 import File.GameFile;
-import Items.*;
+import GUI.Scroll.ScrollWindow;
+import Items.Inventory;
 import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
 import static Settings.Settings.*;
 import static Sprites.Sprites.*;
-import static Utility.Colour.*;
+import static Utility.Colour.colour;
 import static Utility.Constants.*;
 
 public class GUI {
@@ -21,7 +20,7 @@ public class GUI {
      This class is used for drawing and handeling all UI related screens and elements
      **/
 
-    private Button play, back, options, menu, exit, pause, newGame, load, save, play2, deleteSave;
+    private Button play, back, options, menu, exit, pause, newGame, load, save, play2, deleteSave, quick;
     private Button keyUp, keyDown, keyLeft, keyRight, keyAbility;
     private DisplayBar healthBar, manaBar;
     private Button enterPortal;
@@ -58,11 +57,11 @@ public class GUI {
         pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
         save = new Button(width/2 - TILE_SIZE, height/2, "SAVE");
         play2 = new Button(width/4 * 3, height/2 + TILE_SIZE * 3, "PLAY");
+        quick = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "QUICK");
         deleteSave = new Button(width/2 - TILE_SIZE * 0.5f, height/2, "SAVE2");
 
+
         //newGame = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "NEW");
-
-
 
         //-----Settings
         keyUp = new Button(width/2, height/2 - TILE_SIZE * 4, "BLANK_1x1");
@@ -240,7 +239,6 @@ public class GUI {
 
         screen.image(title, 0, 0, width, height);
         characterNaming = true;
-        back.show(screen);
         screen.fill(200, 200, 200);
         screen.rect(width/2 - TILE_SIZE * 2, height/2 - TILE_SIZE / 4 * 3, TILE_SIZE * 4, TILE_SIZE);
         screen.fill(50, 50, 50);
@@ -252,6 +250,8 @@ public class GUI {
             screen.text("A hero with that name already exists.", width/2, height/2 + TILE_SIZE);
         }
         play.show(screen);
+        quick.show(screen);
+        back.show(screen);
         screen.endDraw();
         game.image(screen, 0, 0);
     }
@@ -267,10 +267,10 @@ public class GUI {
         } else if ((game.STATE == "MENU" || game.STATE == "PAUSED") && options.pressed()) {
             game.setState("OPTIONS");
         } else if ((game.STATE == "MENU") && load.pressed()) {
+            loadScroll.scrollElements = GameFile.loadSaves();
             game.setState("LOAD");
         } else if (game.STATE == "PAUSED" && menu.pressed()) {
-            //SAVE GAME HERE!!!!
-            //saveGame();
+            GameFile.saveGame();
             game.setState("MENU");
         } else if (game.STATE == "PLAYING" && pause.pressed()) {
             game.setState("PAUSED");
@@ -289,6 +289,7 @@ public class GUI {
             game.setState("PAUSED");
         } else if (game.STATE == "LOAD" && play2.pressed()) {
             if (loadScroll.selectedElement != -1) {
+                guestMode = false;
                 engine.player = loadedPlayers[loadScroll.selectedElement];
                 loadedPlayerName = loadScroll.scrollElements[loadScroll.selectedElement].title;
                 game.setState("PLAYING");
@@ -299,10 +300,18 @@ public class GUI {
         } else if (game.STATE == "NEWGAME" && play.pressed()) {
             if (playerName.length() > 0 && !checkFileAlreadyExists(playerName)) {
                 loadedPlayerName = playerName;
+                guestMode = false;
                 GameFile.saveGame();
                 game.setState("PLAYING");
             }
+        } else if (game.STATE == "NEWGAME" && quick.pressed()) {
+            guestMode = true;
+            characterNaming = false;
+            loadedPlayerName = "GUEST";
+            game.setState("PLAYING");
         }
+
+
         //-----Settings Buttons
         else if (game.STATE == "OPTIONS") {
             if (keyUp.pressed()) {

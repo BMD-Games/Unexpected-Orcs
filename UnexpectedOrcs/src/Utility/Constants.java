@@ -40,6 +40,8 @@ public class Constants {
     public static String loadedPlayerName = "";
     public static Player[] loadedPlayers = new Player[0];
 
+    public static boolean guestMode = false;
+
     public static Engine engine;
     public static GUI gui;
     public static ItemFactory itemFactory = new ItemFactory();

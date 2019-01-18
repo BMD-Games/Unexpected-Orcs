@@ -6,7 +6,7 @@ import static Utility.Constants.game;
 
 public class Button extends HUDElement {
 
-    Button(float x, float y, String spriteName) {
+    public Button(float x, float y, String spriteName) {
         super(x, y, spriteName);
     }
 

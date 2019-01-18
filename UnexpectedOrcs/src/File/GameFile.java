@@ -2,7 +2,8 @@ package File;
 
 
 import Entities.Player;
-import GUI.ScrollElement;
+import GUI.Scroll.PlayerDisplayElement;
+import GUI.Scroll.ScrollElement;
 import Items.Inventory;
 
 import java.io.*;
@@ -22,7 +23,7 @@ public class GameFile {
 
 
     public static void saveGame() {
-        if (loadedPlayerName != null && loadedPlayerName != "") {
+        if (!guestMode && loadedPlayerName != null && loadedPlayerName != "") {
             saveStats(loadedPlayerName);
             saveInventory(loadedPlayerName);
         }
@@ -128,7 +129,7 @@ public class GameFile {
             try {
                 game.println(listOfFiles[i]);
                 loadedPlayers[i] = readStats(listOfFiles[i]);
-                scrollElements[i] = new ScrollElement(listOfFiles[i], loadedPlayers[i].stats.toString(), 200);
+                scrollElements[i] = new PlayerDisplayElement(listOfFiles[i], loadedPlayers[i].stats, loadedPlayers[i].inv);
             }
             catch (Exception ioe) {
                 ioe.printStackTrace();
