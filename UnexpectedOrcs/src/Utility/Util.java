@@ -3,6 +3,9 @@ package Utility;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+import java.io.File;
+import java.io.IOException;
+
 import static Utility.Constants.*;
 import static Utility.Colour.*;
 import static processing.core.PApplet.*;
@@ -173,5 +176,28 @@ public class Util {
 
     public static String capFirstLetter(String word) {
         return word.substring(0,1).toUpperCase() + word.substring(1);
+    }
+
+    public static void deleteFile(File file) {
+        //cannot delete non-empty folders -> need to use recursion
+        if(file.isDirectory()) {
+            //directory is empty, then delete it
+            if(file.list().length==0) {
+                file.delete();
+                //System.out.println("Directory is deleted : " + file.getAbsolutePath());
+            } else {
+                while (file.list().length != 0) {
+                    File fileDelete = new File(file, file.list()[0]);
+                    deleteFile(fileDelete);
+                }
+                file.delete();
+                //System.out.println("Directory is deleted : " + file.getAbsolutePath());
+
+            }
+
+        } else {
+            file.delete();
+            //System.out.println("File is deleted : " + file.getAbsolutePath());
+        }
     }
 }

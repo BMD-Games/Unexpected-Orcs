@@ -11,7 +11,6 @@ import processing.core.PGraphics;
 import processing.event.MouseEvent;
 
 import static Settings.Settings.*;
-import static Utility.Colour.colour;
 import static Utility.Constants.*;
 
 public class Game extends PApplet{
@@ -58,6 +57,7 @@ public class Game extends PApplet{
     }
 
     public void draw() {
+        updateMouse();
         switch(STATE) {
             case "LOADING":
                 drawLoading();
@@ -174,6 +174,19 @@ public class Game extends PApplet{
         textAlign(game.CENTER, game.CENTER);
         text("Loading", width/2, height/2);
         text(loadMessage, width/2, height/2 + TILE_SIZE);
+    }
+
+    public void updateMouse() {
+        if(mousePressed) {
+            mouseDownCount ++;
+            mouseUpCount = 0;
+        } else {
+            mouseUpCount ++;
+            mouseDownCount = 0;
+        }
+
+        mouseReleased = mouseUpCount < mouseCountThreshold && !mousePressed;
+        mouseClicked = mouseDownCount < mouseCountThreshold && mousePressed;
     }
 
     public void loadClosestPortal() {

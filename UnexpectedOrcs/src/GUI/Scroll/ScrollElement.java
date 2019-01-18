@@ -3,6 +3,7 @@ package GUI.Scroll;
 import GUI.GUI;
 import processing.core.PGraphics;
 
+import static Sprites.Sprites.*;
 import static Utility.Constants.*;
 
 public class ScrollElement {
@@ -40,6 +41,9 @@ public class ScrollElement {
             screen.stroke(200);
             screen.noFill();
             screen.rect(x, y, w, h);
+            screen.image(guiSprites.get("TICK"), x + w - TILE_SIZE/2 - gui.buff, y + gui.buff, TILE_SIZE/2, TILE_SIZE/2);
+        } else {
+            screen.image(guiSprites.get("BLANK_1x1"), x + w - TILE_SIZE/2 - gui.buff, y + gui.buff, TILE_SIZE/2, TILE_SIZE/2);
         }
         screen.strokeWeight(1);
     }

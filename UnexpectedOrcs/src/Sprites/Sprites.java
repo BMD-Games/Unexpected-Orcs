@@ -269,6 +269,9 @@ public class Sprites {
         guiSprites.put("SAVE2", getSprite(sheet, 6, 2, 1, 1, guiSize));
         guiSprites.put("SAVE3", getSprite(sheet, 7, 2, 1, 1, guiSize));
         guiSprites.put("QUICK", getSprite(sheet, 3, 3, 2, 1, guiSize));
+        guiSprites.put("YES", getSprite(sheet, 3, 4, 2, 1, guiSize));
+        guiSprites.put("NO", getSprite(sheet, 5, 3, 2, 1, guiSize));
+        guiSprites.put("TICK", getSprite(sheet, 7, 3, 1, 1, guiSize));
 
         //-----CHAR SPRITES-----
         PImage charsheet = app.loadImage("/assets/sprites/charsheet.png");

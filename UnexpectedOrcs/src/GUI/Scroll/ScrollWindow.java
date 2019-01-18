@@ -37,6 +37,11 @@ public class ScrollWindow {
     }
 
 
+    public void setScrollElements(ScrollElement[] elements) {
+        this.scrollElements = elements;
+        calcMaxHeight();
+    }
+
 
     public void show(PGraphics screen) {
 
@@ -103,7 +108,7 @@ public class ScrollWindow {
 
             for (int i = 0; i < scrollElements.length; i++) {
                 ScrollElement selected = scrollElements[i];
-                if (Util.pointInBox(game.mouseX, game.mouseY, selected.x, selected.y, selected.w, selected.h)) {
+                if (!gui.showConfirmation && Util.pointInBox(game.mouseX, game.mouseY, selected.x, selected.y, selected.w, selected.h)) {
                     selectedElement = i;
                     break;
                 }

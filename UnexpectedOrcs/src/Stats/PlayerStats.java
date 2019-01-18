@@ -139,7 +139,7 @@ public class PlayerStats extends Stats {
         screen.fill(150, 150, 150);
         screen.rect(TILE_SIZE * 3/2, 0, SPRITE_SIZE/2, SPRITE_SIZE * 2);
         screen.fill(statColours.get("DEFENCE"));
-        screen.rect(TILE_SIZE * 3/2, 0, SPRITE_SIZE/2, SPRITE_SIZE * 2 * defenceFloat);
+        screen.rect(TILE_SIZE * 3/2, SPRITE_SIZE * 2, SPRITE_SIZE/2, -SPRITE_SIZE * 2 * defenceFloat);
 
         float vitalityFloat = engine.player.stats.calcStatValue(engine.player.stats.vitalityKills, engine.player.stats.baseVitality, 1, 0.1f);
         vitalityFloat = vitalityFloat % 1;

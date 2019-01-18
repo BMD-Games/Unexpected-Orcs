@@ -19,8 +19,16 @@ public class HUDElement {
         this.spriteName = spriteName;
     }
 
+    HUDElement(float x, float y, float w, float h, String spriteName) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.spriteName = spriteName;
+    }
+
     public void show(PGraphics screen) {
         PImage sprite = guiSprites.get(spriteName);
-        screen.image(sprite, x, y, sprite.width * SCALE, sprite.height * SCALE);
+        screen.image(sprite, x, y, w, h);
     }
 }

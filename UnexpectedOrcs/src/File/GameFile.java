@@ -5,6 +5,7 @@ import Entities.Player;
 import GUI.Scroll.PlayerDisplayElement;
 import GUI.Scroll.ScrollElement;
 import Items.Inventory;
+import Utility.Util;
 
 import java.io.*;
 import java.util.HashMap;
@@ -137,6 +138,11 @@ public class GameFile {
         }
 
         return scrollElements;
+    }
+
+    public static void deleteSave(String saveName) {
+        game.println("delete file: " + saveName);
+        Util.deleteFile(new File(game.sketchPath() + "/saves/" + saveName));
     }
 
     public static HashMap<Integer, Integer> makeHashmap(BufferedReader reader) {

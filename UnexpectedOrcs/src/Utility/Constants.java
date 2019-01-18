@@ -24,7 +24,9 @@ public class Constants {
     public final static int SPRITE_SIZE = 16;
     public final static int SCALE = TILE_SIZE/SPRITE_SIZE;
 
+    //keeps track of buttons being pressed
     public static int[] keys = {0, 0, 0, 0, 0};
+
     public static float miniMapZoom = 1;
     public static float zoomMax = 5;
     public static float zoomMin = 1;
@@ -34,6 +36,7 @@ public class Constants {
 
     public static PFont bitcell;
 
+    //movements
     public final static int up = 0, down = 1, left = 2, right = 3, ability = 4, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
 
     public static String loadMessage = "Litty";
@@ -48,6 +51,12 @@ public class Constants {
 
     public static HashMap<String, Boolean> STATUSES = new HashMap<String, Boolean>();
     public static HashMap<String, Integer> statColours = new HashMap<String, Integer>();
+
+    //Return values for pop-up windows
+    public static int OPEN = 0, CONFIRM = 1, CANCEL = 2;
+
+    //List of available stats, used to confirm genuine status effects
+    String[] stats = {"HEALTH", "MANA", "SPEED", "WISDOM", "DEFENCE", "ATTACK"};
 
     public static void loadStats() {
         STATUSES.put("SICK", true);
@@ -72,8 +81,6 @@ public class Constants {
         statColours.put("VITALITY", colour(255, 105, 180));
     }
 
-    String[] stats = {"HEALTH", "MANA", "SPEED", "WISDOM", "DEFENCE", "ATTACK"};
-
     public static void setGame(Game g) {
         game = g;
     }
@@ -86,6 +93,7 @@ public class Constants {
         gui = g;
     }
 
-
+    public static boolean mouseReleased = false, mouseClicked = false;
+    public static int mouseDownCount = 0, mouseUpCount = 0, mouseCountThreshold = 10;
 
 }

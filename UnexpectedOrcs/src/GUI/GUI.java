@@ -4,6 +4,9 @@ import Enemies.Enemy;
 import Enemies.StandardEnemy;
 import Entities.Drops.Portal;
 import File.GameFile;
+import GUI.PopUp.ConfirmDelete;
+import GUI.PopUp.ConfirmationCallback;
+import GUI.Scroll.ScrollElement;
 import GUI.Scroll.ScrollWindow;
 import Items.Inventory;
 import Utility.Util;
@@ -29,7 +32,10 @@ public class GUI {
     private int c = 100;
     private String playerName = "";
 
-    public ScrollWindow loadScroll = new ScrollWindow(width/8, height/4, width/4 * 3, height/2, GameFile.loadSaves());
+    public boolean showConfirmation = false;
+    private ConfirmDelete deleteChar;
+
+    public ScrollWindow loadScroll = new ScrollWindow(width/8, height/4, width/4 * 3, height/2, new ScrollElement[0]);
 
     //Stat sprites
     private PImage attackSprite = itemSprites.get("ATTACK_ICON");
@@ -58,7 +64,7 @@ public class GUI {
         save = new Button(width/2 - TILE_SIZE, height/2, "SAVE");
         play2 = new Button(width/4 * 3, height/2 + TILE_SIZE * 3, "PLAY");
         quick = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "QUICK");
-        deleteSave = new Button(width/2 - TILE_SIZE * 0.5f, height/2, "SAVE2");
+        deleteSave = new Button(width/4 - TILE_SIZE/2, height/2 + TILE_SIZE * 3, "DELETE");
 
 
         //newGame = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "NEW");
@@ -75,11 +81,20 @@ public class GUI {
         manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, 2 * TILE_SIZE/2, colour(153, 217, 234));
         enterPortal = new Button(GUI_WIDTH/2 - TILE_SIZE, 14 * TILE_SIZE/2, "BLANK_2x1");
 
+        ConfirmationCallback confirm = (name) -> { gui.showConfirmation = false; GameFile.deleteSave((String)name[0]); loadScroll.setScrollElements(GameFile.loadSaves()); };
+        ConfirmationCallback cancel = name -> { gui.showConfirmation = false; };
+        deleteChar = new ConfirmDelete("Delete", "This will permenantly delete your character. You will not be able to get it back."
+                , width/4, height/4, width/2, height/2, confirm, cancel, null);
+
         screen = game.createGraphics(width, height);
         screen.beginDraw();
         screen.noSmooth();
         screen.textFont(bitcell);
         screen.endDraw();
+    }
+
+    public void test(Object... obj) {
+
     }
 
     public void clearScreen() {
@@ -216,21 +231,19 @@ public class GUI {
         loadScroll.show(screen);
         back.show(screen);
         play2.show(screen);
+        deleteSave.show(screen);
+
+        if(showConfirmation) {
+            if(loadScroll.selectedElement != -1) {
+                Object[] params = {loadScroll.scrollElements[loadScroll.selectedElement].title};
+                deleteChar.title = "Delete \"" + params[0] + "\"";
+                deleteChar.setParams(params);
+            }
+            deleteChar.display(screen);
+        }
 
         screen.endDraw();
         game.image(screen, 0, 0);
-
-    /*
-    screen.beginDraw();
-     clearScreen();
-     println("here");
-     loadScroll.show(screen);
-     screen.fill(255, 0, 0);
-     screen.rect(100, 100, 100, 100);
-
-     screen.endDraw();
-     image(screen, 0, 0);
-     */
     }
 
     public void drawNewGame() {
@@ -267,7 +280,7 @@ public class GUI {
         } else if ((game.STATE == "MENU" || game.STATE == "PAUSED") && options.pressed()) {
             game.setState("OPTIONS");
         } else if ((game.STATE == "MENU") && load.pressed()) {
-            loadScroll.scrollElements = GameFile.loadSaves();
+            loadScroll.setScrollElements(GameFile.loadSaves());
             game.setState("LOAD");
         } else if (game.STATE == "PAUSED" && menu.pressed()) {
             GameFile.saveGame();
@@ -293,6 +306,10 @@ public class GUI {
                 engine.player = loadedPlayers[loadScroll.selectedElement];
                 loadedPlayerName = loadScroll.scrollElements[loadScroll.selectedElement].title;
                 game.setState("PLAYING");
+            }
+        } else if (game.STATE == "LOAD" && deleteSave.pressed()) {
+            if (loadScroll.selectedElement != -1) {
+               showConfirmation = true;
             }
         } else if (game.STATE == "NEWGAME" && back.pressed()) {
             game.setState("MENU");
