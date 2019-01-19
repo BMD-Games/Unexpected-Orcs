@@ -133,38 +133,38 @@ public class Inventory implements Serializable {
                 b2 = itemOver;
                 b2Type = menuType;
                 if (b1Type == ACTIVE && b2Type == INV) { //----INV/ACTIVE
-                    engine.player.inv.swapItemsActive(b1, b2);
+                    swapItemsActive(b1, b2);
                 } else if (b2Type == ACTIVE && b1Type == INV) {
-                    engine.player.inv.swapItemsActive(b2, b1);
+                    swapItemsActive(b2, b1);
                 } else if (b1Type == INV && b2Type == INV) {
-                    engine.player.inv.swapItemsInv(b1, b2);
+                    swapItemsInv(b1, b2);
                 } else if (b1Type == INV && b2Type == BAG) { //----INV/BAG
                     Item bagItem = itemBag.takeItem(b2);
-                    itemBag.addItem(engine.player.inv.addItemInv(bagItem, b1));
+                    itemBag.addItem(addItemInv(bagItem, b1));
                 } else if (b1Type == BAG && b2Type == INV) {
                     Item bagItem = itemBag.takeItem(b1);
-                    itemBag.addItem(engine.player.inv.addItemInv(bagItem, b2));
+                    itemBag.addItem(addItemInv(bagItem, b2));
                 } else if (b1Type == ACTIVE && b2Type == BAG) { //-----ACTIVE/BAG
                     Item bagItem = itemBag.takeItem(b2);
-                    itemBag.addItem(engine.player.inv.addItemActive(bagItem, b1));
+                    itemBag.addItem(addItemActive(bagItem, b1));
                 } else if (b1Type == BAG && b2Type == ACTIVE) {
                     Item bagItem = itemBag.takeItem(b1);
-                    itemBag.addItem(engine.player.inv.addItemActive(bagItem, b2));
+                    itemBag.addItem(addItemActive(bagItem, b2));
                 } else if (b1Type == ACTIVE && b2Type == OUT && !inMenu) { //----ACTIVE/GROUND
                     if (itemBag == null || itemBag.isFull()) {
                         ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
-                        newBag.addItem(engine.player.inv.addItemActive(null, b1));
+                        newBag.addItem(addItemActive(null, b1));
                         engine.addDrop(newBag);
                     } else {
-                        itemBag.addItem(engine.player.inv.addItemActive(null, b1));
+                        itemBag.addItem(addItemActive(null, b1));
                     }
                 } else if (b1Type == INV && b2Type == OUT && !inMenu) { //----INV/GROUND
                     if (itemBag == null || itemBag.isFull()) {
                         ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
-                        newBag.addItem(engine.player.inv.addItemInv(null, b1));
+                        newBag.addItem(addItemInv(null, b1));
                         engine.addDrop(newBag);
                     } else {
-                        itemBag.addItem(engine.player.inv.addItemInv(null, b1));
+                        itemBag.addItem(addItemInv(null, b1));
                     }
                 }
                 b1 = -1;
@@ -184,23 +184,23 @@ public class Inventory implements Serializable {
 
         drawBack(screen,items != null, items, invX, invY);
 
-        for (int i = 0; i < engine.player.active().length; i++) {
-            if (engine.player.active()[i] != null) {
+        for (int i = 0; i < active().length; i++) {
+            if (active()[i] != null) {
                 if (currSelection && b1Type == ACTIVE && b1 == i) {
-                    screen.image(engine.player.active()[i].sprite, game.mouseX - invSize/2+ itemOffset, game.mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                    screen.image(active()[i].sprite, game.mouseX - invSize/2+ itemOffset, game.mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
                 } else {
-                    screen.image(engine.player.active()[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                    screen.image(active()[i].sprite, invBuff + invX + i * (invSize + invBuff) + itemOffset, invBuff + invY+ itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
                 }
             }
         }
         int j = 0;
-        for (int i = 0; i < engine.player.inv().length; i++) {
+        for (int i = 0; i < inv().length; i++) {
             j = (int)(i/Inventory.WIDTH);
-            if (engine.player.inv()[i] != null) {
+            if (inv()[i] != null) {
                 if (currSelection && b1Type == INV && b1 == i) {
-                    screen.image(engine.player.inv()[i].sprite, game.mouseX - invSize/2 + itemOffset, game.mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                    screen.image(inv()[i].sprite, game.mouseX - invSize/2 + itemOffset, game.mouseY - invSize/2 + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
                 } else {
-                    screen.image(engine.player.inv()[i].sprite, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
+                    screen.image(inv()[i].sprite, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff) + itemOffset, 3 * invBuff + invSize + invY + j * (invSize + invBuff) + itemOffset, SPRITE_SIZE * invScale, SPRITE_SIZE * invScale);
                 }
             }
         }
@@ -232,28 +232,28 @@ public class Inventory implements Serializable {
         }
 
         itemOver = -1;
-        for (int i = 0; i < engine.player.active().length; i++) {
+        for (int i = 0; i < active().length; i++) {
             screen.fill(150);
             screen.rect(invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize);
             if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + i * (invSize + invBuff), invBuff + invY, invSize, invSize)) {
                 itemOver = i;
-                mouseOverItem = engine.player.active()[i];
+                mouseOverItem = active()[i];
                 menuType = ACTIVE;
             }
         }
         int j = 0;
-        for (int i = 0; i < engine.player.inv().length; i++) {
+        for (int i = 0; i < inv().length; i++) {
             j = (int)(i/Inventory.WIDTH);
             screen.fill(150);
             screen.rect(invBuff + invX + (i%4) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize);
             if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + (i%Inventory.WIDTH) * (invSize + invBuff), 3 * invBuff + invSize + invY + j * (invSize + invBuff), invSize, invSize)) {
                 itemOver = i;
-                mouseOverItem = engine.player.inv()[i];
+                mouseOverItem = inv()[i];
                 menuType = INV;
             }
         }
         if (showBag) {
-            for (int i = 0; i < engine.player.active().length; i++) {
+            for (int i = 0; i < active().length; i++) {
                 screen.fill(150);
                 screen.rect(invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize);
                 if (Util.pointInBox(game.mouseX, game.mouseY, invBuff + invX + i * (invSize + invBuff), 3 * invBuff + invY + 4 * (invSize + invBuff), invSize, invSize)) {
@@ -294,7 +294,7 @@ public class Inventory implements Serializable {
 
     public void drawCooldown(PGraphics screen, float invX, float invY) {
 
-        if (engine.player.inv.currentAbility() != null ) {
+        if (currentAbility() != null ) {
             float percentFull = engine.player.getPercentCooldown();
             screen.fill(0, 100);
             screen.noStroke();

@@ -128,7 +128,7 @@ public class GameFile {
 
         for (int i = 0; i < listOfFiles.length; i++) {
             try {
-                game.println(listOfFiles[i]);
+                //game.println(listOfFiles[i]);
                 loadedPlayers[i] = readStats(listOfFiles[i]);
                 scrollElements[i] = new PlayerDisplayElement(listOfFiles[i], loadedPlayers[i].stats, loadedPlayers[i].inv);
             }

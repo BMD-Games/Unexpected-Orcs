@@ -29,9 +29,9 @@ public class PlayerStats extends Stats {
     private int totalKills = 0;
 
     public PlayerStats() {
+        calcAllStats();
         health = baseHealth;
         mana = baseMana;
-        calcAllStats();
     }
 
     public void addKill() {
@@ -127,28 +127,28 @@ public class PlayerStats extends Stats {
 
 
         //Stat progress
-        float attackFloat = engine.player.stats.calcStatValue(engine.player.stats.attackKills, engine.player.stats.baseAttack, 1, 0.1f);
+        float attackFloat = calcStatValue(attackKills, baseAttack, 1, 0.1f);
         attackFloat = attackFloat % 1;
         screen.fill(150, 150, 150);
         screen.rect(0, 0, SPRITE_SIZE/2, SPRITE_SIZE * 2);
         screen.fill(statColours.get("ATTACK"));
         screen.rect(0, SPRITE_SIZE * 2, SPRITE_SIZE/2, - SPRITE_SIZE * 2 * attackFloat);
 
-        float defenceFloat = engine.player.stats.calcStatValue(engine.player.stats.defenceKills, engine.player.stats.baseDefence, 1, 0.1f);
+        float defenceFloat = calcStatValue(defenceKills, baseDefence, 1, 0.1f);
         defenceFloat = defenceFloat % 1;
         screen.fill(150, 150, 150);
         screen.rect(TILE_SIZE * 3/2, 0, SPRITE_SIZE/2, SPRITE_SIZE * 2);
         screen.fill(statColours.get("DEFENCE"));
         screen.rect(TILE_SIZE * 3/2, SPRITE_SIZE * 2, SPRITE_SIZE/2, -SPRITE_SIZE * 2 * defenceFloat);
 
-        float vitalityFloat = engine.player.stats.calcStatValue(engine.player.stats.vitalityKills, engine.player.stats.baseVitality, 1, 0.1f);
+        float vitalityFloat = calcStatValue(vitalityKills, baseVitality, 1, 0.1f);
         vitalityFloat = vitalityFloat % 1;
         screen.fill(150, 150, 150);
         screen.rect(0, gui.buff + TILE_SIZE/2, SPRITE_SIZE/2, SPRITE_SIZE * 2);
         screen.fill(statColours.get("VITALITY"));
         screen.rect(0, gui.buff + TILE_SIZE/2 + SPRITE_SIZE * 2, SPRITE_SIZE/2, - SPRITE_SIZE * 2 * vitalityFloat);
 
-        float wisdomFloat = engine.player.stats.calcStatValue(engine.player.stats.wisdomKills, engine.player.stats.baseWisdom, 1, 0.1f);
+        float wisdomFloat = calcStatValue(wisdomKills, baseWisdom, 1, 0.1f);
         wisdomFloat = wisdomFloat % 1;
         screen.fill(150, 150, 150);
         screen.rect(TILE_SIZE * 3/2, gui.buff + TILE_SIZE/2, SPRITE_SIZE/2, SPRITE_SIZE * 2);
@@ -160,11 +160,11 @@ public class PlayerStats extends Stats {
         screen.fill(30);
 
         //Draw stat values
-        screen.text(engine.player.stats.attack, TILE_SIZE, SPRITE_SIZE * 3/2);
-        screen.text(engine.player.stats.defence, TILE_SIZE * 5/2, SPRITE_SIZE * 3/2);
-        screen.text(engine.player.stats.vitality, TILE_SIZE, gui.buff + SPRITE_SIZE * 3/2 + TILE_SIZE/2);
-        screen.text(engine.player.stats.wisdom, TILE_SIZE * 5/2, gui.buff + SPRITE_SIZE * 3/2 + TILE_SIZE/2);
-        screen.text((int)(engine.player.stats.speed * 100), TILE_SIZE, 2 * gui.buff + SPRITE_SIZE * 3/2 + TILE_SIZE);
+        screen.text(attack, TILE_SIZE, SPRITE_SIZE * 3/2);
+        screen.text(defence, TILE_SIZE * 5/2, SPRITE_SIZE * 3/2);
+        screen.text(vitality, TILE_SIZE, gui.buff + SPRITE_SIZE * 3/2 + TILE_SIZE/2);
+        screen.text(wisdom, TILE_SIZE * 5/2, gui.buff + SPRITE_SIZE * 3/2 + TILE_SIZE/2);
+        screen.text((int)(speed * 100), TILE_SIZE, 2 * gui.buff + SPRITE_SIZE * 3/2 + TILE_SIZE);
 
         //Draw stat sprites
         screen.image(attackSprite, TILE_SIZE/2 - gui.buff * 2, 0, attackSprite.width * 2, attackSprite.height * 2);
@@ -190,23 +190,23 @@ public class PlayerStats extends Stats {
 
         if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // attack sprite hover
             statName = "Attack";
-            type = String.valueOf(engine.player.stats.getAttack());
+            type = String.valueOf(getAttack());
             desc = "Increases Damage dealt by player projectiles";
         } else if (Util.pointInBox(x, y, TILE_SIZE * 2 - gui.buff * 2 + tx, ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // defence sprite hover
             statName = "Defence";
-            type = String.valueOf(engine.player.stats.getDefence());
+            type = String.valueOf(getDefence());
             desc = "Decreases damage taken from enemies";
         } else if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, gui.buff + TILE_SIZE / 2 + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // vitality hover
             statName = "Vitality";
-            type = String.valueOf(engine.player.stats.getVitality());
+            type = String.valueOf(getVitality());
             desc = "Increases health regeneration rate";
         } else if (Util.pointInBox(x, y, TILE_SIZE * 2 - gui.buff * 2 + tx, gui.buff + TILE_SIZE / 2 + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // wisdom hover
             statName = "Wisdom";
-            type = String.valueOf(engine.player.stats.getVitality());
+            type = String.valueOf(getVitality());
             desc = "Increases mana regeneration rate";
         } else if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, 2 * gui.buff + TILE_SIZE + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // speed hover
             statName = "Speed";
-            type = String.valueOf((int)(engine.player.stats.speed * 100));
+            type = String.valueOf((int)(speed * 100));
             desc = "Increases player speed";
         }
 
