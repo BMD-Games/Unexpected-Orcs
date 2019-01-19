@@ -1,10 +1,11 @@
 package Stats;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import static Utility.Constants.*;
 
-public class Stats {
+public class Stats implements Serializable {
     public int healthMax = 0, manaMax = 0;
     public float mana = 0, health = 0;
 

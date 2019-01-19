@@ -110,7 +110,7 @@ public class Player {
         screen.popMatrix();
     }
 
-    private void updateBound() {
+    public void updateBound() {
         bound.x = x - bound.w/2;
         bound.y = y - bound.h/2;
     }

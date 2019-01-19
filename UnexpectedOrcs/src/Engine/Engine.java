@@ -158,6 +158,7 @@ public class Engine {
         this.player = player;
         this.player.x = currentLevel.start.x + 0.5f;
         this.player.y = currentLevel.start.y + 0.5f;
+        this.player.updateBound();
     }
 
     private void updateProjectiles(double delta) {
