@@ -45,7 +45,7 @@ public class PopUpWindow {
 
         close.show(screen);
 
-        if(close.pressed()) {
+        if(close.pressed() && mouseReleased) {
             return CANCEL;
         }
 

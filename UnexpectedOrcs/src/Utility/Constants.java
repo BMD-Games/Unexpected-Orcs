@@ -6,6 +6,7 @@ import GUI.GUI;
 import Items.ItemFactory;
 import App.Game;
 import processing.core.PFont;
+import processing.core.PImage;
 
 import java.util.HashMap;
 
@@ -42,6 +43,8 @@ public class Constants {
     public static String loadMessage = "Litty";
     public static String loadedPlayerName = "";
     public static Player[] loadedPlayers = new Player[0];
+
+    public static boolean showConfirmation = false;
 
     public static boolean guestMode = false;
 

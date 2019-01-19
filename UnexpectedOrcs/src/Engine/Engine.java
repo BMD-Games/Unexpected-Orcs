@@ -132,7 +132,8 @@ public class Engine {
                 weapon.playSound();
 
                 ArrayList<Pair> projectileStats = weapon.statusEffects == null ? new ArrayList<Pair>() : weapon.statusEffects;
-                projectileStats.addAll(engine.player.inv.currentScroll().statusEffects);
+                if(player.currentScroll() != null);
+                projectileStats.addAll(engine.player.currentScroll().statusEffects);
 
                 for (int i = 0; i < weapon.numBullets; i++) {
                     playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + game.random(-weapon.accuracy, weapon.accuracy)),
@@ -151,6 +152,12 @@ public class Engine {
     private void showCamera() {
         game.fill(0, 0, 255);
         game.ellipse(camera.x * TILE_SIZE - getRenderOffset().x, camera.y * TILE_SIZE - getRenderOffset().y, 5, 5);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.player.x = currentLevel.start.x + 0.5f;
+        this.player.y = currentLevel.start.y + 0.5f;
     }
 
     private void updateProjectiles(double delta) {
@@ -295,10 +302,9 @@ public class Engine {
         game.thread("loadClosestPortal");
     }
 
-    public static PVector screenToTileCoords(float x, float y) {
-        x -= GUI_WIDTH; //remove gui offset
-        PVector renderOff = engine.getRenderOffset();
-        return new PVector((x + renderOff.x)/TILE_SIZE, (y + renderOff.y)/TILE_SIZE);
+    public void reset() {
+        clearDrops();
+        currentLevel = new Cave();
     }
 
     public static float screenToTileCoordX(float x) {

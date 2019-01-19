@@ -371,8 +371,10 @@ public class Level {
     }
 
     public void addEnemy(StandardEnemy enemy) {
-        if(enemies[getChunk((int)enemy.x, (int)enemy.y)] == null) enemies[getChunk((int)enemy.x, (int)enemy.y)] = new ArrayList<Enemy>();
-        enemies[getChunk((int)enemy.x, (int)enemy.y)].add(enemy);
+        int chunk = getChunk((int)enemy.x, (int)enemy.y);
+        if(chunk == -1) return;
+        if(enemies[chunk] == null) enemies[chunk] = new ArrayList<Enemy>();
+        enemies[chunk].add(enemy);
     }
 
     public ArrayList<Integer> getChunks(int x, int y) {
@@ -389,7 +391,13 @@ public class Level {
     }
 
     public int getChunk(int x, int y) {
-        return (x/CHUNK_SIZE) + (y/CHUNK_SIZE) * CHUNK_W;
+        int chunk = (x/CHUNK_SIZE) + (y/CHUNK_SIZE) * CHUNK_W;
+
+        if(chunk >= enemies.length) {
+            return -1;
+        }
+
+        return chunk;
     }
 
     public PVector getChunkPos(int x, int y) {

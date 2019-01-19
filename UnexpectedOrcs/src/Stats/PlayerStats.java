@@ -5,12 +5,13 @@ import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class PlayerStats extends Stats {
+public class PlayerStats extends Stats implements Serializable {
 
     //-----KEEP TRACK OF KILLS AND TIERS----
     public HashMap<Integer, Integer> healthKills = new HashMap<Integer, Integer>();

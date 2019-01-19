@@ -34,6 +34,12 @@ public class Player {
         bound = new AABB(x, y, w, h);
     }
 
+    public Player() {
+        this.x = 0; //in tile space, not screen space;
+        this.y = 0;
+        bound = new AABB(x, y, w, h);
+    }
+
     public void move(double delta, int[] neighbours) {
         PVector movement = new PVector(getDX(delta, neighbours), getDY(delta, neighbours));
         movement.normalize();
@@ -160,6 +166,7 @@ public class Player {
     public  Armour currentArmour() {
         return inv.currentArmour();
     }
+    public Scroll currentScroll() { return inv.currentScroll(); }
 
     public Item[] active() {
         return inv.active();

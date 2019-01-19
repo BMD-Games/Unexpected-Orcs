@@ -11,7 +11,7 @@ public class DisplayBar {
     private int c;
     private HUDElement element;
 
-    DisplayBar(float x, float y, int c) {
+    public DisplayBar(float x, float y, int c) {
         this.x = x;
         this.y = y;
         this.h = TILE_SIZE / 2;

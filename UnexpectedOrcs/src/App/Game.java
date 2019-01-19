@@ -3,11 +3,14 @@ package App;
 import Engine.Engine;
 import File.GameFile;
 import GUI.GUI;
+import GUI.Screens.LoadScreen;
+import GUI.Screens.NewGameScreen;
 import Settings.Settings;
 import Sprites.Sprites;
 import Utility.Constants;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.event.MouseEvent;
 
 import static Settings.Settings.*;
@@ -20,6 +23,8 @@ public class Game extends PApplet{
 
     public static String STATE;
     public static String PREV_STATE;
+
+    public static PImage title;
 
     public static PGraphics debugScreen;
     public static boolean drawDebug = false;
@@ -41,9 +46,6 @@ public class Game extends PApplet{
         surface.setTitle("Unexpected Orcs");
         surface.setIcon(loadImage("/assets/sprites/icon.png"));
 
-
-        Constants.setGame(this);
-
         setState("LOADING");
         thread("load");
         // thread("loadSounds");
@@ -52,54 +54,33 @@ public class Game extends PApplet{
         textFont(bitcell);
         textAlign(CENTER, CENTER);
         textSize(TILE_SIZE);
+        title = loadImage("/assets/sprites/title.png");
 
         debugScreen = createGraphics(width, height);
     }
 
     public void draw() {
         updateMouse();
-        switch(STATE) {
-            case "LOADING":
-                drawLoading();
-                break;
-            case "MENU":
-                gui.drawMenu();
-                break;
-            case "OPTIONS":
-                gui.drawOptions();
-                break;
-            case "PLAYING":
-                //thread("update");
-                engine.update();
-                engine.show();
-                gui.drawPlay();
-                if(drawDebug) {
-                    image(debugScreen, 0, 0);
-                    debugScreen.beginDraw();
-                    debugScreen.clear();
-                    debugScreen.endDraw();
-                }
-                //background(255);
-                //engine.player.stats.show(this.getGraphics(), 0, 0);
 
-                break;
-            case "PAUSED":
-                engine.show();
-                gui.drawPaused();
-                break;
-            case "DEAD":
-                gui.drawDead();
-                break;
-            case "SAVE":
-                gui.drawSave();
-                break;
-            case "NEWGAME":
-                gui.drawNewGame();
-                break;
-            case "LOAD":
-                gui.drawLoad();
-                break;
+        if(STATE == "PLAYING") {
+            engine.update();
+            engine.show();
+            if(drawDebug) {
+                image(debugScreen, 0, 0);
+                debugScreen.beginDraw();
+                debugScreen.clear();
+                debugScreen.endDraw();
+            }
+        } else if (STATE == "PAUSED") {
+            engine.show();
         }
+
+        if(STATE == "LOADING") {
+            drawLoading();
+        } else {
+            gui.show();
+        }
+
     }
 
     public void mouseReleased() {
@@ -111,7 +92,7 @@ public class Game extends PApplet{
             miniMapZoom -= e.getCount();
             miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
         } else if(STATE == "LOAD") {
-            gui.loadScroll.changeScrollPosition(e.getCount());
+            LoadScreen.loadScroll.changeScrollPosition(e.getCount());
         }
     }
 
@@ -123,7 +104,7 @@ public class Game extends PApplet{
         if (keyCode == DOWN_KEY) keys[down] = 1;
         if (keyCode == RIGHT_KEY) keys[right] = 1;
         if (keyCode == ABILITY_KEY) keys[ability] = 1;
-        if(characterNaming) gui.keyPressed(key);
+        if(characterNaming) NewGameScreen.keyPressed(gui.screen, key);
     }
 
     public void keyReleased() {
@@ -155,18 +136,23 @@ public class Game extends PApplet{
     }
 
     public void load() {
+        Constants.setGame(this);
+        loadMessage = "Loading Assets";
         Sprites.loadAssets(this);
-
+        loadMessage = "Loading Stats";
         loadStats();
+        loadMessage = "Loading settings";
         Settings.loadSettings();
-
+        loadMessage = "Generating level";
         Constants.setEngine(new Engine());
+        loadMessage = "Making the GUI beautiful";
         Constants.setGUI(new GUI());
-
+        loadMessage = "DONE!";
         setState("MENU");
     }
 
     public void drawLoading() {
+        textSize(TILE_SIZE);
         clear();
         fill(0);
         rect(0, 0, width, height);
@@ -194,7 +180,7 @@ public class Game extends PApplet{
         engine.clearDrops();
         engine.player.x = engine.currentLevel.start.x;
         engine.player.y = engine.currentLevel.start.y;
-        GameFile.saveStats(loadedPlayerName);
+        GameFile.saveGame();
         setState("PLAYING");
     }
 }

@@ -2,8 +2,7 @@ package GUI;
 
 import Utility.Util;
 
-import static Utility.Constants.game;
-import static Utility.Constants.mouseReleased;
+import static Utility.Constants.*;
 
 public class Button extends HUDElement {
 
