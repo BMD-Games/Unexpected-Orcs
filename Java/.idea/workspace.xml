@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/App/Main$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Enemies/StandardEnemy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Enemies/StandardEnemy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/File/GameFile$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/File/GameFile$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/File/GameFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/File/GameFile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/GUI/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/GUI/GUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/GUI/HUDElement.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/GUI/HUDElement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Ability.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Ability.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Weapon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Items/Weapon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Levels/Level.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Levels/Level.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Player/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Player/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/com/bmd/Sprites/Sprites.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/com/bmd/Sprites/Sprites.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/W/W.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/W/inventory.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/asdwasd/asdwasd.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/asdwasd/inventory.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/asdwasdwsa/asdwasdwsa.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/saves/asdwasdwsa/inventory.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/App/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/App/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/File/GameFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/File/GameFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Ability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Ability.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Items/Weapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Levels/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Levels/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java" afterDir="false" />
+    </list>
+    <ignored path="JavaFxApplication.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DebuggerManager">
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
+    <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="JavaFxApplication" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Item.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="44" selection-start-line="44" selection-end-line="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Player/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="595">
+              <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Inventory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/File/GameFile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="498">
+              <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+              <folding>
+                <element signature="method#makeHashmap#0;class#GameFile#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Ability.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapon.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="58" column="1" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>screen.line(</find>
+      <find>textSize(</find>
+      <find>text(</find>
+      <find>image(screen</find>
+      <find>image(screen</find>
+      <find>public static static</find>
+      <find>key</find>
+      <find>screen.image(</find>
+      <find>alphaSprite.width</find>
+      <find>alphaSprite.height</find>
+      <find>Color.color</find>
+      <find>Util.mouse</find>
+      <find>Color.gray</find>
+      <find>System.out</find>
+      <find>handl</find>
+      <find>insta</find>
+      <find>exit.pr</find>
+      <find>snap</find>
+      <find>rect</find>
+      <find>itemSize)</find>
+      <find>getInvSc</find>
+      <find>dropSize)</find>
+      <find>guiSize)</find>
+      <find>charSize)</find>
+      <find>projectileSize)</find>
+      <find>SPRITE_SIZE</find>
+      <find>SCALE</find>
+      <find>IOEx</find>
+      <find>print</find>
+      <find>BufferedImage</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>Input.mouseY()</replace>
+      <replace>Sprites.SPRITE_SIZE</replace>
+      <replace>WrappedText.wrapText</replace>
+      <replace>setTextAlign(TextAlignment.</replace>
+      <replace>Graphics.line(screen,</replace>
+      <replace>setFont(Util.font(&quot;bitcell&quot;,</replace>
+      <replace>fillText(</replace>
+      <replace>Graphics.image(Main.canvas</replace>
+      <replace>Graphics.image(Util.</replace>
+      <replace>Graphics.image(Main.canvas, Util.getImage(</replace>
+      <replace>Graphics.image(Main.gc, Util.getImage(canvas)</replace>
+      <replace>public static</replace>
+      <replace>KeyCode.</replace>
+      <replace>KeyCode.getKeyCode(key)</replace>
+      <replace>Graphics.image(screen,</replace>
+      <replace>alphaSprite.getHeight()</replace>
+      <replace>Util.color</replace>
+      <replace>Util.gray</replace>
+      <replace>Input.mouse</replace>
+      <replace>fillRect</replace>
+      <replace>SPRITE_SIZE, Tiles.TILE_SIZE)</replace>
+      <replace>SPRITE_SIZE, GUI.invScale)</replace>
+      <replace>SPRITE_SIZE, Util.SCALE)</replace>
+      <replace>SPRITE_SIZE, Util.SCALE/2)</replace>
+      <replace>itemSize</replace>
+      <replace>playerStatusSize</replace>
+      <replace>dropSize</replace>
+      <replace>guiSize</replace>
+      <replace>charSize</replace>
+      <replace>projectileSize</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>C:\Users\barne\Documents\Other\BMD\UnexpectedOrcs\Java\src\com\bmd\Items</dir>
+    </dirStrings>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/com/bmd/Input/GameKeys.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/GUI/ScrollElement.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/GUI/DisplayBar.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Stats/PlayerStats.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Inventory.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Entities/ItemBag.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Input/Keys.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Armour.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Entities/Drop.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Entities/Projectile.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Enemies/Enemy.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/Cave.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CellarDungeon.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/CircleDungeon.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/DesertDungeon.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Levels/Dungeons/GrassDungeon.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/GUI/WrappedText.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Entities/StatOrb.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinMage.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Wand.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Staff.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Spear.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/GUI/ScrollWindow.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Entities/Portals/CavePortal.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Entities/Portals/CellarPortal.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Entities/Portals/GrassPortal.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Abilities/SpellBomb.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Abilities/Teleport.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinArcher.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Enemies/Plants/Cactus.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Entities/Text.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Stats/Stats.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Ability.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Weapons/Bow.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Input/Input.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Util/Util.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Settings/KeyMap.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Settings/Settings.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/App/Graphics.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/GUI/Button.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Engine/Engine.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Player/Player.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/App/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/GUI/GUI.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Levels/Level.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Weapon.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/Items/Item.java" />
+        <option value="$PROJECT_DIR$/src/com/bmd/File/GameFile.java" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="952" />
+    <option name="width" value="974" />
+    <option name="height" value="1048" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="OverrideImplement.combined" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546901989278" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/com/bmd/Items" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="recentsLimit" value="5" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Documents\Other\BMD\UnexpectedOrcs\Java" />
+      <recent name="D:\Documents\Other\BMD\UnexpectedOrcs\Java\src\com\bmd" />
+      <recent name="D:\Documents\Other\BMD\UnexpectedOrcs\Java\src" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.bmd.Levels" />
+      <recent name="com.bmd.GUI" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.bmd.App.Main" />
+      <module name="Java" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bmd.App.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
+      <created>1359379246138</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1359379246138</updated>
+      <workItem from="1359379250712" duration="1302000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1302000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.20202559" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Favorites" order="2" weight="0.32990354" />
+      <window_info id="Designer" order="3" />
+      <window_info id="Image Layers" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.23418574" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Application Servers" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Problems" order="9" />
+      <window_info anchor="bottom" id="Changes" order="10" />
+      <window_info anchor="bottom" id="Profiler" order="11" />
+      <window_info anchor="bottom" id="Event Log" order="12" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32839838" />
+      <window_info anchor="bottom" id="Terminal" order="14" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="JetGradle" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="Palette" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="right" id="Maven" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="8" />
+      <window_info anchor="right" id="Palette&#9;" order="9" />
+      <window_info anchor="right" id="Theme Preview" order="10" />
+    </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/WrappedText.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/ScrollWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-38">
+          <caret line="42" column="37" lean-forward="true" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Portals/CavePortal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Portals/CellarPortal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Portals/GrassPortal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Abilities/Teleport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" column="55" selection-start-line="19" selection-start-column="55" selection-end-line="19" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/ItemFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="47">
+          <caret line="103" column="24" selection-start-line="103" selection-start-column="24" selection-end-line="103" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinMage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="32" column="92" lean-forward="true" selection-start-line="32" selection-start-column="92" selection-end-line="32" selection-end-column="92" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/StatOrb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="14" column="45" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Enemies/Goblins/GoblinArcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Enemies/Plants/Cactus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="43" column="34" selection-start-line="43" selection-start-column="34" selection-end-line="43" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/assets/settings/settings.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Text.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Stats/Stats.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="126" column="34" selection-start-line="126" selection-start-column="34" selection-end-line="126" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Input/Input.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Enemies/Enemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/settings/controls.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Util/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="283" column="5" selection-start-line="283" selection-start-column="5" selection-end-line="283" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#969#1135#0" />
+            <element signature="e#1208#1430#0" />
+            <element signature="e#1436#1594#0" />
+            <element signature="e#1779#2284#0" />
+            <element signature="e#2290#3106#0" />
+            <element signature="e#3112#3263#0" />
+            <element signature="e#3749#3845#0" />
+            <element signature="e#3851#4032#0" />
+            <element signature="e#5057#5557#0" />
+            <element signature="e#5563#6069#0" />
+            <element signature="e#6075#6452#0" />
+            <element signature="e#6590#6914#0" />
+            <element signature="e#6920#7206#0" />
+            <element signature="e#7340#7435#0" />
+            <element signature="e#7982#8938#0" />
+            <element signature="e#8485#8906#0" />
+            <element signature="e#8912#9161#0" />
+            <element signature="e#9464#9792#0" />
+            <element signature="e#9968#10178#0" />
+            <element signature="e#11023#11295#0" />
+            <element signature="e#11320#11612#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/saves/WWW/WWW.txt" />
+    <entry file="file://$PROJECT_DIR$/out/saves/W/inventory.txt" />
+    <entry file="file://$PROJECT_DIR$/out/saves/W/W.txt" />
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Settings/Settings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="78" column="51" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/App/Graphics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="15" column="104" selection-start-line="15" selection-start-column="104" selection-end-line="15" selection-end-column="104" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#image#0;class#Graphics#0" />
+            <element signature="e#1015#1016#0" expanded="true" />
+            <element signature="e#1084#1085#0" expanded="true" />
+            <element signature="method#background#0;class#Graphics#0" />
+            <element signature="method#line#0;class#Graphics#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/Button.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#320#321#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Settings/KeyMap.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Drop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Entities/Projectile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="58" column="16" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/HUDElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="24" column="59" selection-start-line="24" selection-start-column="59" selection-end-line="24" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Enemies/StandardEnemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="91" column="129" selection-start-line="91" selection-start-column="129" selection-end-line="91" selection-end-column="129" />
+          <folding>
+            <element signature="method#StandardEnemy#0;class#StandardEnemy#0" />
+            <element signature="method#update#0;class#StandardEnemy#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Sprites/Sprites.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="152" lean-forward="true" selection-start-line="152" selection-end-line="152" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/ScrollElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/GUI/GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="738" column="38" selection-start-line="738" selection-start-column="38" selection-end-line="738" selection-end-column="38" />
+          <folding>
+            <element signature="e#11292#14361#0" />
+            <element signature="e#14369#14908#0" />
+            <element signature="e#14914#17340#0" />
+            <element signature="e#17347#19259#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/App/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="method#start#0;class#Main#0" />
+            <element signature="method#draw#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Engine/Engine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="196" selection-start-line="196" selection-end-line="196" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Levels/Level.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="399" column="27" selection-start-line="399" selection-start-column="27" selection-end-line="399" selection-end-column="27" />
+          <folding>
+            <element signature="e#13009#13018#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Armour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Scroll.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Abilities/FireBomb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Abilities/SpellBomb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="22" column="55" selection-start-line="22" selection-start-column="55" selection-end-line="22" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Abilities/SwiftBoots.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Bow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="11" column="86" selection-start-line="11" selection-start-column="86" selection-end-line="11" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/GreenRod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Spear.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Staff.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapons/Wand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Item.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Player/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Inventory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Ability.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/Items/Weapon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="58" column="1" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/bmd/File/GameFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="498">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+          <folding>
+            <element signature="method#makeHashmap#0;class#GameFile#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Java</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>json-simple</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
