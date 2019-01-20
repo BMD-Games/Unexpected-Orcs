@@ -13,7 +13,7 @@ public class KeyRemapElement extends ScrollElement {
     private int action;
 
     public KeyRemapElement(String title, int action) {
-        super(title, "Click the button to remap this key", TILE_SIZE * 2);
+        super(title, "Click to remap this key", TILE_SIZE * 2);
         this.action = action;
     }
 
@@ -33,9 +33,7 @@ public class KeyRemapElement extends ScrollElement {
     }
 
     public void handleMouse() {
-        if (keyRemap.pressed()) {
-            remapNextKey = true;
-            remapAction = action;
-        }
+        remapNextKey = true;
+        remapAction = action;
     }
 }
