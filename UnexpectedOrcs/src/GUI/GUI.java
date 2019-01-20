@@ -26,19 +26,19 @@ public class GUI {
 
 
     public void show() {
-        if(game.STATE =="MENU") {
+        if(game.STATE.equals("MENU")) {
             MenuScreen.show(screen);
-        } else if(game.STATE =="OPTIONS") {
+        } else if(game.STATE.equals("OPTIONS")) {
             OptionsScreen.show(screen);
-        } else if(game.STATE =="PLAYING") {
+        } else if(game.STATE.equals("PLAYING")) {
             PlayScreen.show(screen);
-        } else if(game.STATE =="PAUSED") {
+        } else if(game.STATE.equals("PAUSED")) {
             PausedScreen.show(screen);
-        } else if(game.STATE =="DEAD") {
+        } else if(game.STATE.equals("DEAD")) {
             DeadScreen.show(screen);
-        } else if(game.STATE =="NEWGAME") {
+        } else if(game.STATE.equals("NEWGAME")) {
             NewGameScreen.show(screen);
-        } else if(game.STATE =="LOAD") {
+        } else if(game.STATE.equals("LOAD")) {
             LoadScreen.show(screen);
         } else {
             game.setState("MENU");
@@ -47,19 +47,19 @@ public class GUI {
 
     public void handleMouseReleased() {
         //------Main Buttons
-        if (game.STATE == "MENU") {
+        if (game.STATE.equals( "MENU")) {
             MenuScreen.handleMouseReleased();
-        } else if (game.STATE == "OPTIONS") {
+        } else if (game.STATE.equals( "OPTIONS")) {
             OptionsScreen.handleMouseReleased();
-        } else if (game.STATE == "PAUSED") {
+        } else if (game.STATE.equals( "PAUSED")) {
             PausedScreen.handleMouseReleased();
-        } else if (game.STATE == "PLAYING") {
+        } else if (game.STATE.equals( "PLAYING")) {
             PlayScreen.handleMouseReleased();
-        } else if (game.STATE == "DEAD") {
+        } else if (game.STATE.equals( "DEAD")) {
             DeadScreen.handleMouseReleased();
-        } else if (game.STATE == "LOAD") {
+        } else if (game.STATE.equals( "LOAD")) {
            LoadScreen.handleMouseReleased();
-        } else if (game.STATE == "NEWGAME") {
+        } else if (game.STATE.equals( "NEWGAME")) {
             NewGameScreen.handleMouseReleased();
         }
     }

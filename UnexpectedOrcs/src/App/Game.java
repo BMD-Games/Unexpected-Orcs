@@ -5,6 +5,7 @@ import File.GameFile;
 import GUI.GUI;
 import GUI.Screens.LoadScreen;
 import GUI.Screens.NewGameScreen;
+import GUI.Screens.OptionsScreen;
 import Settings.Settings;
 import Sprites.Sprites;
 import Utility.Constants;
@@ -21,10 +22,10 @@ public class Game extends PApplet{
     // HashMap<String, SoundFile> soundFiles;
 
 
-    public static String STATE;
-    public static String PREV_STATE;
+    public String STATE;
+    public String PREV_STATE;
 
-    public static PImage title;
+    public PImage title;
 
     public static PGraphics debugScreen;
     public static boolean drawDebug = false;
@@ -62,7 +63,7 @@ public class Game extends PApplet{
     public void draw() {
         updateMouse();
 
-        if(STATE == "PLAYING") {
+        if(STATE.equals( "PLAYING")) {
             engine.update();
             engine.show();
             if(drawDebug) {
@@ -71,11 +72,11 @@ public class Game extends PApplet{
                 debugScreen.clear();
                 debugScreen.endDraw();
             }
-        } else if (STATE == "PAUSED") {
+        } else if (STATE.equals( "PAUSED")) {
             engine.show();
         }
 
-        if(STATE == "LOADING") {
+        if(STATE.equals( "LOADING")) {
             drawLoading();
         } else {
             gui.show();
@@ -88,11 +89,13 @@ public class Game extends PApplet{
     }
 
     public void mouseWheel(MouseEvent e) {
-        if(STATE == "PLAYING"){
+        if(STATE.equals("PLAYING")){
             miniMapZoom -= e.getCount();
             miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
-        } else if(STATE == "LOAD") {
+        } else if(STATE.equals( "LOAD")) {
             LoadScreen.loadScroll.changeScrollPosition(e.getCount());
+        } else if(STATE.equals( "OPTIONS")) {
+            OptionsScreen.settingsScroll.changeScrollPosition(e.getCount());
         }
     }
 
@@ -151,7 +154,7 @@ public class Game extends PApplet{
         setState("MENU");
     }
 
-    public void drawLoading() {
+    private void drawLoading() {
         textSize(TILE_SIZE);
         clear();
         fill(0);
@@ -162,7 +165,7 @@ public class Game extends PApplet{
         text(loadMessage, width/2, height/2 + TILE_SIZE);
     }
 
-    public void updateMouse() {
+    private void updateMouse() {
         if(mousePressed) {
             mouseDownCount ++;
             mouseUpCount = 0;

@@ -29,6 +29,7 @@ public class LoadScreen extends GUIScreen {
 
     public static void show(PGraphics screen) {
         screen.beginDraw();
+
         clearScreen(screen);
         game.image(game.title, 0, 0, width, height);
 

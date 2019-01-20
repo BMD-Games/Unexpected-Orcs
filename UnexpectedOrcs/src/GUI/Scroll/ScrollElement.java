@@ -47,4 +47,7 @@ public class ScrollElement {
         }
         screen.strokeWeight(1);
     }
+
+    public void handleMouse() {}
+
 }

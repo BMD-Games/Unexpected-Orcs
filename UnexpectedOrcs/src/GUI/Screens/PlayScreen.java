@@ -51,7 +51,7 @@ public class PlayScreen extends GUIScreen {
         drawQuest(screen);
         renderMiniMap(screen);
         drawPortal(screen);
-        //renderInv();
+
         engine.player.inv.show(screen, invX, invY);
         engine.player.inv.drawCooldown(screen, invX, invY);
 

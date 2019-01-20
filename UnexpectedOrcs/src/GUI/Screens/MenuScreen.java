@@ -1,5 +1,6 @@
 package GUI.Screens;
 
+import File.GameFile;
 import GUI.Button;
 import processing.core.PGraphics;
 
@@ -35,6 +36,7 @@ public class MenuScreen extends GUIScreen {
             game.setState("OPTIONS");
         } else if (load.pressed()) {
             game.setState("LOAD");
+            LoadScreen.loadScroll.setScrollElements(GameFile.loadAllSaves());
         } else if (exit.pressed()) {
             game.quitGame();
         }

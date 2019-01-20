@@ -124,6 +124,7 @@ public class PlayerStats extends Stats implements Serializable {
 
         screen.pushMatrix();
         screen.translate(x, y);
+
         screen.noStroke();
 
 

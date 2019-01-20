@@ -1,5 +1,7 @@
 package Settings;
 
+import GUI.Scroll.KeyRemapElement;
+import GUI.Scroll.ScrollElement;
 import processing.data.JSONObject;
 
 import static Utility.Constants.*;
@@ -7,7 +9,7 @@ import static Utility.Constants.*;
 public class Settings {
     
     public static int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY;
-    public static JSONObject settings, controls;
+    private static JSONObject settings, controls;
 
     public static boolean remapNextKey = false;
     public static boolean characterNaming = false;
@@ -18,20 +20,28 @@ public class Settings {
         loadControls();
     }
 
-    public static String getKeyFromCode(int code) {
-
-        if(code == game.UP) code = 8593;
-        if(code == game.DOWN) code = 8595;
-        if(code == game.RIGHT) code = 8594;
-        if(code == game.LEFT) code = 8592;
-        if(code == 32) code = '_'; //Space key
-
-        String keyChar = Character.toString((char)code);
-
-        return keyChar;
+    public static ScrollElement[] getElements() {
+        ScrollElement[] elements = new ScrollElement[5];
+        elements[up] = new KeyRemapElement("UP", up);
+        elements[down] = new KeyRemapElement("DOWN", down);
+        elements[left] = new KeyRemapElement("LEFT", left);
+        elements[right] = new KeyRemapElement("RIGHT", right);
+        elements[ability] = new KeyRemapElement("ABILITY", ability);
+        return elements;
     }
 
-    public static String[] getKeys() {
+    private static String getKeyFromCode(int code) {
+
+        if(code == game.UP) code = '^';
+        if(code == game.DOWN) code = 'V';
+        if(code == game.RIGHT) code = '>';
+        if(code == game.LEFT) code = '<';
+        if(code == 32) code = '_'; //Space key
+
+        return Character.toString((char)code);
+    }
+
+    private static String[] getKeys() {
         String[] keys = new String[5];
         keys[up] = getKeyFromCode(UP_KEY);
         keys[down] = getKeyFromCode(DOWN_KEY);
@@ -46,7 +56,7 @@ public class Settings {
         return getKeys()[action];
     }
 
-    public static void loadControls() {
+    private static void loadControls() {
         controls = settings.getJSONObject("controls");
         UP_KEY = controls.getInt("UP");
         DOWN_KEY = controls.getInt("DOWN");
@@ -76,7 +86,7 @@ public class Settings {
         saveSettings();
     }
 
-    public static void saveSettings() {
+    private static void saveSettings() {
         settings.setJSONObject("controls", controls);
         game.saveJSONObject(settings, "assets/settings/settings.json");
     }

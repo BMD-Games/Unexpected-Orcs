@@ -63,10 +63,10 @@ public class Inventory implements Serializable {
     public void swapItemsActive(int act, int in) {
         try {
             if (inv[in] != null) {
-                if (act == 0 && inv[in].type != "Weapon") return;
-                if (act == 1 && inv[in].type != "Ability") return;
-                if (act == 2 && inv[in].type != "Armour") return;
-                if (act == 3 && inv[in].type != "Scroll") return;
+                if (act == 0 && !inv[in].type.equals("Weapon")) return;
+                if (act == 1 && !inv[in].type.equals("Ability")) return;
+                if (act == 2 && !inv[in].type.equals("Armour")) return;
+                if (act == 3 && !inv[in].type.equals("Scroll")) return;
             }
             Item save = active[act];
             active[act] = inv[in];
@@ -84,10 +84,10 @@ public class Inventory implements Serializable {
 
     public Item addItemActive(Item item, int pos) {
         if (item != null) {
-            if (pos == 0 && item.type != "Weapon") return item;
-            if (pos == 1 && item.type != "Ability") return item;
-            if (pos == 2 && item.type != "Armour") return item;
-            if (pos == 3 && item.type != "Scroll") return item;
+            if (pos == 0 && !item.type.equals("Weapon")) return item;
+            if (pos == 1 && !item.type.equals("Ability")) return item;
+            if (pos == 2 && !item.type.equals("Armour")) return item;
+            if (pos == 3 && !item.type.equals("Scroll")) return item;
         }
         Item old = active[pos];
         active[pos] = item;
@@ -269,21 +269,22 @@ public class Inventory implements Serializable {
 
         String desc = "";
         String type = item.type;
-        if (type == "Weapon") {
+        if (type.equals("Weapon")) {
             int fireRate = (int)(60 / ((Weapon)item).fireRate);
             desc += "Fire rate: " + fireRate + "\n";
             desc += "Range: " + ((Weapon)item).range + "\n";
             float accuracy = 1 - ((Weapon)item).accuracy;
             desc += "Accuracy: " + accuracy + "\n";
             desc += "Damage: " + ((Weapon)item).damage + "\n";
-        } else if (type == "Ability") {
+        } else if (type.equals("Ability")) {
             desc += "Mana cost: " + ((Ability)item).manaCost + "\n";
             desc += "Cooldown: " + ((Ability)item).cooldown + "s\n";
-        } else if (type == "Armour") {
+        } else if (type.equals("Armour")) {
             desc += "Defence: " + ((Armour)item).defence + "\n";
-        } else if (type == "Scroll") {
+        } else if (type.equals("Scroll")) {
             desc += ((Scroll)item).description;
         }
+
         int mouseOverWidth = 3 * GUI_WIDTH/4;
         WrappedText title = WrappedText.wrapText(item.name, mouseOverWidth - gui.buff * 4, TILE_SIZE/2);
         WrappedText subtitle = WrappedText.wrapText("Tier " + item.tier + " " + type, mouseOverWidth - gui.buff * 4, TILE_SIZE/3);

@@ -110,6 +110,7 @@ public class ScrollWindow {
                 ScrollElement selected = scrollElements[i];
                 if(!showConfirmation && Util.pointInBox(game.mouseX, game.mouseY, selected.x, selected.y, selected.w, selected.h)) {
                     selectedElement = i;
+                    selected.handleMouse();
                     break;
                 }
             }

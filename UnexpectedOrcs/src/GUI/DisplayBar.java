@@ -6,7 +6,8 @@ import static Utility.Constants.*;
 
 public class DisplayBar {
 
-    private float x, y, w, h, percentFull;
+    public float x, y, w, h;
+    private float percentFull;
     int current, total;
     private int c;
     private HUDElement element;
@@ -30,12 +31,21 @@ public class DisplayBar {
         screen.rect(x, y, w * percentFull, h);
         screen.fill(255);
         screen.text(current + "/" + total, x + w/2, y + h/2 - 5);
+
         element.show(screen);
     }
 
+    public void move(float x, float y) {
+        this.x = x;
+        this.y = y;
+        element.x = x - TILE_SIZE/16;
+        element.y = y;
+    }
+
     public void updateBar(float current, float total) {
+        float tmp = game.constrain(current, 0, total);
         this.current = (int)current;
         this.total = (int)total;
-        percentFull = current / total;
+        percentFull = tmp / total;
     }
 }

@@ -49,22 +49,24 @@ public class NewGameScreen extends GUIScreen {
             game.setState("MENU");
             playerName = "";
         } else if (play.pressed()) {
-
             if (playerName.length() > 0 && !checkFileAlreadyExists(playerName)) {
                 loadedPlayerName = playerName;
                 guestMode = false;
+                characterNaming = false;
                 engine.reset();
                 engine.setPlayer(new Player());
                 GameFile.saveGame();
                 game.setState("PLAYING");
+                playerName = "";
             }
         } else if (quick.pressed()) {
+            loadedPlayerName = "GUEST";
             guestMode = true;
             characterNaming = false;
-            loadedPlayerName = "GUEST";
             engine.reset();
             engine.setPlayer(new Player());
             game.setState("PLAYING");
+            playerName = "";
         }
     }
 
@@ -79,7 +81,7 @@ public class NewGameScreen extends GUIScreen {
             }
         } else if (Character.isLetter(key) && playerName.length() < 10) {
             playerName = playerName + key;
-        } else if (key == game.BACKSPACE) {
+        } else if (key == game.BACKSPACE && playerName.length() > 0) {
             playerName = playerName.substring(0, playerName.length() - 1);
         }
     }
