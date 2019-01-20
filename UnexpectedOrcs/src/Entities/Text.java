@@ -32,7 +32,7 @@ public class Text {
         outlineText(screen, message, x * TILE_SIZE - renderOffset.x, (y - (time/life)/2) * TILE_SIZE - renderOffset.y, colour(red(c), green(c), blue(c), a), colour(255, a));
     }
 
-    public void outlineText(PGraphics screen, String s, float x, float y, int text, int outline) {
+    public static void outlineText(PGraphics screen, String s, float x, float y, int text, int outline) {
         screen.fill(outline);
         for (int i = -1; i < 2; i++) {
             screen.text(s, x + i, y);

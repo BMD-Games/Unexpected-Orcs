@@ -39,6 +39,7 @@ public class PausedScreen extends GUIScreen {
         } else if (menu.pressed()) {
             game.setState("MENU");
             GameFile.saveGame();
+            engine.clearDrops();
         }
     }
 

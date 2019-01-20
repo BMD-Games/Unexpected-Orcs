@@ -1,6 +1,7 @@
 package GUI;
 
 import Utility.Util;
+import processing.core.PGraphics;
 
 import static Utility.Constants.*;
 
@@ -16,5 +17,14 @@ public class Button extends HUDElement {
 
     public boolean pressed() {
         return Util.pointInBox(game.mouseX, game.mouseY, x, y, w, h);
+    }
+
+    public void show(PGraphics screen) {
+        super.show(screen);
+        if(pressed()) {
+            screen.fill(100, 50);
+            screen.noStroke();
+            screen.rect(x, y, w, h);
+        }
     }
 }

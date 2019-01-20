@@ -25,7 +25,7 @@ public class DesertDungeon extends Level {
      rooms     - Presets for all other rooms
      ***/
 
-    DesertDungeon() {
+    public DesertDungeon() {
         super(120, 90, "Desert", TileSet.desertTileSet());
         this.setTiles(Generator.finishingPass(Generator.generateCave(w, h, 5, 0.4f), tileset));
         generateStart();
