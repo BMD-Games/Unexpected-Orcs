@@ -2,7 +2,9 @@ game/out.txt
 game/out/
 game/saves/
 templateCreator/out/
+
 UnexpectedOrcs/out/
 UnexpectedOrcs/.idea/
-
 UnexpectedOrcs/saves/
+
+Java/.idea/
