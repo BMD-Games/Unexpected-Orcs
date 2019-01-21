@@ -40,7 +40,12 @@ public class GUI {
             NewGameScreen.show(screen);
         } else if(game.STATE.equals("LOAD")) {
             LoadScreen.show(screen);
-        } else {
+        }
+
+        else if(game.STATE.equals("TEST")) {
+            TestScreen.show(screen);
+        }
+        else {
             game.setState("MENU");
         }
     }
@@ -61,6 +66,10 @@ public class GUI {
            LoadScreen.handleMouseReleased();
         } else if (game.STATE.equals( "NEWGAME")) {
             NewGameScreen.handleMouseReleased();
+        }
+
+        else if(game.STATE.equals("TEST")) {
+            TestScreen.handleMouseReleased();
         }
     }
 
@@ -108,6 +117,28 @@ public class GUI {
         screen.textSize(description.textSize);
         screen.textLeading(description.textSize);
         screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
+    }
+
+    public void drawMouseOverText(float x, float y, WrappedText description) {
+        int mouseOverWidth = 3 * GUI_WIDTH/4;
+        int mouseOverHeight = description.textHeight + (buff * 2);
+
+        if (x + mouseOverWidth > screen.width) x = screen.width - mouseOverWidth;
+        if (y + mouseOverHeight > screen.height) y = screen.height - mouseOverHeight;
+
+        screen.textAlign(game.LEFT, game.TOP);
+
+        screen.fill(100);
+        screen.rect(x, y, mouseOverWidth, mouseOverHeight);
+        screen.noFill();
+        screen.stroke(130);
+        screen.rect(x + buff, y + buff, mouseOverWidth - buff * 2, mouseOverHeight - buff * 2);
+
+        screen.fill(255);
+        screen.textSize(description.textSize);
+        screen.textLeading(description.textSize);
+        screen.text(description.string, x + buff * 2, y);
+
     }
 
     //    public void drawSave() {

@@ -1,13 +1,14 @@
 package GUI.Screens;
 
-import Engine.Engine;
 import Entities.Player;
+import Entities.Text;
 import File.GameFile;
 import GUI.Button;
-import Utility.Constants;
 import processing.core.PGraphics;
 
-import static Settings.Settings.*;
+import static GUI.WrappedText.wrapText;
+import static Settings.Settings.characterNaming;
+import static Utility.Colour.colour;
 import static Utility.Constants.*;
 
 public class NewGameScreen extends GUIScreen {
@@ -15,9 +16,9 @@ public class NewGameScreen extends GUIScreen {
 
     private static String playerName = "";
 
-    private static Button play = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "PLAY");
+    private static Button play = new Button (width/3, height/2 + TILE_SIZE , "PLAY");
+    private static Button quick = new Button(width/3 * 2 - 2 * TILE_SIZE, height/2 + TILE_SIZE, "QUICK");
     private static Button back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 3, "BACK");
-    private static Button quick = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "QUICK");
 
     public static void show(PGraphics screen) {
         screen.beginDraw();
@@ -25,20 +26,35 @@ public class NewGameScreen extends GUIScreen {
         background(screen);
 
         characterNaming = true;
-        screen.fill(200, 200, 200);
-        screen.rect(width/2 - TILE_SIZE * 2, height/2 - TILE_SIZE / 4 * 3, TILE_SIZE * 4, TILE_SIZE);
+        screen.fill(200);
+        screen.textSize(TILE_SIZE);
+        screen.textAlign(game.CENTER, game.CENTER);
+        screen.text("Choose your hero's name!", width/2, height/2 - TILE_SIZE * 2);
+        screen.rect(width/2 - TILE_SIZE * 2, height/2 - TILE_SIZE/4 * 5, TILE_SIZE * 4, TILE_SIZE);
+
         screen.fill(50, 50, 50);
         screen.textSize(TILE_SIZE);
-        screen.textAlign(game.CENTER);
-        screen.text(playerName, width/2, height/2);
+        screen.textAlign(game.CENTER, game.CENTER);
+        screen.text(playerName, width/2, height/2 - (TILE_SIZE/8 * 7));
+
+        if(game.frameCount % 60 < 30) {
+            screen.rect(width/2 + game.textWidth(playerName)/2 + gui.buff/2, height/2 - TILE_SIZE/6 * 7, gui.buff, TILE_SIZE/3 * 2);
+        }
+
+
         screen.textSize(TILE_SIZE/2);
         if (checkFileAlreadyExists(playerName)) {
-            screen.text("A hero with that name already exists.", width/2, height/2 + TILE_SIZE);
+            Text.outlineText(screen, "A hero with that name already exists.", width/2, height/2 + TILE_SIZE/4, colour(150, 0, 0), colour(200));
         }
+
 
         play.show(screen);
         quick.show(screen);
         back.show(screen);
+
+        if(quick.pressed()) {
+            gui.drawMouseOverText(game.mouseX, game.mouseY, wrapText("Quick games DO NOT GET SAVED!", TILE_SIZE * 2, TILE_SIZE/2));
+        }
 
         screen.endDraw();
         game.image(screen, 0, 0);

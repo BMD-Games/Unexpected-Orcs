@@ -2,6 +2,7 @@ package GUI.Screens;
 
 import File.GameFile;
 import GUI.Button;
+import Utility.Util;
 import processing.core.PGraphics;
 
 import static Utility.Constants.*;
@@ -39,6 +40,8 @@ public class MenuScreen extends GUIScreen {
             LoadScreen.loadScroll.setScrollElements(GameFile.loadAllSaves());
         } else if (exit.pressed()) {
             game.quitGame();
+        } else if(Util.pointInBox(game.mouseX, game.mouseY, 0, 0, TILE_SIZE, TILE_SIZE)) {
+            game.setState("TEST");
         }
     }
 }
