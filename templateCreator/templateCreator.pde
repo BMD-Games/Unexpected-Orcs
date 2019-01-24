@@ -13,8 +13,8 @@ int GUI_WIDTH = SPRITE_SIZE * MAX_SCALE + 20;
 final int MIN_TILE = -81, MAX_TILE = 17;
 int tile = WALL;
 
-int w = 7;
-int h = 7;
+int w = 15;
+int h = 50;
 
 int xoff = 0, yoff = 0;
 
@@ -38,7 +38,7 @@ void draw() {
   }
   noFill();
   stroke(255);
-  rect((int)getTile().x * TILE_SIZE + GUI_WIDTH, (int)getTile().y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+  rect(((int)getTile().x + xoff) * TILE_SIZE + GUI_WIDTH, ((int)getTile().y + yoff) * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   fill(200);
   noStroke();
   rect(0, 0, GUI_WIDTH, height);
@@ -71,10 +71,10 @@ void mouseWheel(MouseEvent event) {
 }
 
 void keyPressed() {
-  if (keyCode == UP) yoff -= 1;
-  if (keyCode == DOWN) yoff += 1;
-  if (keyCode == LEFT) xoff -= 1;
-  if (keyCode == RIGHT) xoff += 1;
+  if (keyCode == UP) yoff += 1;
+  if (keyCode == DOWN) yoff -= 1;
+  if (keyCode == LEFT) xoff += 1;
+  if (keyCode == RIGHT) xoff -= 1;
   if (key == '=') SCALE = constrain(SCALE + 1, 1, MAX_SCALE);
   if (key == '-') SCALE = constrain(SCALE - 1, 1, MAX_SCALE);
   if (key == 's') saveToFile();
@@ -83,7 +83,7 @@ void keyPressed() {
 }
 
 PVector getTile() {
-  return new PVector((mouseX-GUI_WIDTH)/TILE_SIZE + xoff, mouseY/TILE_SIZE + yoff);
+  return new PVector((mouseX-GUI_WIDTH)/TILE_SIZE - xoff, mouseY/TILE_SIZE - yoff);
 }
 
 void saveToFile() {

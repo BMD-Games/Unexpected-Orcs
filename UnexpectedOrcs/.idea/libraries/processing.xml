@@ -18,8 +18,10 @@
       <root url="jar://$PROJECT_DIR$/../../../../Processing/processing files/core/library/jogl-all-natives-windows-amd64.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../../Processing/processing files/core/library/jogl-all-natives-windows-i586.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../../../Processing/processing files/core/library/jogl-all.jar!/" />
+      <root url="file://C:/Program Files (x86)/Processing/processing-3.4/core/library" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://C:/Program Files (x86)/Processing/processing-3.4/core/library" recursive="false" />
   </library>
 </component>
