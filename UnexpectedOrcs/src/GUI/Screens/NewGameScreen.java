@@ -109,7 +109,7 @@ public class NewGameScreen extends GUIScreen {
     }
 
     private static Boolean checkFileAlreadyExists(String fileName) {
-
+        GameFile.checkSavesFolderExists();
         java.io.File folder = new java.io.File(game.sketchPath() + "/saves/");
         String[] listOfFiles = folder.list();
 
