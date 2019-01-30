@@ -64,6 +64,7 @@ public class NewGameScreen extends GUIScreen {
         if(back.pressed()) {
             game.setState("MENU");
             playerName = "";
+            characterNaming = false;
         } else if (play.pressed()) {
             if (playerName.length() > 0 && !checkFileAlreadyExists(playerName)) {
                 loadedPlayerName = playerName;
@@ -92,8 +93,13 @@ public class NewGameScreen extends GUIScreen {
                 screen.text("That name already exists", width/2, height/2 - TILE_SIZE);
             } else {
                 loadedPlayerName = playerName;
-                game.setState("PLAYING");
+                guestMode = false;
                 characterNaming = false;
+                engine.reset();
+                engine.setPlayer(new Player());
+                GameFile.saveGame();
+                game.setState("PLAYING");
+                playerName = "";
             }
         } else if (Character.isLetter(key) && playerName.length() < 10) {
             playerName = playerName + key;
@@ -103,7 +109,7 @@ public class NewGameScreen extends GUIScreen {
     }
 
     private static Boolean checkFileAlreadyExists(String fileName) {
-
+        GameFile.checkSavesFolderExists();
         java.io.File folder = new java.io.File(game.sketchPath() + "/saves/");
         String[] listOfFiles = folder.list();
 

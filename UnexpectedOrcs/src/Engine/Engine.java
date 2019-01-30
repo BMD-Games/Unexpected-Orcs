@@ -11,6 +11,8 @@ import Entities.Text;
 import Items.Item;
 import Items.Weapon;
 import Levels.Dungeons.Cave;
+import Levels.Dungeons.DesertDungeon;
+import Levels.Dungeons.TutorialDungeon;
 import Levels.Level;
 import Utility.Collision.Rectangle;
 import Utility.Pair;
@@ -48,7 +50,9 @@ public class Engine {
 
     public Engine() {
         //Can initialise stuff here (eg generate the first cave)
-        currentLevel = new Cave(); //Cave();//CircleDungeon(); //GrassDungeon(); //CellarDungeon(); //
+        currentLevel = new Cave(); //Cave();//CircleDungeon();
+        // GrassDungeon
+        // ();// CellarDungeon(); //
 
         player = new Player(currentLevel.start.x + 0.5f, currentLevel.start.y + 0.5f);
 
@@ -305,7 +309,7 @@ public class Engine {
 
     public void reset() {
         clearDrops();
-        currentLevel = new Cave();
+        currentLevel = new TutorialDungeon();
     }
 
     public static float screenToTileCoordX(float x) {
