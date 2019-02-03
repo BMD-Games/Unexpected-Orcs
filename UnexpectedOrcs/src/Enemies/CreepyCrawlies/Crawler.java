@@ -14,7 +14,7 @@ public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
     private float w = 0.44f, h = 0.5f;
 
     public Crawler(float x, float y, int tier) {
-        super(x, y, tier, charSprites.get("CRAWLER"));
+        super(x, y, tier, charSprites.get("CRAWLER_LEFT"));
         stats.speed = 1.2f + 0.2f * tier;
         stats.attack = 8 + 12 * tier;
         stats.defence = 4 * tier;

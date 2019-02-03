@@ -19,7 +19,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
     private float w = 0.5f, h = 0.5f;
 
     public Spider(float x, float y, int tier) {
-        super(x, y, tier, charSprites.get("SPIDER"));
+        super(x, y, tier, charSprites.get("SPIDER_LEFT"));
         stats.speed = 0.6f + 0.1f * tier;
         stats.attack = 12 + 12 * tier;
         stats.defence = 2 * tier;
