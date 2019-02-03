@@ -14,7 +14,7 @@ public class Daisy extends RangedEnemy implements Enemy, RectangleObject {
     private float w = 0.5f, h = 0.5f;
 
     public Daisy(float x, float y, int tier) {
-        super(x, y, tier, charSprites.get("DAISY"));
+        super(x, y, tier, charSprites.get("DAISY_LONG"));
         stats.speed = 0.6f + 0.1f * tier;
         stats.attack = 24 + 20 * tier;
         stats.defence = 2 * tier;

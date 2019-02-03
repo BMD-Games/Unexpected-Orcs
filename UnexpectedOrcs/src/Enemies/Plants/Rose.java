@@ -14,7 +14,7 @@ public class Rose extends RangedEnemy implements Enemy, RectangleObject {
     private float w = 0.5f, h = 0.5f;
 
     public Rose(float x, float y, int tier) {
-        super(x, y, tier, charSprites.get("ROSE"));
+        super(x, y, tier, charSprites.get("ROSE_LONG"));
         stats.speed = 0.6f + 0.1f * tier;
         stats.attack = 10 + 12 * tier;
         stats.defence = 2 * tier;

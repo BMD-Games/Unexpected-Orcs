@@ -283,10 +283,15 @@ public class Sprites {
         charSprites.put("FACE_LEFT", getSprite(charsheet, 12, 1, 1, 1, charSize));
         charSprites.put("FACE_RIGHT", getSprite(charsheet, 13, 1, 1, 1, charSize));
 
-        charSprites.put("BODY_FRONT", getSprite(charsheet, 14, 0, 1, 1, charSize));
-        charSprites.put("BODY_BACK", getSprite(charsheet, 15, 0, 1, 1, charSize));
-        charSprites.put("BODY_LEFT", getSprite(charsheet, 14, 1, 1, 1, charSize));
-        charSprites.put("BODY_RIGHT", getSprite(charsheet, 15, 1, 1, 1, charSize));
+        charSprites.put("BODY_FRONT_DEFAULT", getSprite(charsheet, 14, 0, 1, 1, charSize));
+        charSprites.put("BODY_BACK_DEFAULT", getSprite(charsheet, 15, 0, 1, 1, charSize));
+        charSprites.put("BODY_LEFT_DEFAULT", getSprite(charsheet, 14, 1, 1, 1, charSize));
+        charSprites.put("BODY_RIGHT_DEFAULT", getSprite(charsheet, 15, 1, 1, 1, charSize));
+
+        charSprites.put("BODY_FRONT", getSprite(charsheet, 14, 2, 1, 1, charSize));
+        charSprites.put("BODY_BACK", getSprite(charsheet, 15, 2, 1, 1, charSize));
+        charSprites.put("BODY_LEFT", getSprite(charsheet, 14, 3, 1, 1, charSize));
+        charSprites.put("BODY_RIGHT", getSprite(charsheet, 15, 3, 1, 1, charSize));
 
         //Load chomp sprites
         charSprites.put("CHOMP_BLACK_SMALL", getSprite(charsheet, 6, 0, 1, 1, charSize));
@@ -296,19 +301,26 @@ public class Sprites {
         charSprites.put("CHOMP_BOSS", getSprite(charsheet, 0, 0, 4, 4, charSize));
 
         //Load grass mobs
-        charSprites.put("ROSE", getSprite(charsheet, 7, 0, 1, 1, charSize));
-        charSprites.put("DAISY", getSprite(charsheet, 7, 1, 1, 1, charSize));
+        charSprites.put("ROSE_SHORT", getSprite(charsheet, 7, 0, 1, 1, charSize));
+        charSprites.put("ROSE_LONG", getSprite(charsheet, 7, 1, 1, 1, charSize));
+        charSprites.put("DAISY_SHORT", getSprite(charsheet, 8, 0, 1, 1, charSize));
+        charSprites.put("DAISY_LONG", getSprite(charsheet, 9, 0, 1, 1, charSize));
 
         //Load cave mobs
-        charSprites.put("SPIDER", getSprite(charsheet, 6, 2, 1, 1, charSize));
-        charSprites.put("CRAWLER", getSprite(charsheet, 7, 2, 1, 1, charSize));
+        charSprites.put("SPIDER_LEFT", getSprite(charsheet, 6, 2, 1, 1, charSize));
+        charSprites.put("SPIDER_RIGHT", getSprite(charsheet, 7, 2, 1, 1, charSize));
+        charSprites.put("CRAWLER_LEFT", getSprite(charsheet, 10, 4, 1, 1, charSize));
+        charSprites.put("CRAWLER_RIGHT", getSprite(charsheet, 11, 4, 1, 1, charSize));
         charSprites.put("BAT_SPREAD", getSprite(charsheet, 6, 3, 1, 1, charSize));
         charSprites.put("BAT_FLAPPING", getSprite(charsheet, 7, 3, 1, 1, charSize));
 
         //Load desert mobs
-        charSprites.put("CACTUS", getSprite(charsheet, 8, 0, 1, 1, charSize));
-        charSprites.put("ANTLION", getSprite(charsheet, 9, 0, 1, 1, charSize));
+        charSprites.put("CACTUS", getSprite(charsheet, 10, 0, 1, 1, charSize));
+        charSprites.put("CACTUS_TALL", getSprite(charsheet, 11, 0, 1, 1, charSize));
+        charSprites.put("ANTLION", getSprite(charsheet, 12, 2, 1, 1, charSize));
+        charSprites.put("ANTLION_BITING", getSprite(charsheet, 13, 2, 1, 1, charSize));
         charSprites.put("SCORPION", getSprite(charsheet, 8, 1, 2, 1, charSize));
+        charSprites.put("SCORPION_BITING", getSprite(charsheet, 10, 1, 2, 1, charSize));
 
         //Load element sprites
         charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
@@ -344,8 +356,16 @@ public class Sprites {
         charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 1, 7, 1, 1, charSize));
 
         charSprites.put("GOBLIN_BOXER", getSprite(charsheet, 2, 6, 2, 2, charSize));
+        charSprites.put("GOBLIN_BOXER_2", getSprite(charsheet, 2, 6, 2, 2, charSize));
         charSprites.put("BASILISK", getSprite(charsheet, 4, 6, 2, 2, charSize));
+        charSprites.put("BASILISK_2", getSprite(charsheet, 4, 6, 2, 2, charSize));
 
+        charSprites.put("DEMON_CAMEL", getSprite(charsheet, 8, 2, 2, 1, charSize));
+        charSprites.put("DEMON_CAMEL_2", getSprite(charsheet, 8, 3, 2, 1, charSize));
+        charSprites.put("DEMON_NIBBLER", getSprite(charsheet, 10, 2, 2, 1, charSize));
+        charSprites.put("DEMON_NIBBLER_2", getSprite(charsheet, 10, 3, 2, 1, charSize));
+        charSprites.put("DEMON_BITER", getSprite(charsheet, 11, 2, 2, 1, charSize));
+        charSprites.put("DEMON_BITER_2", getSprite(charsheet, 11, 3, 2, 1, charSize));
 
         //-----BULLET SPRITES-----
         PImage projectilesheet = app.loadImage("/assets/sprites/projectilesheet.png");
