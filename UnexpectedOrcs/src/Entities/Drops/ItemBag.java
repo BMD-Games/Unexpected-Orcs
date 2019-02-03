@@ -1,6 +1,7 @@
 package Entities.Drops;
 
 import Items.Item;
+import Sprites.AnimatedSprite;
 
 import static Sprites.Sprites.dropSprites;
 
@@ -11,7 +12,7 @@ public class ItemBag extends Drop {
     public ItemBag(float x, float y, int tier) {
         super(x, y, 0.5f, 60);
         if(tier > 2) tier = 2;
-        this.sprite = dropSprites.get("BAG_" + tier % 3);
+        this.sprites = new AnimatedSprite(dropSprites.get("BAG_" + tier % 3));
     }
 
     public Item takeItem(int pos) {
