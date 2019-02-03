@@ -309,6 +309,7 @@ public class Engine {
 
     public void reset() {
         clearDrops();
+        updateMillis();
         currentLevel = new TutorialDungeon();
     }
 

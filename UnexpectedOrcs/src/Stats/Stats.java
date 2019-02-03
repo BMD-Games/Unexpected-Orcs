@@ -27,7 +27,7 @@ public class Stats implements Serializable {
         }
 
         if(health < healthMax) {
-            health = health + (float)(getVitality() * delta);
+            health = game.constrain(health + (float)(getVitality() * delta), 0, healthMax);
         }
         if(mana < manaMax) {
             mana = mana + (float)(getWisdom() * delta);
