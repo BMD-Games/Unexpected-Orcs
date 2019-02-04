@@ -44,6 +44,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "MANA"));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {

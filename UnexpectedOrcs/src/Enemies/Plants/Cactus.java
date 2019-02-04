@@ -42,6 +42,7 @@ public class Cactus extends RangedEnemy implements Enemy, RectangleObject {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {
