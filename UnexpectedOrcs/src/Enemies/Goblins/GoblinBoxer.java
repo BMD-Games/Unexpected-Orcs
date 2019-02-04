@@ -5,7 +5,9 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.Portals.CellarPortal;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
+import processing.core.PImage;
 
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
@@ -21,6 +23,7 @@ public class GoblinBoxer extends MeleeEnemy implements Enemy, RectangleObject {
         stats.defence = 8 * tier;
         stats.health = 40 + 35 * tier;
         stats.vitality = 6;
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("GOBLIN_BOXER"), charSprites.get("GOBLIN_BOXER_2")}, 0.38f);
     }
 
     public float getWidth() {

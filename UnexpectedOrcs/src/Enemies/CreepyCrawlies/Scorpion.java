@@ -4,8 +4,10 @@ import Enemies.Enemy;
 import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
+import processing.core.PImage;
 
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
@@ -28,6 +30,7 @@ public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
         retreatDistance = 0;
         accuracy = 0.04f;
         projectileSprite = projectileSprites.get("STINGER");
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("SCORPION"), charSprites.get("SCORPION_BITING")}, 0.2f);
     }
 
     public float getWidth() {

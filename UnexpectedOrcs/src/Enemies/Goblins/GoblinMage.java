@@ -4,6 +4,7 @@ import Enemies.Enemy;
 import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
 
@@ -29,6 +30,7 @@ public class GoblinMage extends RangedEnemy implements Enemy, RectangleObject {
         accuracy = 0.02f;
         bulletSpeed = 6;
         projectileSprite = Util.applyColourToImage(projectileSprites.get("STAFF"), colour(124, 10, 10));
+        animatedSprite = new AnimatedSprite(charSprites.get("GOBLIN_MAGE"));
     }
 
     public float getWidth() {

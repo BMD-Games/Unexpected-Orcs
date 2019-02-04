@@ -5,8 +5,10 @@ import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Entities.Projectile;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import Utility.Pair;
+import processing.core.PImage;
 import processing.core.PVector;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
         retreatDistance = 0.3f;
         accuracy = 0.01f;
         projectileSprite = projectileSprites.get("STAFF");
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("SPIDER_LEFT"), charSprites.get("SPIDER_RIGHT")}, 0.41f);
     }
 
     public float getWidth() {

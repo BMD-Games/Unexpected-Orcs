@@ -5,6 +5,7 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.CircleObject;
 import Utility.Util;
 
@@ -21,6 +22,7 @@ public class BossChomp extends Chomp {
         stats.attack = 20 * tier;
         stats.speed = 1.1f * tier;
         stats.defence = 8 * tier;
+        animatedSprite = new AnimatedSprite(charSprites.get("CHOMP_BOSS"));
     }
 
     /* Checks collision with point */

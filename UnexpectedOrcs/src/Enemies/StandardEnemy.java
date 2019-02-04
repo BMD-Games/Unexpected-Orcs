@@ -4,6 +4,7 @@ import Engine.Engine;
 import Entities.Drops.Pack;
 import Entities.Projectile;
 import Levels.Level;
+import Sprites.AnimatedSprite;
 import Stats.Stats;
 import Utility.Collision.*;
 import Utility.Pair;
@@ -27,16 +28,17 @@ public abstract class StandardEnemy implements Enemy {
 
     protected int range = 10;
     protected float radius = 0.5f;
-    protected boolean active = false;
+    boolean active = false;
 
     protected boolean hasSeen = false;
 
     private boolean tookDamage = false;
     private float damageTime = 0;
-    private float damageMax = 0.25f;
+    protected float damageTimeMax = 0.25f;
 
     protected float angle;
     public PImage sprite;
+    protected AnimatedSprite animatedSprite = null;
     private PImage damageSprite;
     public Stats stats = new Stats();
 
@@ -58,6 +60,7 @@ public abstract class StandardEnemy implements Enemy {
         angle = game.atan2(engine.player.y - y, engine.player.x - x);
         active = Util.distance(x, y, engine.player.x, engine.player.y) < range;
         stats.update(delta);
+        animatedSprite.update(delta);
         if(tookDamage) {
             damageTime += delta;
         }
@@ -66,6 +69,7 @@ public abstract class StandardEnemy implements Enemy {
 
     /* Displays enemy to screen */
     public void show(PGraphics screen, PVector renderOffset) {
+        sprite = animatedSprite.getCurrentSprite();
         if(!engine.currentLevel.visited((int)x, (int)y)) return;
         screen.pushMatrix();
         screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
@@ -82,7 +86,7 @@ public abstract class StandardEnemy implements Enemy {
         PImage currSprite = sprite;
         if(tookDamage) {
             currSprite = damageSprite;
-            tookDamage = damageTime < damageMax;
+            tookDamage = damageTime < damageTimeMax;
         }
 
         if((angle < game.PI/2) && (angle > -game.PI/2)) {
