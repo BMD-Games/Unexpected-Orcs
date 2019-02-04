@@ -19,6 +19,7 @@ public class IceElemental extends Elemental implements Enemy {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "MANA"));
     }
 

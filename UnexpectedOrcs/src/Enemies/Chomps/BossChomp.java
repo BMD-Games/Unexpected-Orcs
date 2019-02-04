@@ -29,6 +29,7 @@ public class BossChomp extends Chomp {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
         ItemBag itemBag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {

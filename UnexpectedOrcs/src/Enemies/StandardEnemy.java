@@ -1,6 +1,7 @@
 package Enemies;
 
 import Engine.Engine;
+import Entities.Drops.Pack;
 import Entities.Projectile;
 import Levels.Level;
 import Stats.Stats;
@@ -164,6 +165,15 @@ public abstract class StandardEnemy implements Enemy {
         if(stats.health > 0) {
             knockbackX = projectile.direction.x * projectile.damage / stats.defence;
             knockbackY = projectile.direction.y * projectile.damage / stats.defence;
+        }
+    }
+
+    public void onDeath() {
+        if(game.random(1) < 0.05) {
+            engine.addDrop(new Pack(x, y, tier, "HEALTH"));
+        }
+        if(game.random(1) < 0.05) {
+            engine.addDrop(new Pack(x, y, tier, "MANA"));
         }
     }
 }

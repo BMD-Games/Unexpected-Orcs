@@ -35,6 +35,17 @@ public class PlayerStats extends Stats implements Serializable {
         mana = baseMana;
     }
 
+    public void addPack(String stat, int tier) {
+        switch(stat) {
+            case("HEALTH"):
+                health = game.constrain(health + tier * 10, 0, healthMax);
+                break;
+            case("MANA"):
+                mana = game.constrain(mana + tier * 10, 0, manaMax);
+                break;
+        }
+    }
+
     public void addOrbStat(String stat, int tier) {
         totalKills ++;
         switch(stat) {

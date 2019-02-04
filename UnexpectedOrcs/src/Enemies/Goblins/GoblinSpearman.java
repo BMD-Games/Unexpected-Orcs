@@ -32,6 +32,7 @@ public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {
