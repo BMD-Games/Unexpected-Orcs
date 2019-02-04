@@ -6,6 +6,7 @@ import Utility.Collision.Rectangle;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
 import processing.core.PImage;
+import processing.core.PVector;
 
 import static Utility.Constants.*;
 
@@ -37,9 +38,24 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
     }
 
     protected void move(double delta) {
-        float moveX = (stats.getSpeed() * game.cos(angle) + knockbackX) * (float)delta;
-        float moveY = (stats.getSpeed() * game.sin(angle) + knockbackY) * (float)delta;
-        knockbackX = knockbackY = 0;
+
+        float moveX;
+        float moveY;
+        int knockbackMax = 15;
+        PVector knockback = new PVector(knockbackX, knockbackY);
+        if (knockback.mag() > knockbackMax) {
+            PVector knockbackLeftOver = knockback;
+            knockbackLeftOver.setMag(knockback.mag() - knockbackMax);
+            knockback.setMag(knockbackMax);
+            moveX = (stats.getSpeed() * game.cos(angle) + knockback.x) * (float) delta;
+            moveY = (stats.getSpeed() * game.sin(angle) + knockback.y) * (float) delta;
+            knockbackX = knockbackLeftOver.x;
+            knockbackY = knockbackLeftOver.y;
+        } else {
+            moveX = (stats.getSpeed() * game.cos(angle) + knockbackX) * (float) delta;
+            moveY = (stats.getSpeed() * game.sin(angle) + knockbackY) * (float) delta;
+            knockbackX = knockbackY = 0;
+        }
         float[] coords;
         if(this instanceof RectangleObject) {
             coords = Rectangle.adjust(engine.currentLevel, x, y, ((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight(), moveX, moveY);

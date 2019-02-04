@@ -193,7 +193,7 @@ public class Engine {
             for (Enemy enemy : currentLevel.enemies[chunk]) {
                 if (enemy.lineCollides(projectile.x, projectile.y, projectile.px, projectile.py)) {
                     enemy.damage(projectile.damage, projectile.statusEffects);
-                    enemy.knockback(projectile);
+                    enemy.knockback(projectile, projectile.knockBackMultiplier);
                     playerProjectiles.remove(i);
                     break;
                 }

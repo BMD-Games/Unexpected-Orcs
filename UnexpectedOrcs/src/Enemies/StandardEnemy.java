@@ -165,15 +165,29 @@ public abstract class StandardEnemy implements Enemy {
         if(stats.health > 0) {
             knockbackX = projectile.direction.x * projectile.damage / stats.defence;
             knockbackY = projectile.direction.y * projectile.damage / stats.defence;
+            System.out.println(knockbackY);
+            System.out.println(knockbackX);
         }
     }
 
+
     public void onDeath() {
-        if(game.random(1) < 0.05) {
+        if (game.random(1) < 0.05) {
             engine.addDrop(new Pack(x, y, tier, "HEALTH"));
         }
-        if(game.random(1) < 0.05) {
+        if (game.random(1) < 0.05) {
             engine.addDrop(new Pack(x, y, tier, "MANA"));
         }
+    }
+
+    public void knockback(Projectile projectile, float knockBackMultiplier) {
+        if (stats.health > 0) {
+            knockbackX += projectile.direction.x * projectile.damage * knockBackMultiplier / stats.defence;
+            knockbackY += projectile.direction.y * projectile.damage * knockBackMultiplier / stats.defence;
+            System.out.println(knockbackX);
+            System.out.println(knockbackY);
+
+        }
+
     }
 }
