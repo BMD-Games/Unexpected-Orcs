@@ -169,8 +169,6 @@ public abstract class StandardEnemy implements Enemy {
         if(stats.health > 0) {
             knockbackX = projectile.direction.x * projectile.damage / stats.defence;
             knockbackY = projectile.direction.y * projectile.damage / stats.defence;
-            System.out.println(knockbackY);
-            System.out.println(knockbackX);
         }
     }
 
@@ -188,9 +186,6 @@ public abstract class StandardEnemy implements Enemy {
         if (stats.health > 0) {
             knockbackX += projectile.direction.x * projectile.damage * knockBackMultiplier / stats.defence;
             knockbackY += projectile.direction.y * projectile.damage * knockBackMultiplier / stats.defence;
-            System.out.println(knockbackX);
-            System.out.println(knockbackY);
-
         }
 
     }
