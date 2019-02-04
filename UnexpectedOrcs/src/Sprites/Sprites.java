@@ -261,22 +261,17 @@ public class Sprites {
         guiSprites.put("OPTIONS", getSprite(sheet, 6, 0, 2, 1, guiSize));
         guiSprites.put("PAUSE", getSprite(sheet, 0, 1, 1, 1, guiSize));
         guiSprites.put("EXIT", getSprite(sheet, 1, 1, 2, 1, guiSize));
-        guiSprites.put("NEW", getSprite(sheet, 3, 1, 2, 1, guiSize));
         guiSprites.put("LOAD", getSprite(sheet, 5, 1, 2, 1, guiSize));
         guiSprites.put("DELETE", getSprite(sheet, 7, 1, 1, 1, guiSize));
         guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2, guiSize));
-        guiSprites.put("BAR", getSprite(sheet, 0, 4, 3, 1, guiSize));
+        guiSprites.put("BAR", getSprite(sheet, 0, 2, 3, 1, guiSize));
         guiSprites.put("QUEST", getSprite(sheet, 0, 5, 1, 1, guiSize));
         guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
         guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
-        guiSprites.put("SAVE", getSprite(sheet, 3, 2, 2, 1, guiSize));
-        guiSprites.put("SAVE1", getSprite(sheet, 5, 2, 1, 1, guiSize));
-        guiSprites.put("SAVE2", getSprite(sheet, 6, 2, 1, 1, guiSize));
-        guiSprites.put("SAVE3", getSprite(sheet, 7, 2, 1, 1, guiSize));
-        guiSprites.put("QUICK", getSprite(sheet, 3, 3, 2, 1, guiSize));
-        guiSprites.put("YES", getSprite(sheet, 3, 4, 2, 1, guiSize));
-        guiSprites.put("NO", getSprite(sheet, 5, 3, 2, 1, guiSize));
-        guiSprites.put("TICK", getSprite(sheet, 7, 3, 1, 1, guiSize));
+        guiSprites.put("QUICK", getSprite(sheet, 3, 1, 2, 1, guiSize));
+        guiSprites.put("YES", getSprite(sheet, 3, 3, 2, 1, guiSize));
+        guiSprites.put("NO", getSprite(sheet, 5, 2, 2, 1, guiSize));
+        guiSprites.put("TICK", getSprite(sheet, 7, 2, 1, 1, guiSize));
 
         //-----CHAR SPRITES-----
         PImage charsheet = app.loadImage("/assets/sprites/charsheet.png");

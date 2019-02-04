@@ -15,6 +15,8 @@ public class Stats implements Serializable {
 
     public HashMap<String, Float> statusEffects = new HashMap<String, Float>();
 
+    private float numSegments = 3;
+
     public void update(double delta) {
         String s;
         for(int i = 0; i < statusEffects.keySet().size(); i++) {
@@ -27,10 +29,12 @@ public class Stats implements Serializable {
         }
 
         if(health < healthMax) {
-            health = game.constrain(health + (float)(getVitality() * delta), 0, healthMax);
+            float currentMax = game.ceil(health/(healthMax/numSegments)) * (healthMax/numSegments);
+            health = game.constrain(health + (float)(getVitality() * delta), 0, currentMax);
         }
         if(mana < manaMax) {
-            mana = mana + (float)(getWisdom() * delta);
+            float currentMax = game.ceil(mana/(manaMax/numSegments)) * (manaMax/numSegments);
+            mana = game.constrain(mana + (float)(getWisdom() * delta), 0, currentMax);
         }
         fireTimer += (float)(delta);
     }
