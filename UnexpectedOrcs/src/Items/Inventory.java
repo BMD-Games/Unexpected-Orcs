@@ -48,6 +48,7 @@ public class Inventory implements Serializable {
         inv[2] = new SpellBomb();
         inv[3] = new Telescope();
         inv[4] = new Teleport();
+        inv[5] = new Knockback();
     }
 
     public void swapItemsInv(int i, int j) {
