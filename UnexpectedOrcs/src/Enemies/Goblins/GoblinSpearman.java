@@ -4,6 +4,7 @@ import Enemies.Enemy;
 import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 
 import static Sprites.Sprites.*;
@@ -21,6 +22,7 @@ public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject
         stats.health = 20 + 15 * tier;
         stats.vitality = 2;
         attackWaitTime = 0.6f;
+        animatedSprite = new AnimatedSprite(charSprites.get("GOBLIN_SPEARMAN"));
     }
 
     public float getWidth() {

@@ -2,6 +2,7 @@ package Enemies.Elementals;
 
 import Enemies.Enemy;
 import Enemies.MeleeEnemy;
+import Sprites.AnimatedSprite;
 import Utility.Collision.CircleObject;
 import processing.core.PImage;
 

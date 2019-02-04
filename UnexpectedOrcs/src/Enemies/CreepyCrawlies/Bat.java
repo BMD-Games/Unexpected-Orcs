@@ -5,6 +5,7 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Items.Scrolls.DebuffScroll;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import processing.core.PImage;
 
@@ -26,6 +27,7 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
         stats.health = 25 + 25 * tier;
         stats.vitality = 2;
         attackWaitTime = 0.5f;
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("BAT_SPREAD"), charSprites.get("BAT_SPREAD"), charSprites.get("BAT_FLAPPING")}, 0.2f);
     }
 
     public float getWidth() {

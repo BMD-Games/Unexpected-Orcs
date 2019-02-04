@@ -361,9 +361,9 @@ public class Sprites {
         charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 1, 7, 1, 1, charSize));
 
         charSprites.put("GOBLIN_BOXER", getSprite(charsheet, 2, 6, 2, 2, charSize));
-        charSprites.put("GOBLIN_BOXER_2", getSprite(charsheet, 2, 6, 2, 2, charSize));
-        charSprites.put("BASILISK", getSprite(charsheet, 4, 6, 2, 2, charSize));
-        charSprites.put("BASILISK_2", getSprite(charsheet, 4, 6, 2, 2, charSize));
+        charSprites.put("GOBLIN_BOXER_2", getSprite(charsheet, 4, 6, 2, 2, charSize));
+        charSprites.put("BASILISK", getSprite(charsheet, 6, 6, 2, 2, charSize));
+        charSprites.put("BASILISK_2", getSprite(charsheet, 8, 6, 2, 2, charSize));
 
         charSprites.put("DEMON_CAMEL", getSprite(charsheet, 8, 2, 2, 1, charSize));
         charSprites.put("DEMON_CAMEL_2", getSprite(charsheet, 8, 3, 2, 1, charSize));

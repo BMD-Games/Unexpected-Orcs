@@ -4,6 +4,7 @@ import Enemies.Enemy;
 import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 
 import static Utility.Constants.*;
@@ -20,6 +21,7 @@ public class GoblinWarrior extends MeleeEnemy implements Enemy, RectangleObject 
         stats.defence = 5 * tier;
         stats.health = 30 + 20 * tier;
         stats.vitality = 3;
+        animatedSprite = new AnimatedSprite(charSprites.get("GOBLIN_WARRIOR"));
     }
 
     public float getWidth() {

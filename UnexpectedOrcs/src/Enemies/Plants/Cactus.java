@@ -4,8 +4,10 @@ import Enemies.Enemy;
 import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
+import processing.core.PImage;
 
 import static Utility.Colour.*;
 import static Utility.Constants.*;
@@ -28,6 +30,7 @@ public class Cactus extends RangedEnemy implements Enemy, RectangleObject {
         accuracy = 0.04f;
         predictAim = true;
         projectileSprite = Util.applyColourToImage(projectileSprites.get("WAND"), colour(0,0,0));
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("CACTUS"), charSprites.get("CACTUS_TALL")}, 0.2f);
     }
 
     public float getWidth() {

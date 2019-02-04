@@ -4,7 +4,9 @@ import Enemies.Enemy;
 import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
+import processing.core.PImage;
 
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
@@ -21,6 +23,7 @@ public class Antlion extends MeleeEnemy implements Enemy, RectangleObject {
         stats.health = 25 + 25 * tier;
         stats.vitality = 2;
         attackWaitTime = 0.5f;
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("ANTLION"), charSprites.get("ANTLION_BITING")}, 0.2f);
     }
 
     public float getWidth() {

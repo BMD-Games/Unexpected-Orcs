@@ -1,10 +1,7 @@
 package Enemies;
 
 import Entities.Projectile;
-import Utility.Collision.Circle;
-import Utility.Collision.CircleObject;
-import Utility.Collision.Rectangle;
-import Utility.Collision.RectangleObject;
+import Utility.Collision.*;
 import Utility.Util;
 import processing.core.PImage;
 import processing.core.PVector;

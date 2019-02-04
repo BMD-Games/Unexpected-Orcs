@@ -4,8 +4,10 @@ import Enemies.Enemy;
 import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
+import processing.core.PImage;
 
 import static Utility.Constants.*;
 import static Utility.Colour.*;
@@ -27,6 +29,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
         retreatDistance = 2;
         accuracy = 0.04f;
         projectileSprite = Util.getCombinedSprite(projectileSprites.get("ARROW"), projectileSprites.get("ARROW_TIP"), colour(50,50,50));
+        animatedSprite = new AnimatedSprite(charSprites.get("GOBLIN_ARCHER"));
     }
 
     public float getWidth() {

@@ -4,7 +4,9 @@ import Enemies.Enemy;
 import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
+import processing.core.PImage;
 
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
@@ -25,6 +27,7 @@ public class Daisy extends RangedEnemy implements Enemy, RectangleObject {
         retreatDistance = 0.3f;
         accuracy = 0.03f;
         projectileSprite = projectileSprites.get("LEAF");
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("DAISY_LONG"), charSprites.get("DAISY_SHORT")}, 0.37f);
     }
 
     public float getWidth() {
