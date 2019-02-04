@@ -98,6 +98,9 @@ public class Level {
 
     public void show(PGraphics screen, PVector renderOffset) {
         //generate an image based off the tile map;
+
+        if(game.drawDebug) game.debugScreen.beginDraw();
+
         background.beginDraw();
         background.background(0);
         for (int x = 0; x < renderW; x ++) {
@@ -119,10 +122,21 @@ public class Level {
                     }
                     PImage sprite = tileSprites.get(tile);
                     background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                    if(game.drawDebug) {
+                        game.debugScreen.noStroke();
+                        if(generalZones != null && generalZones.contains(new PVector(i, j))) {
+                            game.debugScreen.fill(0, 255, 255, 50);
+                            game.debugScreen.rect(i * TILE_SIZE - renderOffset.x + GUI_WIDTH, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                        } else if(bossZones != null && bossZones.contains(new PVector(i, j))) {
+                            game.debugScreen.fill(255, 0, 0, 50);
+                            game.debugScreen.rect(i * TILE_SIZE - renderOffset.x + GUI_WIDTH, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                        }
+                    }
                 }
             }
         }
         background.endDraw();
+        if(game.drawDebug) game.debugScreen.endDraw();
         screen.image(background, 0, 0);
     }
 

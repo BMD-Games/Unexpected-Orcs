@@ -8,7 +8,7 @@ import static Utility.Constants.*;
 
 public class Settings {
     
-    public static int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY;
+    public static int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY, INTERACT_KEY;
     private static JSONObject settings, controls;
 
     public static boolean remapNextKey = false;
@@ -21,12 +21,13 @@ public class Settings {
     }
 
     public static ScrollElement[] getElements() {
-        ScrollElement[] elements = new ScrollElement[5];
+        ScrollElement[] elements = new ScrollElement[6];
         elements[up] = new KeyRemapElement("UP", up);
         elements[down] = new KeyRemapElement("DOWN", down);
         elements[left] = new KeyRemapElement("LEFT", left);
         elements[right] = new KeyRemapElement("RIGHT", right);
         elements[ability] = new KeyRemapElement("ABILITY", ability);
+        elements[interact] = new KeyRemapElement("INTERACT", interact);
         return elements;
     }
 
@@ -42,12 +43,13 @@ public class Settings {
     }
 
     private static String[] getKeys() {
-        String[] keys = new String[5];
+        String[] keys = new String[6];
         keys[up] = getKeyFromCode(UP_KEY);
         keys[down] = getKeyFromCode(DOWN_KEY);
         keys[left] = getKeyFromCode(LEFT_KEY);
         keys[right] = getKeyFromCode(RIGHT_KEY);
         keys[ability] = getKeyFromCode(ABILITY_KEY);
+        keys[interact] = getKeyFromCode(INTERACT_KEY);
         return keys;
     }
 
@@ -63,6 +65,7 @@ public class Settings {
         LEFT_KEY = controls.getInt("LEFT");
         RIGHT_KEY = controls.getInt("RIGHT");
         ABILITY_KEY = controls.getInt("ABILITY");
+        INTERACT_KEY = controls.getInt("INTERACT");
     }
 
     public static void remapKey(int action, int code) {
@@ -82,6 +85,9 @@ public class Settings {
         } else if(action == ability) {
             ABILITY_KEY = code;
             controls.setInt("ABILITY", code);
+        } else if(action == interact) {
+            INTERACT_KEY = code;
+            controls.setInt("INTERACT", code);
         }
         saveSettings();
     }

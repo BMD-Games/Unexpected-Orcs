@@ -99,7 +99,6 @@ public class Game extends PApplet{
         }
     }
 
-
     public void keyPressed() {
         if (remapNextKey) remapKey(remapAction, keyCode);
         if (keyCode == UP_KEY) keys[up] = 1;
@@ -107,7 +106,9 @@ public class Game extends PApplet{
         if (keyCode == DOWN_KEY) keys[down] = 1;
         if (keyCode == RIGHT_KEY) keys[right] = 1;
         if (keyCode == ABILITY_KEY) keys[ability] = 1;
+        if (keyCode == INTERACT_KEY) keys[interact] = 1;
         if(characterNaming) NewGameScreen.keyPressed(gui.screen, key);
+        if(key == '\\') drawDebug = !drawDebug;
     }
 
     public void keyReleased() {
@@ -116,6 +117,7 @@ public class Game extends PApplet{
         if (keyCode == DOWN_KEY) keys[down] = 0;
         if (keyCode == RIGHT_KEY) keys[right] = 0;
         if (keyCode == ABILITY_KEY) keys[ability] = 0;
+        if (keyCode == INTERACT_KEY) keys[interact] = 0;
     }
 
     public void dispose() {

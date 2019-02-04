@@ -1,5 +1,6 @@
 {"controls": {
   "DOWN": 83,
+  "INTERACT": 16,
   "LEFT": 65,
   "ABILITY": 32,
   "RIGHT": 68,

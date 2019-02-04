@@ -461,7 +461,7 @@ public class Generator {
             int sy = placedRooms.get(deepest).y;
             int newPos = placedRooms.size();
             boolean hit = true;
-            Room room = new Room(bossRoom);
+            Room boss = new Room(bossRoom);
 
             //find a place to put the room
             //DEFS COULD GET INFINITE LOOPS HERE :0
@@ -470,11 +470,11 @@ public class Generator {
                 hit = false;
                 float ang = game.random(dir - spread, dir + spread);
                 float r = game.random(minRadius, maxRadius);
-                room.x = (int)(sx + game.cos(ang) * r);
-                room.y = (int)(sy + game.sin(ang) * r);
+                boss.x = (int)(sx + game.cos(ang) * r);
+                boss.y = (int)(sy + game.sin(ang) * r);
                 for (int i = 0; i < placedRooms.size(); i ++) {
                     //Issue here
-                    if (placedRooms.get(i).collides(room)) {
+                    if (placedRooms.get(i).collides(boss)) {
                         hit = true;
                         if((tries ++) > 10) {
                             minRadius += 1;
@@ -484,13 +484,13 @@ public class Generator {
                     }
                 }
             }
-            if (room.x < minX) minX = room.x;
-            if (room.y < minY) minY = room.y;
-            if (room.x + room.w > maxX) maxX = room.x + room.w;
-            if (room.y + room.h > maxY) maxY = room.y + room.h;
+            if (boss.x < minX) minX = boss.x;
+            if (boss.y < minY) minY = boss.y;
+            if (boss.x + boss.w > maxX) maxX = boss.x + boss.w;
+            if (boss.y + boss.h > maxY) maxY = boss.y + boss.h;
 
             //add the new room to the graph;
-            placedRooms.add(new Room(room));
+            placedRooms.add(new Room(boss));
             depth.add(depth.get(deepest) + 1);
             graph.add(new ArrayList<Integer>());
 

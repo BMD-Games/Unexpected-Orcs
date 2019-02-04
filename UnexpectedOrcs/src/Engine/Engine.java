@@ -82,6 +82,10 @@ public class Engine {
 
         updateText(delta);
 
+        if(getClosestPortal() != null && keys[interact] == 1) {
+            enterClosestPortal();
+        }
+
         lastUpdate = game.millis();
     }
 

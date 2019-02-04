@@ -26,7 +26,7 @@ public class Constants {
     public final static int SCALE = TILE_SIZE/SPRITE_SIZE;
 
     //keeps track of buttons being pressed
-    public static int[] keys = {0, 0, 0, 0, 0};
+    public static int[] keys = {0, 0, 0, 0, 0, 0};
 
     public static float miniMapZoom = 1;
     public static float zoomMax = 5;
@@ -38,7 +38,7 @@ public class Constants {
     public static PFont bitcell;
 
     //movements
-    public final static int up = 0, down = 1, left = 2, right = 3, ability = 4, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
+    public final static int up = 0, down = 1, left = 2, right = 3, ability = 4, interact = 5, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
 
     public static String loadMessage = "Litty";
     public static String loadedPlayerName = "";
