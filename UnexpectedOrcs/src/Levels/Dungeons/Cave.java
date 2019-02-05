@@ -10,6 +10,7 @@ import Enemies.StandardEnemy;
 import Levels.Generator;
 import Levels.Level;
 import Sprites.TileSet;
+import Utility.Util;
 
 import static Utility.Constants.*;
 
@@ -79,10 +80,4 @@ public class Cave extends Level {
         bosses.add(enemy);
     }
 
-    protected void validSpawn(StandardEnemy enemy) {
-        while(!enemy.validPosition(this, enemy.x, enemy.y)) {
-            enemy.x = game.random(w);
-            enemy.y = game.random(h);
-        }
-    }
 }

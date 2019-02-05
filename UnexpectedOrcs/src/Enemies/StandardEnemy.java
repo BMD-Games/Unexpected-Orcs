@@ -57,7 +57,12 @@ public abstract class StandardEnemy implements Enemy {
 
     /* Enemies need to update on tics */
     public boolean update(double delta) {
-        angle = game.atan2(engine.player.y - y, engine.player.x - x);
+        float angleDiff = game.atan2(engine.player.y - y, engine.player.x - x) - angle;
+        if (Math.abs(angleDiff) < (1.1 * delta)) {
+            angle += angleDiff;
+        } else {
+            angle += Util.sign(angleDiff) * 1.1 * delta;
+        }
         active = Util.distance(x, y, engine.player.x, engine.player.y) < range;
         stats.update(delta);
         animatedSprite.update(delta);
