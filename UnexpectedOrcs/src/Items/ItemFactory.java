@@ -73,7 +73,7 @@ public class ItemFactory {
         staff.damage =  4 + 10 * tier + (int)(game.randomGaussian() * tier);
         staff.range = 6;
         staff.bulletSpeed = 8 + game.abs((int)(game.randomGaussian() * tier));
-        staff.fireRate = Util.roundTo(0.6f - tier * game.abs(game.randomGaussian()) / 32, 100);
+        staff.fireRate = Util.roundTo(0.51f - tier * game.abs(game.randomGaussian()) / 32, 100);
         staff.accuracy = Util.roundTo(0.03f + tier * game.randomGaussian() / 160, 100);
         staff.tier = tier;
         return staff;

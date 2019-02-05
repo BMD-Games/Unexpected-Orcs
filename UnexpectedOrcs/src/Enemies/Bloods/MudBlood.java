@@ -3,6 +3,7 @@ package Enemies.Bloods;
 import Enemies.Enemy;
 import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
+import Entities.Drops.Portals.BloodPortal;
 import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
@@ -23,8 +24,8 @@ public class MudBlood extends MeleeEnemy implements Enemy, RectangleObject {
         stats.speed = 1.2f + 0.2f * tier;
         stats.attack = 20 + 30 * tier;
         stats.defence = 3 * tier;
-        stats.health = 25 + 20 * tier;
-        stats.vitality = 7;
+        stats.health = 30 + 20 * tier;
+        stats.vitality = 8;
         animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("BLOOD_MONSTER"), charSprites.get("BLOOD_MONSTER_MOVING")}, 0.43f);
     }
 
@@ -47,6 +48,6 @@ public class MudBlood extends MeleeEnemy implements Enemy, RectangleObject {
             itembag.addItem(itemFactory.createRandomWeapon(tier));
         }
         engine.addDrop(itembag);
-        engine.addDrop(new CavePortal(x, y));
+        engine.addDrop(new BloodPortal(x, y));
     }
 }
