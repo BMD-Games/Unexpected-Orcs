@@ -64,12 +64,12 @@ public abstract class StandardEnemy implements Enemy {
         if(tookDamage) {
             damageTime += delta;
         }
+        sprite = animatedSprite.getCurrentSprite();
         return stats.health > 0;
     }
 
     /* Displays enemy to screen */
     public void show(PGraphics screen, PVector renderOffset) {
-        sprite = animatedSprite.getCurrentSprite();
         if(!engine.currentLevel.visited((int)x, (int)y)) return;
         screen.pushMatrix();
         screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
@@ -91,11 +91,19 @@ public abstract class StandardEnemy implements Enemy {
 
         if((angle < game.PI/2) && (angle > -game.PI/2)) {
             screen.rotate(angle);
-            screen.image(currSprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+            try {
+                screen.image(currSprite, -sprite.width * SCALE / 2, -sprite.height * SCALE / 2, sprite.width * SCALE, sprite.height * SCALE);
+            } catch (NullPointerException e) {
+                System.out.println(this.getClass().toString());
+            }
         } else {
             screen.scale(-1.0f, 1.0f);
             screen.rotate(game.PI-angle);
-            screen.image(currSprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
+            try {
+                screen.image(currSprite, sprite.width * SCALE / 2, -sprite.height * SCALE / 2, -sprite.width * SCALE, sprite.height * SCALE);
+            } catch (NullPointerException e) {
+                System.out.println(this.getClass().toString());
+            }
         }
         screen.popMatrix();
     }

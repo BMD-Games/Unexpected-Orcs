@@ -309,18 +309,22 @@ public class Sprites {
         charSprites.put("DAISY_LONG", getSprite(charsheet, 9, 0, 1, 1, charSize));
 
         //Load cave mobs
-        charSprites.put("SPIDER_LEFT", getSprite(charsheet, 6, 2, 1, 1, charSize));
-        charSprites.put("SPIDER_RIGHT", getSprite(charsheet, 7, 2, 1, 1, charSize));
+        charSprites.put("SPIDER", getSprite(charsheet, 6, 2, 1, 1, charSize));
+        charSprites.put("SPIDER_JUMPING", getSprite(charsheet, 7, 2, 1, 1, charSize));
+        charSprites.put("SPIDER_SPITTING", getSprite(charsheet, 8, 2, 1, 1, charSize));
         charSprites.put("CRAWLER_LEFT", getSprite(charsheet, 10, 4, 1, 1, charSize));
         charSprites.put("CRAWLER_RIGHT", getSprite(charsheet, 11, 4, 1, 1, charSize));
+        charSprites.put("CRAWLER", getSprite(charsheet, 12, 4, 1, 1, charSize));
+        charSprites.put("CRAWLER_BITING", getSprite(charsheet, 13, 4, 1, 1, charSize));
         charSprites.put("BAT_SPREAD", getSprite(charsheet, 6, 3, 1, 1, charSize));
         charSprites.put("BAT_FLAPPING", getSprite(charsheet, 7, 3, 1, 1, charSize));
+        charSprites.put("BAT_BITING", getSprite(charsheet, 8, 3, 1, 1, charSize));
 
         //Load desert mobs
         charSprites.put("CACTUS", getSprite(charsheet, 10, 0, 1, 1, charSize));
         charSprites.put("CACTUS_TALL", getSprite(charsheet, 11, 0, 1, 1, charSize));
-        charSprites.put("ANTLION", getSprite(charsheet, 12, 2, 1, 1, charSize));
-        charSprites.put("ANTLION_BITING", getSprite(charsheet, 13, 2, 1, 1, charSize));
+        charSprites.put("ANTLION_LEFT", getSprite(charsheet, 9, 2, 1, 1, charSize));
+        charSprites.put("ANTLION_RIGHT", getSprite(charsheet, 9, 3, 1, 1, charSize));
         charSprites.put("SCORPION", getSprite(charsheet, 8, 1, 2, 1, charSize));
         charSprites.put("SCORPION_BITING", getSprite(charsheet, 10, 1, 2, 1, charSize));
 
@@ -352,22 +356,41 @@ public class Sprites {
         charSprites.put("ELEMENTAL_BODYGUARDS_4", getSprite(charsheet, 12, 12, 4, 4, charSize));
 
         //Load goblin sprites
-        charSprites.put("GOBLIN_ARCHER", getSprite(charsheet, 0, 6, 1, 1, charSize));
-        charSprites.put("GOBLIN_SPEARMAN", getSprite(charsheet, 1, 6, 1, 1, charSize));
-        charSprites.put("GOBLIN_WARRIOR", getSprite(charsheet, 0, 7, 1, 1, charSize));
-        charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 1, 7, 1, 1, charSize));
+        charSprites.put("GOBLIN_ARCHER", getSprite(charsheet, 6, 8, 1, 1, charSize));
+        charSprites.put("GOBLIN_ARCHER_WALKING", getSprite(charsheet, 7, 8, 1, 1, charSize));
+        charSprites.put("GOBLIN_WARRIOR", getSprite(charsheet, 4, 8, 1, 1, charSize));
+        charSprites.put("GOBLIN_WARRIOR_WALKING", getSprite(charsheet, 5, 8, 1, 1, charSize));
+        charSprites.put("GOBLIN_MAGE", getSprite(charsheet, 4, 9, 1, 1, charSize));
+        charSprites.put("GOBLIN_MAGE_WALKING", getSprite(charsheet, 5, 9, 1, 1, charSize));
+        charSprites.put("GOBLIN_SPEARMAN", getSprite(charsheet, 6, 9, 1, 1, charSize));
+        charSprites.put("GOBLIN_SPEARMAN_WALKING", getSprite(charsheet, 7, 9, 1, 1, charSize));
 
-        charSprites.put("GOBLIN_BOXER", getSprite(charsheet, 2, 6, 2, 2, charSize));
-        charSprites.put("GOBLIN_BOXER_2", getSprite(charsheet, 4, 6, 2, 2, charSize));
+        //Load mini-boss sprites
+        charSprites.put("GOBLIN_BOXER", getSprite(charsheet, 0, 6, 2, 2, charSize));
+        charSprites.put("GOBLIN_BOXER_WALKING", getSprite(charsheet, 2, 6, 2, 2, charSize));
+        charSprites.put("GOBLIN_BOXER_ATTACKING", getSprite(charsheet, 4, 6, 2, 2, charSize));
         charSprites.put("BASILISK", getSprite(charsheet, 6, 6, 2, 2, charSize));
-        charSprites.put("BASILISK_2", getSprite(charsheet, 8, 6, 2, 2, charSize));
+        charSprites.put("BASILISK_MOVING", getSprite(charsheet, 8, 6, 2, 2, charSize));
+        charSprites.put("BASILISK_BITING", getSprite(charsheet, 10, 6, 2, 2, charSize));
+        charSprites.put("BLOOD_MONSTER", getSprite(charsheet, 12, 6, 2, 2, charSize));
+        charSprites.put("BLOOD_MONSTER_MOVING", getSprite(charsheet, 14, 6, 2, 2, charSize));
 
-        charSprites.put("DEMON_CAMEL", getSprite(charsheet, 8, 2, 2, 1, charSize));
-        charSprites.put("DEMON_CAMEL_2", getSprite(charsheet, 8, 3, 2, 1, charSize));
-        charSprites.put("DEMON_NIBBLER", getSprite(charsheet, 10, 2, 2, 1, charSize));
-        charSprites.put("DEMON_NIBBLER_2", getSprite(charsheet, 10, 3, 2, 1, charSize));
-        charSprites.put("DEMON_BITER", getSprite(charsheet, 11, 2, 2, 1, charSize));
-        charSprites.put("DEMON_BITER_2", getSprite(charsheet, 11, 3, 2, 1, charSize));
+        //Load blood monsters
+        charSprites.put("DEMON_CAMEL", getSprite(charsheet, 12, 2, 2, 1, charSize));
+        charSprites.put("DEMON_CAMEL_WALKING", getSprite(charsheet, 12, 3, 2, 1, charSize));
+        charSprites.put("DEMON_NIBBLER", getSprite(charsheet, 10, 2, 1, 1, charSize));
+        charSprites.put("DEMON_NIBBLER_CROUCHING", getSprite(charsheet, 10, 3, 1, 1, charSize));
+        charSprites.put("DEMON_BITER", getSprite(charsheet, 11, 2, 1, 1, charSize));
+        charSprites.put("DEMON_BITER_BITING", getSprite(charsheet, 11, 3, 1, 1, charSize));
+
+        //Load misc mobs
+        charSprites.put("GHOST_BALL_WHITE", getSprite(charsheet, 14, 4, 1, 1, charSize));
+        charSprites.put("GHOST_BALL_BLACK", getSprite(charsheet, 15, 4, 1, 1, charSize));
+        charSprites.put("SLUG", getSprite(charsheet, 10, 5, 2, 1, charSize));
+        charSprites.put("SLUG_COILED", getSprite(charsheet, 12, 5, 2, 1, charSize));
+        charSprites.put("SLUG_BITING", getSprite(charsheet, 14, 5, 2, 1, charSize));
+        charSprites.put("WOLF", getSprite(charsheet, 8, 4, 2, 1, charSize));
+        charSprites.put("WOLF_BITING", getSprite(charsheet, 8, 5, 2, 1, charSize));
 
         //-----BULLET SPRITES-----
         PImage projectilesheet = app.loadImage("/assets/sprites/projectilesheet.png");

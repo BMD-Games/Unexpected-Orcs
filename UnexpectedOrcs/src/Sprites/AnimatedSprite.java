@@ -34,4 +34,9 @@ public class AnimatedSprite {
             }
         }
     }
+
+    public void reset() {
+        frameCounter = 0;
+        currentSprite = 0;
+    }
 }

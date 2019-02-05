@@ -21,7 +21,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
     private float w = 0.5f, h = 0.5f;
 
     public Spider(float x, float y, int tier) {
-        super(x, y, tier, charSprites.get("SPIDER_LEFT"));
+        super(x, y, tier, charSprites.get("SPIDER"));
         stats.speed = 0.6f + 0.1f * tier;
         stats.attack = 12 + 12 * tier;
         stats.defence = 2 * tier;
@@ -32,7 +32,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
         retreatDistance = 0.3f;
         accuracy = 0.01f;
         projectileSprite = projectileSprites.get("STAFF");
-        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("SPIDER_LEFT"), charSprites.get("SPIDER_RIGHT")}, 0.41f);
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("SPIDER"), charSprites.get("SPIDER_JUMPING")}, 0.41f);
     }
 
     public float getWidth() {
