@@ -1,5 +1,6 @@
 package Levels.Dungeons;
 
+import Enemies.Bloods.MudBlood;
 import Enemies.CreepyCrawlies.Basilisk;
 import Enemies.CreepyCrawlies.Bat;
 import Enemies.CreepyCrawlies.Crawler;
@@ -68,6 +69,11 @@ public class Cave extends Level {
         bosses.add(enemy);
 
         enemy = new Basilisk(game.random(w), game.random(h), 1);
+        validSpawn(enemy);
+        addEnemy(enemy);
+        bosses.add(enemy);
+
+        enemy = new MudBlood(game.random(w), game.random(h), 1);
         validSpawn(enemy);
         addEnemy(enemy);
         bosses.add(enemy);
