@@ -595,7 +595,7 @@ public class Generator {
                     newTiles[i][j] = tileset.walls[getBitMaskValue(tiles, i, j)];
                 } else if (tiles[i][j] == FLOOR) {
                     //use some game.random shit to add flavour to dungeons
-                    if (tileset.extras.size() > 0 && game.random(1) < 0.1) {
+                    if (tileset.extras.size() > 0 && game.random(1) < 0.05) {
                         newTiles[i][j] = tileset.extras.get((int)game.random(tileset.extras.size()));
                     } else newTiles[i][j] = tileset.floor;
                 } else {

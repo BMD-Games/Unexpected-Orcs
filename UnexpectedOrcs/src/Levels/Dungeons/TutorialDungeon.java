@@ -49,7 +49,7 @@ public class TutorialDungeon  extends Level {
     }
 
     void generateEnemies() {
-        engine.addDrop(new CavePortal(12, 45));
+        engine.addDrop(new BloodPortal(12, 45));
     }
 
     protected void validSpawn(StandardEnemy enemy) {

@@ -125,7 +125,6 @@ public class Tiles {
     public final static int LONG_WOOD    = 4;
     public final static int BROKEN_WOOD  = 5;
 
-
     public final static int STONE        = 6;
     public final static int X_STONE      = 7;
     public final static int RUBBLE_STONE = 8;
@@ -143,4 +142,5 @@ public class Tiles {
 
     public final static int BLOOD       = 18;
     public final static int BLOOD_SHINE = 19;
+    public final static int BLOOD_EYE   = 20;
 }

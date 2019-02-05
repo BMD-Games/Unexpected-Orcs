@@ -218,6 +218,7 @@ public class TileSet {
 
         tileset.floor = BLOOD;
         tileset.spawn = BLOOD_SHINE;
+        tileset.extras.add(BLOOD_EYE);
 
         return tileset;
     }
