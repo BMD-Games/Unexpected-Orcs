@@ -29,7 +29,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
         retreatDistance = 2;
         accuracy = 0.04f;
         projectileSprite = Util.getCombinedSprite(projectileSprites.get("ARROW"), projectileSprites.get("ARROW_TIP"), colour(50,50,50));
-        animatedSprite = new AnimatedSprite(charSprites.get("GOBLIN_ARCHER"));
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("GOBLIN_ARCHER"), charSprites.get("GOBLIN_ARCHER_WALKING")}, 0.25f);
     }
 
     public float getWidth() {

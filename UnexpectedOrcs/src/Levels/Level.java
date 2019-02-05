@@ -5,6 +5,7 @@ import Enemies.Enemy;
 import Enemies.StandardEnemy;
 import Sprites.TileSet;
 import Utility.PVectorZComparator;
+import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -34,7 +35,7 @@ public class Level {
     public int w, h;
     public PVector start;
     protected String name;
-    public TileSet tileset  = new TileSet();
+    public TileSet tileset;
     protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
 
     public ArrayList<Enemy> bosses = new ArrayList<Enemy>();
@@ -521,7 +522,7 @@ public class Level {
     }
 
     protected void validSpawn(StandardEnemy enemy) {
-        while (!enemy.validPosition(this, enemy.x, enemy.y)) {
+        while ((!enemy.validPosition(this, enemy.x, enemy.y)) || (Util.distance(enemy.x, enemy.y, start.x, start.y) < 10)) {
             enemy.x = game.random(w);
             enemy.y = game.random(h);
         }

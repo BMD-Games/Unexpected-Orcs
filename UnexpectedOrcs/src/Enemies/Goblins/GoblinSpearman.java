@@ -6,6 +6,7 @@ import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
+import processing.core.PImage;
 
 import static Sprites.Sprites.*;
 import static Utility.Constants.*;
@@ -22,7 +23,7 @@ public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject
         stats.health = 20 + 15 * tier;
         stats.vitality = 2;
         attackWaitTime = 0.6f;
-        animatedSprite = new AnimatedSprite(charSprites.get("GOBLIN_SPEARMAN"));
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("GOBLIN_SPEARMAN"), charSprites.get("GOBLIN_SPEARMAN_WALKING")}, 0.24f);
     }
 
     public float getWidth() {

@@ -23,7 +23,7 @@ public class GoblinBoxer extends MeleeEnemy implements Enemy, RectangleObject {
         stats.defence = 8 * tier;
         stats.health = 40 + 35 * tier;
         stats.vitality = 6;
-        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("GOBLIN_BOXER"), charSprites.get("GOBLIN_BOXER_2")}, 0.38f);
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("GOBLIN_BOXER"), charSprites.get("GOBLIN_BOXER_WALKING")}, 0.38f);
     }
 
     public float getWidth() {
