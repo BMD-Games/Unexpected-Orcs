@@ -61,7 +61,9 @@ public abstract class StandardEnemy implements Enemy {
         if (Math.abs(angleDiff) < (1.1 * delta)) {
             angle += angleDiff;
         } else {
-            angle += Util.sign(angleDiff) * 1.1 * delta;
+            System.out.print(this.getClass().toString());
+            System.out.println(" reached max rotation");
+            angle -= Util.sign(angleDiff) * 1.1 * delta;
         }
         active = Util.distance(x, y, engine.player.x, engine.player.y) < range;
         stats.update(delta);
