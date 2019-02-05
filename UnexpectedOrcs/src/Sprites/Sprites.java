@@ -266,15 +266,27 @@ public class Sprites {
         dropSprites.put("PORTAL_CAVE", getSprite(dropsheet, 0, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_CAVE2", getSprite(dropsheet, 0, 4, 2, 2, dropSize));
         dropSprites.put("PORTAL_CAVE3", getSprite(dropsheet, 0, 6, 2, 2, dropSize));
+        dropSprites.put("PORTAL_CAVE_ACTIVE", getSprite(dropsheet, 0, 8, 2, 2, dropSize));
+
         dropSprites.put("PORTAL_GRASS", getSprite(dropsheet, 2, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_GRASS2", getSprite(dropsheet, 2, 4, 2, 2, dropSize));
         dropSprites.put("PORTAL_GRASS3", getSprite(dropsheet, 2, 6, 2, 2, dropSize));
+        dropSprites.put("PORTAL_GRASS_ACTIVE", getSprite(dropsheet, 2, 8, 2, 2, dropSize));
+
         dropSprites.put("PORTAL_CELLAR", getSprite(dropsheet, 4, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_CELLAR2", getSprite(dropsheet, 4, 4, 2, 2, dropSize));
         dropSprites.put("PORTAL_CELLAR3", getSprite(dropsheet, 4, 6, 2, 2, dropSize));
+        dropSprites.put("PORTAL_CELLAR_ACTIVE", getSprite(dropsheet, 4, 8, 2, 2, dropSize));
+
         dropSprites.put("PORTAL_DESERT", getSprite(dropsheet, 6, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_DESERT2", getSprite(dropsheet, 6, 4, 2, 2, dropSize));
         dropSprites.put("PORTAL_DESERT3", getSprite(dropsheet, 6, 6, 2, 2, dropSize));
+        dropSprites.put("PORTAL_DESERT_ACTIVE", getSprite(dropsheet, 6, 8, 2, 2, dropSize));
+
+        dropSprites.put("PORTAL_BLOOD", getSprite(dropsheet, 8, 2, 2, 2, dropSize));
+        dropSprites.put("PORTAL_BLOOD2", getSprite(dropsheet, 8, 4, 2, 2, dropSize));
+        dropSprites.put("PORTAL_BLOOD3", getSprite(dropsheet, 8, 6, 2, 2, dropSize));
+        dropSprites.put("PORTAL_BLOOD_ACTIVE", getSprite(dropsheet, 8, 8, 2, 2, dropSize));
 
         //-----GUI SPRITES----
         PImage sheet = app.loadImage("/assets/sprites/spritesheet.png");

@@ -20,7 +20,7 @@ public class Pack extends Drop{
     private float vel = 0, acc = 2.5f;
 
     public Pack(float x, float y, int tier, String stat) {
-        super(x, y, 1.5f, 10);
+        super(x, y, 1f, 10);
         this.stat = stat;
         this.tier = tier;
         this.sprites = new AnimatedSprite(Util.applyColourToImage(dropSprites.get("PACK").copy(), statColours.get(stat)));

@@ -13,6 +13,7 @@ public class DesertPortal extends Portal {
     public DesertPortal(float x, float y) {
         super(x, y, "Grass World");
         this.sprites = new AnimatedSprite(new PImage[]{dropSprites.get("PORTAL_DESERT"), dropSprites.get("PORTAL_DESERT2"), dropSprites.get("PORTAL_DESERT3")}, 0.5f);
+        this.activeSprite = dropSprites.get("PORTAL_DESERT_ACTIVE");
     }
 
     @Override

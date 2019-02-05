@@ -72,6 +72,7 @@ public class Engine {
         if (player.stats.getHealth() <= 0) {
             //absolutely get hack3d loser
             //setState("DEAD");
+            //player.onDeath();
         }
         updateCamera(player.x, player.y);
         currentLevel.update(screen, camera.x, camera.y);
@@ -140,9 +141,9 @@ public class Engine {
                 weapon.playSound();
 
                 ArrayList<Pair> projectileStats = weapon.statusEffects == null ? new ArrayList<Pair>() : weapon.statusEffects;
-                if(player.currentScroll() != null);
-                projectileStats.addAll(engine.player.currentScroll().statusEffects);
-
+                if(player.currentScroll() != null) {
+                    projectileStats.addAll(engine.player.currentScroll().statusEffects);
+                }
                 for (int i = 0; i < weapon.numBullets; i++) {
                     playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + game.random(-weapon.accuracy, weapon.accuracy)),
                             weapon.bulletSpeed, weapon.range, weapon.damage + player.stats.getAttack(), weapon.bulletSprite, projectileStats));

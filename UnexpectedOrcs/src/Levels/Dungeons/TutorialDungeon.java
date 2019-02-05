@@ -10,6 +10,7 @@ import Enemies.Elementals.PoisonElemental;
 import Enemies.Plants.Daisy;
 import Enemies.Plants.Rose;
 import Enemies.StandardEnemy;
+import Entities.Drops.Portals.BloodPortal;
 import Entities.Drops.Portals.CavePortal;
 import Levels.Level;
 import Sprites.TileSet;

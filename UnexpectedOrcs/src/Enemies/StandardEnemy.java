@@ -174,10 +174,10 @@ public abstract class StandardEnemy implements Enemy {
 
 
     public void onDeath() {
-        if (game.random(1) < 0.05) {
+        if (game.random(1) < 0.08) {
             engine.addDrop(new Pack(x, y, tier, "HEALTH"));
         }
-        if (game.random(1) < 0.05) {
+        if (game.random(1) < 0.04) {
             engine.addDrop(new Pack(x, y, tier, "MANA"));
         }
     }

@@ -174,4 +174,9 @@ public class Player {
     public Item[] inv() {
         return inv.inv();
     }
+
+    public void onDeath() {
+        inv = new Inventory();
+        stats.onDeath();
+    }
 }

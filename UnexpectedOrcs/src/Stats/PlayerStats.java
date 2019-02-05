@@ -231,5 +231,22 @@ public class PlayerStats extends Stats implements Serializable {
         }
     }
 
+    public void onDeath() {
+        //set all stats kills to be 80% of original
+        float percent = 0.8f;
+        reduceStat(healthKills, percent);
+        reduceStat(manaKills, percent);
+        reduceStat(defenceKills, percent);
+        reduceStat(attackKills, percent);
+        reduceStat(vitalityKills, percent);
+        reduceStat(wisdomKills, percent);
+        reduceStat(speedKills, percent);
+    }
+
+    private void reduceStat(HashMap<Integer, Integer> stat, float percent) {
+        for(int key : stat.keySet()) {
+            stat.put(key, (int)(stat.get(key) * percent));
+        }
+    }
 
 }
