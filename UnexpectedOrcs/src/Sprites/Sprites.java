@@ -124,6 +124,23 @@ public class Sprites {
         tileSprites.put(SANDSTONE_14, getSprite(tilesheet, 14, 27, 1, 1, SPRITE_SIZE));
         tileSprites.put(SANDSTONE_15, getSprite(tilesheet, 15, 27, 1, 1, SPRITE_SIZE));
 
+        tileSprites.put(BLOOD_SPONGE_00, getSprite(tilesheet, 0, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_01, getSprite(tilesheet, 1, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_02, getSprite(tilesheet, 2, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_03, getSprite(tilesheet, 3, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_04, getSprite(tilesheet, 4, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_05, getSprite(tilesheet, 5, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_06, getSprite(tilesheet, 6, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_07, getSprite(tilesheet, 7, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_08, getSprite(tilesheet, 8, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_09, getSprite(tilesheet, 9, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_10, getSprite(tilesheet, 10, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_11, getSprite(tilesheet, 11, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_12, getSprite(tilesheet, 12, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_13, getSprite(tilesheet, 13, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_14, getSprite(tilesheet, 14, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SPONGE_15, getSprite(tilesheet, 15, 26, 1, 1, SPRITE_SIZE));
+
         //--Floor--
         tileSprites.put(WOOD, getSprite(tilesheet, 0, 1, 1, 1, SPRITE_SIZE));
         tileSprites.put(STAR_WOOD, getSprite(tilesheet, 1, 1, 1, 1, SPRITE_SIZE));
@@ -144,6 +161,9 @@ public class Sprites {
         tileSprites.put(SAND, getSprite(tilesheet, 0, 4, 1, 1, SPRITE_SIZE));
         tileSprites.put(SAND_ROCK, getSprite(tilesheet, 1, 4, 1, 1, SPRITE_SIZE));
         tileSprites.put(SAND_CACTUS,  getSprite(tilesheet, 2, 4, 1, 1, SPRITE_SIZE));
+
+        tileSprites.put(BLOOD, getSprite(tilesheet, 0, 5, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_SHINE, getSprite(tilesheet, 1, 5, 1, 1, SPRITE_SIZE));
 
 
         //-----ITEM SPRITES-----
@@ -248,10 +268,13 @@ public class Sprites {
         dropSprites.put("PORTAL_CAVE3", getSprite(dropsheet, 0, 6, 2, 2, dropSize));
         dropSprites.put("PORTAL_GRASS", getSprite(dropsheet, 2, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_GRASS2", getSprite(dropsheet, 2, 4, 2, 2, dropSize));
+        dropSprites.put("PORTAL_GRASS3", getSprite(dropsheet, 2, 6, 2, 2, dropSize));
         dropSprites.put("PORTAL_CELLAR", getSprite(dropsheet, 4, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_CELLAR2", getSprite(dropsheet, 4, 4, 2, 2, dropSize));
+        dropSprites.put("PORTAL_CELLAR3", getSprite(dropsheet, 4, 6, 2, 2, dropSize));
         dropSprites.put("PORTAL_DESERT", getSprite(dropsheet, 6, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_DESERT2", getSprite(dropsheet, 6, 4, 2, 2, dropSize));
+        dropSprites.put("PORTAL_DESERT3", getSprite(dropsheet, 6, 6, 2, 2, dropSize));
 
         //-----GUI SPRITES----
         PImage sheet = app.loadImage("/assets/sprites/spritesheet.png");

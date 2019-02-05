@@ -125,6 +125,29 @@ public class TileSet {
         return wall;
     }
 
+    public static int[] bloodSpongeWalls() {
+        int[] wall = new int[16];
+
+        wall[0] = BLOOD_SPONGE_00;
+        wall[1] = BLOOD_SPONGE_01;
+        wall[2] = BLOOD_SPONGE_02;
+        wall[3] = BLOOD_SPONGE_03;
+        wall[4] = BLOOD_SPONGE_04;
+        wall[5] = BLOOD_SPONGE_05;
+        wall[6] = BLOOD_SPONGE_06;
+        wall[7] = BLOOD_SPONGE_07;
+        wall[8] = BLOOD_SPONGE_08;
+        wall[9] = BLOOD_SPONGE_09;
+        wall[10] = BLOOD_SPONGE_10;
+        wall[11] = BLOOD_SPONGE_11;
+        wall[12] = BLOOD_SPONGE_12;
+        wall[13] = BLOOD_SPONGE_13;
+        wall[14] = BLOOD_SPONGE_14;
+        wall[15] = BLOOD_SPONGE_15;
+
+        return wall;
+    }
+
     public static TileSet testTileset() {
         TileSet tileset = new TileSet();
 
@@ -184,6 +207,17 @@ public class TileSet {
         tileset.spawn = SAND;
         tileset.extras.add(SAND_ROCK);
         tileset.extras.add(SAND_CACTUS);
+
+        return tileset;
+    }
+
+    public static TileSet bloodTileSet() {
+        TileSet tileset = new TileSet();
+
+        tileset.walls = bloodSpongeWalls();
+
+        tileset.floor = BLOOD;
+        tileset.spawn = BLOOD_SHINE;
 
         return tileset;
     }
