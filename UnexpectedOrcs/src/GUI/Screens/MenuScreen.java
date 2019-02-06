@@ -5,6 +5,8 @@ import GUI.Button;
 import Utility.Util;
 import processing.core.PGraphics;
 
+import static Sprites.Sprites.tileSprites;
+import static Tiles.Tiles.BLOOD_EYE;
 import static Utility.Constants.*;
 
 public class MenuScreen extends GUIScreen {
@@ -24,6 +26,8 @@ public class MenuScreen extends GUIScreen {
         load.show(screen);
         options.show(screen);
         exit.show(screen);
+
+        screen.image(tileSprites.get(BLOOD_EYE), 0, 0);
 
         screen.endDraw();
         //draw to screen

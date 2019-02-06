@@ -164,6 +164,7 @@ public class Sprites {
 
         tileSprites.put(BLOOD, getSprite(tilesheet, 0, 5, 1, 1, SPRITE_SIZE));
         tileSprites.put(BLOOD_SHINE, getSprite(tilesheet, 1, 5, 1, 1, SPRITE_SIZE));
+        tileSprites.put(BLOOD_EYE, getSprite(tilesheet, 2, 5, 1, 1, SPRITE_SIZE));
 
 
         //-----ITEM SPRITES-----
