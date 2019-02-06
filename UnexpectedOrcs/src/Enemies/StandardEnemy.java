@@ -58,10 +58,13 @@ public abstract class StandardEnemy implements Enemy {
     /* Enemies need to update on tics */
     public boolean update(double delta) {
         float angleDiff = game.atan2(engine.player.y - y, engine.player.x - x) - angle;
-        if (Math.abs(angleDiff) < (1.1 * delta) || Math.abs(angleDiff) > 2 * Math.PI - (1.1 * delta)) {
+        float maxRotation = 1.8f * ((float)delta);
+        if (Math.abs(angleDiff) < (1.1 * delta) || Math.abs(angleDiff) > 2 * Math.PI - maxRotation) {
             angle += angleDiff;
+        } else if(Math.abs(angleDiff) < Math.PI) {
+            angle += Util.sign(angleDiff) * maxRotation;
         } else {
-            angle += Util.sign(angleDiff) * 1.1 * delta;
+            angle -= Util.sign(angleDiff) * maxRotation;
         }
         active = Util.distance(x, y, engine.player.x, engine.player.y) < range;
         stats.update(delta);
