@@ -13,6 +13,8 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.event.MouseEvent;
+import processing.opengl.PGraphicsOpenGL;
+import processing.opengl.PJOGL;
 
 import static Settings.Settings.*;
 import static Utility.Constants.*;
@@ -37,21 +39,25 @@ public class Game extends PApplet{
     }
 
     public void settings() {
-        size(1080, 720, FX2D);
+        size(1080, 720, P2D);
         noSmooth();
+        PJOGL.setIcon("/assets/sprites/icon.png");
     }
 
     public void setup() {
         frameRate(60);
 
         surface.setTitle("Unexpected Orcs");
-        surface.setIcon(loadImage("/assets/sprites/icon.png"));
 
         setState("LOADING");
         thread("load");
         // thread("loadSounds");
 
         bitcell = createFont("./assets/fonts/bitcell.ttf", TILE_SIZE);
+
+        outlineShader = loadShader("/assets/shaders/outlineFrag.glsl");//, "/assets/shaders/outlineVert.glsl");
+        outlineShader.set("scale", SCALE);
+
         textFont(bitcell);
         textAlign(CENTER, CENTER);
         textSize(TILE_SIZE);
@@ -107,7 +113,7 @@ public class Game extends PApplet{
         if (keyCode == RIGHT_KEY) keys[right] = 1;
         if (keyCode == ABILITY_KEY) keys[ability] = 1;
         if (keyCode == INTERACT_KEY) keys[interact] = 1;
-        if(characterNaming) NewGameScreen.keyPressed(gui.screen, key);
+        if(characterNaming) NewGameScreen.keyPressed(key);
         if(key == '\\') drawDebug = !drawDebug;
     }
 

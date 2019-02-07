@@ -27,8 +27,6 @@ public class MenuScreen extends GUIScreen {
         options.show(screen);
         exit.show(screen);
 
-        screen.image(tileSprites.get(BLOOD_EYE), 0, 0);
-
         screen.endDraw();
         //draw to screen
         game.image(screen, 0, 0);

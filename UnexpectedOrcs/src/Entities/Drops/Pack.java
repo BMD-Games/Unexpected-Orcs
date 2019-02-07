@@ -17,10 +17,10 @@ public class Pack extends Drop{
     private float pickUpRadius = 0.3f;
 
     private boolean playerWasInRange = false;
-    private float vel = 0, acc = 2.5f;
+    private float vel = 0, acc = 4f;
 
     public Pack(float x, float y, int tier, String stat) {
-        super(x, y, 1f, 10);
+        super(x, y, 1f, 15);
         this.stat = stat;
         this.tier = tier;
         this.sprites = new AnimatedSprite(Util.applyColourToImage(dropSprites.get("PACK").copy(), statColours.get(stat)));

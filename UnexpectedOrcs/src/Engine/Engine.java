@@ -11,17 +11,25 @@ import Entities.Text;
 import Items.Item;
 import Items.Weapon;
 import Levels.Dungeons.Cave;
-import Levels.Dungeons.DesertDungeon;
 import Levels.Dungeons.TutorialDungeon;
 import Levels.Level;
 import Utility.Collision.Rectangle;
 import Utility.Pair;
 import processing.core.PGraphics;
 import processing.core.PVector;
+import processing.opengl.PGraphicsOpenGL;
+import processing.opengl.PJOGL;
 
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
-import static Tiles.Tiles.*;
+
+import static Tiles.Tiles.WALL;
 import static Utility.Constants.*;
+import static com.jogamp.opengl.GL.*;
+import static com.jogamp.opengl.GL2ES2.GL_CLAMP_TO_BORDER;
+import static com.jogamp.opengl.GL2ES2.GL_TEXTURE_BORDER_COLOR;
+import static com.jogamp.opengl.GL2GL3.GL_TEXTURE_RECTANGLE;
+import static processing.core.PConstants.P2D;
 
 public class Engine {
     /**
@@ -56,9 +64,10 @@ public class Engine {
 
         player = new Player(currentLevel.start.x + 0.5f, currentLevel.start.y + 0.5f);
 
-        screen = game.createGraphics(width - GUI_WIDTH, height);
+        screen = game.createGraphics(width - GUI_WIDTH, height, P2D);
         screen.beginDraw();
         screen.noSmooth();
+        ((PGraphicsOpenGL)screen).textureSampling(3);
         screen.endDraw();
     }
 
@@ -97,9 +106,24 @@ public class Engine {
     public void show() {
         screen.beginDraw();
         currentLevel.show(screen, getRenderOffset());
+        //screen.background(0, 0);
+        outlineShader.set("scale", SCALE);
+        screen.shader(outlineShader);
 
         for (Drop drop : drops) {
             drop.show(screen, getRenderOffset());
+        }
+
+
+
+        screen.resetShader();
+        for (Projectile projectile : playerProjectiles) {
+            projectile.show(screen, getRenderOffset());
+        }
+        
+        screen.shader(outlineShader);
+        for (Projectile projectile : enemyProjectiles) {
+            projectile.show(screen, getRenderOffset());
         }
 
         ArrayList<Integer> chunks = currentLevel.getChunks((int)player.x, (int)player.y);
@@ -109,15 +133,12 @@ public class Engine {
             }
         }
 
-        for (Projectile projectile : enemyProjectiles) {
-            projectile.show(screen, getRenderOffset());
-        }
-        for (Projectile projectile : playerProjectiles) {
-            projectile.show(screen, getRenderOffset());
-        }
+
 
         player.show(screen, getRenderOffset());
 
+
+        screen.resetShader();
         for (Text txt : text) {
             txt.show(screen, getRenderOffset());
         }

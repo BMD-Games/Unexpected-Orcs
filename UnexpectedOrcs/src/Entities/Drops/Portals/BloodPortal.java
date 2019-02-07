@@ -12,7 +12,7 @@ public class BloodPortal extends Portal {
 
     public BloodPortal(float x, float y) {
         super(x, y, "Cave");
-        this.sprites = new AnimatedSprite(new PImage[]{dropSprites.get("PORTAL_BLOOD"), dropSprites.get("PORTAL_BLOOD2"), dropSprites.get("PORTAL_BLOOD"), dropSprites.get("PORTAL_BLOOD3")}, 0.3f);
+        this.sprites = new AnimatedSprite(new PImage[]{dropSprites.get("PORTAL_BLOOD"), dropSprites.get("PORTAL_BLOOD2"), dropSprites.get("PORTAL_BLOOD"), dropSprites.get("PORTAL_BLOOD3")}, 0.2f);
         this.activeSprite = dropSprites.get("PORTAL_BLOOD_ACTIVE");
     }
 

@@ -13,7 +13,7 @@ public class Drop {
     public AnimatedSprite sprites;
     public boolean alive = true;
 
-    private int alpha = 255;
+    protected int alpha = 255;
 
     public Drop(float x, float y, float radius, float lifeTime) {
         this.x = x;

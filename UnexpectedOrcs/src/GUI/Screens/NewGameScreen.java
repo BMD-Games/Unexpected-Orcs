@@ -20,6 +20,8 @@ public class NewGameScreen extends GUIScreen {
     private static Button quick = new Button(width/3 * 2 - 2 * TILE_SIZE, height/2 + TILE_SIZE, "QUICK");
     private static Button back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 3, "BACK");
 
+    private static boolean nameAlreadyExists = false;
+
     public static void show(PGraphics screen) {
         screen.beginDraw();
         clearScreen(screen);
@@ -47,6 +49,8 @@ public class NewGameScreen extends GUIScreen {
             Text.outlineText(screen, "A hero with that name already exists.", width/2, height/2 + TILE_SIZE/4, colour(150, 0, 0), colour(200));
         }
 
+
+        if(nameAlreadyExists) screen.text("That name already exists", width/2, height/2 - TILE_SIZE * 2);
 
         play.show(screen);
         quick.show(screen);
@@ -87,11 +91,12 @@ public class NewGameScreen extends GUIScreen {
         }
     }
 
-    public static void keyPressed(PGraphics screen, char key) {
+    public static void keyPressed(char key) {
         if (key == game.ENTER || key == game.RETURN && playerName.length() > 0) {
             if (checkFileAlreadyExists(playerName)) {
-                screen.text("That name already exists", width/2, height/2 - TILE_SIZE);
+                nameAlreadyExists = true;
             } else {
+                nameAlreadyExists = false;
                 loadedPlayerName = playerName;
                 guestMode = false;
                 characterNaming = false;

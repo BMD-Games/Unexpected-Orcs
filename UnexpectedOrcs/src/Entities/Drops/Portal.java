@@ -34,6 +34,7 @@ public class Portal extends Drop {
         if(activeSprite != null && inRange(engine.player.x, engine.player.y)) {
             sprite = activeSprite;
         }
+        screen.tint(255, 255, 255, alpha);
         screen.image(sprite, x * TILE_SIZE - renderOffset.x - (sprite.width * SCALE/2), y * TILE_SIZE - renderOffset.y - (sprite.height * SCALE/2), sprite.width * SCALE, sprite.height * SCALE);
         screen.tint(255);
     }

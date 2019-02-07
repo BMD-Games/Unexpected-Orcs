@@ -1,16 +1,16 @@
 package Utility;
 
+import App.Game;
 import Engine.Engine;
 import Entities.Player;
 import GUI.GUI;
 import Items.ItemFactory;
-import App.Game;
 import processing.core.PFont;
-import processing.core.PImage;
+import processing.opengl.PShader;
 
 import java.util.HashMap;
 
-import static Utility.Colour.*;
+import static Utility.Colour.colour;
 
 public class Constants {
 
@@ -36,6 +36,8 @@ public class Constants {
     public static int edgeSize = 1;
 
     public static PFont bitcell;
+
+    public static PShader outlineShader;
 
     //movements
     public final static int up = 0, down = 1, left = 2, right = 3, ability = 4, interact = 5, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
