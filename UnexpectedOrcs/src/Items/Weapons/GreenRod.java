@@ -1,6 +1,7 @@
 package Items.Weapons;
 
 import Items.Weapon;
+import Sound.SoundManager;
 import Utility.Pair;
 import Sprites.Sprites;
 
@@ -22,6 +23,6 @@ public class GreenRod  extends Weapon {
 
     @Override
     public void playSound() {
-        // soundFiles.get("WHOOSH").play();
+        SoundManager.soundFiles.get("FLYBY").play();
     }
 }

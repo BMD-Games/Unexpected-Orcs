@@ -4,6 +4,7 @@ import Engine.Engine;
 import Entities.Drops.Pack;
 import Entities.Projectile;
 import Levels.Level;
+import Sound.SoundManager;
 import Sprites.AnimatedSprite;
 import Stats.Stats;
 import Utility.Collision.*;
@@ -131,6 +132,11 @@ public abstract class StandardEnemy implements Enemy {
         if (damage > 0) {
             stats.health -= damage;
             engine.addText(String.valueOf(damage), x, y - radius, 0.5f, colour(200, 0, 0));
+            if(stats.health > 0) {
+                SoundManager.playSound("ENEMY_HIT_DAMAGE");
+            }
+        } else {
+            SoundManager.playSound("ENEMY_HIT_NO_DAMAGE");
         }
         tookDamage = true;
         damageTime = 0;
@@ -196,6 +202,7 @@ public abstract class StandardEnemy implements Enemy {
         if (game.random(1) < 0.04) {
             engine.addDrop(new Pack(x, y, tier, "MANA"));
         }
+        SoundManager.playSound("ENEMY_DEATH");
     }
 
     public void knockback(Projectile projectile, float knockBackMultiplier) {

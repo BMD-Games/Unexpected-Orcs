@@ -14,9 +14,16 @@ public class SoundManager {
     public static HashMap<String, SoundFile> soundFiles;
     public static HashMap<String, SoundFile> musicFiles;
 
+    public static PApplet app;
+
     SoundFile file;
 
+    public static void setPApplet(PApplet papp) {
+        app = papp;
+    }
+
     public static void loadSounds(PApplet app) {
+        setPApplet(app);
 
         String soundPath = "/assets/sound/sfx/";
         String musicPath = "/assets/sound/music/";
@@ -37,5 +44,13 @@ public class SoundManager {
             musicFiles.put(Util.stripExstension(name).toUpperCase(), new SoundFile(app, app.sketchPath() + musicPath + name));
         }
 
+    }
+
+    public static void playSound(String sound) {
+        soundFiles.get(sound).play();
+    }
+
+    public static void playMusic(String music) {
+        musicFiles.get(music).play();
     }
 }
