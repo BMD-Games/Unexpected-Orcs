@@ -1,14 +1,12 @@
 package Sprites;
 
-import Utility.Util;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.util.HashMap;
 
-import static Utility.Colour.*;
-import static Utility.Constants.*;
 import static Tiles.Tiles.*;
+import static Utility.Constants.SPRITE_SIZE;
 
 public class Sprites {
     public static HashMap<Integer, PImage> tileSprites;

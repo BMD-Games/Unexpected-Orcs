@@ -8,6 +8,7 @@ import GUI.Screens.LoadingScreen;
 import GUI.Screens.NewGameScreen;
 import GUI.Screens.OptionsScreen;
 import Settings.Settings;
+import Sound.SoundManager;
 import Sprites.Sprites;
 import Utility.Constants;
 import processing.core.PApplet;
@@ -129,6 +130,7 @@ public class Game extends PApplet{
 
     public void dispose() {
         //runs when the "x" button is pressed
+        println("here nib");
         quitGame();
     }
 
@@ -152,23 +154,27 @@ public class Game extends PApplet{
         loadMessage = "Setting up variables";
         Constants.setGame(this);
 
-        loadPercentage = 1/6f;
+        loadPercentage = 1/7f;
         loadMessage = "Loading Assets";
         Sprites.loadAssets(this);
 
-        loadPercentage = 2/6f;
+        loadPercentage = 2/7f;
+        loadMessage = "Loading Sounds";
+        SoundManager.loadSounds(this);
+
+        loadPercentage = 3/7f;
         loadMessage = "Loading Stats";
         loadStats();
 
-        loadPercentage = 3/6f;
+        loadPercentage = 4/7f;
         loadMessage = "Loading settings";
         Settings.loadSettings();
 
-        loadPercentage = 4/6f;
+        loadPercentage = 5/7f;
         loadMessage = "Generating level";
         Constants.setEngine(new Engine());
 
-        loadPercentage = 5/6f;
+        loadPercentage = 6/7f;
         loadMessage = "Making the GUI beautiful";
         Constants.setGUI(new GUI());
 

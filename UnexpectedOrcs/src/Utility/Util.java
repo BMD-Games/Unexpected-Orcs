@@ -197,4 +197,8 @@ public class Util {
             file.delete();
         }
     }
+
+    public static String stripExstension(String name) {
+        return name.substring(0, name.indexOf('.'));
+    }
 }

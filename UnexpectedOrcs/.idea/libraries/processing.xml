@@ -18,10 +18,11 @@
       <root url="jar://$PROJECT_DIR$/library/jogl-all-natives-windows-amd64.jar!/" />
       <root url="jar://$PROJECT_DIR$/library/jogl-all-natives-windows-i586.jar!/" />
       <root url="jar://$PROJECT_DIR$/library/jogl-all.jar!/" />
-      <root url="file://C:/Program Files (x86)/Processing/processing-3.4/core/library" />
+      <root url="jar://$PROJECT_DIR$/library/javamp3-1.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/jsyn-20171016.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/sound.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://C:/Program Files (x86)/Processing/processing-3.4/core/library" recursive="false" />
   </library>
 </component>

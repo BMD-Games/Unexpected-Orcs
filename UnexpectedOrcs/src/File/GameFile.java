@@ -10,6 +10,7 @@ import Utility.Util;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 
 import static Utility.Constants.*;
 
@@ -159,6 +160,19 @@ public class GameFile {
                 return new File(current, name).isDirectory();
             }
         }).length;
+    }
+
+    public static String[] allFilesInDirectory(String path) {
+        File file = new File(game.sketchPath() + path);
+
+        String[] allFiles = file.list(new FilenameFilter() {
+            @Override
+            public boolean accept(File current, String name) {
+                return new File(current, name).isFile();
+            }
+        });
+
+        return (allFiles == null) ? new String[0] : allFiles;
     }
 
 
