@@ -43,6 +43,7 @@ public class Constants {
     public final static int up = 0, down = 1, left = 2, right = 3, ability = 4, interact = 5, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
 
     public static String loadMessage = "Litty";
+    public static float loadPercentage = 0.0f;
     public static String loadedPlayerName = "";
     public static Player[] loadedPlayers = new Player[0];
 

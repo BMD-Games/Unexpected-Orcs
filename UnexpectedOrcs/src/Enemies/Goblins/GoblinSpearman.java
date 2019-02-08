@@ -21,6 +21,7 @@ public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject
         stats.attack = 8 + 12 * tier;
         stats.defence = 3 * tier;
         stats.health = 20 + 15 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 2;
         attackWaitTime = 0.6f;
         animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("GOBLIN_SPEARMAN"), charSprites.get("GOBLIN_SPEARMAN_WALKING")}, 0.24f);

@@ -1,6 +1,6 @@
 package GUI.Scroll;
 
-import GUI.DisplayBar;
+import GUI.Bars.DisplayBar;
 import Items.Inventory;
 import Stats.PlayerStats;
 import processing.core.PGraphics;

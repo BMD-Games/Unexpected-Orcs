@@ -1,26 +1,47 @@
-package GUI;
+package GUI.Bars;
 
+import GUI.HUDElement;
 import processing.core.PGraphics;
 
+import static Sprites.Sprites.guiSprites;
 import static Utility.Constants.*;
 
 public class DisplayBar {
 
     public float x, y, w, h;
-    private float percentFull;
-    int current, total;
-    private int c;
-    private HUDElement element;
+    protected float percentFull;
+    protected int current, total;
+    protected int c;
+    public HUDElement element;
 
     public DisplayBar(float x, float y, int c) {
         this.x = x;
         this.y = y;
         this.h = TILE_SIZE / 2;
-        this.w = TILE_SIZE * 3 - 8;
+        this.w = TILE_SIZE * 3 - TILE_SIZE/8;
         this.c = c;
         percentFull = 1.0f;
 
         element = new HUDElement(x - TILE_SIZE/16, y, "BAR");
+    }
+
+    public DisplayBar(float x, float y, int c, String spriteName) {
+        this.x = x;
+        this.y = y;
+        this.w = guiSprites.get(spriteName).width * SCALE - TILE_SIZE/8;
+        this.h = guiSprites.get(spriteName).height * SCALE;
+        this.c = c;
+        percentFull = 1.0f;
+
+        element = new HUDElement(x - TILE_SIZE/16, y, spriteName);
+    }
+
+    public DisplayBar(float x, float y, float w, float h, int c) {
+        this.x = x;
+        this.y = y;
+        this.h = h;
+        this.w = w;
+        this.c = c;
     }
 
     public void show(PGraphics screen) {

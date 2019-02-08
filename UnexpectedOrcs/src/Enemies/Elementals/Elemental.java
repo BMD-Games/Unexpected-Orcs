@@ -19,6 +19,7 @@ public abstract class Elemental extends MeleeEnemy implements Enemy, CircleObjec
         super(x, y, tier, charSprites.get("FIRE_ELEMENTAL"));
         radius = 0.25f;
         stats.health = 6 * tier;
+        stats.healthMax = (int)stats.health;
         stats.attack = 10 * tier;
         stats.speed = 2 * tier;
         stats.defence = 2 * tier;

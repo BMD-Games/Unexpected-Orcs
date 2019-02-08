@@ -23,6 +23,7 @@ public class GoblinArcher extends RangedEnemy implements Enemy, RectangleObject 
         stats.attack = 5 + 15 * tier;
         stats.defence = 2 + 2 * tier;
         stats.health = 10 + 8 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 1;
         shotWaitTime = 0.9f - game.abs(0.03f * tier * game.randomGaussian());
         shootDistance = 2.6f;

@@ -21,6 +21,7 @@ public class Rose extends RangedEnemy implements Enemy, RectangleObject {
         stats.attack = 10 + 12 * tier;
         stats.defence = 2 * tier;
         stats.health = 8 + 6 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 1;
         shotWaitTime = 0.6f - game.abs(0.03f * tier * game.randomGaussian());
         shootDistance = 4;

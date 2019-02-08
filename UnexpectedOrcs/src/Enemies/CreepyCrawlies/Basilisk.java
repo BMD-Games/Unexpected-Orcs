@@ -22,6 +22,7 @@ public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
         stats.attack = 20 + 30 * tier;
         stats.defence = 3 * tier;
         stats.health = 30 + 25 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 3;
         animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("BASILISK"), charSprites.get("BASILISK_MOVING")}, 0.29f);
     }

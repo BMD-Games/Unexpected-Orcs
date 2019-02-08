@@ -26,6 +26,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
         stats.attack = 12 + 12 * tier;
         stats.defence = 2 * tier;
         stats.health = 8 + 6 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 1;
         shotWaitTime = 1.2f - game.abs(0.03f * tier * game.randomGaussian());
         shootDistance = 2;

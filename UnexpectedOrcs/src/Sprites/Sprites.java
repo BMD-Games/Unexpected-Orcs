@@ -304,7 +304,9 @@ public class Sprites {
         guiSprites.put("LOAD", getSprite(sheet, 5, 1, 2, 1, guiSize));
         guiSprites.put("DELETE", getSprite(sheet, 7, 1, 1, 1, guiSize));
         guiSprites.put("CURSOR", getSprite(sheet, 6, 6, 2, 2, guiSize));
-        guiSprites.put("BAR", getSprite(sheet, 0, 2, 3, 1, guiSize));
+        guiSprites.put("BAR", getSprite(sheet, 0, 2, 3, 0.5f, guiSize));
+        guiSprites.put("BAR_SMOOTH", getSprite(sheet, 0, 2.5f, 3, 0.5f, guiSize));
+        guiSprites.put("BOSS_BAR", getSprite(sheet, 0, 3, 8, 1, guiSize));
         guiSprites.put("QUEST", getSprite(sheet, 0, 5, 1, 1, guiSize));
         guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
         guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
@@ -451,7 +453,7 @@ public class Sprites {
         app.cursor(guiSprites.get("CURSOR"));
     }
 
-    public static PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {
-        return image.get(x * spriteSize, y * spriteSize, w * spriteSize, h * spriteSize);
+    public static PImage getSprite(PImage image, float x, float y, float w, float h, int spriteSize) {
+        return image.get((int)(x * spriteSize), (int)(y * spriteSize), (int)(w * spriteSize), (int)(h * spriteSize));
     }
 }

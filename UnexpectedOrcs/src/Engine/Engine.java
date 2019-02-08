@@ -120,7 +120,7 @@ public class Engine {
         for (Projectile projectile : playerProjectiles) {
             projectile.show(screen, getRenderOffset());
         }
-        
+
         screen.shader(outlineShader);
         for (Projectile projectile : enemyProjectiles) {
             projectile.show(screen, getRenderOffset());

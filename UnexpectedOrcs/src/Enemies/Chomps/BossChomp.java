@@ -19,6 +19,7 @@ public class BossChomp extends Chomp {
         radius = 1;
         sprite = charSprites.get("CHOMP_BOSS");
         stats.health = 45 * tier;
+        stats.healthMax = (int)stats.health;
         stats.attack = 20 * tier;
         stats.speed = 1.1f * tier;
         stats.defence = 8 * tier;

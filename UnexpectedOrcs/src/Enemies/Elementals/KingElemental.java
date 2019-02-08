@@ -18,6 +18,7 @@ public class KingElemental extends Elemental implements Enemy {
         super(x, y, tier);
         radius = 1;
         stats.health = 30 + 60 * tier;
+        stats.healthMax = (int)stats.health;
         stats.attack = 20 + 60 * tier;
         stats.speed = 0.2f * tier;
         stats.defence = 2 + 8 * tier;

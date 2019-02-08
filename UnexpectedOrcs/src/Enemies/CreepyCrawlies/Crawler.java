@@ -21,6 +21,7 @@ public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
         stats.attack = 8 + 12 * tier;
         stats.defence = 4 * tier;
         stats.health = 25 + 25 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 2;
         attackWaitTime = 0.5f;
         animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("CRAWLER_LEFT"), charSprites.get("CRAWLER_RIGHT")}, 0.2f);

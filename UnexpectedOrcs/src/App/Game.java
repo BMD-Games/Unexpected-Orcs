@@ -4,6 +4,7 @@ import Engine.Engine;
 import File.GameFile;
 import GUI.GUI;
 import GUI.Screens.LoadScreen;
+import GUI.Screens.LoadingScreen;
 import GUI.Screens.NewGameScreen;
 import GUI.Screens.OptionsScreen;
 import Settings.Settings;
@@ -83,7 +84,7 @@ public class Game extends PApplet{
         }
 
         if(STATE.equals( "LOADING")) {
-            drawLoading();
+            LoadingScreen.show(g);
         } else {
             gui.show();
         }
@@ -147,30 +148,33 @@ public class Game extends PApplet{
     }
 
     public void load() {
+        loadPercentage = 0;
+        loadMessage = "Setting up variables";
         Constants.setGame(this);
+
+        loadPercentage = 1/6f;
         loadMessage = "Loading Assets";
         Sprites.loadAssets(this);
+
+        loadPercentage = 2/6f;
         loadMessage = "Loading Stats";
         loadStats();
+
+        loadPercentage = 3/6f;
         loadMessage = "Loading settings";
         Settings.loadSettings();
+
+        loadPercentage = 4/6f;
         loadMessage = "Generating level";
         Constants.setEngine(new Engine());
+
+        loadPercentage = 5/6f;
         loadMessage = "Making the GUI beautiful";
         Constants.setGUI(new GUI());
+
+        loadPercentage = 1;
         loadMessage = "DONE!";
         setState("MENU");
-    }
-
-    private void drawLoading() {
-        textSize(TILE_SIZE);
-        clear();
-        fill(0);
-        rect(0, 0, width, height);
-        fill(255);
-        textAlign(game.CENTER, game.CENTER);
-        text("Loading", width/2, height/2);
-        text(loadMessage, width/2, height/2 + TILE_SIZE);
     }
 
     private void updateMouse() {
@@ -187,11 +191,25 @@ public class Game extends PApplet{
     }
 
     public void loadClosestPortal() {
+        loadPercentage = 0;
+        loadMessage = "Generating Level";
         engine.currentLevel = engine.getClosestPortal().getLevel();
+
+        loadPercentage = 1/4f;
+        loadMessage = "Sweeping the floors";
         engine.clearDrops();
+
+        loadPercentage = 2/4f;
+        loadMessage = "Putting you in the right spot";
         engine.player.x = engine.currentLevel.start.x;
         engine.player.y = engine.currentLevel.start.y;
+
+        loadPercentage = 3/4f;
+        loadMessage = "Saving the Game";
         GameFile.saveGame();
+
+        loadPercentage = 1;
+        loadMessage = "DONE!";
         setState("PLAYING");
     }
 }

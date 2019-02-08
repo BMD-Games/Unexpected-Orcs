@@ -17,6 +17,7 @@ public class Chomp extends MeleeEnemy implements Enemy, CircleObject {
         radius = 0.25f;
         range = 6;
         stats.health = 14 * tier;
+        stats.healthMax = (int)stats.health;
         stats.attack = 5 * tier;
         stats.speed = 1.3f * tier;
         stats.defence = 2 * tier;

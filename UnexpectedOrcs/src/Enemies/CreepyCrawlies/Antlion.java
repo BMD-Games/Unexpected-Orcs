@@ -21,6 +21,7 @@ public class Antlion extends MeleeEnemy implements Enemy, RectangleObject {
         stats.attack = 8 + 12 * tier;
         stats.defence = 8 + 4 * tier;
         stats.health = 25 + 25 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 2;
         attackWaitTime = 0.5f;
         animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("ANTLION_LEFT"), charSprites.get("ANTLION_RIGHT")}, 0.26f);

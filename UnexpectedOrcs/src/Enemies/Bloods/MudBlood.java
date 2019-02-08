@@ -25,6 +25,7 @@ public class MudBlood extends MeleeEnemy implements Enemy, RectangleObject {
         stats.attack = 20 + 30 * tier;
         stats.defence = 3 * tier;
         stats.health = 30 + 20 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 8;
         animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("BLOOD_MONSTER"), charSprites.get("BLOOD_MONSTER_MOVING")}, 0.43f);
     }
