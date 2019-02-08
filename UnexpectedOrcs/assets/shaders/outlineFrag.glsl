@@ -11,6 +11,7 @@ varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform int scale;
+uniform vec3 colour;
 
 void main() {
 
@@ -40,7 +41,12 @@ void main() {
     float a2 = (border == 0 && alpha != 0) ? 1 : alpha;
 
     vec4 outline = vec4(border, border, border, 1.0f);
+    vec3 outlineColour = vec3(colour.r * (1 - border), colour.g * (1 - border), colour.b * (1- border));
 
     gl_FragColor = texture2D(texture, coord) * vertColor * outline;
+    //gl_FragColor += outlineColour;
+    gl_FragColor.r += outlineColour.r;
+    gl_FragColor.g += outlineColour.g;
+    gl_FragColor.b += outlineColour.b;
     gl_FragColor.a = a2;
 }

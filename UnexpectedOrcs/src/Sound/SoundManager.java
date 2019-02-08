@@ -35,12 +35,10 @@ public class SoundManager {
         String[] musicNames = GameFile.allFilesInDirectory(musicPath);
 
         for(String name : soundNames) {
-            game.println(name);
             soundFiles.put(Util.stripExstension(name).toUpperCase(), new SoundFile(app, app.sketchPath() + soundPath + name));
         }
 
         for(String name : musicNames) {
-            game.println(name);
             musicFiles.put(Util.stripExstension(name).toUpperCase(), new SoundFile(app, app.sketchPath() + musicPath + name));
         }
 

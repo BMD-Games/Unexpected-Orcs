@@ -108,13 +108,12 @@ public class Engine {
         currentLevel.show(screen, getRenderOffset());
         //screen.background(0, 0);
         outlineShader.set("scale", SCALE);
+        outlineShader.set("colour", 0f, 0f, 0f);
         screen.shader(outlineShader);
 
         for (Drop drop : drops) {
             drop.show(screen, getRenderOffset());
         }
-
-
 
         screen.resetShader();
         for (Projectile projectile : playerProjectiles) {
