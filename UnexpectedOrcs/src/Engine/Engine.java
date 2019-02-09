@@ -18,17 +18,11 @@ import Utility.Pair;
 import processing.core.PGraphics;
 import processing.core.PVector;
 import processing.opengl.PGraphicsOpenGL;
-import processing.opengl.PJOGL;
 
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
 import static Tiles.Tiles.WALL;
 import static Utility.Constants.*;
-import static com.jogamp.opengl.GL.*;
-import static com.jogamp.opengl.GL2ES2.GL_CLAMP_TO_BORDER;
-import static com.jogamp.opengl.GL2ES2.GL_TEXTURE_BORDER_COLOR;
-import static com.jogamp.opengl.GL2GL3.GL_TEXTURE_RECTANGLE;
 import static processing.core.PConstants.P2D;
 
 public class Engine {
@@ -55,6 +49,8 @@ public class Engine {
     private PGraphics screen;
 
     public Player player;
+
+    private float cameraShakeDuration = 0, cameraShakeAmp = 0.05f;
 
     public Engine() {
         //Can initialise stuff here (eg generate the first cave)
@@ -83,7 +79,7 @@ public class Engine {
             //setState("DEAD");
             //player.onDeath();
         }
-        updateCamera(player.x, player.y);
+        updateCamera(delta, player.x, player.y);
         currentLevel.update(screen, camera.x, camera.y);
 
         updateProjectiles(delta);
@@ -173,9 +169,22 @@ public class Engine {
         }
     }
 
-    private void updateCamera(float x, float y) {
-        camera.x = x;
-        camera.y = y;
+    private void updateCamera(double delta, float x, float y) {
+        float offX = 0;
+        float offY = 0;
+        if(cameraShakeDuration > 0) {
+            offX = game.random(cameraShakeAmp);
+            offY = game.random(cameraShakeAmp);
+            cameraShakeDuration -= delta;
+        }
+        camera.x = x + offX;
+        camera.y = y + offY;
+    }
+
+    public void cameraShake(float duration) {
+        if(cameraShakeDuration < duration) {
+            cameraShakeDuration = duration;
+        }
     }
 
     private void showCamera() {

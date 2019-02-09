@@ -203,6 +203,7 @@ public abstract class StandardEnemy implements Enemy {
             engine.addDrop(new Pack(x, y, tier, "MANA"));
         }
         SoundManager.playSound("ENEMY_DEATH");
+        engine.cameraShake(0.1f);
     }
 
     public void knockback(Projectile projectile, float knockBackMultiplier) {
