@@ -23,6 +23,6 @@ public class GreenRod  extends Weapon {
 
     @Override
     public void playSound() {
-        SoundManager.soundFiles.get("FLYBY").play();
+        SoundManager.playSound("WEAPON_FLYBY");
     }
 }
