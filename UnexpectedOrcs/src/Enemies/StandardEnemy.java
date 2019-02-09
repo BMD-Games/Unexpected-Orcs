@@ -204,7 +204,12 @@ public abstract class StandardEnemy implements Enemy {
             engine.addDrop(new Pack(x, y, tier, "MANA"));
         }
 
-        engine.addDrop(new Blood(x + game.random(radius), y + game.random(radius)));
+
+        //int num = (int)(game.random(tier + 1) + 1);
+        //for(int i = 0; i < num; i ++ ) {
+            //engine.addDrop(new Blood(x + game.random(radius), y + game.random(radius)));
+        //}
+        engine.addDrop(new Blood(x + game.random(radius * 2), y + game.random(radius * 2)));
 
         SoundManager.playSound("ENEMY_DEATH");
         engine.cameraShake(0.1f);

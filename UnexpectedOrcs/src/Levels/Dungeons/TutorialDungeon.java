@@ -50,6 +50,8 @@ public class TutorialDungeon  extends Level {
 
     void generateEnemies() {
         engine.addDrop(new CavePortal(12, 45));
+
+        addEnemy(new Chomp(6, 45, 1));
     }
 
     protected void validSpawn(StandardEnemy enemy) {
