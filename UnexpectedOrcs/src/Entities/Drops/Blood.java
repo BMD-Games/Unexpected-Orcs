@@ -1,10 +1,38 @@
 package Entities.Drops;
 
+import Sprites.AnimatedSprite;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PVector;
+
+import static Utility.Constants.*;
+
 public class Blood extends Drop {
 
-    public Blood(float x, float y, float radius, float lifeTime) {
-        super(x, y, 0, lifeTime);
+    private float rot = 0;
+
+    public Blood(float x, float y) {
+        super(x, y, 0, 10);
+        this.sprites = new AnimatedSprite(Sprites.Sprites.dropSprites, 0.1f, "BLOOD_0", "BLOOD_1", "BLOOD_2", "BLOOD_3", "BLOOD_4");
+        this.rot = game.random(game.TAU);
     }
 
+    public boolean update(double delta, float px, float py) {
+        if(sprites.currentSprite == sprites.sprites.length -1) {
+            sprites.update(-delta);
+        }
+        return super.update(delta, px, py);
+    }
+
+    public void show(PGraphics screen, PVector renderOffset) {
+        PImage sprite = sprites.getCurrentSprite();
+        screen.tint(255, 255, 255, alpha);
+        screen.pushMatrix();
+        screen.translate(x * TILE_SIZE - renderOffset.x, y * TILE_SIZE - renderOffset.y);
+        screen.rotate(rot);
+        screen.image(sprite,- (sprite.width * SCALE/2), - (sprite.height * SCALE/2) , sprite.width * SCALE, sprite.height * SCALE);
+        screen.tint(255);
+        screen.popMatrix();
+    }
 
 }

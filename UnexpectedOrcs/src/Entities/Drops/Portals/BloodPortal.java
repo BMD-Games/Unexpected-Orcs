@@ -4,16 +4,13 @@ import Entities.Drops.Portal;
 import Levels.Dungeons.BloodDungeon;
 import Levels.Level;
 import Sprites.AnimatedSprite;
-import processing.core.PImage;
-
-import static Sprites.Sprites.dropSprites;
 
 public class BloodPortal extends Portal {
 
     public BloodPortal(float x, float y) {
         super(x, y, "Cave");
-        this.sprites = new AnimatedSprite(new PImage[]{dropSprites.get("PORTAL_BLOOD"), dropSprites.get("PORTAL_BLOOD2"), dropSprites.get("PORTAL_BLOOD"), dropSprites.get("PORTAL_BLOOD3")}, 0.2f);
-        this.activeSprite = dropSprites.get("PORTAL_BLOOD_ACTIVE");
+        this.sprites = new AnimatedSprite(Sprites.Sprites.dropSprites, 0.2f, "PORTAL_BLOOD", "PORTAL_BLOOD2", "PORTAL_BLOOD", "PORTAL_BLOOD3");
+        this.activeSprite = Sprites.Sprites.dropSprites.get("PORTAL_BLOOD_ACTIVE");
     }
 
     @Override

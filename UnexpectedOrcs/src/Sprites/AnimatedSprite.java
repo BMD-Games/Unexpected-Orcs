@@ -2,14 +2,24 @@ package Sprites;
 
 import processing.core.PImage;
 
+import java.util.HashMap;
+
 public class AnimatedSprite {
 
-    private PImage[] sprites;
+    public PImage[] sprites;
     private float frameLength, frameCounter = 0;
-    private int currentSprite = 0;
+    public int currentSprite = 0;
 
     public AnimatedSprite(PImage[] sprites, float frameLength) {
         this.sprites = sprites;
+        this.frameLength = frameLength;
+    }
+
+    public AnimatedSprite(HashMap<String, PImage> map, float frameLength, String... names) {
+        sprites = new PImage[names.length];
+        for(int i = 0; i < sprites.length; i ++) {
+            sprites[i] = map.get(names[i]);
+        }
         this.frameLength = frameLength;
     }
 

@@ -12,8 +12,8 @@ public class CavePortal extends Portal {
 
     public CavePortal(float x, float y) {
         super(x, y, "Cave");
-        this.sprites = new AnimatedSprite(new PImage[]{dropSprites.get("PORTAL_CAVE"), dropSprites.get("PORTAL_CAVE2"),dropSprites.get("PORTAL_CAVE"), dropSprites.get("PORTAL_CAVE3")}, 0.8f);
-        this.activeSprite = dropSprites.get("PORTAL_CAVE_ACTIVE");
+        this.sprites = new AnimatedSprite(Sprites.Sprites.dropSprites, 0.8f, "PORTAL_CAVE", "PORTAL_CAVE2", "PORTAL_CAVE", "PORTAL_CAVE3");
+        this.activeSprite = Sprites.Sprites.dropSprites.get("PORTAL_CAVE_ACTIVE");
     }
 
     @Override

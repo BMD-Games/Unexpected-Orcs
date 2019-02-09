@@ -264,6 +264,14 @@ public class Sprites {
         dropSprites.put("BAG_2", getSprite(dropsheet, 2, 0, 1, 1, dropSize));
         dropSprites.put("ORB", getSprite(dropsheet, 0, 1, 1, 1, dropSize));
         dropSprites.put("PACK", getSprite(dropsheet, 1, 1, 1, 1, dropSize));
+
+
+        dropSprites.put("BLOOD_0", getSprite(dropsheet, 2, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_1", getSprite(dropsheet, 3, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_2", getSprite(dropsheet, 4, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_3", getSprite(dropsheet, 5, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_4", getSprite(dropsheet, 6, 1, 1, 1, dropSize));
+
         dropSprites.put("PORTAL_CAVE", getSprite(dropsheet, 0, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_CAVE2", getSprite(dropsheet, 0, 4, 2, 2, dropSize));
         dropSprites.put("PORTAL_CAVE3", getSprite(dropsheet, 0, 6, 2, 2, dropSize));

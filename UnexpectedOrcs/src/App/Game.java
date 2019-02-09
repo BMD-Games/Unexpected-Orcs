@@ -203,7 +203,7 @@ public class Game extends PApplet{
 
         loadPercentage = 1/4f;
         loadMessage = "Sweeping the floors";
-        engine.clearDrops();
+        engine.initiateDrops();
 
         loadPercentage = 2/4f;
         loadMessage = "Putting you in the right spot";

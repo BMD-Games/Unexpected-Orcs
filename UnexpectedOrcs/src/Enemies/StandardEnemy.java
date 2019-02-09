@@ -1,6 +1,7 @@
 package Enemies;
 
 import Engine.Engine;
+import Entities.Drops.Blood;
 import Entities.Drops.Pack;
 import Entities.Projectile;
 import Levels.Level;
@@ -202,6 +203,9 @@ public abstract class StandardEnemy implements Enemy {
         if (game.random(1) < 0.04) {
             engine.addDrop(new Pack(x, y, tier, "MANA"));
         }
+
+        engine.addDrop(new Blood(x + game.random(radius), y + game.random(radius)));
+
         SoundManager.playSound("ENEMY_DEATH");
         engine.cameraShake(0.1f);
     }
