@@ -4,6 +4,7 @@ import Enemies.Enemy;
 import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.CircleObject;
 import Utility.Util;
 
@@ -17,9 +18,11 @@ public class BigChomp extends Chomp {
         radius = 0.5f;
         sprite = charSprites.get("CHOMP_BLACK");
         stats.health = 25 * tier;
+        stats.healthMax = (int)stats.health;
         stats.attack = 11 * tier;
         stats.speed = 1.2f * tier;
         stats.defence = 3 * tier;
+        animatedSprite = new AnimatedSprite(charSprites.get("CHOMP_BLACK"));
     }
 
     /* Checks collision with point */
@@ -28,6 +31,7 @@ public class BigChomp extends Chomp {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
         ItemBag itemBag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {

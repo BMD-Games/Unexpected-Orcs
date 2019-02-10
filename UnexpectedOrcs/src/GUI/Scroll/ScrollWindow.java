@@ -26,7 +26,6 @@ public class ScrollWindow {
         calcMaxHeight();
     }
 
-
     private void calcMaxHeight() {
 
         int maxHeight = 0;
@@ -76,7 +75,8 @@ public class ScrollWindow {
         screen.rect(x+ w - 2 * buffer, y + scrollPosition / (float)maxScrollPosition * (h - barHeight), 2 * buffer, barHeight);
 
         screen.noFill();
-        screen.stroke(255);
+        screen.stroke(88);
+        screen.strokeWeight(4);
         screen.rect(x, y, w, h);
     }
 

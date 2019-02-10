@@ -3,11 +3,13 @@ package GUI.Slider;
 import Utility.Util;
 import processing.core.PGraphics;
 
+import static Sprites.Sprites.guiSprites;
 import static Utility.Constants.*;
 
 public class Slider {
 
-    private float x, y, w, h, r;
+    public float x, y;
+    private float w, h, r;
 
     private boolean vertical;
 
@@ -36,17 +38,14 @@ public class Slider {
             } else {
                 percent = game.constrain((game.mouseX - x)/w, 0, 1);
             }
-            game.println(percent);
         }
     }
 
     public void show(PGraphics screen) {
-        screen.fill(50);
+        screen.fill(88);
         screen.noStroke();
 
         screen.rect(x, y, w, h);
-
-        screen.fill(200);
 
         float tmpX = w/2;
         float tmpY = h/2;
@@ -57,7 +56,7 @@ public class Slider {
             tmpX = w * percent;
         }
 
-        screen.ellipse(x + tmpX, y + h - tmpY, r * 2, r * 2);
+        screen.image(guiSprites.get("BLANK_1x1"), x + tmpX - TILE_SIZE/4, y + h - tmpY - TILE_SIZE/4, TILE_SIZE/2, TILE_SIZE/2);
     }
 
 }

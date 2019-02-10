@@ -73,7 +73,7 @@ public class ItemFactory {
         staff.damage =  4 + 10 * tier + (int)(game.randomGaussian() * tier);
         staff.range = 6;
         staff.bulletSpeed = 8 + game.abs((int)(game.randomGaussian() * tier));
-        staff.fireRate = Util.roundTo(0.6f - tier * game.abs(game.randomGaussian()) / 32, 100);
+        staff.fireRate = Util.roundTo(0.51f - tier * game.abs(game.randomGaussian()) / 32, 100);
         staff.accuracy = Util.roundTo(0.03f + tier * game.randomGaussian() / 160, 100);
         staff.tier = tier;
         return staff;
@@ -89,7 +89,7 @@ public class ItemFactory {
         Spear spear = new Spear(Util.randomColour(tier));
         spear.damage =  4 + 12 * tier + (int)(game.randomGaussian() * tier);
         spear.range = 3;
-        spear.bulletSpeed = 8 + game.abs((int)(game.randomGaussian() * tier));
+        spear.bulletSpeed = 15 + game.abs((int)(game.randomGaussian() * tier));
         spear.fireRate = Util.roundTo(0.5f - tier * game.abs(game.randomGaussian()) / 32, 100);
         spear.accuracy = Util.roundTo(0.03f + tier * game.randomGaussian() / 400, 100);
         spear.tier = tier;

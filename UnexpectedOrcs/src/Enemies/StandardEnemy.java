@@ -1,8 +1,12 @@
 package Enemies;
 
 import Engine.Engine;
+import Entities.Drops.Blood;
+import Entities.Drops.Pack;
 import Entities.Projectile;
 import Levels.Level;
+import Sound.SoundManager;
+import Sprites.AnimatedSprite;
 import Stats.Stats;
 import Utility.Collision.*;
 import Utility.Pair;
@@ -26,16 +30,17 @@ public abstract class StandardEnemy implements Enemy {
 
     protected int range = 10;
     protected float radius = 0.5f;
-    protected boolean active = false;
+    boolean active = false;
 
     protected boolean hasSeen = false;
 
     private boolean tookDamage = false;
     private float damageTime = 0;
-    private float damageMax = 0.25f;
+    protected float damageTimeMax = 0.25f;
 
     protected float angle;
     public PImage sprite;
+    protected AnimatedSprite animatedSprite = null;
     private PImage damageSprite;
     public Stats stats = new Stats();
 
@@ -54,12 +59,22 @@ public abstract class StandardEnemy implements Enemy {
 
     /* Enemies need to update on tics */
     public boolean update(double delta) {
-        angle = game.atan2(engine.player.y - y, engine.player.x - x);
+        float angleDiff = game.atan2(engine.player.y - y, engine.player.x - x) - angle;
+        float maxRotation = 1.8f * ((float)delta);
+        if (Math.abs(angleDiff) < (1.1 * delta) || Math.abs(angleDiff) > 2 * Math.PI - maxRotation) {
+            angle += angleDiff;
+        } else if(Math.abs(angleDiff) < Math.PI) {
+            angle += Util.sign(angleDiff) * maxRotation;
+        } else {
+            angle -= Util.sign(angleDiff) * maxRotation;
+        }
         active = Util.distance(x, y, engine.player.x, engine.player.y) < range;
         stats.update(delta);
+        animatedSprite.update(delta);
         if(tookDamage) {
             damageTime += delta;
         }
+        sprite = animatedSprite.getCurrentSprite();
         return stats.health > 0;
     }
 
@@ -81,16 +96,24 @@ public abstract class StandardEnemy implements Enemy {
         PImage currSprite = sprite;
         if(tookDamage) {
             currSprite = damageSprite;
-            tookDamage = damageTime < damageMax;
+            tookDamage = damageTime < damageTimeMax;
         }
 
         if((angle < game.PI/2) && (angle > -game.PI/2)) {
             screen.rotate(angle);
-            screen.image(currSprite, -sprite.width * SCALE/2, -sprite.height * SCALE/2, sprite.width * SCALE, sprite.height * SCALE);
+            try {
+                screen.image(currSprite, -sprite.width * SCALE / 2, -sprite.height * SCALE / 2, sprite.width * SCALE, sprite.height * SCALE);
+            } catch (NullPointerException e) {
+                System.out.println(this.getClass().toString());
+            }
         } else {
             screen.scale(-1.0f, 1.0f);
             screen.rotate(game.PI-angle);
-            screen.image(currSprite, sprite.width * SCALE/2, -sprite.height * SCALE/2, -sprite.width * SCALE, sprite.height * SCALE);
+            try {
+                screen.image(currSprite, sprite.width * SCALE / 2, -sprite.height * SCALE / 2, -sprite.width * SCALE, sprite.height * SCALE);
+            } catch (NullPointerException e) {
+                System.out.println(this.getClass().toString());
+            }
         }
         screen.popMatrix();
     }
@@ -110,6 +133,11 @@ public abstract class StandardEnemy implements Enemy {
         if (damage > 0) {
             stats.health -= damage;
             engine.addText(String.valueOf(damage), x, y - radius, 0.5f, colour(200, 0, 0));
+            if(stats.health > 0) {
+                SoundManager.playSound("ENEMY_HIT_DAMAGE");
+            }
+        } else {
+            SoundManager.playSound("ENEMY_HIT_NO_DAMAGE");
         }
         tookDamage = true;
         damageTime = 0;
@@ -165,5 +193,33 @@ public abstract class StandardEnemy implements Enemy {
             knockbackX = projectile.direction.x * projectile.damage / stats.defence;
             knockbackY = projectile.direction.y * projectile.damage / stats.defence;
         }
+    }
+
+
+    public void onDeath() {
+        if (game.random(1) < 0.08) {
+            engine.addDrop(new Pack(x, y, tier, "HEALTH"));
+        }
+        if (game.random(1) < 0.04) {
+            engine.addDrop(new Pack(x, y, tier, "MANA"));
+        }
+
+
+        //int num = (int)(game.random(tier + 1) + 1);
+        //for(int i = 0; i < num; i ++ ) {
+            //engine.addDrop(new Blood(x + game.random(radius), y + game.random(radius)));
+        //}
+        engine.addDrop(new Blood(x + game.random(radius), y + game.random(radius)));
+
+        SoundManager.playSound("ENEMY_DEATH");
+        engine.cameraShake(0.1f);
+    }
+
+    public void knockback(Projectile projectile, float knockBackMultiplier) {
+        if (stats.health > 0) {
+            knockbackX += projectile.direction.x * projectile.damage * knockBackMultiplier / stats.defence;
+            knockbackY += projectile.direction.y * projectile.damage * knockBackMultiplier / stats.defence;
+        }
+
     }
 }

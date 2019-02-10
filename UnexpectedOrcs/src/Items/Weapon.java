@@ -1,6 +1,6 @@
 package Items;
 
-import Items.Item;
+import Sound.SoundManager;
 import Utility.Pair;
 import processing.core.PImage;
 
@@ -27,6 +27,8 @@ public class Weapon extends Item implements Serializable {
     transient public PImage bulletSprite;
     public int tipColour = colour(50, 50, 50);
 
+    protected String weaponType;
+
     public ArrayList<Pair> statusEffects = new ArrayList<Pair>();
 
     public Weapon(String spriteName, String name, ArrayList<Pair> statusEffects) {
@@ -40,6 +42,8 @@ public class Weapon extends Item implements Serializable {
         this.type = "Weapon";
         this.statusEffects = statusEffects;
     }
+
+
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
@@ -56,5 +60,10 @@ public class Weapon extends Item implements Serializable {
         bulletSprite.updatePixels();
     }
 
-    public void playSound() {}
+    public void playSound() {
+        String name = this.getClass().getName();
+        name = name.substring(name.lastIndexOf('.') + 1).toUpperCase();
+
+        SoundManager.playSound("WEAPON_" + name);
+    }
 }

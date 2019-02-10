@@ -4,15 +4,19 @@ import Engine.Engine;
 import File.GameFile;
 import GUI.GUI;
 import GUI.Screens.LoadScreen;
+import GUI.Screens.LoadingScreen;
 import GUI.Screens.NewGameScreen;
 import GUI.Screens.OptionsScreen;
 import Settings.Settings;
+import Sound.SoundManager;
 import Sprites.Sprites;
 import Utility.Constants;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.event.MouseEvent;
+import processing.opengl.PGraphicsOpenGL;
+import processing.opengl.PJOGL;
 
 import static Settings.Settings.*;
 import static Utility.Constants.*;
@@ -37,21 +41,24 @@ public class Game extends PApplet{
     }
 
     public void settings() {
-        size(1080, 720, FX2D);
+        size(1080, 720, P2D);
         noSmooth();
+        PJOGL.setIcon("/assets/sprites/icon.png");
     }
 
     public void setup() {
         frameRate(60);
 
         surface.setTitle("Unexpected Orcs");
-        surface.setIcon(loadImage("/assets/sprites/icon.png"));
 
         setState("LOADING");
         thread("load");
-        // thread("loadSounds");
 
         bitcell = createFont("./assets/fonts/bitcell.ttf", TILE_SIZE);
+
+        outlineShader = loadShader("/assets/shaders/outlineFrag.glsl");//, "/assets/shaders/outlineVert.glsl");
+        outlineShader.set("scale", SCALE);
+
         textFont(bitcell);
         textAlign(CENTER, CENTER);
         textSize(TILE_SIZE);
@@ -77,7 +84,7 @@ public class Game extends PApplet{
         }
 
         if(STATE.equals( "LOADING")) {
-            drawLoading();
+            LoadingScreen.show(g);
         } else {
             gui.show();
         }
@@ -99,7 +106,6 @@ public class Game extends PApplet{
         }
     }
 
-
     public void keyPressed() {
         if (remapNextKey) remapKey(remapAction, keyCode);
         if (keyCode == UP_KEY) keys[up] = 1;
@@ -107,7 +113,9 @@ public class Game extends PApplet{
         if (keyCode == DOWN_KEY) keys[down] = 1;
         if (keyCode == RIGHT_KEY) keys[right] = 1;
         if (keyCode == ABILITY_KEY) keys[ability] = 1;
-        if(characterNaming) NewGameScreen.keyPressed(gui.screen, key);
+        if (keyCode == INTERACT_KEY) keys[interact] = 1;
+        if(characterNaming) NewGameScreen.keyPressed(key);
+        if(key == '\\') drawDebug = !drawDebug;
     }
 
     public void keyReleased() {
@@ -116,6 +124,20 @@ public class Game extends PApplet{
         if (keyCode == DOWN_KEY) keys[down] = 0;
         if (keyCode == RIGHT_KEY) keys[right] = 0;
         if (keyCode == ABILITY_KEY) keys[ability] = 0;
+        if (keyCode == INTERACT_KEY) keys[interact] = 0;
+
+        if(STATE.equals("PLAYING")) {
+            if(keyCode == HOT_SWAP_0) {
+                engine.player.inv.hotSwap(0);
+            } else if(keyCode == HOT_SWAP_1) {
+                engine.player.inv.hotSwap(1);
+            } else if(keyCode == HOT_SWAP_2) {
+                engine.player.inv.hotSwap(2);
+            } else if(keyCode == HOT_SWAP_3) {
+                engine.player.inv.hotSwap(3);
+            }
+        }
+
     }
 
     public void dispose() {
@@ -126,6 +148,11 @@ public class Game extends PApplet{
     public void quitGame() {
         GameFile.saveGame();
         exit();
+
+        //give the game 1/2 a second to close
+        delay(500);
+        //force the game to close if it doesn't
+        Runtime.getRuntime().halt(0);
     }
 
     public void setState(String state) {
@@ -139,30 +166,40 @@ public class Game extends PApplet{
     }
 
     public void load() {
+        loadPercentage = 0;
+        loadMessage = "Setting up variables";
         Constants.setGame(this);
+
+        loadPercentage = 1/7f;
         loadMessage = "Loading Assets";
         Sprites.loadAssets(this);
-        loadMessage = "Loading Stats";
-        loadStats();
-        loadMessage = "Loading settings";
-        Settings.loadSettings();
-        loadMessage = "Generating level";
-        Constants.setEngine(new Engine());
+
+        loadPercentage = 2/7f;
         loadMessage = "Making the GUI beautiful";
         Constants.setGUI(new GUI());
+
+
+        loadPercentage = 3/7f;
+        loadMessage = "Loading Settings";
+        Settings.loadSettings();
+
+
+        loadPercentage = 4/7f;
+        loadMessage = "Loading Sounds";
+        SoundManager.loadSounds(this);
+        SoundManager.playMusic("TEST_MUSIC");
+
+        loadPercentage = 5/7f;
+        loadMessage = "Generating level";
+        Constants.setEngine(new Engine());
+
+        loadPercentage = 6/7f;
+        loadMessage = "Loading Stats";
+        loadStats();
+
+        loadPercentage = 1;
         loadMessage = "DONE!";
         setState("MENU");
-    }
-
-    private void drawLoading() {
-        textSize(TILE_SIZE);
-        clear();
-        fill(0);
-        rect(0, 0, width, height);
-        fill(255);
-        textAlign(game.CENTER, game.CENTER);
-        text("Loading", width/2, height/2);
-        text(loadMessage, width/2, height/2 + TILE_SIZE);
     }
 
     private void updateMouse() {
@@ -179,11 +216,25 @@ public class Game extends PApplet{
     }
 
     public void loadClosestPortal() {
+        loadPercentage = 0;
+        loadMessage = "Generating Level";
         engine.currentLevel = engine.getClosestPortal().getLevel();
-        engine.clearDrops();
+
+        loadPercentage = 1/4f;
+        loadMessage = "Sweeping the floors";
+        engine.initiateDrops();
+
+        loadPercentage = 2/4f;
+        loadMessage = "Putting you in the right spot";
         engine.player.x = engine.currentLevel.start.x;
         engine.player.y = engine.currentLevel.start.y;
+
+        loadPercentage = 3/4f;
+        loadMessage = "Saving the Game";
         GameFile.saveGame();
+
+        loadPercentage = 1;
+        loadMessage = "DONE!";
         setState("PLAYING");
     }
 }

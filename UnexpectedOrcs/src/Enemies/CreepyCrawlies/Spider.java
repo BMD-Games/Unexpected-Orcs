@@ -5,8 +5,10 @@ import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Entities.Projectile;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import Utility.Pair;
+import processing.core.PImage;
 import processing.core.PVector;
 
 import java.util.ArrayList;
@@ -24,12 +26,14 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
         stats.attack = 12 + 12 * tier;
         stats.defence = 2 * tier;
         stats.health = 8 + 6 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 1;
         shotWaitTime = 1.2f - game.abs(0.03f * tier * game.randomGaussian());
         shootDistance = 2;
         retreatDistance = 0.3f;
         accuracy = 0.01f;
         projectileSprite = projectileSprites.get("STAFF");
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("SPIDER"), charSprites.get("SPIDER_JUMPING")}, 0.41f);
     }
 
     public float getWidth() {
@@ -41,6 +45,7 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "MANA"));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {

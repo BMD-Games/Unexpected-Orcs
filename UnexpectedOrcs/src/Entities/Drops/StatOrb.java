@@ -1,5 +1,6 @@
 package Entities.Drops;
 
+import Sprites.AnimatedSprite;
 import Utility.Util;
 import processing.core.PVector;
 
@@ -19,7 +20,7 @@ public class StatOrb extends Drop {
         super(x, y, 3, 10);
         this.stat = stat;
         this.tier = tier;
-        this.sprite = Util.applyColourToImage(dropSprites.get("ORB").copy(), statColours.get(stat));
+        this.sprites = new AnimatedSprite(Util.applyColourToImage(dropSprites.get("ORB").copy(), statColours.get(stat)));
     }
 
 

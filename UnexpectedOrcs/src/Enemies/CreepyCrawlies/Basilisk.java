@@ -5,7 +5,9 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.Portals.GrassPortal;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
+import processing.core.PImage;
 
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
@@ -20,7 +22,9 @@ public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
         stats.attack = 20 + 30 * tier;
         stats.defence = 3 * tier;
         stats.health = 30 + 25 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 3;
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("BASILISK"), charSprites.get("BASILISK_MOVING")}, 0.29f);
     }
 
     public float getWidth() {
@@ -32,6 +36,7 @@ public class Basilisk extends MeleeEnemy implements Enemy, RectangleObject {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.5) {

@@ -4,8 +4,10 @@ import Enemies.Enemy;
 import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
+import processing.core.PImage;
 
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
@@ -22,12 +24,14 @@ public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
         stats.attack = 5 + 15 * tier;
         stats.defence = 2 + 2 * tier;
         stats.health = 10 + 8 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 1;
         shotWaitTime = 0.8f - game.abs(0.03f * tier * game.randomGaussian());
         shootDistance = 0.1f;
         retreatDistance = 0;
         accuracy = 0.04f;
         projectileSprite = projectileSprites.get("STINGER");
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("SCORPION"), charSprites.get("SCORPION_BITING")}, 0.2f);
     }
 
     public float getWidth() {
@@ -50,6 +54,7 @@ public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "MANA"));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {

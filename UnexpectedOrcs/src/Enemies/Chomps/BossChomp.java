@@ -5,6 +5,7 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.CircleObject;
 import Utility.Util;
 
@@ -18,9 +19,11 @@ public class BossChomp extends Chomp {
         radius = 1;
         sprite = charSprites.get("CHOMP_BOSS");
         stats.health = 45 * tier;
+        stats.healthMax = (int)stats.health;
         stats.attack = 20 * tier;
         stats.speed = 1.1f * tier;
         stats.defence = 8 * tier;
+        animatedSprite = new AnimatedSprite(charSprites.get("CHOMP_BOSS"));
     }
 
     /* Checks collision with point */
@@ -29,6 +32,7 @@ public class BossChomp extends Chomp {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
         ItemBag itemBag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {

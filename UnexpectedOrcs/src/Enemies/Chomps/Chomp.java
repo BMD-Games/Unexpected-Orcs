@@ -4,6 +4,7 @@ import Enemies.Enemy;
 import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Collision.CircleObject;
 
 import static Utility.Constants.*;
@@ -16,12 +17,15 @@ public class Chomp extends MeleeEnemy implements Enemy, CircleObject {
         radius = 0.25f;
         range = 6;
         stats.health = 14 * tier;
+        stats.healthMax = (int)stats.health;
         stats.attack = 5 * tier;
         stats.speed = 1.3f * tier;
         stats.defence = 2 * tier;
+        animatedSprite = new AnimatedSprite(charSprites.get("CHOMP_BLACK_SMALL"));
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
         ItemBag itemBag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.12) {

@@ -2,26 +2,27 @@ package Engine;
 
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
-import Entities.Drops.Drop;
-import Entities.Drops.ItemBag;
-import Entities.Drops.Portal;
+import Entities.Drops.*;
 import Entities.Player;
 import Entities.Projectile;
 import Entities.Text;
 import Items.Item;
 import Items.Weapon;
 import Levels.Dungeons.Cave;
-import Levels.Dungeons.DesertDungeon;
 import Levels.Dungeons.TutorialDungeon;
 import Levels.Level;
 import Utility.Collision.Rectangle;
 import Utility.Pair;
 import processing.core.PGraphics;
 import processing.core.PVector;
+import processing.opengl.PGraphicsOpenGL;
 
 import java.util.ArrayList;
-import static Tiles.Tiles.*;
+import java.util.HashMap;
+
+import static Tiles.Tiles.WALL;
 import static Utility.Constants.*;
+import static processing.core.PConstants.P2D;
 
 public class Engine {
     /**
@@ -34,7 +35,9 @@ public class Engine {
     public ArrayList<Projectile> enemyProjectiles = new ArrayList<Projectile>();
     public ArrayList<Projectile> playerProjectiles = new ArrayList<Projectile>();
 
-    private ArrayList<Drop> drops = new ArrayList<Drop>();
+    private HashMap<Short, ArrayList<Drop>> drops = new HashMap<>();
+    private final short ORBS = 0, BAGS = 1, PORTALS = 2, BLOOD = 3, OTHER = 4;
+
     private ArrayList<Text> text = new ArrayList<Text>();
 
     public int closestBag = -1;
@@ -48,6 +51,8 @@ public class Engine {
 
     public Player player;
 
+    private float cameraShakeDuration = 0, cameraShakeAmp = 0.05f;
+
     public Engine() {
         //Can initialise stuff here (eg generate the first cave)
         currentLevel = new Cave(); //Cave();//CircleDungeon();
@@ -56,10 +61,11 @@ public class Engine {
 
         player = new Player(currentLevel.start.x + 0.5f, currentLevel.start.y + 0.5f);
 
-        screen = game.createGraphics(width - GUI_WIDTH, height);
-        screen.beginDraw();
-        screen.noSmooth();
-        screen.endDraw();
+        screen = game.createGraphics(width - GUI_WIDTH, height, P2D);
+
+        initiateScreen(screen);
+        initiateDrops();
+
     }
 
     public void update() {
@@ -74,7 +80,7 @@ public class Engine {
             //game.setState("DEAD");
             //player.onDeath();
         }
-        updateCamera(player.x, player.y);
+        updateCamera(delta, player.x, player.y);
         currentLevel.update(screen, camera.x, camera.y);
 
         updateProjectiles(delta);
@@ -82,6 +88,10 @@ public class Engine {
         updateDrops(delta, player.x, player.y);
 
         updateText(delta);
+
+        if(getClosestPortal() != null && keys[interact] == 1) {
+            enterClosestPortal();
+        }
 
         lastUpdate = game.millis();
     }
@@ -93,9 +103,21 @@ public class Engine {
     public void show() {
         screen.beginDraw();
         currentLevel.show(screen, getRenderOffset());
+        //screen.background(0, 0);
+        outlineShader.set("scale", SCALE);
+        outlineShader.set("colour", 0f, 0f, 0f);
+        screen.shader(outlineShader);
 
-        for (Drop drop : drops) {
-            drop.show(screen, getRenderOffset());
+        showDrops();
+
+        screen.resetShader();
+        for (Projectile projectile : playerProjectiles) {
+            projectile.show(screen, getRenderOffset());
+        }
+
+        screen.shader(outlineShader);
+        for (Projectile projectile : enemyProjectiles) {
+            projectile.show(screen, getRenderOffset());
         }
 
         ArrayList<Integer> chunks = currentLevel.getChunks((int)player.x, (int)player.y);
@@ -105,15 +127,10 @@ public class Engine {
             }
         }
 
-        for (Projectile projectile : enemyProjectiles) {
-            projectile.show(screen, getRenderOffset());
-        }
-        for (Projectile projectile : playerProjectiles) {
-            projectile.show(screen, getRenderOffset());
-        }
-
         player.show(screen, getRenderOffset());
 
+
+        screen.resetShader();
         for (Text txt : text) {
             txt.show(screen, getRenderOffset());
         }
@@ -137,9 +154,9 @@ public class Engine {
                 weapon.playSound();
 
                 ArrayList<Pair> projectileStats = weapon.statusEffects == null ? new ArrayList<Pair>() : weapon.statusEffects;
-                if(player.currentScroll() != null);
-                projectileStats.addAll(engine.player.currentScroll().statusEffects);
-
+                if(player.currentScroll() != null) {
+                    projectileStats.addAll(engine.player.currentScroll().statusEffects);
+                }
                 for (int i = 0; i < weapon.numBullets; i++) {
                     playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + game.random(-weapon.accuracy, weapon.accuracy)),
                             weapon.bulletSpeed, weapon.range, weapon.damage + player.stats.getAttack(), weapon.bulletSprite, projectileStats));
@@ -149,9 +166,57 @@ public class Engine {
         }
     }
 
-    private void updateCamera(float x, float y) {
-        camera.x = x;
-        camera.y = y;
+    private void initiateScreen(PGraphics pg) {
+        pg.beginDraw();
+        pg.noSmooth();
+        ((PGraphicsOpenGL)pg).textureSampling(3);
+        pg.endDraw();
+    }
+
+    public void initiateDrops() {
+        drops.put(ORBS, new ArrayList<Drop>());
+        drops.put(PORTALS, new ArrayList<Drop>());
+        drops.put(BAGS, new ArrayList<Drop>());
+        drops.put(BLOOD, new ArrayList<Drop>());
+        drops.put(OTHER, new ArrayList<Drop>());
+    }
+
+    private void updateCamera(double delta, float x, float y) {
+        float offX = 0;
+        float offY = 0;
+        if(cameraShakeDuration > 0) {
+            offX = game.random(cameraShakeAmp);
+            offY = game.random(cameraShakeAmp);
+            cameraShakeDuration -= delta;
+        }
+        camera.x = x + offX;
+        camera.y = y + offY;
+    }
+
+    private void showDrops() {
+        PVector renderOff = getRenderOffset();
+
+        for(Drop drop : drops.get(OTHER)) {
+            drop.show(screen, renderOff);
+        }
+        for(Drop drop : drops.get(BLOOD)) {
+            drop.show(screen, renderOff);
+        }
+        for(Drop drop : drops.get(PORTALS)) {
+            drop.show(screen, renderOff);
+        }
+        for(Drop drop : drops.get(BAGS)) {
+            drop.show(screen, renderOff);
+        }
+        for(Drop drop : drops.get(ORBS)) {
+            drop.show(screen, renderOff);
+        }
+    }
+
+    public void cameraShake(float duration) {
+        if(cameraShakeDuration < duration) {
+            cameraShakeDuration = duration;
+        }
     }
 
     private void showCamera() {
@@ -194,7 +259,7 @@ public class Engine {
             for (Enemy enemy : currentLevel.enemies[chunk]) {
                 if (enemy.lineCollides(projectile.x, projectile.y, projectile.px, projectile.py)) {
                     enemy.damage(projectile.damage, projectile.statusEffects);
-                    enemy.knockback(projectile);
+                    enemy.knockback(projectile, projectile.knockBackMultiplier);
                     playerProjectiles.remove(i);
                     break;
                 }
@@ -229,22 +294,24 @@ public class Engine {
         closestBagDist = (int)Double.POSITIVE_INFINITY;
         closestPortalDist = (int)Double.POSITIVE_INFINITY;
 
-        for (int i = drops.size() - 1; i >= 0; i --) {
-            //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
-            if (!drops.get(i).update(delta, player.x, player.y)) { //if update function returns false, the drop is dead
-                drops.remove(i); //remove drop
-                continue;
-            } else if (drops.get(i) instanceof ItemBag) {
-                float dist = drops.get(i).getDist(px, py);
-                if (drops.get(i).inRange(px, py) && dist < closestBagDist) {
-                    closestBag = i;
-                    closestBagDist = dist;
-                }
-            } else if (drops.get(i) instanceof Portal) {
-                float dist = drops.get(i).getDist(px, py);
-                if (drops.get(i).inRange(px, py) && dist < closestPortalDist) {
-                    closestPortal = i;
-                    closestPortalDist = dist;
+        for(short key : drops.keySet()) {
+            for (int i = drops.get(key).size() - 1; i >= 0; i--) {
+                //---> this might need to be a better datastructure (such as quad tree) to only show necessary enemies
+                if (!drops.get(key).get(i).update(delta, player.x, player.y)) { //if update function returns false, the drop is dead
+                    drops.get(key).remove(i); //remove drop
+                    continue;
+                } else if (drops.get(key).get(i) instanceof ItemBag) {
+                    float dist = drops.get(key).get(i).getDist(px, py);
+                    if (drops.get(key).get(i).inRange(px, py) && dist < closestBagDist) {
+                        closestBag = i;
+                        closestBagDist = dist;
+                    }
+                } else if (drops.get(key).get(i) instanceof Portal) {
+                    float dist = drops.get(key).get(i).getDist(px, py);
+                    if (drops.get(key).get(i).inRange(px, py) && dist < closestPortalDist) {
+                        closestPortal = i;
+                        closestPortalDist = dist;
+                    }
                 }
             }
         }
@@ -260,12 +327,20 @@ public class Engine {
 
 
     public void addDrop(Drop drop) {
-        drops.add(drop);
+        if(drop == null) return;
+        if(drop instanceof StatOrb || drop instanceof Pack) {
+            drops.get(ORBS).add(drop);
+        } else if(drop instanceof Portal) {
+            drops.get(PORTALS).add(drop);
+        } else if(drop instanceof ItemBag) {
+            drops.get(BAGS).add(drop);
+        } else if(drop instanceof Blood) {
+            drops.get(BLOOD).add(drop);
+        } else {
+            drops.get(OTHER).add(drop);
+        }
     }
 
-    public void clearDrops() {
-        drops = new ArrayList<Drop>();
-    }
 
     public void addText(String cooldown, float xp, float yp, float life, int c) {
         text.add( new Text(cooldown, xp, yp, life, c));
@@ -273,7 +348,7 @@ public class Engine {
 
     public Item[] getClosestBagItems() {
         if (closestBag >= 0) try {
-            return ((ItemBag)drops.get(closestBag)).items;
+            return ((ItemBag)drops.get(BAGS).get(closestBag)).items;
         }
         catch(Exception e) {
             return null;
@@ -283,7 +358,7 @@ public class Engine {
 
     public ItemBag getClosestBag() {
         if (closestBag >= 0) try {
-            return (ItemBag)drops.get(closestBag);
+            return (ItemBag)drops.get(BAGS).get(closestBag);
         }
         catch(Exception e) {
             return null;
@@ -293,7 +368,7 @@ public class Engine {
 
     public Portal getClosestPortal() {
         if (closestPortal >= 0) try {
-            return (Portal)drops.get(closestPortal);
+            return (Portal)drops.get(PORTALS).get(closestPortal);
         }
         catch(Exception e) {
             return null;
@@ -309,7 +384,7 @@ public class Engine {
     }
 
     public void reset(boolean tutorial) {
-        clearDrops();
+        initiateDrops();
         updateMillis();
         if(tutorial) {
             currentLevel = new TutorialDungeon();

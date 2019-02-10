@@ -10,6 +10,7 @@ import Enemies.Elementals.PoisonElemental;
 import Enemies.Plants.Daisy;
 import Enemies.Plants.Rose;
 import Enemies.StandardEnemy;
+import Entities.Drops.Portals.BloodPortal;
 import Entities.Drops.Portals.CavePortal;
 import Levels.Level;
 import Sprites.TileSet;
@@ -49,6 +50,8 @@ public class TutorialDungeon  extends Level {
 
     void generateEnemies() {
         engine.addDrop(new CavePortal(12, 45));
+
+        addEnemy(new Chomp(6, 45, 1));
     }
 
     protected void validSpawn(StandardEnemy enemy) {

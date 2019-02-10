@@ -35,11 +35,19 @@ public class PlayerStats extends Stats implements Serializable {
         mana = baseMana;
     }
 
-    public void addKill() {
-        totalKills ++;
+    public void addPack(String stat, int tier) {
+        switch(stat) {
+            case("HEALTH"):
+                health = game.constrain(health + tier * 10, 0, healthMax);
+                break;
+            case("MANA"):
+                mana = game.constrain(mana + tier * 10, 0, manaMax);
+                break;
+        }
     }
 
     public void addOrbStat(String stat, int tier) {
+        totalKills ++;
         switch(stat) {
             case("HEALTH"):
                 healthKills.put(tier, healthKills.getOrDefault(tier, 0) + 1);
@@ -223,5 +231,22 @@ public class PlayerStats extends Stats implements Serializable {
         }
     }
 
+    public void onDeath() {
+        //set all stats kills to be 80% of original
+        float percent = 0.8f;
+        reduceStat(healthKills, percent);
+        reduceStat(manaKills, percent);
+        reduceStat(defenceKills, percent);
+        reduceStat(attackKills, percent);
+        reduceStat(vitalityKills, percent);
+        reduceStat(wisdomKills, percent);
+        reduceStat(speedKills, percent);
+    }
+
+    private void reduceStat(HashMap<Integer, Integer> stat, float percent) {
+        for(int key : stat.keySet()) {
+            stat.put(key, (int)(stat.get(key) * percent));
+        }
+    }
 
 }

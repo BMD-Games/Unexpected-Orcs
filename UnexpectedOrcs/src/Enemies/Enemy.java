@@ -37,5 +37,5 @@ public interface Enemy {
     /* Checks if mob collides with any walls */
     public boolean validPosition(Level level, float xPos, float yPos);
 
-    public void knockback(Projectile projectile);
+    public void knockback(Projectile projectile, float knockBackMultiplier);
 }

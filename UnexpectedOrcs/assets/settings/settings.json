@@ -1,7 +1,15 @@
-{"controls": {
-  "DOWN": 83,
-  "LEFT": 65,
-  "ABILITY": 32,
-  "RIGHT": 68,
-  "UP": 87
-}}
+{
+  "controls": {
+    "DOWN": 83,
+    "INTERACT": 16,
+    "LEFT": 65,
+    "ABILITY": 32,
+    "RIGHT": 68,
+    "UP": 87
+  },
+  "sound": {
+    "MUSIC": 0,
+    "MASTER": 1,
+    "SOUND": 1
+  }
+}

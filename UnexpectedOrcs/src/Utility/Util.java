@@ -184,20 +184,22 @@ public class Util {
             //directory is empty, then delete it
             if(file.list().length==0) {
                 file.delete();
-                //System.out.println("Directory is deleted : " + file.getAbsolutePath());
             } else {
                 while (file.list().length != 0) {
                     File fileDelete = new File(file, file.list()[0]);
                     deleteFile(fileDelete);
                 }
                 file.delete();
-                //System.out.println("Directory is deleted : " + file.getAbsolutePath());
 
             }
 
         } else {
             file.delete();
-            //System.out.println("File is deleted : " + file.getAbsolutePath());
         }
     }
+
+    public static String stripExstension(String name) {
+        return name.substring(0, name.indexOf('.'));
+    }
+
 }

@@ -48,6 +48,7 @@ public class Inventory implements Serializable {
         inv[2] = new SpellBomb();
         inv[3] = new Telescope();
         inv[4] = new Teleport();
+        inv[5] = new Knockback();
     }
 
     public void swapItemsInv(int i, int j) {
@@ -57,6 +58,18 @@ public class Inventory implements Serializable {
             inv[j] = save;
         } catch (Exception e) {
             //rip
+        }
+    }
+
+    public void hotSwap(int slot) {
+        if(active[slot] == null) return;
+        //search inventory for first item that fits the slot
+        for(int i = 0; i < inv.length; i ++) {
+            if(inv[i] == null) continue;
+            if(inv[i].type.equals(active[slot].type)) {
+                swapItemsActive(slot, i);
+                return;
+            }
         }
     }
 

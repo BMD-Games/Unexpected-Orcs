@@ -1,16 +1,16 @@
 package Utility;
 
+import App.Game;
 import Engine.Engine;
 import Entities.Player;
 import GUI.GUI;
 import Items.ItemFactory;
-import App.Game;
 import processing.core.PFont;
-import processing.core.PImage;
+import processing.opengl.PShader;
 
 import java.util.HashMap;
 
-import static Utility.Colour.*;
+import static Utility.Colour.colour;
 
 public class Constants {
 
@@ -21,12 +21,12 @@ public class Constants {
 
     public final static int GUI_WIDTH = 240;
 
-    public final static int TILE_SIZE = 64;
+    public final static int SCALE = 4;
     public final static int SPRITE_SIZE = 16;
-    public final static int SCALE = TILE_SIZE/SPRITE_SIZE;
+    public final static int TILE_SIZE = SPRITE_SIZE * SCALE;
 
     //keeps track of buttons being pressed
-    public static int[] keys = {0, 0, 0, 0, 0};
+    public static int[] keys = {0, 0, 0, 0, 0, 0};
 
     public static float miniMapZoom = 1;
     public static float zoomMax = 5;
@@ -37,10 +37,13 @@ public class Constants {
 
     public static PFont bitcell;
 
+    public static PShader outlineShader;
+
     //movements
-    public final static int up = 0, down = 1, left = 2, right = 3, ability = 4, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
+    public final static int up = 0, down = 1, left = 2, right = 3, ability = 4, interact = 5, topLeft = 4, topRight = 5, bottomLeft = 6, bottomRight = 7;
 
     public static String loadMessage = "Litty";
+    public static float loadPercentage = 0.0f;
     public static String loadedPlayerName = "";
     public static Player[] loadedPlayers = new Player[0];
 

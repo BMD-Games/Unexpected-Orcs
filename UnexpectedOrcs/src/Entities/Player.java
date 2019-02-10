@@ -178,8 +178,7 @@ public class Player {
 
     public void onDeath() {
         inv = new Inventory();
-        stats.health = stats.healthMax;
-
         GameFile.saveGame();
+        stats.onDeath();
     }
 }

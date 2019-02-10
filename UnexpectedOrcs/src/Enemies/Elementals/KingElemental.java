@@ -3,7 +3,9 @@ package Enemies.Elementals;
 import Enemies.Enemy;
 import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.StatOrb;
+import Sprites.AnimatedSprite;
 import Utility.Util;
+import processing.core.PImage;
 
 import static Sprites.Sprites.*;
 import static Utility.Constants.*;
@@ -16,6 +18,7 @@ public class KingElemental extends Elemental implements Enemy {
         super(x, y, tier);
         radius = 1;
         stats.health = 30 + 60 * tier;
+        stats.healthMax = (int)stats.health;
         stats.attack = 20 + 60 * tier;
         stats.speed = 0.2f * tier;
         stats.defence = 2 + 8 * tier;
@@ -26,6 +29,11 @@ public class KingElemental extends Elemental implements Enemy {
         sprites[1] = Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_2"));
         sprites[2] = Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_3"));
         sprites[3] = Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_4"));
+        animatedSprite = new AnimatedSprite(new PImage[] {Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_1")),
+                Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_2")),
+                Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_3")),
+                Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_4"))},
+                0.21f);
     }
 
     public boolean update(double delta) {
@@ -38,6 +46,7 @@ public class KingElemental extends Elemental implements Enemy {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "MANA"));
         engine.addDrop(new CavePortal(x, y));
     }

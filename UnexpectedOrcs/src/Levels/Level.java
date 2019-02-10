@@ -5,6 +5,7 @@ import Enemies.Enemy;
 import Enemies.StandardEnemy;
 import Sprites.TileSet;
 import Utility.PVectorZComparator;
+import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -34,7 +35,7 @@ public class Level {
     public int w, h;
     public PVector start;
     protected String name;
-    public TileSet tileset  = new TileSet();
+    public TileSet tileset;
     protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
 
     public ArrayList<Enemy> bosses = new ArrayList<Enemy>();
@@ -98,6 +99,9 @@ public class Level {
 
     public void show(PGraphics screen, PVector renderOffset) {
         //generate an image based off the tile map;
+
+        if(game.drawDebug) game.debugScreen.beginDraw();
+
         background.beginDraw();
         background.background(0);
         for (int x = 0; x < renderW; x ++) {
@@ -119,10 +123,21 @@ public class Level {
                     }
                     PImage sprite = tileSprites.get(tile);
                     background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                    if(game.drawDebug) {
+                        game.debugScreen.noStroke();
+                        if(generalZones != null && generalZones.contains(new PVector(i, j))) {
+                            game.debugScreen.fill(0, 255, 255, 50);
+                            game.debugScreen.rect(i * TILE_SIZE - renderOffset.x + GUI_WIDTH, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                        } else if(bossZones != null && bossZones.contains(new PVector(i, j))) {
+                            game.debugScreen.fill(255, 0, 0, 50);
+                            game.debugScreen.rect(i * TILE_SIZE - renderOffset.x + GUI_WIDTH, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                        }
+                    }
                 }
             }
         }
         background.endDraw();
+        if(game.drawDebug) game.debugScreen.endDraw();
         screen.image(background, 0, 0);
     }
 
@@ -507,7 +522,7 @@ public class Level {
     }
 
     protected void validSpawn(StandardEnemy enemy) {
-        while (!enemy.validPosition(this, enemy.x, enemy.y)) {
+        while ((!enemy.validPosition(this, enemy.x, enemy.y)) || (Util.distance(enemy.x, enemy.y, start.x, start.y) < 10)) {
             enemy.x = game.random(w);
             enemy.y = game.random(h);
         }

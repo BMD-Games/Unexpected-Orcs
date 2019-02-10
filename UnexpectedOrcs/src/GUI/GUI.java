@@ -40,9 +40,9 @@ public class GUI {
             NewGameScreen.show(screen);
         } else if(game.STATE.equals("LOAD")) {
             LoadScreen.show(screen);
-        }
-
-        else if(game.STATE.equals("TEST")) {
+//        } else if(game.STATE.equals("LOADING")) {
+//            LoadingScreen.show(screen);
+        } else if(game.STATE.equals("TEST")) {
             TestScreen.show(screen);
         }
         else {

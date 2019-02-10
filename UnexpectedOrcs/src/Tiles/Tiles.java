@@ -102,12 +102,28 @@ public class Tiles {
     public final static int SANDSTONE_14 = -80;
     public final static int SANDSTONE_15 = -81;
 
+    public final static int BLOOD_SPONGE_00 = -82;
+    public final static int BLOOD_SPONGE_01 = -83;
+    public final static int BLOOD_SPONGE_02 = -84;
+    public final static int BLOOD_SPONGE_03 = -85;
+    public final static int BLOOD_SPONGE_04 = -86;
+    public final static int BLOOD_SPONGE_05 = -87;
+    public final static int BLOOD_SPONGE_06 = -88;
+    public final static int BLOOD_SPONGE_07 = -89;
+    public final static int BLOOD_SPONGE_08 = -90;
+    public final static int BLOOD_SPONGE_09 = -91;
+    public final static int BLOOD_SPONGE_10 = -92;
+    public final static int BLOOD_SPONGE_11 = -93;
+    public final static int BLOOD_SPONGE_12 = -94;
+    public final static int BLOOD_SPONGE_13 = -95;
+    public final static int BLOOD_SPONGE_14 = -96;
+    public final static int BLOOD_SPONGE_15 = -97;
+
     //----Floor Tiles------
     public final static int WOOD         = 2;
     public final static int STAR_WOOD    = 3;
     public final static int LONG_WOOD    = 4;
     public final static int BROKEN_WOOD  = 5;
-
 
     public final static int STONE        = 6;
     public final static int X_STONE      = 7;
@@ -123,4 +139,8 @@ public class Tiles {
     public final static int SAND        = 15;
     public final static int SAND_ROCK   = 16;
     public final static int SAND_CACTUS = 17;
+
+    public final static int BLOOD       = 18;
+    public final static int BLOOD_SHINE = 19;
+    public final static int BLOOD_EYE   = 20;
 }

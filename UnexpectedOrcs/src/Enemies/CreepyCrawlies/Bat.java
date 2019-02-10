@@ -5,6 +5,7 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Items.Scrolls.DebuffScroll;
+import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import processing.core.PImage;
 
@@ -24,8 +25,10 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
         stats.attack = 8 + 12 * tier;
         stats.defence = 4 * tier;
         stats.health = 25 + 25 * tier;
+        stats.healthMax = (int)stats.health;
         stats.vitality = 2;
         attackWaitTime = 0.5f;
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("BAT_SPREAD"), charSprites.get("BAT_SPREAD"), charSprites.get("BAT_FLAPPING")}, 0.2f);
     }
 
     public float getWidth() {
@@ -52,6 +55,7 @@ public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
     }
 
     public void onDeath() {
+        super.onDeath();
         engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.1) {

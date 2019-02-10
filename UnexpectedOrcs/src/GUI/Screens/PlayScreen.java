@@ -3,7 +3,7 @@ package GUI.Screens;
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
 import Entities.Drops.Portal;
-import GUI.DisplayBar;
+import GUI.Bars.DisplayBar;
 import GUI.WrappedText;
 import Items.Inventory;
 import Utility.Util;
@@ -26,6 +26,9 @@ public class PlayScreen extends GUIScreen {
 
     private static DisplayBar healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, TILE_SIZE/2 - invBuff, colour(230, 100, 100));
     private static DisplayBar manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, 2 * TILE_SIZE/2, colour(153, 217, 234));
+
+    private static DisplayBar bossBar = new DisplayBar(width/2 - TILE_SIZE * 4, height - TILE_SIZE * 1.5f, colour(230, 100, 100), "BOSS_BAR");
+
 
     private static boolean showingPortal = false;
 
@@ -141,19 +144,24 @@ public class PlayScreen extends GUIScreen {
         float r = game.min(x, y) - TILE_SIZE/2;
         PImage sprite = null;
         for (Enemy boss : engine.currentLevel.bosses) {
+            if(((StandardEnemy) boss).stats.health <= 0) continue;
             float bx = ((StandardEnemy)boss).x;
             float by = ((StandardEnemy)boss).y;
-            if (engine.currentLevel.visited((int)bx, (int)by) && game.dist(bx, by, engine.player.x, engine.player.y) < game.min(x, y)/TILE_SIZE) continue;
-            float ang = game.atan2(by - engine.player.y, bx - engine.player.x);
-            float dx = x + game.cos(ang) * r;
-            float dy = y + game.sin(ang) * r;
-            screen.pushMatrix();
-            screen.translate(dx, dy);
-            screen.rotate(ang);
-            screen.image(guiSprites.get("QUEST"), -TILE_SIZE/4, -TILE_SIZE/4, TILE_SIZE/2, TILE_SIZE/2);
-            screen.popMatrix();
-            if (game.dist(game.mouseX, game.mouseY, dx, dy) < TILE_SIZE/2) {
-                sprite = ((StandardEnemy)boss).sprite;
+            if(engine.currentLevel.visited((int)bx, (int)by) && game.dist(bx, by, engine.player.x, engine.player.y) < game.min(x, y)/TILE_SIZE + 1) {
+                bossBar.updateBar(((StandardEnemy) boss).stats.health, ((StandardEnemy) boss).stats.healthMax);
+                bossBar.show(screen);
+            } else if(game.dist(bx, by, engine.player.x, engine.player.y) > game.min(x, y)/TILE_SIZE) {
+                float ang = game.atan2(by - engine.player.y, bx - engine.player.x);
+                float dx = x + game.cos(ang) * r;
+                float dy = y + game.sin(ang) * r;
+                screen.pushMatrix();
+                screen.translate(dx, dy);
+                screen.rotate(ang);
+                screen.image(guiSprites.get("QUEST"), -TILE_SIZE / 4, -TILE_SIZE / 4, TILE_SIZE / 2, TILE_SIZE / 2);
+                screen.popMatrix();
+                if (game.dist(game.mouseX, game.mouseY, dx, dy) < TILE_SIZE / 2) {
+                    sprite = ((StandardEnemy) boss).sprite;
+                }
             }
         }
         if (sprite != null) {

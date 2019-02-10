@@ -10,6 +10,7 @@ public class Bow extends Weapon {
         super(Util.getCombinedSprite(Sprites.itemSprites.get("BOW"), Sprites.itemSprites.get("BOW_TIP"), colour), "Bow", null);
         bulletSprite = Util.getCombinedSprite(Sprites.projectileSprites.get("ARROW"), Sprites.projectileSprites.get("ARROW_TIP"), colour);
         tipColour = colour;
+        weaponType = "BOW";
     }
 
 }

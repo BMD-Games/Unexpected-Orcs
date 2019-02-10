@@ -11,7 +11,7 @@ public class HUDElement {
     public float x, y, w, h;
     public String spriteName;
 
-    HUDElement(float x, float y, String spriteName) {
+    public HUDElement(float x, float y, String spriteName) {
         this.x = x;
         this.y = y;
         this.w = guiSprites.get(spriteName).width * SCALE;
@@ -19,7 +19,7 @@ public class HUDElement {
         this.spriteName = spriteName;
     }
 
-    HUDElement(float x, float y, float w, float h, String spriteName) {
+    public HUDElement(float x, float y, float w, float h, String spriteName) {
         this.x = x;
         this.y = y;
         this.w = w;

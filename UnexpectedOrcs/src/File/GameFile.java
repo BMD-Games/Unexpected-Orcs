@@ -10,6 +10,7 @@ import Utility.Util;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 
 import static Utility.Constants.*;
 
@@ -22,6 +23,7 @@ public class GameFile {
             checkSaveFolderExists(loadedPlayerName);
             saveStats(loadedPlayerName);
             saveInventory(loadedPlayerName);
+            Settings.Settings.saveSettings();
         }
     }
 
@@ -82,7 +84,6 @@ public class GameFile {
     //loads the current players stats using serialization
     public static PlayerStats loadStats(String savename) {
         PlayerStats stats = new PlayerStats();
-        game.println(stats.health, stats.healthMax, stats.mana, stats.manaMax);
         try {
             FileInputStream invSaveFile = new FileInputStream(game.sketchPath() + "/saves/" + savename + "/stats.txt");
             ObjectInputStream in = new ObjectInputStream(invSaveFile);
@@ -93,8 +94,6 @@ public class GameFile {
         catch(Exception e) {
             e.printStackTrace();
         }
-
-        game.println(stats.health, stats.healthMax, stats.mana, stats.manaMax);
         return stats;
     }
 
@@ -161,6 +160,19 @@ public class GameFile {
                 return new File(current, name).isDirectory();
             }
         }).length;
+    }
+
+    public static String[] allFilesInDirectory(String path) {
+        File file = new File(game.sketchPath() + path);
+
+        String[] allFiles = file.list(new FilenameFilter() {
+            @Override
+            public boolean accept(File current, String name) {
+                return new File(current, name).isFile();
+            }
+        });
+
+        return (allFiles == null) ? new String[0] : allFiles;
     }
 
 
