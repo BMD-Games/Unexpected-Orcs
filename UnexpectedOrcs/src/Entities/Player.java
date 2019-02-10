@@ -1,5 +1,6 @@
 package Entities;
 
+import File.GameFile;
 import Items.*;
 import Stats.PlayerStats;
 import Utility.Collision.AABB;
@@ -173,5 +174,12 @@ public class Player {
     }
     public Item[] inv() {
         return inv.inv();
+    }
+
+    public void onDeath() {
+        inv = new Inventory();
+        stats.health = stats.healthMax;
+
+        GameFile.saveGame();
     }
 }

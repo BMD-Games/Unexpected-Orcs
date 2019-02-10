@@ -61,7 +61,7 @@ public class LoadScreen extends GUIScreen {
         if(play.pressed()) {
             if(loadScroll.selectedElement != -1) {
                 guestMode = false;
-                engine.reset();
+                engine.reset(false);
                 engine.setPlayer(loadedPlayers[loadScroll.selectedElement]);
                 loadedPlayerName = loadScroll.scrollElements[loadScroll.selectedElement].title;
                 game.setState("PLAYING");

@@ -71,7 +71,8 @@ public class Engine {
         player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
         if (player.stats.getHealth() <= 0) {
             //absolutely get hack3d loser
-            //setState("DEAD");
+            //game.setState("DEAD");
+            //player.onDeath();
         }
         updateCamera(player.x, player.y);
         currentLevel.update(screen, camera.x, camera.y);
@@ -307,10 +308,14 @@ public class Engine {
         game.thread("loadClosestPortal");
     }
 
-    public void reset() {
+    public void reset(boolean tutorial) {
         clearDrops();
         updateMillis();
-        currentLevel = new TutorialDungeon();
+        if(tutorial) {
+            currentLevel = new TutorialDungeon();
+        } else {
+            currentLevel = new Cave();
+        }
     }
 
     public static float screenToTileCoordX(float x) {

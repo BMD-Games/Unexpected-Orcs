@@ -70,7 +70,7 @@ public class NewGameScreen extends GUIScreen {
                 loadedPlayerName = playerName;
                 guestMode = false;
                 characterNaming = false;
-                engine.reset();
+                engine.reset(true);
                 engine.setPlayer(new Player());
                 GameFile.saveGame();
                 game.setState("PLAYING");
@@ -80,7 +80,7 @@ public class NewGameScreen extends GUIScreen {
             loadedPlayerName = "GUEST";
             guestMode = true;
             characterNaming = false;
-            engine.reset();
+            engine.reset(true);
             engine.setPlayer(new Player());
             game.setState("PLAYING");
             playerName = "";
@@ -95,7 +95,7 @@ public class NewGameScreen extends GUIScreen {
                 loadedPlayerName = playerName;
                 guestMode = false;
                 characterNaming = false;
-                engine.reset();
+                engine.reset(true);
                 engine.setPlayer(new Player());
                 GameFile.saveGame();
                 game.setState("PLAYING");

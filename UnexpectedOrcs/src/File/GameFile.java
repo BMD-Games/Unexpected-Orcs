@@ -20,7 +20,6 @@ public class GameFile {
         if (!guestMode && loadedPlayerName != null && loadedPlayerName != "") {
             checkSavesFolderExists();
             checkSaveFolderExists(loadedPlayerName);
-            //saveStats2(loadedPlayerName); //-->DEPRECATED
             saveStats(loadedPlayerName);
             saveInventory(loadedPlayerName);
         }
