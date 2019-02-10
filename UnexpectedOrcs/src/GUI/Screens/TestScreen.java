@@ -22,8 +22,11 @@ public class TestScreen extends GUIScreen {
         sliderV.update();
         sliderV.show(screen);
 
+        Settings.Settings.setSoundVolume(sliderV.percent);
+
         sliderH.update();
         sliderH.show(screen);
+        Settings.Settings.setMasterVolume(sliderH.percent);
 
         back.show(screen);
 

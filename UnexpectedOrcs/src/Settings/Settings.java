@@ -1,7 +1,11 @@
 package Settings;
 
+import GUI.Screens.MenuScreen;
 import GUI.Scroll.KeyRemapElement;
 import GUI.Scroll.ScrollElement;
+import GUI.Scroll.SliderElement;
+import Sound.SoundManager;
+import javafx.util.Pair;
 import processing.data.JSONObject;
 
 import static Utility.Constants.*;
@@ -9,7 +13,9 @@ import static Utility.Constants.*;
 public class Settings {
     
     public static int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY, INTERACT_KEY;
-    private static JSONObject settings, controls;
+    private static JSONObject settings, controls, sound;
+
+    public static float MASTER_VOLUME, MUSIC_VOLUME, SOUND_VOLUME;
 
     public static boolean remapNextKey = false;
     public static boolean characterNaming = false;
@@ -18,16 +24,32 @@ public class Settings {
     public static void loadSettings() {
         settings = game.loadJSONObject("/assets/settings/settings.json");
         loadControls();
+        loadSoundSettings();
     }
 
-    public static ScrollElement[] getElements() {
-        ScrollElement[] elements = new ScrollElement[6];
-        elements[up] = new KeyRemapElement("UP", up);
-        elements[down] = new KeyRemapElement("DOWN", down);
-        elements[left] = new KeyRemapElement("LEFT", left);
-        elements[right] = new KeyRemapElement("RIGHT", right);
-        elements[ability] = new KeyRemapElement("ABILITY", ability);
-        elements[interact] = new KeyRemapElement("INTERACT", interact);
+    public static Pair[] getElements() {
+        Pair<String, ScrollElement[]>[] elements = new Pair[2];
+
+
+        ScrollElement[] controls = new ScrollElement[6];
+        controls[up] = new KeyRemapElement("UP", up);
+        controls[down] = new KeyRemapElement("DOWN", down);
+        controls[left] = new KeyRemapElement("LEFT", left);
+        controls[right] = new KeyRemapElement("RIGHT", right);
+        controls[ability] = new KeyRemapElement("ABILITY", ability);
+        controls[interact] = new KeyRemapElement("INTERACT", interact);
+
+        elements[0] = new Pair<>("Controls", controls);
+
+
+        ScrollElement[] sound = new ScrollElement[3];
+        sound[0] = new SliderElement("MASTER VOLUME", sliderValue -> { Settings.setMasterVolume(sliderValue); }, MASTER_VOLUME);
+        sound[1] = new SliderElement("MUSIC VOLUME", sliderValue -> { Settings.setMusicVolume(sliderValue); }, MUSIC_VOLUME);
+        sound[2] = new SliderElement("SOUND VOLUME", sliderValue -> { Settings.setSoundVolume(sliderValue); }, SOUND_VOLUME);
+
+        elements[1] = new Pair<>("Sound", sound);
+
+
         return elements;
     }
 
@@ -60,12 +82,19 @@ public class Settings {
 
     private static void loadControls() {
         controls = settings.getJSONObject("controls");
-        UP_KEY = controls.getInt("UP");
-        DOWN_KEY = controls.getInt("DOWN");
-        LEFT_KEY = controls.getInt("LEFT");
-        RIGHT_KEY = controls.getInt("RIGHT");
-        ABILITY_KEY = controls.getInt("ABILITY");
-        INTERACT_KEY = controls.getInt("INTERACT");
+        UP_KEY = controls.getInt("UP", 87);
+        DOWN_KEY = controls.getInt("DOWN", 83);
+        LEFT_KEY = controls.getInt("LEFT", 65);
+        RIGHT_KEY = controls.getInt("RIGHT", 68);
+        ABILITY_KEY = controls.getInt("ABILITY", 32);
+        INTERACT_KEY = controls.getInt("INTERACT", 16);
+    }
+
+    private static void loadSoundSettings() {
+        sound = settings.getJSONObject("sound");
+        MASTER_VOLUME = sound.getFloat("MASTER", 1);
+        MUSIC_VOLUME = sound.getFloat("MUSIC", 1);
+        SOUND_VOLUME = sound.getFloat("SOUND", 1);
     }
 
     public static void remapKey(int action, int code) {
@@ -92,8 +121,29 @@ public class Settings {
         saveSettings();
     }
 
-    private static void saveSettings() {
+    public static void setMasterVolume(float vol) {
+        MASTER_VOLUME = game.constrain(vol, 0, 1);
+        sound.setFloat("MASTER", MASTER_VOLUME);
+        SoundManager.setMasterVolume(MASTER_VOLUME);
+        saveSettings();
+    }
+
+    public static void setMusicVolume(float vol) {
+        MUSIC_VOLUME = game.constrain(vol, 0, 1);
+        sound.setFloat("MUSIC", MUSIC_VOLUME);
+        SoundManager.setMusicVolume(vol);
+        saveSettings();
+    }
+
+    public static void setSoundVolume(float vol) {
+        SOUND_VOLUME = game.constrain(vol, 0, 1);
+        sound.setFloat("SOUND", SOUND_VOLUME);
+        saveSettings();
+    }
+
+    public static void saveSettings() {
         settings.setJSONObject("controls", controls);
+        settings.setJSONObject("sound", sound);
         game.saveJSONObject(settings, "assets/settings/settings.json");
     }
     

@@ -24,6 +24,7 @@ public class GameFile {
             //saveStats2(loadedPlayerName); //-->DEPRECATED
             saveStats(loadedPlayerName);
             saveInventory(loadedPlayerName);
+            Settings.Settings.saveSettings();
         }
     }
 

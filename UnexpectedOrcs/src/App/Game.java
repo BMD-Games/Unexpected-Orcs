@@ -53,7 +53,6 @@ public class Game extends PApplet{
 
         setState("LOADING");
         thread("load");
-        // thread("loadSounds");
 
         bitcell = createFont("./assets/fonts/bitcell.ttf", TILE_SIZE);
 
@@ -130,13 +129,17 @@ public class Game extends PApplet{
 
     public void dispose() {
         //runs when the "x" button is pressed
-        println("here nib");
         quitGame();
     }
 
     public void quitGame() {
         GameFile.saveGame();
         exit();
+
+        //give the game 1/2 a second to close
+        delay(500);
+        //force the game to close if it doesn't
+        Runtime.getRuntime().halt(0);
     }
 
     public void setState(String state) {
@@ -159,24 +162,27 @@ public class Game extends PApplet{
         Sprites.loadAssets(this);
 
         loadPercentage = 2/7f;
-        loadMessage = "Loading Sounds";
-        SoundManager.loadSounds(this);
+        loadMessage = "Making the GUI beautiful";
+        Constants.setGUI(new GUI());
+
 
         loadPercentage = 3/7f;
-        loadMessage = "Loading Stats";
-        loadStats();
+        loadMessage = "Loading Settings";
+        Settings.loadSettings();
+
 
         loadPercentage = 4/7f;
-        loadMessage = "Loading settings";
-        Settings.loadSettings();
+        loadMessage = "Loading Sounds";
+        SoundManager.loadSounds(this);
+        SoundManager.playMusic("TEST_MUSIC");
 
         loadPercentage = 5/7f;
         loadMessage = "Generating level";
         Constants.setEngine(new Engine());
 
         loadPercentage = 6/7f;
-        loadMessage = "Making the GUI beautiful";
-        Constants.setGUI(new GUI());
+        loadMessage = "Loading Stats";
+        loadStats();
 
         loadPercentage = 1;
         loadMessage = "DONE!";

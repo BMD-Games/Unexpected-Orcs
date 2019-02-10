@@ -314,6 +314,7 @@ public class Sprites {
         guiSprites.put("BAR_SMOOTH", getSprite(sheet, 0, 2.5f, 3, 0.5f, guiSize));
         guiSprites.put("BOSS_BAR", getSprite(sheet, 0, 3, 8, 1, guiSize));
         guiSprites.put("QUEST", getSprite(sheet, 0, 5, 1, 1, guiSize));
+        guiSprites.put("TAB", getSprite(sheet, 0, 6, 2, 1, guiSize));
         guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
         guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
         guiSprites.put("QUICK", getSprite(sheet, 3, 1, 2, 1, guiSize));
