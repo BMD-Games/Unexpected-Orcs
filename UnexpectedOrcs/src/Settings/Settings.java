@@ -12,8 +12,10 @@ import static Utility.Constants.*;
 
 public class Settings {
     
-    public static int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY, INTERACT_KEY;
+    public static int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY, INTERACT_KEY, HOT_SWAP_0, HOT_SWAP_1, HOT_SWAP_2, HOT_SWAP_3;
     private static JSONObject settings, controls, sound;
+
+    private static int hot0 = 6, hot1 = 7, hot2 = 8, hot3 = 9;
 
     public static float MASTER_VOLUME, MUSIC_VOLUME, SOUND_VOLUME;
 
@@ -31,13 +33,18 @@ public class Settings {
         Pair<String, ScrollElement[]>[] elements = new Pair[2];
 
 
-        ScrollElement[] controls = new ScrollElement[6];
+        ScrollElement[] controls = new ScrollElement[10];
         controls[up] = new KeyRemapElement("UP", up);
         controls[down] = new KeyRemapElement("DOWN", down);
         controls[left] = new KeyRemapElement("LEFT", left);
         controls[right] = new KeyRemapElement("RIGHT", right);
         controls[ability] = new KeyRemapElement("ABILITY", ability);
         controls[interact] = new KeyRemapElement("INTERACT", interact);
+
+        controls[hot0] = new KeyRemapElement("HOT SWAP (SLOT1)", hot0);
+        controls[hot1] = new KeyRemapElement("HOT SWAP (SLOT2)", hot1);
+        controls[hot2] = new KeyRemapElement("HOT SWAP (SLOT3)", hot2);
+        controls[hot3] = new KeyRemapElement("HOT SWAP (SLOT4)", hot3);
 
         elements[0] = new Pair<>("Controls", controls);
 
@@ -65,13 +72,17 @@ public class Settings {
     }
 
     private static String[] getKeys() {
-        String[] keys = new String[6];
+        String[] keys = new String[10];
         keys[up] = getKeyFromCode(UP_KEY);
         keys[down] = getKeyFromCode(DOWN_KEY);
         keys[left] = getKeyFromCode(LEFT_KEY);
         keys[right] = getKeyFromCode(RIGHT_KEY);
         keys[ability] = getKeyFromCode(ABILITY_KEY);
         keys[interact] = getKeyFromCode(INTERACT_KEY);
+        keys[hot0] = getKeyFromCode(HOT_SWAP_0);
+        keys[hot1] = getKeyFromCode(HOT_SWAP_1);
+        keys[hot2] = getKeyFromCode(HOT_SWAP_2);
+        keys[hot3] = getKeyFromCode(HOT_SWAP_3);
         return keys;
     }
 
@@ -88,6 +99,11 @@ public class Settings {
         RIGHT_KEY = controls.getInt("RIGHT", 68);
         ABILITY_KEY = controls.getInt("ABILITY", 32);
         INTERACT_KEY = controls.getInt("INTERACT", 16);
+
+        HOT_SWAP_0 = controls.getInt("HOT_SWAP_0", 49);
+        HOT_SWAP_1 = controls.getInt("HOT_SWAP_1", 50);
+        HOT_SWAP_2 = controls.getInt("HOT_SWAP_2", 51);
+        HOT_SWAP_3 = controls.getInt("HOT_SWAP_3", 52);
     }
 
     private static void loadSoundSettings() {
@@ -117,6 +133,18 @@ public class Settings {
         } else if(action == interact) {
             INTERACT_KEY = code;
             controls.setInt("INTERACT", code);
+        } else if(action == hot0) {
+            HOT_SWAP_0 = code;
+            controls.setInt("HOT_SWAP_0", code);
+        } else if(action == hot1) {
+            HOT_SWAP_1 = code;
+            controls.setInt("HOT_SWAP_1", code);
+        } else if(action == hot2) {
+            HOT_SWAP_2 = code;
+            controls.setInt("HOT_SWAP_2", code);
+        } else if(action == hot3) {
+            HOT_SWAP_3 = code;
+            controls.setInt("HOT_SWAP_3", code);
         }
         saveSettings();
     }

@@ -9,7 +9,7 @@
   },
   "sound": {
     "MUSIC": 0,
-    "MASTER": 1,
+    "MASTER": 0.5,
     "SOUND": 1
   }
 }

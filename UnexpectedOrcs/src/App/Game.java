@@ -125,6 +125,19 @@ public class Game extends PApplet{
         if (keyCode == RIGHT_KEY) keys[right] = 0;
         if (keyCode == ABILITY_KEY) keys[ability] = 0;
         if (keyCode == INTERACT_KEY) keys[interact] = 0;
+
+        if(STATE.equals("PLAYING")) {
+            if(keyCode == HOT_SWAP_0) {
+                engine.player.inv.hotSwap(0);
+            } else if(keyCode == HOT_SWAP_1) {
+                engine.player.inv.hotSwap(1);
+            } else if(keyCode == HOT_SWAP_2) {
+                engine.player.inv.hotSwap(2);
+            } else if(keyCode == HOT_SWAP_3) {
+                engine.player.inv.hotSwap(3);
+            }
+        }
+
     }
 
     public void dispose() {

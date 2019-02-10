@@ -61,6 +61,18 @@ public class Inventory implements Serializable {
         }
     }
 
+    public void hotSwap(int slot) {
+        if(active[slot] == null) return;
+        //search inventory for first item that fits the slot
+        for(int i = 0; i < inv.length; i ++) {
+            if(inv[i] == null) continue;
+            if(inv[i].type.equals(active[slot].type)) {
+                swapItemsActive(slot, i);
+                return;
+            }
+        }
+    }
+
     public void swapItemsActive(int act, int in) {
         try {
             if (inv[in] != null) {
