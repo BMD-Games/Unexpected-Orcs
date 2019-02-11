@@ -27,7 +27,7 @@ public class PopUpWindow {
     public int show(PGraphics screen) {
         screen.beginDraw();
         screen.fill(50, 100);
-        screen.rect(0, 0, width, height);
+        screen.rect(0, 0, game.width, game.height);
         screen.fill(150);
         screen.stroke(100);
         screen.rect(x, y, w, h);

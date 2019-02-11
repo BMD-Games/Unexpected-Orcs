@@ -16,9 +16,9 @@ public class NewGameScreen extends GUIScreen {
 
     private static String playerName = "";
 
-    private static Button play = new Button (width/3, height/2 + TILE_SIZE , "PLAY");
-    private static Button quick = new Button(width/3 * 2 - 2 * TILE_SIZE, height/2 + TILE_SIZE, "QUICK");
-    private static Button back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 3, "BACK");
+    private static Button play = new Button (game.width/3, game.height/2 + TILE_SIZE , "PLAY");
+    private static Button quick = new Button(game.width/3 * 2 - 2 * TILE_SIZE, game.height/2 + TILE_SIZE, "QUICK");
+    private static Button back = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 3, "BACK");
 
     private static boolean nameAlreadyExists = false;
 
@@ -31,26 +31,26 @@ public class NewGameScreen extends GUIScreen {
         screen.fill(200);
         screen.textSize(TILE_SIZE);
         screen.textAlign(game.CENTER, game.CENTER);
-        screen.text("Choose your hero's name!", width/2, height/2 - TILE_SIZE * 2);
-        screen.rect(width/2 - TILE_SIZE * 2, height/2 - TILE_SIZE/4 * 5, TILE_SIZE * 4, TILE_SIZE);
+        screen.text("Choose your hero's name!", game.width/2, game.height/2 - TILE_SIZE * 2);
+        screen.rect(game.width/2 - TILE_SIZE * 2, game.height/2 - TILE_SIZE/4 * 5, TILE_SIZE * 4, TILE_SIZE);
 
         screen.fill(50, 50, 50);
         screen.textSize(TILE_SIZE);
         screen.textAlign(game.CENTER, game.CENTER);
-        screen.text(playerName, width/2, height/2 - (TILE_SIZE/8 * 7));
+        screen.text(playerName, game.width/2, game.height/2 - (TILE_SIZE/8 * 7));
 
         if(game.frameCount % 60 < 30) {
-            screen.rect(width/2 + game.textWidth(playerName)/2 + gui.buff/2, height/2 - TILE_SIZE/6 * 7, gui.buff, TILE_SIZE/3 * 2);
+            screen.rect(game.width/2 + game.textWidth(playerName)/2 + gui.buff/2, game.height/2 - TILE_SIZE/6 * 7, gui.buff, TILE_SIZE/3 * 2);
         }
 
 
         screen.textSize(TILE_SIZE/2);
         if (checkFileAlreadyExists(playerName)) {
-            Text.outlineText(screen, "A hero with that name already exists.", width/2, height/2 + TILE_SIZE/4, colour(150, 0, 0), colour(200));
+            Text.outlineText(screen, "A hero with that name already exists.", game.width/2, game.height/2 + TILE_SIZE/4, colour(150, 0, 0), colour(200));
         }
 
 
-        if(nameAlreadyExists) screen.text("That name already exists", width/2, height/2 - TILE_SIZE * 2);
+        if(nameAlreadyExists) screen.text("That name already exists", game.width/2, game.height/2 - TILE_SIZE * 2);
 
         play.show(screen);
         quick.show(screen);
@@ -125,4 +125,13 @@ public class NewGameScreen extends GUIScreen {
         }
         return false;
     }
+
+    public static void refresh() {
+        playerName = "";
+
+        play = new Button (game.width/3, game.height/2 + TILE_SIZE , "PLAY");
+        quick = new Button(game.width/3 * 2 - 2 * TILE_SIZE, game.height/2 + TILE_SIZE, "QUICK");
+        back = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 3, "BACK");
+
+        nameAlreadyExists = false;}
 }

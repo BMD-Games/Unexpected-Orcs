@@ -4,6 +4,8 @@ import GUI.Screens.*;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+import static Settings.Settings.HEIGHT;
+import static Settings.Settings.WIDTH;
 import static Utility.Constants.*;
 
 public class GUI {
@@ -14,14 +16,15 @@ public class GUI {
     private PImage title = game.loadImage("/assets/sprites/title.png");
     public PGraphics screen;
 
-    public int buff = 6; //for mouseOver stuff;
+    public int buff = (int)(SCALE * 3/2f); //for mouseOver stuff;
 
     public GUI() {
-        screen = game.createGraphics(width, height);
+        screen = game.createGraphics(game.width, game.height);
         screen.beginDraw();
         screen.noSmooth();
         screen.textFont(bitcell);
         screen.endDraw();
+        buff = (int)(SCALE * 3/2f); //for mouseOver stuff;
     }
 
 
@@ -74,6 +77,8 @@ public class GUI {
     }
 
     public void drawMouseOverSprite(float x, float y, PImage sprite) {
+        screen.pushMatrix();
+
         int mouseOverSize = TILE_SIZE + buff * 4;
 
         if (x + mouseOverSize > screen.width) x = screen.width - mouseOverSize;
@@ -85,9 +90,11 @@ public class GUI {
         screen.stroke(130);
         screen.rect(x + buff, y + buff, mouseOverSize - buff * 2, mouseOverSize - buff * 2);
         screen.image(sprite, x + buff * 2, y + buff * 2, TILE_SIZE, TILE_SIZE);
+        screen.popMatrix();
     }
 
     public void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
+        screen.pushMatrix();
         int mouseOverWidth = 3 * GUI_WIDTH/4;
         int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
 
@@ -117,9 +124,11 @@ public class GUI {
         screen.textSize(description.textSize);
         screen.textLeading(description.textSize);
         screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
+        screen.popMatrix();
     }
 
     public void drawMouseOverText(float x, float y, WrappedText description) {
+        screen.pushMatrix();
         int mouseOverWidth = 3 * GUI_WIDTH/4;
         int mouseOverHeight = description.textHeight + (buff * 2);
 
@@ -138,19 +147,6 @@ public class GUI {
         screen.textSize(description.textSize);
         screen.textLeading(description.textSize);
         screen.text(description.string, x + buff * 2, y);
-
+        screen.popMatrix();
     }
-
-    //    public void drawSave() {
-//
-//        screen.beginDraw();
-//        screen.background(c);
-//        screen.fill(0, 100);
-//        screen.rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
-//        back.show(screen);
-//
-//        screen.endDraw();
-//        game.image(screen, 0, 0);
-//    }
-
 }

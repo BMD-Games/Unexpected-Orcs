@@ -11,10 +11,10 @@ import static Utility.Constants.*;
 
 public class MenuScreen extends GUIScreen {
 
-    private static Button play = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "PLAY");
-    private static Button load = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 0.5f, "LOAD");
-    private static Button options = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "OPTIONS");
-    private static Button exit = new Button(width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "EXIT");
+    private static Button play = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 2, "PLAY");
+    private static Button load = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 0.5f, "LOAD");
+    private static Button options = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 1, "OPTIONS");
+    private static Button exit = new Button(game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 2, "EXIT");
 
     public static void show(PGraphics screen) {
         //Draws the main menu
@@ -45,5 +45,12 @@ public class MenuScreen extends GUIScreen {
         } else if(Util.pointInBox(game.mouseX, game.mouseY, 0, 0, TILE_SIZE, TILE_SIZE)) {
             game.setState("TEST");
         }
+    }
+
+    public static void refresh() {
+        play = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 2, "PLAY");
+        load = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 0.5f, "LOAD");
+        options = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 1, "OPTIONS");
+        exit = new Button(game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 2, "EXIT");
     }
 }

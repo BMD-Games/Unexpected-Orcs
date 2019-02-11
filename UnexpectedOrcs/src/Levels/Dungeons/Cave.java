@@ -19,7 +19,7 @@ public class Cave extends Level {
     int iterations = 5;
 
     public Cave() {
-        super(120, 90, "Cave", TileSet.caveTileset());
+        super(80, 45, "Cave", TileSet.caveTileset());
 
         this.setTiles(Generator.finishingPass(Generator.generateCave(w, h, iterations, chance), tileset));
         generateStart();

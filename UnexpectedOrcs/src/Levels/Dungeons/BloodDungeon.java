@@ -17,7 +17,7 @@ public class BloodDungeon  extends Level {
     int iterations = 5;
 
     public BloodDungeon() {
-        super(120, 90, "Cave", TileSet.bloodTileSet());
+        super(160, 90, "Cave", TileSet.bloodTileSet());
 
         this.setTiles(Generator.finishingPass(Generator.generateCave(w, h, iterations, chance), tileset));
         generateStart();

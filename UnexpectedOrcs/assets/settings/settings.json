@@ -9,7 +9,11 @@
   },
   "sound": {
     "MUSIC": 0,
-    "MASTER": 1,
+    "MASTER": 0.5052083134651184,
     "SOUND": 1
+  },
+  "video": {
+    "WIDTH": 1280,
+    "HEIGHT": 720
   }
 }

@@ -33,7 +33,7 @@ public class Button extends HUDElement {
         if(pressed()) {
             screen.fill(100, 50);
             screen.noStroke();
-            screen.rect(x, y, w, h);
+            screen.rect(x + TILE_SIZE/16, y + TILE_SIZE/16, w - TILE_SIZE/8, h- TILE_SIZE/8);
         }
     }
 }

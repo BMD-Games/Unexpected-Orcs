@@ -15,23 +15,23 @@ import static Utility.Constants.game;
 
 public class LoadScreen extends GUIScreen {
 
-    private static Button play = new Button(width/4 * 3, height/2 + TILE_SIZE * 3, "PLAY");
-    private static Button back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 3, "BACK");
-    private static Button deleteSave = new Button(width/4 - TILE_SIZE/2, height/2 + TILE_SIZE * 3, "DELETE");
+    private static Button play = new Button(game.width/4 * 3, game.height/2 + TILE_SIZE * 3, "PLAY");
+    private static Button back = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 3, "BACK");
+    private static Button deleteSave = new Button(game.width/4 - TILE_SIZE/2, game.height/2 + TILE_SIZE * 3, "DELETE");
 
-    public static ScrollWindow loadScroll = new ScrollWindow(width/8, height/4, width/4 * 3, height/2, new ScrollElement[0]);
+    public static ScrollWindow loadScroll = new ScrollWindow(game.width/8, game.height/4, game.width/4 * 3, game.height/2, new ScrollElement[0]);
 
     static ConfirmationCallback confirm = (name) -> { showConfirmation = false; GameFile.deleteSave((String)name[0]); loadScroll.setScrollElements(GameFile.loadAllSaves()); };
     static ConfirmationCallback cancel = name -> { showConfirmation = false; };
     private static ConfirmDelete deleteChar = new ConfirmDelete("Delete", "This will permenantly delete your character. You will not be able to get it back."
-                                           , width/4, height/4, width/2, height/2, confirm, cancel, null);
+                                           , game.width/4, game.height/4, game.width/2, game.height/2, confirm, cancel, null);
 
 
     public static void show(PGraphics screen) {
         screen.beginDraw();
 
         clearScreen(screen);
-        game.image(game.title, 0, 0, width, height);
+        game.image(game.title, 0, 0, game.width, game.height);
 
         loadScroll.update();
         loadScroll.show(screen);
@@ -75,5 +75,18 @@ public class LoadScreen extends GUIScreen {
         }
 
         loadScroll.handleMouse();
+    }
+
+    public static void refresh() {
+        play = new Button(game.width/4 * 3, game.height/2 + TILE_SIZE * 3, "PLAY");
+        back = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 3, "BACK");
+        deleteSave = new Button(game.width/4 - TILE_SIZE/2, game.height/2 + TILE_SIZE * 3, "DELETE");
+
+        loadScroll = new ScrollWindow(game.width/8, game.height/4, game.width/4 * 3, game.height/2, new ScrollElement[0]);
+
+        ConfirmationCallback confirm = (name) -> { showConfirmation = false; GameFile.deleteSave((String)name[0]); loadScroll.setScrollElements(GameFile.loadAllSaves()); };
+        ConfirmationCallback cancel = name -> { showConfirmation = false; };
+        ConfirmDelete deleteChar = new ConfirmDelete("Delete", "This will permenantly delete your character. You will not be able to get it back."
+                , game.width/4, game.height/4, game.width/2, game.height/2, confirm, cancel, null);
     }
 }

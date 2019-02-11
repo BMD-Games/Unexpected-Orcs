@@ -26,7 +26,7 @@ public class DesertDungeon extends Level {
      ***/
 
     public DesertDungeon() {
-        super(120, 90, "Desert", TileSet.desertTileSet());
+        super(160, 90, "Desert", TileSet.desertTileSet());
         this.setTiles(Generator.finishingPass(Generator.generateCave(w, h, 5, 0.4f), tileset));
         generateStart();
         generateEnemies();

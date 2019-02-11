@@ -9,10 +9,10 @@ import static Utility.Constants.game;
 
 public class PausedScreen extends GUIScreen {
 
-    private static Button play = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 2, "PLAY");
-    private static Button load = new Button (width/2 - TILE_SIZE, height/2 - TILE_SIZE * 1, "LOAD");
-    private static Button options = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 1, "OPTIONS");
-    private static Button menu = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 2, "MENU");
+    private static Button play = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 2, "PLAY");
+    private static Button load = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 1, "LOAD");
+    private static Button options = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 1, "OPTIONS");
+    private static Button menu = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 2, "MENU");
 
     public static void show(PGraphics screen) {
         //Draws the paused overlay
@@ -20,7 +20,7 @@ public class PausedScreen extends GUIScreen {
         screen.beginDraw();
         //clearScreen();
         screen.fill(0, 100);
-        screen.rect(-TILE_SIZE, -TILE_SIZE, width + TILE_SIZE, height + TILE_SIZE);
+        screen.rect(-TILE_SIZE, -TILE_SIZE, game.width + TILE_SIZE, game.height + TILE_SIZE);
         menu.show(screen);
         options.show(screen);
         play.show(screen);
@@ -41,6 +41,13 @@ public class PausedScreen extends GUIScreen {
             GameFile.saveGame();
             engine.initiateDrops();
         }
+    }
+
+    public static void refresh() {
+        play = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 2, "PLAY");
+        load = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 1, "LOAD");
+        options = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 1, "OPTIONS");
+        menu = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 2, "MENU");
     }
 
 }

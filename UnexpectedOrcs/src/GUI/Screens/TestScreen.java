@@ -8,11 +8,11 @@ import static Utility.Constants.*;
 
 public class TestScreen extends GUIScreen {
 
-    private static Slider sliderV = new Slider(width/3, height/2, TILE_SIZE * 4, true);
+    private static Slider sliderV = new Slider(game.width/3, game.height/2, TILE_SIZE * 4, true);
 
-    private static Slider sliderH = new Slider(width/3 * 2, height/2, TILE_SIZE * 4, false);
+    private static Slider sliderH = new Slider(game.width/3 * 2, game.height/2, TILE_SIZE * 4, false);
 
-    private static Button back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 3, "BACK");
+    private static Button back = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 3, "BACK");
 
     public static void show(PGraphics screen) {
         screen.beginDraw();
@@ -38,5 +38,13 @@ public class TestScreen extends GUIScreen {
         if(back.pressed()) {
             game.revertState();
         }
+    }
+
+    public static void refresh() {
+        sliderV = new Slider(game.width/3, game.height/2, TILE_SIZE * 4, true);
+
+        sliderH = new Slider(game.width/3 * 2, game.height/2, TILE_SIZE * 4, false);
+
+        back = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 3, "BACK");
     }
 }

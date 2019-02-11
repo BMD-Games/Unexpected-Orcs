@@ -36,7 +36,7 @@ public class Level {
     public PVector start;
     protected String name;
     public TileSet tileset;
-    protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = width/TILE_SIZE/2;
+    protected int xTileOffset, yTileOffset, renderW, renderH, buffer = 2, tileBuffer = game.width/TILE_SIZE/2;
 
     public ArrayList<Enemy> bosses = new ArrayList<Enemy>();
 
@@ -57,10 +57,10 @@ public class Level {
         visited = new boolean[w][h];
         visitedCalcLocations = new boolean[w][h];
 
-        renderW = width/TILE_SIZE + 2 * buffer;
-        renderH = height/TILE_SIZE + 2 * buffer;
+        renderW = game.width/TILE_SIZE + 2 * buffer;
+        renderH = game.height/TILE_SIZE + 2 * buffer;
 
-        background = game.createGraphics(width - GUI_WIDTH, height);
+        background = game.createGraphics(game.width - GUI_WIDTH, game.height);
         miniMapOverlay = game.createGraphics(w, h);
         miniMap = game.createGraphics(w, h);
         miniMap.beginDraw();
@@ -426,7 +426,14 @@ public class Level {
         saveLevel();
     }
 
-    private void resizeLevel() {
+    public void resizeCanvas() {
+        renderW = game.width/TILE_SIZE + 2 * buffer;
+        renderH = game.height/TILE_SIZE + 2 * buffer;
+
+        background = game.createGraphics(game.width - GUI_WIDTH, game.height);
+    }
+
+    public void resizeLevel() {
         this.w = tiles.length;
         this.h = tiles[0].length;
 
@@ -434,7 +441,10 @@ public class Level {
         visited = new boolean[w][h];
         visitedCalcLocations = new boolean[w][h];
 
-        background = game.createGraphics(width - GUI_WIDTH, height);
+        renderW = game.width/TILE_SIZE + 2 * buffer;
+        renderH = game.height/TILE_SIZE + 2 * buffer;
+
+        background = game.createGraphics(game.width - GUI_WIDTH, game.height);
         miniMapOverlay = game.createGraphics(w, h);
         miniMap = game.createGraphics(w, h);
         miniMap.beginDraw();

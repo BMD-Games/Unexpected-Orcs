@@ -21,13 +21,13 @@ public class PlayScreen extends GUIScreen {
     private static final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
     public static final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH + itemOffset)))/2, invY = 7 * TILE_SIZE/2;
 
-    private static Button pause = new Button(width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+    private static Button pause = new Button(game.width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
     private static Button enterPortal = new Button(GUI_WIDTH/2 - TILE_SIZE, 14 * TILE_SIZE/2, "BLANK_2x1");
 
     private static DisplayBar healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, TILE_SIZE/2 - invBuff, colour(230, 100, 100));
     private static DisplayBar manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, 2 * TILE_SIZE/2, colour(153, 217, 234));
 
-    private static DisplayBar bossBar = new DisplayBar(width/2 - TILE_SIZE * 4, height - TILE_SIZE * 1.5f, colour(230, 100, 100), "BOSS_BAR");
+    private static DisplayBar bossBar = new DisplayBar(game.width/2 - TILE_SIZE * 4, game.height - TILE_SIZE * 1.5f, colour(230, 100, 100), "BOSS_BAR");
 
 
     private static boolean showingPortal = false;
@@ -41,7 +41,7 @@ public class PlayScreen extends GUIScreen {
         screen.beginDraw();
         clearScreen(screen);
         screen.fill(217);
-        screen.rect(0, 0, GUI_WIDTH, height);
+        screen.rect(0, 0, GUI_WIDTH, game.height);
 
         pause.show(screen);
         screen.textAlign(game.CENTER);
@@ -63,7 +63,7 @@ public class PlayScreen extends GUIScreen {
         screen.endDraw();
         game.image(screen, 0, 0);
 
-        if (Util.pointInBox(game.mouseX, game.mouseY, 0, 0, GUI_WIDTH, height)) {
+        if (Util.pointInBox(game.mouseX, game.mouseY, 0, 0, GUI_WIDTH, game.height)) {
             inMenu = true;
         } else {
             inMenu = false;
@@ -92,7 +92,7 @@ public class PlayScreen extends GUIScreen {
 
     private static void renderMiniMap(PGraphics screen) {
 
-        float vw = GUI_WIDTH - (2 * invBuff); //width of the view
+        float vw = GUI_WIDTH - (2 * invBuff); //game.width of the view
         float vh = vw * 0.8f;
 
         int minScale = game.max(game.ceil(vw/engine.currentLevel.w), game.ceil(vh/engine.currentLevel.h));
@@ -111,11 +111,11 @@ public class PlayScreen extends GUIScreen {
         PImage over = Util.scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
 
         screen.fill(150);
-        screen.rect(0, height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);
+        screen.rect(0, game.height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);
         screen.fill(0);
-        screen.rect(invBuff, height - vh - invBuff, vw, vh);
-        screen.image(map.get(sx, sy, (int)vw, (int)vh), invBuff, height - vh - invBuff, vw, vh);
-        screen.image(over.get(sx, sy, (int)vw, (int)vh), invBuff, height - vh - invBuff, vw, vh);
+        screen.rect(invBuff, game.height - vh - invBuff, vw, vh);
+        screen.image(map.get(sx, sy, (int)vw, (int)vh), invBuff, game.height - vh - invBuff, vw, vh);
+        screen.image(over.get(sx, sy, (int)vw, (int)vh), invBuff, game.height - vh - invBuff, vw, vh);
     }
 
     private static void showStatusEffects(PGraphics screen) {
@@ -139,8 +139,8 @@ public class PlayScreen extends GUIScreen {
     }
 
     private static void drawQuest(PGraphics screen) {
-        float x = (width - GUI_WIDTH)/2 + GUI_WIDTH;
-        float y = height/2;
+        float x = (game.width - GUI_WIDTH)/2 + GUI_WIDTH;
+        float y = game.height/2;
         float r = game.min(x, y) - TILE_SIZE/2;
         PImage sprite = null;
         for (Enemy boss : engine.currentLevel.bosses) {
@@ -167,6 +167,21 @@ public class PlayScreen extends GUIScreen {
         if (sprite != null) {
             gui.drawMouseOverSprite(game.mouseX, game.mouseY, sprite);
         }
+    }
+
+    public static void refresh() {
+        int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
+        int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH + itemOffset)))/2, invY = 7 * TILE_SIZE/2;
+
+        pause = new Button(game.width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+        enterPortal = new Button(GUI_WIDTH/2 - TILE_SIZE, 14 * TILE_SIZE/2, "BLANK_2x1");
+
+        healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, TILE_SIZE/2 - invBuff, colour(230, 100, 100));
+        manaBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, 2 * TILE_SIZE/2, colour(153, 217, 234));
+
+        bossBar = new DisplayBar(game.width/2 - TILE_SIZE * 4, game.height - TILE_SIZE * 1.5f, colour(230, 100, 100), "BOSS_BAR");
+
+        showingPortal = false;
     }
 
 }

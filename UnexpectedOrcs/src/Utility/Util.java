@@ -1,11 +1,17 @@
 package Utility;
 
+import GUI.Screens.*;
+import Settings.Settings;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PVector;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
+import static Settings.Settings.HEIGHT;
+import static Settings.Settings.WIDTH;
 import static Utility.Constants.*;
 import static Utility.Colour.*;
 import static processing.core.PApplet.*;
@@ -200,6 +206,52 @@ public class Util {
 
     public static String stripExstension(String name) {
         return name.substring(0, name.indexOf('.'));
+    }
+
+
+    public static void resize(boolean fullscreen) {
+        if(fullscreen) {
+
+        } else {
+            resize(WIDTH, HEIGHT);
+        }
+    }
+
+    public static void resize(int w, int h) {
+        if(w > game.displayWidth) {
+            int i;
+            for(i = resolutions.length - 1; i >= 0; i --) {
+                if(resolutions[i].x < w) break;
+            }
+
+            Settings.changeResolution((int)resolutions[i].x, (int)resolutions[i].y);
+        } else if(h > game.displayHeight) {
+            int i;
+            for(i = resolutions.length - 1; i >= 0; i --) {
+                if(resolutions[i].y < h) break;
+            }
+            Settings.changeResolution((int)resolutions[i].x, (int)resolutions[i].y);
+        }
+
+        game.resize(w, h);
+        SCALE = (h/DESIRED_NUM_TILE_V)/SPRITE_SIZE;
+        TILE_SIZE = SCALE * SPRITE_SIZE;
+        GUI_WIDTH = TILE_SIZE * 4;
+
+        setGUI(new GUI.GUI());
+        engine.resize();
+
+        DeadScreen.refresh();
+        GUIScreen.refresh();
+        LoadingScreen.refresh();
+        LoadScreen.refresh();
+        MenuScreen.refresh();
+        NewGameScreen.refresh();
+        OptionsScreen.refresh();
+        PausedScreen.refresh();
+        PlayScreen.refresh();
+        TestScreen.refresh();
+
     }
 
 }

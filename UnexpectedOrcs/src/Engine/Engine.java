@@ -61,9 +61,7 @@ public class Engine {
 
         player = new Player(currentLevel.start.x + 0.5f, currentLevel.start.y + 0.5f);
 
-        screen = game.createGraphics(width - GUI_WIDTH, height, P2D);
-
-        initiateScreen(screen);
+        initiateScreen();
         initiateDrops();
 
     }
@@ -166,11 +164,18 @@ public class Engine {
         }
     }
 
-    private void initiateScreen(PGraphics pg) {
-        pg.beginDraw();
-        pg.noSmooth();
-        ((PGraphicsOpenGL)pg).textureSampling(3);
-        pg.endDraw();
+
+    public void resize() {
+        initiateScreen();
+        currentLevel.resizeCanvas();
+    }
+
+    private void initiateScreen() {
+        screen = game.createGraphics(game.width - GUI_WIDTH, game.height, P2D);
+        screen.beginDraw();
+        screen.noSmooth();
+        ((PGraphicsOpenGL)screen).textureSampling(3);
+        screen.endDraw();
     }
 
     public void initiateDrops() {
@@ -413,5 +418,4 @@ public class Engine {
         PVector renderOff = engine.getRenderOffset();
         return (y  * TILE_SIZE) - renderOff.y;
     }
-
 }

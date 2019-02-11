@@ -88,7 +88,7 @@ public class Player {
     }
 
     public void update(double delta, int[] neighbours) {
-        ang = game.atan2(game.mouseY - height/2, game.mouseX - (width/2 + GUI_WIDTH/2));
+        ang = game.atan2(game.mouseY - game.height/2, game.mouseX - (game.width/2 + GUI_WIDTH/2));
 
         if (inv.active[1] != null ) {
             updateCooldown(delta);

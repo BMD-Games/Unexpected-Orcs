@@ -13,9 +13,9 @@ import static Utility.Constants.*;
 public class OptionsScreen extends GUIScreen {
 
 
-    private static Button back = new Button (width/2 - TILE_SIZE, height/2 + TILE_SIZE * 4, "BACK");
+    private static Button back = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 4, "BACK");
 
-    public static TabbedScroll settingsScroll = new TabbedScroll(width/8, height/4 + TILE_SIZE/2, width/4 * 3, height/2 + TILE_SIZE/2, Settings.getElements());
+    public static TabbedScroll settingsScroll = new TabbedScroll(game.width/8, game.height/4 + TILE_SIZE/2, game.width/4 * 3, game.height/2 + TILE_SIZE/2, Settings.getElements());
 
     public static void show(PGraphics screen) {
         screen.beginDraw();
@@ -23,7 +23,7 @@ public class OptionsScreen extends GUIScreen {
         screen.textSize(TILE_SIZE/2);
 
         clearScreen(screen);
-        game.image(game.title, 0, 0, width, height);
+        game.image(game.title, 0, 0, game.width, game.height);
 
         settingsScroll.update();
         settingsScroll.show(screen);
@@ -38,5 +38,12 @@ public class OptionsScreen extends GUIScreen {
             game.revertState();
         }
         settingsScroll.handleMouse();
+    }
+
+    public static void refresh() {
+        back = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 4, "BACK");
+        int tab = settingsScroll.currentTab;
+        settingsScroll = new TabbedScroll(game.width/8, game.height/4 + TILE_SIZE/2, game.width/4 * 3, game.height/2 + TILE_SIZE/2, Settings.getElements());
+        settingsScroll.currentTab = tab;
     }
 }

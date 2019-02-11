@@ -11,12 +11,16 @@ import Settings.Settings;
 import Sound.SoundManager;
 import Sprites.Sprites;
 import Utility.Constants;
+import Utility.Util;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PVector;
 import processing.event.MouseEvent;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
+
+import java.util.Objects;
 
 import static Settings.Settings.*;
 import static Utility.Constants.*;
@@ -41,7 +45,8 @@ public class Game extends PApplet{
     }
 
     public void settings() {
-        size(1080, 720, P2D);
+        size(1280, 720, P2D);
+        pixelDensity(displayDensity());
         noSmooth();
         PJOGL.setIcon("/assets/sprites/icon.png");
     }
@@ -175,23 +180,23 @@ public class Game extends PApplet{
         Sprites.loadAssets(this);
 
         loadPercentage = 2/7f;
+        loadMessage = "Generating level";
+        Constants.setEngine(new Engine());
+
+
+        loadPercentage = 3/7f;
         loadMessage = "Making the GUI beautiful";
         Constants.setGUI(new GUI());
 
 
-        loadPercentage = 3/7f;
+        loadPercentage = 4/7f;
         loadMessage = "Loading Settings";
         Settings.loadSettings();
 
-
-        loadPercentage = 4/7f;
+        loadPercentage = 5/7f;
         loadMessage = "Loading Sounds";
         SoundManager.loadSounds(this);
         SoundManager.playMusic("TEST_MUSIC");
-
-        loadPercentage = 5/7f;
-        loadMessage = "Generating level";
-        Constants.setEngine(new Engine());
 
         loadPercentage = 6/7f;
         loadMessage = "Loading Stats";
@@ -236,5 +241,9 @@ public class Game extends PApplet{
         loadPercentage = 1;
         loadMessage = "DONE!";
         setState("PLAYING");
+    }
+
+    public void resize(int w, int h) {
+        surface.setSize(w, h);
     }
 }

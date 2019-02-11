@@ -1,11 +1,11 @@
 package Settings;
 
 import GUI.Screens.MenuScreen;
-import GUI.Scroll.KeyRemapElement;
-import GUI.Scroll.ScrollElement;
-import GUI.Scroll.SliderElement;
+import GUI.Scroll.*;
 import Sound.SoundManager;
+import Utility.Util;
 import javafx.util.Pair;
+import processing.core.PVector;
 import processing.data.JSONObject;
 
 import static Utility.Constants.*;
@@ -13,11 +13,14 @@ import static Utility.Constants.*;
 public class Settings {
     
     public static int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY, INTERACT_KEY, HOT_SWAP_0, HOT_SWAP_1, HOT_SWAP_2, HOT_SWAP_3;
-    private static JSONObject settings, controls, sound;
+    public static float MASTER_VOLUME, MUSIC_VOLUME, SOUND_VOLUME;
+    public static int WIDTH, HEIGHT;
+    public static boolean FULLSCREEN;
 
     private static int hot0 = 6, hot1 = 7, hot2 = 8, hot3 = 9;
 
-    public static float MASTER_VOLUME, MUSIC_VOLUME, SOUND_VOLUME;
+    private static JSONObject settings, controls, sound, video;
+
 
     public static boolean remapNextKey = false;
     public static boolean characterNaming = false;
@@ -27,10 +30,11 @@ public class Settings {
         settings = game.loadJSONObject("/assets/settings/settings.json");
         loadControls();
         loadSoundSettings();
+        loadVideoSettings();
     }
 
     public static Pair[] getElements() {
-        Pair<String, ScrollElement[]>[] elements = new Pair[2];
+        Pair<String, ScrollElement[]>[] elements = new Pair[3];
 
 
         ScrollElement[] controls = new ScrollElement[10];
@@ -55,6 +59,13 @@ public class Settings {
         sound[2] = new SliderElement("SOUND VOLUME", sliderValue -> { Settings.setSoundVolume(sliderValue); }, SOUND_VOLUME);
 
         elements[1] = new Pair<>("Sound", sound);
+
+
+        ScrollElement[] video = new ScrollElement[1];
+        video[0] = new SelectElement("RESOLUTION", resolutionNames, resolutions, obj -> { PVector v = (PVector)obj; Settings.changeResolution((int)v.x, (int)v.y); }, getMatchingResolution());
+        //video[1] = new ToggleElement("FULLSCREEN", value -> { Settings.toggleFullscreen(); } );
+
+        elements[2] = new Pair<>("Video", video);
 
 
         return elements;
@@ -93,6 +104,7 @@ public class Settings {
 
     private static void loadControls() {
         controls = settings.getJSONObject("controls");
+        if(controls == null) video = new JSONObject();
         UP_KEY = controls.getInt("UP", 87);
         DOWN_KEY = controls.getInt("DOWN", 83);
         LEFT_KEY = controls.getInt("LEFT", 65);
@@ -108,9 +120,20 @@ public class Settings {
 
     private static void loadSoundSettings() {
         sound = settings.getJSONObject("sound");
+        if(sound == null) video = new JSONObject();
         MASTER_VOLUME = sound.getFloat("MASTER", 1);
         MUSIC_VOLUME = sound.getFloat("MUSIC", 1);
         SOUND_VOLUME = sound.getFloat("SOUND", 1);
+    }
+
+    private static void loadVideoSettings() {
+        video = settings.getJSONObject("video");
+        if(video == null) video = new JSONObject();
+        FULLSCREEN = video.getBoolean("FULLSCREEN", false);
+        WIDTH = video.getInt("WIDTH", 1280);
+        HEIGHT = video.getInt("HEIGHT", 720);
+
+        if(game.width != WIDTH || game.height != HEIGHT) changeResolution(WIDTH, HEIGHT);
     }
 
     public static void remapKey(int action, int code) {
@@ -169,9 +192,36 @@ public class Settings {
         saveSettings();
     }
 
+    public static void toggleFullscreen() {
+        FULLSCREEN = !FULLSCREEN;
+        Util.resize(FULLSCREEN);
+    }
+
+    public static void changeResolution(int width, int height) {
+        WIDTH = width;
+        HEIGHT = height;
+        video.setInt("WIDTH", WIDTH);
+        video.setInt("HEIGHT", HEIGHT);
+        saveSettings();
+        Util.resize(WIDTH, HEIGHT);
+    }
+
+    public static int getMatchingResolution() {
+        int i;
+        for(i = 0; i < resolutions.length; i ++) {
+            if(resolutions[i].x > WIDTH || resolutions[i].y > HEIGHT) {
+                i--;
+                break;
+            }
+        }
+
+        return i;
+    }
+
     public static void saveSettings() {
         settings.setJSONObject("controls", controls);
         settings.setJSONObject("sound", sound);
+        settings.setJSONObject("video", video);
         game.saveJSONObject(settings, "assets/settings/settings.json");
     }
     

@@ -6,6 +6,7 @@ import Entities.Player;
 import GUI.GUI;
 import Items.ItemFactory;
 import processing.core.PFont;
+import processing.core.PVector;
 import processing.opengl.PShader;
 
 import java.util.HashMap;
@@ -16,14 +17,29 @@ public class Constants {
 
     public static Game game;
 
-    public final static int width = 1080;
-    public final static int height = 720;
+    public final static PVector[] resolutions = new PVector[] {
+        new PVector(848, 480),
+        new PVector(1280, 720),
+        new PVector(1920, 1080),
+        new PVector(2716, 1524),
+        new PVector(3840, 2160)
+    };
 
-    public final static int GUI_WIDTH = 240;
+    public final static String[] resolutionNames = new String[] {
+            "WVGA (848x480)",
+            "720p (1280x720)",
+            "1080p (1920x1080)",
+            "2.7k (2716x1524)",
+            "4k (3840x2160)"
+    };
 
-    public final static int SCALE = 4;
+
     public final static int SPRITE_SIZE = 16;
-    public final static int TILE_SIZE = SPRITE_SIZE * SCALE;
+    public final static int DESIRED_NUM_TILE_V = 10;
+
+    public static int SCALE = (720/DESIRED_NUM_TILE_V)/SPRITE_SIZE;
+    public static int TILE_SIZE = SPRITE_SIZE * SCALE;
+    public static int GUI_WIDTH = TILE_SIZE * 4;
 
     //keeps track of buttons being pressed
     public static int[] keys = {0, 0, 0, 0, 0, 0};

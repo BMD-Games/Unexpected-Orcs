@@ -14,7 +14,7 @@ public class TabbedScroll {
     private ScrollWindow[] tabs;
     private String[] tabNames;
 
-    private int currentTab = 0;
+    public int currentTab = 0;
 
     private int x, y, w, h;
 

@@ -5,6 +5,7 @@ import Items.Inventory;
 import Stats.PlayerStats;
 import processing.core.PGraphics;
 
+import static Sprites.Sprites.guiSprites;
 import static Utility.Colour.colour;
 import static Utility.Constants.*;
 
@@ -40,5 +41,15 @@ public class PlayerDisplayElement extends ScrollElement {
 
         mp.move(x + gui.buff,y + TILE_SIZE * 7/4);
         mp.show(screen);
+
+        if (selected) {
+            screen.strokeWeight(4);
+            screen.stroke(200);
+            screen.noFill();
+            screen.rect(x, y, w, h);
+            screen.image(guiSprites.get("TICK"), x + w - TILE_SIZE/2 - gui.buff, y + gui.buff, TILE_SIZE/2, TILE_SIZE/2);
+        } else {
+            screen.image(guiSprites.get("BLANK_1x1"), x + w - TILE_SIZE/2 - gui.buff, y + gui.buff, TILE_SIZE/2, TILE_SIZE/2);
+        }
     }
 }
