@@ -38,4 +38,5 @@ public interface Enemy {
     public boolean validPosition(Level level, float xPos, float yPos);
 
     public void knockback(Projectile projectile, float knockBackMultiplier);
+
 }

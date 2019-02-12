@@ -29,8 +29,8 @@ public class Spider extends RangedEnemy implements Enemy, RectangleObject {
         stats.healthMax = (int)stats.health;
         stats.vitality = 1;
         shotWaitTime = 1.2f - game.abs(0.03f * tier * game.randomGaussian());
-        shootDistance = 2;
-        retreatDistance = 0.3f;
+        shootDistance = 0.5f;
+        retreatDistance = 0.0f;
         accuracy = 0.01f;
         projectileSprite = projectileSprites.get("STAFF");
         animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("SPIDER"), charSprites.get("SPIDER_JUMPING")}, 0.41f);

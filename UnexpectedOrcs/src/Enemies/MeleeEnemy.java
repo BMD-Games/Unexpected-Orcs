@@ -38,7 +38,6 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
     }
 
     protected void move(double delta) {
-
         float moveX;
         float moveY;
         int knockbackMax = 15;
@@ -66,5 +65,6 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
         }
         x = coords[0];
         y = coords[1];
+        lastMoveSpeed = Util.distance(x, y, coords[0], coords[1]) / (float)delta;
     }
 }
