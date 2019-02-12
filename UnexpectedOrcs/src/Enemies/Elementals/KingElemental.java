@@ -24,7 +24,7 @@ public class KingElemental extends Elemental implements Enemy {
         stats.defence = 2 + 8 * tier;
         attackWaitTime = 1;
         statusEffect = "DAZED";
-        sprite = charSprites.get("KING_ELEMENTAL");
+        setSprite(charSprites.get("KING_ELEMENTAL"));
         sprites[0] = Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_1"));
         sprites[1] = Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_2"));
         sprites[2] = Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_3"));

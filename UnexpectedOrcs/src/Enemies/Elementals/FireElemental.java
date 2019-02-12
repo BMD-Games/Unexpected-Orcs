@@ -13,7 +13,7 @@ public class FireElemental extends Elemental implements Enemy {
     public FireElemental(float x, float y, int tier) {
         super(x, y, tier);
         statusEffect = "SICK";
-        sprite = charSprites.get("FIRE_ELEMENTAL");
+        setSprite(charSprites.get("FIRE_ELEMENTAL"));
         sprites[0] = charSprites.get("FIRE_ELEMENTAL");
         sprites[1] = charSprites.get("FIRE_ELEMENTAL_2");
         sprites[2] = charSprites.get("FIRE_ELEMENTAL_3");

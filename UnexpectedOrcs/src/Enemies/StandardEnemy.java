@@ -41,7 +41,7 @@ public abstract class StandardEnemy implements Enemy {
     protected float angle;
     public PImage sprite;
     protected AnimatedSprite animatedSprite = null;
-    private PImage damageSprite;
+    protected PImage damageSprite;
     public Stats stats = new Stats();
 
     public ArrayList<String> typeList = new ArrayList();
@@ -51,8 +51,8 @@ public abstract class StandardEnemy implements Enemy {
         this.x = x;
         this.y = y;
 
-        this.sprite = sprite;
-        this.damageSprite = Util.applyColourToImage(sprite, colour(200, 0, 0));
+        this.setSprite(sprite);
+
 
         if(this instanceof RectangleObject) radius = game.max(((RectangleObject)this).getWidth(), ((RectangleObject)this).getHeight()) / 2;
     }
@@ -221,5 +221,10 @@ public abstract class StandardEnemy implements Enemy {
             knockbackY += projectile.direction.y * projectile.damage * knockBackMultiplier / stats.defence;
         }
 
+    }
+
+    public void setSprite(PImage sprite) {
+        this.sprite = sprite;
+        this.damageSprite = Util.applyColourToImage(this.sprite, colour(200, 0, 0));
     }
 }

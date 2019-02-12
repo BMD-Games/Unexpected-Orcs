@@ -13,7 +13,7 @@ public class IceElemental extends Elemental implements Enemy {
     public IceElemental(float x, float y, int tier) {
         super(x, y, tier);
         statusEffect = "SLOWED";
-        sprite = charSprites.get("ICE_ELEMENTAL");
+        setSprite(charSprites.get("ICE_ELEMENTAL"));
         sprites[0] = charSprites.get("ICE_ELEMENTAL");
         sprites[1] = charSprites.get("ICE_ELEMENTAL_2");
         sprites[2] = charSprites.get("ICE_ELEMENTAL_3");

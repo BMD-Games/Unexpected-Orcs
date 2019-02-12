@@ -16,7 +16,7 @@ public class BigChomp extends Chomp {
     public BigChomp(float x, float y, int tier) {
         super(x, y, tier);
         radius = 0.5f;
-        sprite = charSprites.get("CHOMP_BLACK");
+        setSprite(charSprites.get("CHOMP_BLACK"));
         stats.health = 25 * tier;
         stats.healthMax = (int)stats.health;
         stats.attack = 11 * tier;

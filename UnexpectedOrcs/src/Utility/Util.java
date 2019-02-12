@@ -80,14 +80,16 @@ public class Util {
     }
 
     public static PImage applyColourToImage(PImage img, int c) {
+
         PImage temp = game.createImage(img.width, img.height, ARGB);
         temp.loadPixels();
         img.loadPixels();
-
         for(int i = 0; i < img.pixels.length; i++) {
             temp.pixels[i] = colour(red(c), green(c), blue(c), alpha(img.pixels[i]));
         }
-        //temp.updatePixels();
+
+        img.updatePixels();
+        temp.updatePixels();
         return temp;
     }
 

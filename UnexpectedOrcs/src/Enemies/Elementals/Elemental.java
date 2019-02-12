@@ -26,9 +26,9 @@ public abstract class Elemental extends MeleeEnemy implements Enemy, CircleObjec
     }
 
     public boolean update(double delta) {
-        animationTime += delta + game.random((float)delta / 2);
-        animationTime %= 0.8;
-        sprite = sprites[(int)(animationTime / 0.2)];
+        //animationTime += delta + game.random((float)delta / 2);
+        //animationTime %= 0.8;
+        //sprite = sprites[(int)(animationTime / 0.2)];
         return super.update(delta);
     }
 

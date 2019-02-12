@@ -17,13 +17,14 @@ public class BossChomp extends Chomp {
     public BossChomp(float x, float y, int tier) {
         super(x, y, tier);
         radius = 1;
-        sprite = charSprites.get("CHOMP_BOSS");
+        setSprite(charSprites.get("CHOMP_BOSS"));
         stats.health = 45 * tier;
         stats.healthMax = (int)stats.health;
         stats.attack = 20 * tier;
         stats.speed = 1.1f * tier;
         stats.defence = 8 * tier;
         animatedSprite = new AnimatedSprite(charSprites.get("CHOMP_BOSS"));
+        game.println(sprite.width, sprite.height, damageSprite.width, damageSprite.height);
     }
 
     /* Checks collision with point */
