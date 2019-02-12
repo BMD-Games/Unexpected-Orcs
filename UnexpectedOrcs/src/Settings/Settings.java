@@ -111,7 +111,7 @@ public class Settings {
 
     private static void loadControls() {
         controls = settings.getJSONObject("controls");
-        if(controls == null) video = new JSONObject();
+        if(controls == null) controls = new JSONObject();
 
         UP_KEY = controls.getInt("UP", 87);
         DOWN_KEY = controls.getInt("DOWN", 83);
@@ -128,7 +128,7 @@ public class Settings {
 
     private static void loadSoundSettings() {
         sound = settings.getJSONObject("sound");
-        if(sound == null) video = new JSONObject();
+        if(sound == null) sound = new JSONObject();
 
         MASTER_VOLUME = sound.getFloat("MASTER", 1);
         MUSIC_VOLUME = sound.getFloat("MUSIC", 1);

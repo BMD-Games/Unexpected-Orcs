@@ -63,6 +63,7 @@ public abstract class RangedEnemy extends StandardEnemy implements Enemy {
         }
         x = coords[0];
         y = coords[1];
+        lastMoveSpeed = Util.distance(x, y, coords[0], coords[1]) / (float)delta;
     }
 
     protected void attack() {

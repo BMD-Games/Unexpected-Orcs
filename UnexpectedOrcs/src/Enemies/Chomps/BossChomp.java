@@ -23,6 +23,7 @@ public class BossChomp extends Chomp {
         stats.attack = 20 * tier;
         stats.speed = 1.1f * tier;
         stats.defence = 8 * tier;
+        stats.vitality = tier;
         animatedSprite = new AnimatedSprite(charSprites.get("CHOMP_BOSS"));
         game.println(sprite.width, sprite.height, damageSprite.width, damageSprite.height);
     }
