@@ -10,8 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import static Settings.Settings.HEIGHT;
-import static Settings.Settings.WIDTH;
+import static Settings.Settings.RESOLUTION_INDEX;
 import static Utility.Constants.*;
 import static Utility.Colour.*;
 import static processing.core.PApplet.*;
@@ -213,45 +212,43 @@ public class Util {
         if(fullscreen) {
 
         } else {
-            resize(WIDTH, HEIGHT);
+            resize(RESOLUTION_INDEX);
         }
     }
 
-    public static void resize(int w, int h) {
-        if(w > game.displayWidth) {
-            int i;
-            for(i = resolutions.length - 1; i >= 0; i --) {
-                if(resolutions[i].x < w) break;
-            }
+    public static void resize(int index) {
+        resizeInitial(index);
 
-            Settings.changeResolution((int)resolutions[i].x, (int)resolutions[i].y);
-        } else if(h > game.displayHeight) {
-            int i;
-            for(i = resolutions.length - 1; i >= 0; i --) {
-                if(resolutions[i].y < h) break;
-            }
-            Settings.changeResolution((int)resolutions[i].x, (int)resolutions[i].y);
-        }
+        setGUI(new GUI.GUI());
+        engine.resize();
+
+        GUI.GUI.refresh();
+
+    }
+
+    public static void resizeInitial(int index) {
+        int w = (int)resolutions[index].x;
+        int h = (int)resolutions[index].y;
 
         game.resize(w, h);
         SCALE = (h/DESIRED_NUM_TILE_V)/SPRITE_SIZE;
         TILE_SIZE = SCALE * SPRITE_SIZE;
         GUI_WIDTH = TILE_SIZE * 4;
+    }
 
-        setGUI(new GUI.GUI());
-        engine.resize();
+    public static PImage converToPImage(PGraphics pg) {
+        PImage img = game.createImage(pg.width, pg.height, game.ARGB);
+        img.loadPixels();
+        pg.loadPixels();
 
-        DeadScreen.refresh();
-        GUIScreen.refresh();
-        LoadingScreen.refresh();
-        LoadScreen.refresh();
-        MenuScreen.refresh();
-        NewGameScreen.refresh();
-        OptionsScreen.refresh();
-        PausedScreen.refresh();
-        PlayScreen.refresh();
-        TestScreen.refresh();
+        for(int i = 0; i < img.pixels.length; i ++) {
+            img.pixels[i] = pg.pixels[i];
+        }
 
+        pg.updatePixels();
+        img.updatePixels();
+
+        return img;
     }
 
 }

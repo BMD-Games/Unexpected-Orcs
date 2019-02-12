@@ -265,12 +265,18 @@ public class Sprites {
         dropSprites.put("ORB", getSprite(dropsheet, 0, 1, 1, 1, dropSize));
         dropSprites.put("PACK", getSprite(dropsheet, 1, 1, 1, 1, dropSize));
 
+        dropSprites.put("BLOOD_0", getSprite(dropsheet, 5, 0, 1, 1, dropSize));
+        dropSprites.put("BLOOD_1", getSprite(dropsheet, 6, 0, 1, 1, dropSize));
+        dropSprites.put("BLOOD_2", getSprite(dropsheet, 7, 0, 1, 1, dropSize));
+        dropSprites.put("BLOOD_3", getSprite(dropsheet, 8, 0, 1, 1, dropSize));
+        dropSprites.put("BLOOD_4", getSprite(dropsheet, 9, 0, 1, 1, dropSize));
 
-        dropSprites.put("BLOOD_0", getSprite(dropsheet, 2, 1, 1, 1, dropSize));
-        dropSprites.put("BLOOD_1", getSprite(dropsheet, 3, 1, 1, 1, dropSize));
-        dropSprites.put("BLOOD_2", getSprite(dropsheet, 4, 1, 1, 1, dropSize));
-        dropSprites.put("BLOOD_3", getSprite(dropsheet, 5, 1, 1, 1, dropSize));
-        dropSprites.put("BLOOD_4", getSprite(dropsheet, 6, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_PG_0", getSprite(dropsheet, 5, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_PG_1", getSprite(dropsheet, 6, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_PG_2", getSprite(dropsheet, 7, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_PG_3", getSprite(dropsheet, 8, 1, 1, 1, dropSize));
+        dropSprites.put("BLOOD_PG_4", getSprite(dropsheet, 9, 1, 1, 1, dropSize));
+
 
         dropSprites.put("PORTAL_CAVE", getSprite(dropsheet, 0, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_CAVE2", getSprite(dropsheet, 0, 4, 2, 2, dropSize));

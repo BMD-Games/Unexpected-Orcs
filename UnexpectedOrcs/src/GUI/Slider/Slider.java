@@ -20,9 +20,9 @@ public class Slider {
         this.y = y;
 
         this.w = len;
-        this.h = gui.buff * 2;
+        this.h = GUI.GUI.buff * 2;
         if(vertical) {
-            this.w = gui.buff * 2;
+            this.w = GUI.GUI.buff * 2;
             this.h = len;
         }
 

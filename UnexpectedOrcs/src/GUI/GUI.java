@@ -4,8 +4,6 @@ import GUI.Screens.*;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-import static Settings.Settings.HEIGHT;
-import static Settings.Settings.WIDTH;
 import static Utility.Constants.*;
 
 public class GUI {
@@ -16,7 +14,7 @@ public class GUI {
     private PImage title = game.loadImage("/assets/sprites/title.png");
     public PGraphics screen;
 
-    public int buff = (int)(SCALE * 3/2f); //for mouseOver stuff;
+    public static int buff = (int)(SCALE * 3/2f); //for mouseOver stuff;
 
     public GUI() {
         screen = game.createGraphics(game.width, game.height);
@@ -25,6 +23,9 @@ public class GUI {
         screen.textFont(bitcell);
         screen.endDraw();
         buff = (int)(SCALE * 3/2f); //for mouseOver stuff;
+
+//        refresh();
+
     }
 
 
@@ -148,5 +149,18 @@ public class GUI {
         screen.textLeading(description.textSize);
         screen.text(description.string, x + buff * 2, y);
         screen.popMatrix();
+    }
+
+    public static void refresh() {
+        DeadScreen.refresh();
+        GUIScreen.refresh();
+        LoadingScreen.refresh();
+        LoadScreen.refresh();
+        MenuScreen.refresh();
+        NewGameScreen.refresh();
+        OptionsScreen.refresh();
+        PausedScreen.refresh();
+        PlayScreen.refresh();
+        TestScreen.refresh();
     }
 }
