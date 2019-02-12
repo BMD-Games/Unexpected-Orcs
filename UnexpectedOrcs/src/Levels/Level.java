@@ -3,21 +3,23 @@ package Levels;
 import Enemies.CreepyCrawlies.Bat;
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
+import Entities.Drops.Blood;
 import Sprites.TileSet;
 import Utility.PVectorZComparator;
 import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
+import processing.opengl.PGraphicsOpenGL;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-import static Tiles.Tiles.*;
+import static Sprites.Sprites.tileSprites;
+import static Tiles.Tiles.WALL;
 import static Utility.Constants.*;
-import static Sprites.Sprites.*;
 
 public class Level {
     protected int[][] tiles;
@@ -43,7 +45,7 @@ public class Level {
     private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
     private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
 
-    private PGraphics background, miniMap, miniMapOverlay;
+    private PGraphics background, walls, miniMap, miniMapOverlay;
 
     public Level(int w, int h, String name, TileSet tileset) {
         this.w = w;
@@ -60,7 +62,13 @@ public class Level {
         renderW = game.width/TILE_SIZE + 2 * buffer;
         renderH = game.height/TILE_SIZE + 2 * buffer;
 
-        background = game.createGraphics(game.width - GUI_WIDTH, game.height);
+        walls = game.createGraphics(game.width - GUI_WIDTH, game.height);
+        background = game.createGraphics(game.width - GUI_WIDTH, game.height, game.P2D);
+        background.beginDraw();
+        background.noSmooth();
+        ((PGraphicsOpenGL)background).textureSampling(3);
+        background.endDraw();
+
         miniMapOverlay = game.createGraphics(w, h);
         miniMap = game.createGraphics(w, h);
         miniMap.beginDraw();
@@ -104,6 +112,10 @@ public class Level {
 
         background.beginDraw();
         background.background(0);
+        walls.beginDraw();
+        walls.blendMode(game.REPLACE);
+        walls.background(0, 0);
+        walls.blendMode(game.BLEND);
         for (int x = 0; x < renderW; x ++) {
             for (int y = 0; y < renderH; y ++) {
                 int i = (x + xTileOffset) - buffer;
@@ -122,7 +134,8 @@ public class Level {
                     catch(Exception e) {
                     }
                     PImage sprite = tileSprites.get(tile);
-                    background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                    if(tile > 0) background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                    else walls.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
                     if(game.drawDebug) {
                         game.debugScreen.noStroke();
                         if(generalZones != null && generalZones.contains(new PVector(i, j))) {
@@ -136,9 +149,18 @@ public class Level {
                 }
             }
         }
+        walls.endDraw();
+        background.shader(outlineShader);
+        background.image(walls, 0, 0);
         background.endDraw();
         if(game.drawDebug) game.debugScreen.endDraw();
+        screen.shader(outlineShader);
         screen.image(background, 0, 0);
+
+        //PImage wall = Util.converToPImage(walls);
+
+        //screen.image(wall, 0, 0);
+        //screen.image(tileSprites.get(4), 0, 0, TILE_SIZE, TILE_SIZE);
     }
 
     public boolean isEdge(int[][] tiles, int i, int j) {
@@ -430,7 +452,12 @@ public class Level {
         renderW = game.width/TILE_SIZE + 2 * buffer;
         renderH = game.height/TILE_SIZE + 2 * buffer;
 
-        background = game.createGraphics(game.width - GUI_WIDTH, game.height);
+        walls = game.createGraphics(game.width - GUI_WIDTH, game.height);
+        background = game.createGraphics(game.width - GUI_WIDTH, game.height, game.P2D);
+        background.beginDraw();
+        background.noSmooth();
+        ((PGraphicsOpenGL)background).textureSampling(3);
+        background.endDraw();;
     }
 
     public void resizeLevel() {

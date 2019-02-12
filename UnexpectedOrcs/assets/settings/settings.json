@@ -1,19 +1,10 @@
 {
-  "controls": {
-    "DOWN": 83,
-    "INTERACT": 16,
-    "LEFT": 65,
-    "ABILITY": 32,
-    "RIGHT": 68,
-    "UP": 87
-  },
+  "controls": {},
   "sound": {
     "MUSIC": 0,
-    "MASTER": 0.0833333358168602,
-    "SOUND": 0.5625
+    "MASTER": 0.3229166567325592,
+    "SOUND": 0.453125
   },
-  "video": {
-    "WIDTH": 1920,
-    "HEIGHT": 1080
-  }
+  "video": {"RESOLUTION_INDEX": 2},
+  "graphics": {}
 }

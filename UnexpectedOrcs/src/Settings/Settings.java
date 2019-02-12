@@ -1,11 +1,9 @@
 package Settings;
 
-import GUI.Screens.MenuScreen;
 import GUI.Scroll.*;
 import Sound.SoundManager;
 import Utility.Util;
 import javafx.util.Pair;
-import processing.core.PVector;
 import processing.data.JSONObject;
 
 import static Utility.Constants.*;
@@ -14,12 +12,12 @@ public class Settings {
     
     public static int UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, ABILITY_KEY, INTERACT_KEY, HOT_SWAP_0, HOT_SWAP_1, HOT_SWAP_2, HOT_SWAP_3;
     public static float MASTER_VOLUME, MUSIC_VOLUME, SOUND_VOLUME;
-    public static int WIDTH, HEIGHT;
-    public static boolean FULLSCREEN;
+    public static int RESOLUTION_INDEX;
+    public static boolean BLOOD;
 
     private static int hot0 = 6, hot1 = 7, hot2 = 8, hot3 = 9;
 
-    private static JSONObject settings, controls, sound, video;
+    private static JSONObject settings, controls, sound, video, graphics;
 
 
     public static boolean remapNextKey = false;
@@ -31,10 +29,11 @@ public class Settings {
         loadControls();
         loadSoundSettings();
         loadVideoSettings();
+        loadGraphicsSettings();
     }
 
     public static Pair[] getElements() {
-        Pair<String, ScrollElement[]>[] elements = new Pair[3];
+        Pair<String, ScrollElement[]>[] elements = new Pair[4];
 
 
         ScrollElement[] controls = new ScrollElement[10];
@@ -62,10 +61,18 @@ public class Settings {
 
 
         ScrollElement[] video = new ScrollElement[1];
-        video[0] = new SelectElement("RESOLUTION", resolutionNames, resolutions, obj -> { PVector v = (PVector)obj; Settings.changeResolution((int)v.x, (int)v.y); }, getMatchingResolution());
+        Integer[] params = new Integer[resolutions.length];
+        for(int i = 0; i < params.length; i ++) params[i] = i;
+        video[0] = new SelectElement("RESOLUTION", resolutionNames, params, obj -> { Settings.changeResolution((int)obj); }, RESOLUTION_INDEX);
         //video[1] = new ToggleElement("FULLSCREEN", value -> { Settings.toggleFullscreen(); } );
 
         elements[2] = new Pair<>("Video", video);
+
+
+        ScrollElement[] graphics = new ScrollElement[1];
+        graphics[0] = new ToggleElement("BLOOD FX", BLOOD, value -> { toggleBlood(); });
+
+        elements[3] = new Pair<>("Graphics", graphics);
 
 
         return elements;
@@ -104,7 +111,8 @@ public class Settings {
 
     private static void loadControls() {
         controls = settings.getJSONObject("controls");
-        if(controls == null) video = new JSONObject();
+        if(controls == null) controls = new JSONObject();
+
         UP_KEY = controls.getInt("UP", 87);
         DOWN_KEY = controls.getInt("DOWN", 83);
         LEFT_KEY = controls.getInt("LEFT", 65);
@@ -120,7 +128,8 @@ public class Settings {
 
     private static void loadSoundSettings() {
         sound = settings.getJSONObject("sound");
-        if(sound == null) video = new JSONObject();
+        if(sound == null) sound = new JSONObject();
+
         MASTER_VOLUME = sound.getFloat("MASTER", 1);
         MUSIC_VOLUME = sound.getFloat("MUSIC", 1);
         SOUND_VOLUME = sound.getFloat("SOUND", 1);
@@ -129,11 +138,16 @@ public class Settings {
     private static void loadVideoSettings() {
         video = settings.getJSONObject("video");
         if(video == null) video = new JSONObject();
-        FULLSCREEN = video.getBoolean("FULLSCREEN", false);
-        WIDTH = video.getInt("WIDTH", 1280);
-        HEIGHT = video.getInt("HEIGHT", 720);
 
-        if(game.width != WIDTH || game.height != HEIGHT) changeResolution(WIDTH, HEIGHT);
+        RESOLUTION_INDEX = video.getInt("RESOLUTION_INDEX", 0);
+
+        if(game.width != resolutions[RESOLUTION_INDEX].x || game.height != resolutions[RESOLUTION_INDEX].y) changeResolutionInitial(RESOLUTION_INDEX);
+    }
+
+    private static void loadGraphicsSettings() {
+        graphics = settings.getJSONObject("graphics");
+        if(graphics == null) graphics = new JSONObject();
+        BLOOD = graphics.getBoolean("BLOOD", false);
     }
 
     public static void remapKey(int action, int code) {
@@ -192,36 +206,28 @@ public class Settings {
         saveSettings();
     }
 
-    public static void toggleFullscreen() {
-        FULLSCREEN = !FULLSCREEN;
-        Util.resize(FULLSCREEN);
-    }
-
-    public static void changeResolution(int width, int height) {
-        WIDTH = width;
-        HEIGHT = height;
-        video.setInt("WIDTH", WIDTH);
-        video.setInt("HEIGHT", HEIGHT);
+    public static void toggleBlood() {
+        BLOOD = !BLOOD;
+        graphics.setBoolean("BLOOD", BLOOD);
         saveSettings();
-        Util.resize(WIDTH, HEIGHT);
     }
 
-    public static int getMatchingResolution() {
-        int i;
-        for(i = 0; i < resolutions.length; i ++) {
-            if(resolutions[i].x > WIDTH || resolutions[i].y > HEIGHT) {
-                i--;
-                break;
-            }
-        }
+    public static void changeResolution(int index) {
+        RESOLUTION_INDEX = index;
+        video.setInt("RESOLUTION_INDEX", RESOLUTION_INDEX);
+        saveSettings();
+        Util.resize(RESOLUTION_INDEX);
+    }
 
-        return i;
+    public static void changeResolutionInitial(int index) {
+        Util.resizeInitial(index);
     }
 
     public static void saveSettings() {
         settings.setJSONObject("controls", controls);
         settings.setJSONObject("sound", sound);
         settings.setJSONObject("video", video);
+        settings.setJSONObject("graphics", graphics);
         game.saveJSONObject(settings, "assets/settings/settings.json");
     }
     

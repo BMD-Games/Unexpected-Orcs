@@ -99,11 +99,11 @@ public class Engine {
     }
 
     public void show() {
+        outlineShader.set("scale", SCALE);
+        outlineShader.set("colour", 0f, 0f, 0f);
         screen.beginDraw();
         currentLevel.show(screen, getRenderOffset());
         //screen.background(0, 0);
-        outlineShader.set("scale", SCALE);
-        outlineShader.set("colour", 0f, 0f, 0f);
         screen.shader(outlineShader);
 
         showDrops();

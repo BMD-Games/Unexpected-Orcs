@@ -176,22 +176,22 @@ public class Game extends PApplet{
         Constants.setGame(this);
 
         loadPercentage = 1/7f;
+        loadMessage = "Loading Settings";
+        Settings.loadSettings();
+
+        loadPercentage = 2/7f;
         loadMessage = "Loading Assets";
         Sprites.loadAssets(this);
 
-        loadPercentage = 2/7f;
+
+        loadPercentage = 3/7f;
         loadMessage = "Generating level";
         Constants.setEngine(new Engine());
 
 
-        loadPercentage = 3/7f;
+        loadPercentage = 4/7f;
         loadMessage = "Making the GUI beautiful";
         Constants.setGUI(new GUI());
-
-
-        loadPercentage = 4/7f;
-        loadMessage = "Loading Settings";
-        Settings.loadSettings();
 
         loadPercentage = 5/7f;
         loadMessage = "Loading Sounds";
