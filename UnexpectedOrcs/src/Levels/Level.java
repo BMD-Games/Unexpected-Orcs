@@ -300,7 +300,7 @@ public class Level {
         }
     }
 
-    ///*FLOOD FILL
+    //FLOOD FILL
     protected void visitTile(int i, int j, int level, HashMap<PVector, Boolean> beenVisited, ArrayList<PVector> queue) {
 
         if (!beenVisited.getOrDefault(new PVector(i, j), false)) {
@@ -334,8 +334,7 @@ public class Level {
             if (!visited[i][j]) drawVisitedTile(i, j);
             visited[i][j] = true;
         }
-        catch (Exception e) {
-        }
+        catch (Exception e) {}
     }
 
     protected void drawVisitedTile(int i, int j) {
@@ -344,8 +343,7 @@ public class Level {
         try {
             tile = tiles[i][j];
         }
-        catch(Exception e) {
-        }
+        catch(Exception e) {}
         miniMap.stroke(tileSprites.get(tile).get(1, 1)); //set the colour to a pixel from the tile
 
         miniMap.point(i, j);

@@ -16,10 +16,10 @@ import static Utility.Constants.*;
 
 public class Cave extends Level {
     float chance = 0.4f; //chance the a cell will be a wall
-    int iterations = 5;
+    int iterations = 10;
 
     public Cave() {
-        super(80, 45, "Cave", TileSet.caveTileset());
+        super(160, 90, "Cave", TileSet.caveTileset());
 
         this.setTiles(Generator.finishingPass(Generator.generateCave(w, h, iterations, chance), tileset));
         generateStart();

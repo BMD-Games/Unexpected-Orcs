@@ -7,8 +7,10 @@ import processing.core.PVector;
 
 import java.util.ArrayList;
 
-import static Tiles.Tiles.*;
-import static Utility.Constants.*;
+import static Tiles.Tiles.FLOOR;
+import static Tiles.Tiles.WALL;
+import static Utility.Constants.edgeSize;
+import static Utility.Constants.game;
 
 public class Generator {
 
@@ -24,10 +26,63 @@ public class Generator {
                 }
             }
         }
+
+        //Cellular Automata
         for (int i = 0; i < iterations; i ++) {
             iterateGeneration(tiles, oldTiles, w, h, i < iterations - 2);
         }
+
+        //Flood fill to find regions
+        int[][] regions = new int[w][h];
+        int regionCount = 1; //start at 1 (0 is default value. ie not assigned yet)
+
+        ArrayList<PVector> queue = new ArrayList<>();
+
+        for(int i = 0; i < w; i ++) {
+            for(int j = 0; j < h; j ++) {
+                if(tiles[i][j] == WALL || regions[i][j] != 0) continue;
+
+                queue.add(new PVector(i, j));
+                while(queue.size() > 0) {
+                    PVector current = queue.get(0);
+                    int x = (int)current.x;
+                    int y = (int)current.y;
+
+                    game.println(regionCount, queue.size(), x, y);
+                    queue.remove(0);
+                    regions[x][y] = regionCount;
+
+                    if(regions[x+1][y] == 0 && tiles[x+1][y] != WALL && !queue.contains(new PVector(x+1, y))) queue.add(new PVector(x+1, y));
+                    if(regions[x-1][y] == 0 && tiles[x-1][y] != WALL && !queue.contains(new PVector(x-1, y))) queue.add(new PVector(x-1, y));
+                    if(regions[x][y+1] == 0 && tiles[x][y+1] != WALL && !queue.contains(new PVector(x, y+1))) queue.add(new PVector(x, y+1));
+                    if(regions[x][y-1] == 0 && tiles[x][y-1] != WALL && !queue.contains(new PVector(x, y-1))) queue.add(new PVector(x, y-1));
+
+                }
+                regionCount ++;
+            }
+        }
+
+        saveCaveRegions(regions, regionCount);
+
         return tiles;
+    }
+
+    private static void saveCaveRegions(int[][] tiles, int regionCount) {
+        PGraphics img = game.createGraphics(tiles.length, tiles[0].length);
+        img.beginDraw();
+        img.colorMode(game.HSB);
+        for(int i = 0; i < img.width; i ++) {
+            for(int j = 0; j < img.height; j ++) {
+                if(tiles[i][j] == 0) img.stroke(0);
+                else {
+                    img.stroke(tiles[i][j]/(float)regionCount * 255, 255, 255);
+                }
+                img.point(i, j);
+            }
+        }
+
+        img.endDraw();
+        img.save("./out/level/caveRegions.png");
     }
 
     public static void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
