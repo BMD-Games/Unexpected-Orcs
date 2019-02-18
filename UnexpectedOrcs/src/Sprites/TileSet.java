@@ -10,6 +10,8 @@ public class TileSet {
     public ArrayList<Integer> extras = new ArrayList<Integer>();  //Extras are variations of floor tiles to spice shit up a bit
     public int[] walls = new int[16];
 
+    public float chance = 0.05f;
+
     public static int[] testWalls() {
         int[] wall = new int[16];
 
@@ -219,6 +221,8 @@ public class TileSet {
         tileset.floor = BLOOD;
         tileset.spawn = BLOOD_SHINE;
         tileset.extras.add(BLOOD_EYE);
+
+        tileset.chance = 0.01f;
 
         return tileset;
     }

@@ -97,7 +97,7 @@ public class Game extends PApplet{
     }
 
     public void mouseReleased() {
-       gui.handleMouseReleased();
+       if(gui != null) gui.handleMouseReleased();
     }
 
     public void mouseWheel(MouseEvent e) {

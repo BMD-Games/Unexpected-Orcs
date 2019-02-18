@@ -16,6 +16,10 @@ public class Generator {
 
     //------CAVE GENERATION--------
     public static int[][] generateCave(int w, int h, int iterations, float chance) {
+
+        game.noiseSeed(game.millis());
+        float lod = 0.1f;
+
         int[][] tiles = new int[w][h];
         int[][] oldTiles = new int[w][h];
         for (int i = 0; i < w; i ++) {
@@ -24,6 +28,8 @@ public class Generator {
                 else {
                     tiles[i][j] = FLOOR;
                 }
+
+                //tiles[i][j] = (game.noise(i * lod, j * lod) > 0.5) ? FLOOR : WALL;
             }
         }
 
@@ -31,6 +37,8 @@ public class Generator {
         for (int i = 0; i < iterations; i ++) {
             iterateGeneration(tiles, oldTiles, w, h, i < iterations - 2);
         }
+
+
 
         //Flood fill to find regions
         int[][] regions = new int[w][h];
@@ -48,14 +56,13 @@ public class Generator {
                     int x = (int)current.x;
                     int y = (int)current.y;
 
-                    game.println(regionCount, queue.size(), x, y);
                     queue.remove(0);
                     regions[x][y] = regionCount;
 
-                    if(regions[x+1][y] == 0 && tiles[x+1][y] != WALL && !queue.contains(new PVector(x+1, y))) queue.add(new PVector(x+1, y));
-                    if(regions[x-1][y] == 0 && tiles[x-1][y] != WALL && !queue.contains(new PVector(x-1, y))) queue.add(new PVector(x-1, y));
-                    if(regions[x][y+1] == 0 && tiles[x][y+1] != WALL && !queue.contains(new PVector(x, y+1))) queue.add(new PVector(x, y+1));
-                    if(regions[x][y-1] == 0 && tiles[x][y-1] != WALL && !queue.contains(new PVector(x, y-1))) queue.add(new PVector(x, y-1));
+                    try { if(regions[x+1][y] == 0 && tiles[x+1][y] != WALL && !queue.contains(new PVector(x+1, y))) queue.add(new PVector(x+1, y)); } catch(Exception e) {}
+                    try { if(regions[x-1][y] == 0 && tiles[x-1][y] != WALL && !queue.contains(new PVector(x-1, y))) queue.add(new PVector(x-1, y)); } catch(Exception e) {}
+                    try { if(regions[x][y+1] == 0 && tiles[x][y+1] != WALL && !queue.contains(new PVector(x, y+1))) queue.add(new PVector(x, y+1)); } catch(Exception e) {}
+                    try { if(regions[x][y-1] == 0 && tiles[x][y-1] != WALL && !queue.contains(new PVector(x, y-1))) queue.add(new PVector(x, y-1)); } catch(Exception e) {}
 
                 }
                 regionCount ++;
@@ -650,7 +657,7 @@ public class Generator {
                     newTiles[i][j] = tileset.walls[getBitMaskValue(tiles, i, j)];
                 } else if (tiles[i][j] == FLOOR) {
                     //use some game.random shit to add flavour to dungeons
-                    if (tileset.extras.size() > 0 && game.random(1) < 0.05) {
+                    if (tileset.extras.size() > 0 && game.random(1) < tileset.chance) {
                         newTiles[i][j] = tileset.extras.get((int)game.random(tileset.extras.size()));
                     } else newTiles[i][j] = tileset.floor;
                 } else {
@@ -686,7 +693,7 @@ public class Generator {
         pg.background(0);
         pg.textAlign(game.CENTER, game.CENTER);
         pg.textSize(20);
-        pg.stroke(255);
+        pg.stroke(255, 0, 0);
         for (int i = 0; i < graph.size(); i ++) {
             pg.fill(255);
             Room room = placedRooms.get(i);

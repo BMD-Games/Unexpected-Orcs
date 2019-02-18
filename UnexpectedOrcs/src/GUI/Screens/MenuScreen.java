@@ -44,6 +44,8 @@ public class MenuScreen extends GUIScreen {
             game.quitGame();
         } else if(Util.pointInBox(game.mouseX, game.mouseY, 0, 0, TILE_SIZE, TILE_SIZE)) {
             game.setState("TEST");
+        } else if(Util.pointInBox(game.mouseX, game.mouseY, game.width-TILE_SIZE, 0, TILE_SIZE, TILE_SIZE)) {
+            game.setState("CREDITS");
         }
     }
 

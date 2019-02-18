@@ -262,6 +262,8 @@ public class Sprites {
         dropSprites.put("BAG_0", getSprite(dropsheet, 0, 0, 1, 1, dropSize));
         dropSprites.put("BAG_1", getSprite(dropsheet, 1, 0, 1, 1, dropSize));
         dropSprites.put("BAG_2", getSprite(dropsheet, 2, 0, 1, 1, dropSize));
+        dropSprites.put("CHEST", getSprite(dropsheet, 3, 0, 1, 1, dropSize));
+
         dropSprites.put("ORB", getSprite(dropsheet, 0, 1, 1, 1, dropSize));
         dropSprites.put("PACK", getSprite(dropsheet, 1, 1, 1, 1, dropSize));
 
@@ -276,7 +278,6 @@ public class Sprites {
         dropSprites.put("BLOOD_PG_2", getSprite(dropsheet, 7, 1, 1, 1, dropSize));
         dropSprites.put("BLOOD_PG_3", getSprite(dropsheet, 8, 1, 1, 1, dropSize));
         dropSprites.put("BLOOD_PG_4", getSprite(dropsheet, 9, 1, 1, 1, dropSize));
-
 
         dropSprites.put("PORTAL_CAVE", getSprite(dropsheet, 0, 2, 2, 2, dropSize));
         dropSprites.put("PORTAL_CAVE2", getSprite(dropsheet, 0, 4, 2, 2, dropSize));

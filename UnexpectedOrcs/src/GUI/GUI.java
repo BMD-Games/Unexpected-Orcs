@@ -44,8 +44,8 @@ public class GUI {
             NewGameScreen.show(screen);
         } else if(game.STATE.equals("LOAD")) {
             LoadScreen.show(screen);
-//        } else if(game.STATE.equals("LOADING")) {
-//            LoadingScreen.show(screen);
+        } else if(game.STATE.equals("CREDITS")) {
+            CreditsScreen.show(screen);
         } else if(game.STATE.equals("TEST")) {
             TestScreen.show(screen);
         }
@@ -70,6 +70,8 @@ public class GUI {
            LoadScreen.handleMouseReleased();
         } else if (game.STATE.equals( "NEWGAME")) {
             NewGameScreen.handleMouseReleased();
+        } else if (game.STATE.equals("CREDITS")) {
+            CreditsScreen.handleMouseReleased();
         }
 
         else if(game.STATE.equals("TEST")) {
