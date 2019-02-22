@@ -21,7 +21,7 @@ public class PlayScreen extends GUIScreen {
     private static final int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
     public static final int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH + itemOffset)))/2, invY = 7 * TILE_SIZE/2;
 
-    private static Button pause = new Button(game.width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+    private static Button pause = new Button(game.width - 1.5f * TILE_SIZE, 0.5f * TILE_SIZE, "PAUSE");
     private static Button enterPortal = new Button(GUI_WIDTH/2 - TILE_SIZE, 14 * TILE_SIZE/2, "BLANK_2x1");
 
     private static DisplayBar healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, TILE_SIZE/2 - invBuff, colour(230, 100, 100));
@@ -173,7 +173,7 @@ public class PlayScreen extends GUIScreen {
         int invBuff = 5, invScale = 2, itemOffset = 1, invSize = SPRITE_SIZE * invScale + 2 * itemOffset;
         int invX = (GUI_WIDTH - ((invSize * Inventory.WIDTH) + (invBuff * Inventory.WIDTH + itemOffset)))/2, invY = 7 * TILE_SIZE/2;
 
-        pause = new Button(game.width - 2 * TILE_SIZE, TILE_SIZE, "PAUSE");
+        pause = new Button(game.width - 1.5f * TILE_SIZE, 0.5f * TILE_SIZE, "PAUSE");
         enterPortal = new Button(GUI_WIDTH/2 - TILE_SIZE, 14 * TILE_SIZE/2, "BLANK_2x1");
 
         healthBar = new DisplayBar(GUI_WIDTH/2 - TILE_SIZE * 1.5f + 4, TILE_SIZE/2 - invBuff, colour(230, 100, 100));
