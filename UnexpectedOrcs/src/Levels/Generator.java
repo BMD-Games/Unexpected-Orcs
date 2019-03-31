@@ -59,10 +59,10 @@ public class Generator {
                     queue.remove(0);
                     regions[x][y] = regionCount;
 
-                    try { if(regions[x+1][y] == 0 && tiles[x+1][y] != WALL && !queue.contains(new PVector(x+1, y))) queue.add(new PVector(x+1, y)); } catch(Exception e) {}
-                    try { if(regions[x-1][y] == 0 && tiles[x-1][y] != WALL && !queue.contains(new PVector(x-1, y))) queue.add(new PVector(x-1, y)); } catch(Exception e) {}
-                    try { if(regions[x][y+1] == 0 && tiles[x][y+1] != WALL && !queue.contains(new PVector(x, y+1))) queue.add(new PVector(x, y+1)); } catch(Exception e) {}
-                    try { if(regions[x][y-1] == 0 && tiles[x][y-1] != WALL && !queue.contains(new PVector(x, y-1))) queue.add(new PVector(x, y-1)); } catch(Exception e) {}
+                    try { if(regions[x+1][y] == 0 && tiles[x+1][y] != WALL && !queue.contains(new PVector(x+1, y))) queue.add(new PVector(x+1, y)); } catch(Exception ignored) {}
+                    try { if(regions[x-1][y] == 0 && tiles[x-1][y] != WALL && !queue.contains(new PVector(x-1, y))) queue.add(new PVector(x-1, y)); } catch(Exception ignored) {}
+                    try { if(regions[x][y+1] == 0 && tiles[x][y+1] != WALL && !queue.contains(new PVector(x, y+1))) queue.add(new PVector(x, y+1)); } catch(Exception ignored) {}
+                    try { if(regions[x][y-1] == 0 && tiles[x][y-1] != WALL && !queue.contains(new PVector(x, y-1))) queue.add(new PVector(x, y-1)); } catch(Exception ignored) {}
 
                 }
                 regionCount ++;
@@ -92,7 +92,7 @@ public class Generator {
         img.save("./out/level/caveRegions.png");
     }
 
-    public static void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
+    private static void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
         for (int i = 0; i < w; i ++) {
             for (int j = 0; j < h; j ++) {
                 oldTiles[i][j] = tiles[i][j];
@@ -113,7 +113,7 @@ public class Generator {
         }
     }
 
-    public static int numNeighbours(int[][] tiles, int x, int y, int dist) {
+    private static int numNeighbours(int[][] tiles, int x, int y, int dist) {
         //counts the number of walls in a square centred at x, y, spanning dist in each direction
         int num = 0;
         for (int i = -dist; i <= dist; i ++) {
@@ -122,35 +122,35 @@ public class Generator {
                 try {
                     if (tiles[x + i][y + j] == WALL) num ++; //if the tile is a wall
                 }
-                catch(Exception e) {
+                catch(Exception ignored) {
                 }
             }
         }
         return num;
     }
 
-    public static int numNeighboursSimple(int[][] tiles, int x, int y) {
+    private static int numNeighboursSimple(int[][] tiles, int x, int y) {
         //counts the number of walls in a square centred at x, y, only looks in cardianl directions
         int num = 0;
         try {
             if (tiles[x-1][y] == WALL) num ++;
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
         try {
             if (tiles[x+1][y] == WALL) num ++;
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
         try {
             if (tiles[x][y-1] == WALL) num ++;
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
         try {
             if (tiles[x][y+1] == WALL) num ++;
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
         return num;
     }
@@ -261,7 +261,7 @@ public class Generator {
         return tiles;
     }
 
-    public static ArrayList<int[]> placeRooms(int w, int h, int roomAttempts, int minSize, int maxSize) {
+    private static ArrayList<int[]> placeRooms(int w, int h, int roomAttempts, int minSize, int maxSize) {
         ArrayList<int[]> rooms = new ArrayList<int[]>(); //stores all rooms
 
         //generate rooms
@@ -285,7 +285,7 @@ public class Generator {
         return rooms;
     }
 
-    public static int getEndDirection(int[][] tiles, int i, int j) {
+    private static int getEndDirection(int[][] tiles, int i, int j) {
         if (numNeighboursSimple(tiles, i, j) < 3 || tiles[i][j] == WALL) return -1; //not dead end
         //returns the direction of the corridor from a dead end
         if (tiles[i][j-1] == FLOOR) return 0; //up
@@ -295,7 +295,7 @@ public class Generator {
         return -1;
     }
 
-    public static int direction(int[] t1, int[] t2) {
+    private static int direction(int[] t1, int[] t2) {
         //returns the direction from t1 cell to t2
         if (t1[1] < t2[1] && t1[0] == t2[0]) return 0; //up
         if (t1[1] > t2[1] && t1[0] == t2[0]) return 2; //down
@@ -304,7 +304,7 @@ public class Generator {
         return -1;
     }
 
-    public static boolean roomOverlap(int[] r1, int[] r2) {
+    private static boolean roomOverlap(int[] r1, int[] r2) {
         //x, y, xl, yl
         return (r1[0] +  r1[2] >= r2[0] &&   // r1 right edge past r2 left
                 r1[0] <= r2[0] +  r2[2] &&   // r1 left edge past r2 right
@@ -312,7 +312,7 @@ public class Generator {
                 r1[1] <= r2[1] +  r2[3]);    // r1 bottom edge past r2 top
     }
 
-    public static ArrayList<int[]> validNeighbours(int[][] tiles, int i, int j) {
+    private static ArrayList<int[]> validNeighbours(int[][] tiles, int i, int j) {
         ArrayList<int[]> neighbours = new ArrayList<int[]>();
         if (validTile(tiles, i, j, 0, 1)) {  //up    dx =  0; dy =  1
             neighbours.add(new int[] {i, j - 1});
@@ -329,7 +329,7 @@ public class Generator {
         return neighbours;
     }
 
-    public static boolean validTile(int[][] tiles, int x, int y, int dx, int dy) {
+    private static boolean validTile(int[][] tiles, int x, int y, int dx, int dy) {
         x -= dx;
         y -= dy;
         if (isEdgeTile(tiles, x, y)) return false;
@@ -340,7 +340,7 @@ public class Generator {
                 try {
                     if (tiles[x + i][y + j] >= FLOOR) return false; //if the tile is a floor
                 }
-                catch(Exception e) {
+                catch(Exception ignored) {
                     return false;
                 }
             }
@@ -348,7 +348,7 @@ public class Generator {
         return true;
     }
 
-    public static ArrayList<int[]> getConnectors(int[][] tiles, int[][] region) {
+    private static ArrayList<int[]> getConnectors(int[][] tiles, int[][] region) {
         ArrayList<int[]> connectors = new ArrayList<int[]>();
         for (int i = edgeSize; i < tiles.length-edgeSize; i ++) {
             for (int j = edgeSize; j < tiles[0].length-edgeSize; j ++) {
@@ -358,7 +358,7 @@ public class Generator {
         return connectors;
     }
 
-    public static void addConnector(ArrayList<int[]> connectors, int[][] tiles, int[][] region, int i, int j) {
+    private static void addConnector(ArrayList<int[]> connectors, int[][] tiles, int[][] region, int i, int j) {
         if (tiles[i][j] != WALL) return;
         if (numNeighboursSimple(tiles, i, j) != 2) return;
         int t = -1, b = -1, l = -1, r = -1;
@@ -367,25 +367,25 @@ public class Generator {
             t = tiles[i][j-1];
             tr = region[i][j-1];
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
         try {
             b = tiles[i][j+1];
             br = region[i][j+1];
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
         try {
             l = tiles[i-1][j];
             lr = region[i-1][j];
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
         try {
             r = tiles[i+1][j];
             rr = region[i+1][j];
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
 
         if ((t >= FLOOR && b >= FLOOR) && tr != br) { // >= FLOOR is non-solid block
@@ -395,7 +395,7 @@ public class Generator {
         }
     }
 
-    public static boolean isEdgeTile(int[][] tiles, int i, int j) {
+    private static boolean isEdgeTile(int[][] tiles, int i, int j) {
         return (i < edgeSize || j < edgeSize || i >= tiles.length - edgeSize || j >= tiles[0].length - edgeSize);
     }
 
@@ -405,7 +405,7 @@ public class Generator {
         try {
             border = ((numNeighbours(tiles, i, j, 1) < 8 && tiles[i][j] == WALL));
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
         }
         return (!edge && border);
     }
@@ -434,11 +434,12 @@ public class Generator {
    4. Go through list of rooms and copy their tiles into the tile map
    5. While adding tiles, add regions to the region lists.
    */
-        ArrayList<PVector> bossRegions = new ArrayList<PVector>();
-        ArrayList<PVector> generalRegions = new ArrayList<PVector>();
-        ArrayList<Room> placedRooms = new ArrayList<Room>();
-        ArrayList<Integer> depth = new ArrayList<Integer>();
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
+        ArrayList<PVector> bossRegions = new ArrayList<>();
+        ArrayList<PVector> generalRegions = new ArrayList<>();
+        ArrayList<Room> placedRooms = new ArrayList<>();
+        ArrayList<Corridor> corridors = new ArrayList<>();
+        ArrayList<Integer> depth = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 
         float dir = game.random(game.TAU); //game.random direction for the dungeon to branch in.
 
@@ -448,7 +449,7 @@ public class Generator {
         initial.y = 0;
         placedRooms.add(initial);
         depth.add(0);
-        graph.add(new ArrayList<Integer>());
+        graph.add(new ArrayList<>());
 
         int minX = initial.x, minY = initial.y, maxX = initial.x + initial.w, maxY = initial.y + initial.h;
 
@@ -471,7 +472,7 @@ public class Generator {
                 room.x = (int)(sx + game.cos(ang) * r);
                 room.y = (int)(sy + game.sin(ang) * r);
                 for (int i = 0; i < placedRooms.size(); i ++) {
-                    if (placedRooms.get(i).collides(room)) {
+                    if (placedRooms.get(i).collides(room) || placedRooms.get(i).distance(room) < 3) {
                         hit = true;
                         break;
                     }
@@ -492,7 +493,7 @@ public class Generator {
 
             int minDist = maxRadius; //find closest room
             for (int i = 0; i < placedRooms.size(); i ++) {
-                int dist = room.distance(placedRooms.get(i));
+                int dist = room.distanceSquare(placedRooms.get(i));
                 if (dist < minDist) {
                     minDist = dist;
                     startPos = i;
@@ -506,7 +507,7 @@ public class Generator {
 
             //add the connections between rooms
             graph.get(startPos).add(newPos);
-            graph.get(newPos).add(startPos);
+            //graph.get(newPos).add(startPos);
         }
 
         //find deepest room and attach the boss room to it
@@ -526,7 +527,6 @@ public class Generator {
             Room boss = new Room(bossRoom);
 
             //find a place to put the room
-            //DEFS COULD GET INFINITE LOOPS HERE :0
             int tries = 0;
             while (hit) {
                 hit = false;
@@ -558,7 +558,19 @@ public class Generator {
 
             //add the connections between rooms
             graph.get(deepest).add(newPos);
-            graph.get(newPos).add(deepest);
+            //graph.get(newPos).add(deepest);
+        }
+
+
+        for(int i = 0; i < placedRooms.size(); i ++) {
+            for (int j = 0; j < graph.get(i).size(); j++) {
+                //game.println("Room" + i + " -> Room" + graph.get(i).get(j));
+                corridors.add(Corridor.generateCorridor(placedRooms, i, graph.get(i).get(j)));
+                if(corridors.get(corridors.size()-1).minX < minX) minX = corridors.get(corridors.size()-1).minX;
+                if(corridors.get(corridors.size()-1).maxX > maxX) maxX = corridors.get(corridors.size()-1).maxX;
+                if(corridors.get(corridors.size()-1).minY < minY) minY = corridors.get(corridors.size()-1).minY;
+                if(corridors.get(corridors.size()-1).minX > maxY) maxY = corridors.get(corridors.size()-1).maxY;
+            }
         }
 
         minX -= 1;
@@ -566,11 +578,6 @@ public class Generator {
         maxX += 1;
         maxY += 1;
 
-        int w = maxX - minX;
-        int h = maxY - minY;
-
-
-        int[][] tiles = new int[w][h];
         //offset all rooms to make them fit into the tile grid
         //MUST do this first so that all rooms are offset
         for(int i = 0; i < placedRooms.size(); i ++) {
@@ -578,14 +585,28 @@ public class Generator {
             placedRooms.get(i).y -= minY;
         }
 
+        for(int i = 0; i < corridors.size(); i ++) {
+            corridors.get(i).offset(-minX, -minY);
+        }
+
+        saveLevel(minX, maxX, minY, maxY, placedRooms, corridors);
         saveRoomGraph(minX, maxX, minY, maxY, placedRooms, graph);
+
+        int w = maxX - minX;
+        int h = maxY - minY;
+
+
+        int[][] tiles = new int[w][h];
+
+
 
         //place rooms into tile grid
         for(int i = 0; i < placedRooms.size(); i ++) {
             Room room = placedRooms.get(i);
             for(int x = 0; x < room.w; x ++) {
                 for(int y = 0; y < room.h; y ++) {
-                    tiles[x + room.x][y + room.y] = room.tiles[x][y];
+                    int tile = room.tiles[x][y];
+                    tiles[x + room.x][y + room.y] = tile;
                     if(i > 0 && i < placedRooms.size() - 1) {
                         //General room (not spawn or boss room)
                         generalRegions.add(new PVector(x + room.x, y + room.y));
@@ -595,19 +616,24 @@ public class Generator {
                     }
                 }
             }
-            for(int j = 0; j < graph.get(i).size(); j ++) {
-                if(graph.get(i).get(j) > i) {
-                    tiles = connectRooms(tiles, placedRooms.get(i), placedRooms.get(graph.get(i).get(j)));
+        }
+
+        //place corridors into tile grid
+        for(Corridor c: corridors) {
+            for(PVector pos : c.path) {
+                if(tiles[(int)pos.x][(int)pos.y] <= WALL ) {
+                    tiles[(int) pos.x][(int) pos.y] = FLOOR;
                 }
             }
         }
+
         tiles = finishingPass(tiles, level.tileset);
         level.setTiles(tiles);
         level.setStart(placedRooms.get(0).midPoint());
         level.setZones(bossRegions, generalRegions);
     }
 
-    public static int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
+    private static int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
         PVector start = r1.midPoint();
         PVector stop = r2.midPoint();
 
@@ -616,8 +642,8 @@ public class Generator {
 
         int dx = 0;
         int dy = 0;
-        try { dx = Util.sign(stop.x - start.x); } catch(Exception e) {};
-        try { dy = Util.sign(stop.y - start.y); } catch(Exception e) {};
+        try { dx = Util.sign(stop.x - start.x); } catch(Exception ignored) {};
+        try { dy = Util.sign(stop.y - start.y); } catch(Exception ignored) {};
 
         int[] dir = {dx, 0};
         int[] dir2 = {0, dy};
@@ -668,16 +694,16 @@ public class Generator {
         return newTiles;
     }
 
-    public static boolean isWall(int[][] tiles, int i, int j) {
+    private static boolean isWall(int[][] tiles, int i, int j) {
         try {
             return tiles[i][j] <= WALL;
         }
-        catch(Exception e) {
+        catch(Exception ignored) {
             return true;
         }
     }
 
-    public static int getBitMaskValue(int[][] tiles, int i, int j) {
+    private static int getBitMaskValue(int[][] tiles, int i, int j) {
         int bmValue = 0;
         if (isWall(tiles, i, j-1)) bmValue += 1;
         if (isWall(tiles, i-1, j)) bmValue += 2;
@@ -687,7 +713,7 @@ public class Generator {
         return bmValue;
     }
 
-    public static void saveRoomGraph(int minX, int maxX, int minY, int maxY, ArrayList<Room> placedRooms, ArrayList<ArrayList<Integer>> graph) {
+    private static void saveRoomGraph(int minX, int maxX, int minY, int maxY, ArrayList<Room> placedRooms, ArrayList<ArrayList<Integer>> graph) {
         PGraphics pg = game.createGraphics((maxX - minX) * 10, (maxY - minY) * 10);
         pg.beginDraw();
         pg.background(0);
@@ -706,7 +732,60 @@ public class Generator {
             pg.text(i, room.midPoint().x * 10, room.midPoint().y * 10);
         }
         pg.endDraw();
-        pg.save("/out/level/TestGen.png");
+        pg.save("/out/level/LevelGraph.png");
+    }
+
+    private static void saveLevel(int minX, int maxX, int minY, int maxY, ArrayList<Room> placedRooms, ArrayList<Corridor> corridors) {
+        PGraphics pg = game.createGraphics((maxX - minX) * 10, (maxY - minY) * 10);
+        pg.beginDraw();
+        pg.background(0);
+        pg.textAlign(game.CENTER, game.CENTER);
+        pg.textSize(20);
+        pg.stroke(255, 0, 0);
+
+        for (int i = 0; i < placedRooms.size(); i ++) {
+            Room room = placedRooms.get(i);
+            pg.fill(255);
+            pg.rect(room.x * 10, room.y * 10, room.w * 10, room.h * 10);
+
+            pg.fill(0);
+            pg.text(i, room.midPoint().x * 10, room.midPoint().y * 10);
+        }
+
+        for (int i = 0; i < corridors.size(); i ++) {
+            pg.stroke(255, 0, 0);
+            pg.noFill();
+            pg.beginShape();
+            for(PVector vec : corridors.get(i).path) {
+                pg.vertex(vec.x * 10, vec.y * 10);
+            }
+            pg.endShape();
+        }
+
+        pg.endDraw();
+        pg.save("/out/level/LevelMap.png");
+    }
+
+    private static void saveLevel(int[][]tiles) {
+        saveLevel(tiles, "LevelPartial");
+    }
+
+    private static void saveLevel(int[][] tiles, String name) {
+        PGraphics pg = game.createGraphics(tiles.length, tiles[0].length);
+        pg.beginDraw();
+        pg.background(0);
+        pg.textAlign(game.CENTER, game.CENTER);
+        pg.textSize(20);
+        pg.stroke(255, 0, 0);
+        for (int i = 0; i < tiles.length; i ++) {
+            for (int j = 0; j < tiles[0].length; j ++) {
+                if(tiles[i][j] <= WALL) continue;
+                pg.fill(255);
+                pg.rect(i, j, 1, 1);
+            }
+        }
+        pg.endDraw();
+        pg.save("/out/level/" + name + ".png");
     }
 
 /*

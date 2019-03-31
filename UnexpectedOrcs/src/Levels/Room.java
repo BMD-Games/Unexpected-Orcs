@@ -33,6 +33,10 @@ public class Room {
                 y <= room.y + room.h);    // r1 bottom edge past r2 top
     }
 
+    public boolean contains(int x, int y) {
+        return Util.pointInBox(x, y, this.x, this.y, this.w, this.h);
+    }
+
     public boolean overlapsX(Room room) {
         return ((x >= room.x && x <= room.x + room.w) || (x + w >= room.x && x + w <= room.x + room.w));
     }
@@ -46,12 +50,24 @@ public class Room {
     }
 
     public PVector midPoint() {
-        return new PVector((int)x + w/2, (int)y + h/2);
+        return new PVector((int)(x + w/2), (int)(y + h/2));
+    }
+
+    public int distanceSquare(Room room) {
+        //returns the distance between the rooms (but uses separate x and y);
+        return (int)(game.abs(room.x - x) + game.abs(room.y - y));
     }
 
     public int distance(Room room) {
-        //returns the distance between the rooms (but uses separate x and y);
-        return (int)(game.abs(room.x - x) + game.abs(room.y - y));
+
+        int[] edges = new int[4];
+
+        edges[0] = game.abs(room.x - (x + w));
+        edges[1] = game.abs((room.x + room.w) - x);
+        edges[2] = game.abs(room.y - (y + h));
+        edges[3] = game.abs((room.y + room.h) - y);
+
+        return game.min(edges);
     }
 
     public boolean outOfBounds(int w, int h) {
@@ -62,10 +78,6 @@ public class Room {
         this.tiles = tiles;
         w = tiles.length;
         h = tiles[0].length;
-    }
-
-    public void getClosestPoints(Room room) {
-
     }
 
     public static Room randomRoom(int minSize, int maxSize, int w, int h) {

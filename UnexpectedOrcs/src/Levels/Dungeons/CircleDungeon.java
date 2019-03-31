@@ -22,8 +22,8 @@ public class CircleDungeon extends Level {
      rooms     - Presets for all other rooms
      ***/
 
-    CircleDungeon() {
+    public CircleDungeon() {
         super(60, 45, "Circle", TileSet.cellarTileSet());
-        Generator.generateConnectedDungeon(this, 20, game.PI/4, 10, 15, Room.diamondSpawn(), Room.circleBoss(), new Room[]{Room.circle5(), Room.circle7(), Room.circle11()});
+        Generator.generateConnectedDungeon(this, 20, game.PI/4, 5, 10, Room.diamondSpawn(), Room.circleBoss(), new Room[]{Room.circle5(), Room.circle7(), Room.circle11()});
     }
 }

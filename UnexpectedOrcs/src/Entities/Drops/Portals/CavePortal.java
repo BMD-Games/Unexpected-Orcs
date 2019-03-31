@@ -2,6 +2,7 @@ package Entities.Drops.Portals;
 
 import Entities.Drops.Portal;
 import Levels.Dungeons.Cave;
+import Levels.Dungeons.CircleDungeon;
 import Levels.Level;
 import Sprites.AnimatedSprite;
 import processing.core.PImage;

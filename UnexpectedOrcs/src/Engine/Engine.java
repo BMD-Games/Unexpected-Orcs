@@ -9,6 +9,8 @@ import Entities.Text;
 import Items.Item;
 import Items.Weapon;
 import Levels.Dungeons.Cave;
+import Levels.Dungeons.CellarDungeon;
+import Levels.Dungeons.CircleDungeon;
 import Levels.Dungeons.TutorialDungeon;
 import Levels.Level;
 import Utility.Collision.Rectangle;
@@ -55,7 +57,7 @@ public class Engine {
 
     public Engine() {
         //Can initialise stuff here (eg generate the first cave)
-        currentLevel = new Cave(); //Cave();//CircleDungeon();
+        currentLevel = new CellarDungeon();//Cave();
         // GrassDungeon
         // ();// CellarDungeon(); //
 
