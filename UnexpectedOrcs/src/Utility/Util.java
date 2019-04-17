@@ -123,6 +123,13 @@ public class Util {
         return temp.get();
     }
 
+    public static boolean contains(int[] arr, int obj) {
+        for(int i = 0; i < arr.length; i ++) {
+            if(arr[i] == obj) return true;
+        }
+        return false;
+    }
+
     public static PImage getCombinedSprite(PImage baseImage, PImage secondImage) {
         PGraphics temp = game.createGraphics(baseImage.width, baseImage.height);
         temp.beginDraw();
@@ -130,6 +137,22 @@ public class Util {
         temp.image(secondImage, 0, 0);
         temp.endDraw();
         return temp.get();
+    }
+
+    public static PImage maskImage(PImage texture, PImage outline, PImage mask, int rotation) {
+        PGraphics pg = game.createGraphics(texture.width, texture.height);
+        pg.beginDraw();
+        pg.imageMode(CENTER);
+        pg.pushMatrix();
+        pg.translate(pg.width/2, pg.height/2);
+        pg.rotate((PI/2) * rotation);
+        pg.image(mask, 0, 0, pg.width, pg.height);
+        pg.popMatrix();
+        pg.endDraw();
+        outline.mask(pg);
+        PImage combined = getCombinedSprite(texture, outline);
+        combined.save("/out/level/bitmask/final.png");
+        return combined;
     }
 
     public static String debuffToVerb(String debuff) {

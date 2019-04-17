@@ -22,6 +22,7 @@ import processing.opengl.PJOGL;
 
 import java.util.Objects;
 
+import static Levels.Generator.getBitMaskValue;
 import static Settings.Settings.*;
 import static Utility.Constants.*;
 

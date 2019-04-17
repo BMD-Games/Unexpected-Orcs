@@ -19,39 +19,39 @@ public class Circle {
     }
 
     protected static boolean validCentre(Level level, float x, float y) {
-        return level.getTile((int)x, (int)y) > WALL;
+        return !level.getTile((int)x, (int)y).solid;
     }
 
     protected static boolean validLeft(Level level, float x, float y, float radius) {
-        return level.getTile((int)(x - radius), (int)y) > WALL;
+        return !level.getTile((int)(x - radius), (int)y).solid;
     }
 
     protected static boolean validRight(Level level, float x, float y, float radius) {
-        return level.getTile((int)(x + radius), (int)y) > WALL;
+        return !level.getTile((int)(x + radius), (int)y).solid;
     }
 
     protected static boolean validTop(Level level, float x, float y, float radius) {
-        return level.getTile((int)x, (int)(y - radius)) > WALL;
+        return !level.getTile((int)x, (int)(y - radius)).solid;
     }
 
     protected static boolean validBottom(Level level, float x, float y, float radius) {
-        return level.getTile((int)x, (int)(y + radius)) > WALL;
+        return !level.getTile((int)x, (int)(y + radius)).solid;
     }
 
     protected static boolean validTopLeft(Level level, float x, float y, float radius) {
-        return !((pointCollides(x, y, game.floor(x), game.floor(y), radius)) && (level.getTile(game.floor(x) - 1, game.floor(y) - 1) <= WALL));
+        return !((pointCollides(x, y, game.floor(x), game.floor(y), radius)) && (level.getTile(game.floor(x) - 1, game.floor(y) - 1).solid));
     }
 
     protected static boolean validTopRight(Level level, float x, float y, float radius) {
-        return !((pointCollides(x, y, (int)x + 1, (int)y, radius)) && (level.getTile((int)x + 1, (int)y - 1) <= WALL));
+        return !((pointCollides(x, y, (int)x + 1, (int)y, radius)) && (level.getTile((int)x + 1, (int)y - 1).solid));
     }
 
     protected static boolean validBottomLeft(Level level, float x, float y, float radius) {
-        return !((pointCollides(x, y, (int)x, (int)y + 1, radius)) && (level.getTile((int)x - 1, (int)y + 1) <= WALL));
+        return !((pointCollides(x, y, (int)x, (int)y + 1, radius)) && (level.getTile((int)x - 1, (int)y + 1).solid));
     }
 
     protected static boolean validBottomRight(Level level, float x, float y, float radius) {
-        return !((pointCollides(x, y, (int)x + 1, (int)y + 1, radius)) && (level.getTile((int)x + 1, (int)y + 1) <= WALL));
+        return !((pointCollides(x, y, (int)x + 1, (int)y + 1, radius)) && (level.getTile((int)x + 1, (int)y + 1).solid));
     }
 
     public static float[] adjust(Level level, float x, float y, float radius, float moveX, float moveY) {

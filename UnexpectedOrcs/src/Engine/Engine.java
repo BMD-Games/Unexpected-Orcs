@@ -8,11 +8,9 @@ import Entities.Projectile;
 import Entities.Text;
 import Items.Item;
 import Items.Weapon;
-import Levels.Dungeons.Cave;
-import Levels.Dungeons.CellarDungeon;
-import Levels.Dungeons.CircleDungeon;
-import Levels.Dungeons.TutorialDungeon;
+import Levels.Dungeons.*;
 import Levels.Level;
+import Sprites.Sprites;
 import Utility.Collision.Rectangle;
 import Utility.Pair;
 import processing.core.PGraphics;
@@ -57,11 +55,11 @@ public class Engine {
 
     public Engine() {
         //Can initialise stuff here (eg generate the first cave)
-        currentLevel = new CellarDungeon();//Cave();
+        //currentLevel = new DesertDungeon();//CellarDungeon();//
         // GrassDungeon
         // ();// CellarDungeon(); //
 
-        player = new Player(currentLevel.start.x + 0.5f, currentLevel.start.y + 0.5f);
+        player = new Player(0.5f, 0.5f);
 
         initiateScreen();
         initiateDrops();
@@ -291,7 +289,7 @@ public class Engine {
     }
 
     private boolean projectileIsDead(Projectile proj) {
-        boolean hitWall = currentLevel.getTile((int)proj.x, (int)proj.y) <= WALL;
+        boolean hitWall = currentLevel.getTile((int)proj.x, (int)proj.y).solid;
         return !proj.alive() || hitWall;
     }
 

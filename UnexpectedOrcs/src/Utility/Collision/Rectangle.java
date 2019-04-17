@@ -11,7 +11,7 @@ public class Rectangle {
     public static boolean validPosition(Level level, float x, float y, float w, float h) {
         for(int i = (int)(x - w/2); i <= (int)(x + w/2); ++i) {
             for(int j = (int)(y - h/2); j <= (int)(y + h/2); ++j) {
-                if(level.getTile(i, j) <= WALL) {
+                if(level.getTile(i, j).solid) {
                     return false;
                 }
             }
@@ -21,7 +21,7 @@ public class Rectangle {
 
     public static boolean validTop(Level level, float x, float y, float w, float h) {
         for(int i = (int)(x - w/2); i <= (int)(x + w/2); ++i) {
-            if(level.getTile(i, (int)(y - h/2)) <= WALL) {
+            if(level.getTile(i, (int)(y - h/2)).solid) {
                 return false;
             }
         }
@@ -30,7 +30,7 @@ public class Rectangle {
 
     public static boolean validBottom(Level level, float x, float y, float w, float h) {
         for(int i = (int)(x - w/2); i <= (int)(x + w/2); ++i) {
-            if(level.getTile(i, (int)(y + h/2)) <= WALL) {
+            if(level.getTile(i, (int)(y + h/2)).solid) {
                 return false;
             }
         }
@@ -39,7 +39,7 @@ public class Rectangle {
 
     public static boolean validLeft(Level level, float x, float y, float w, float h) {
         for(int i = (int)(y - h/2); i <= (int)(y + h/2); ++i) {
-            if(level.getTile((int)(x - w/2), i) <= WALL) {
+            if(level.getTile((int)(x - w/2), i).solid) {
                 return false;
             }
         }
@@ -48,7 +48,7 @@ public class Rectangle {
 
     public static boolean validRight(Level level, float x, float y, float w, float h) {
         for(int i = (int)(y - h/2); i <= (int)(y + h/2); ++i) {
-            if(level.getTile((int)(x + w/2), i) <= WALL) {
+            if(level.getTile((int)(x + w/2), i).solid) {
                 return false;
             }
         }

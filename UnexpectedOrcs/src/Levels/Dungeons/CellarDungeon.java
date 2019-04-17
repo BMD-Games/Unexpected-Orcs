@@ -32,6 +32,8 @@ public class CellarDungeon  extends Level implements RoomLevel {
     }
 
     void generateEnemies() {
+
+        game.println("here");
         //Add enemies to level
         StandardEnemy enemy;
         for(int i = 0; i < 20; i ++) {
@@ -78,6 +80,7 @@ public class CellarDungeon  extends Level implements RoomLevel {
         validBossSpawn(enemy);
         addEnemy(enemy);
         bosses.add(enemy);
+        game.println("done");
     }
 
 

@@ -41,7 +41,7 @@ public class Player {
         bound = new AABB(x, y, w, h);
     }
 
-    public void move(double delta, int[] neighbours) {
+    public void move(double delta, boolean[] neighbours) {
         PVector movement = new PVector(getDX(delta, neighbours), getDY(delta, neighbours));
         movement.normalize();
         movement.mult(stats.getSpeed());
@@ -53,28 +53,28 @@ public class Player {
         getMoving(movement);
     }
 
-    private float getDX(double delta, int[] neighbours) {
+    private float getDX(double delta, boolean[] neighbours) {
         float dx = (float)((keys[right] - keys[left]) * (delta * stats.getSpeed()));
         int xpos = (int)x;
         int ypos = (int)y;
-        if (dx < 0 && neighbours[left] <= WALL) {
+        if (dx < 0 && neighbours[left]) {
             AABB tile = new AABB(xpos - 1, ypos, 1, 1);
             if (bound.collidesWith(tile)) return 0;
-        } else if (dx > 0 && neighbours[right] <= WALL) {
+        } else if (dx > 0 && neighbours[right]) {
             AABB tile = new AABB(xpos + 1, ypos, 1, 1);
             if (bound.collidesWith(tile)) return 0;
         }
         return dx;
     }
 
-    private float getDY(double delta, int[] neighbours) {
+    private float getDY(double delta, boolean[] neighbours) {
         float dy = (float)((keys[down] - keys[up]) * (delta * stats.getSpeed()));
         int xpos = (int)x;
         int ypos = (int)y;
-        if (dy < 0 && neighbours[up] <= WALL) {
+        if (dy < 0 && neighbours[up]) {
             AABB tile = new AABB(xpos, ypos - 1, 1, 1);
             if (bound.collidesWith(tile)) return 0;
-        } else if (dy > 0 && neighbours[down] <= WALL) {
+        } else if (dy > 0 && neighbours[down]) {
             AABB tile = new AABB(xpos, ypos + 1, 1, 1);
             if (bound.collidesWith(tile)) return 0;
         }
@@ -87,7 +87,7 @@ public class Player {
         }
     }
 
-    public void update(double delta, int[] neighbours) {
+    public void update(double delta, boolean[] neighbours) {
         ang = game.atan2(game.mouseY - game.height/2, game.mouseX - (game.width/2 + GUI_WIDTH/2));
 
         if (inv.active[1] != null ) {

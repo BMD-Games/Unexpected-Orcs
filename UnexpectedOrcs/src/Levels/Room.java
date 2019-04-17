@@ -1,5 +1,7 @@
 package Levels;
 
+import Tiles.Tile;
+import Tiles.WallTile;
 import Utility.Util;
 import processing.core.PVector;
 
@@ -9,7 +11,7 @@ import static Utility.Constants.*;
 public class Room {
 
     public int x, y, w, h;
-    public int[][] tiles;
+    public Tile[][] tiles;
 
     Room() {
     }
@@ -46,7 +48,7 @@ public class Room {
     }
 
     public boolean inRoom(int px, int py) {
-        return (tiles[px-x][py-y] > WALL) && Util.pointInBox(px, py, x, y, w, h);
+        return (!tiles[px-x][py-y].solid) && Util.pointInBox(px, py, x, y, w, h);
     }
 
     public PVector midPoint() {
@@ -74,7 +76,7 @@ public class Room {
         return (this.x < edgeSize || this.x + this.w > w - edgeSize || this.y < edgeSize || this.y + this.h > h - edgeSize);
     }
 
-    public void setTiles(int[][] tiles) {
+    public void setTiles(Tile[][] tiles) {
         this.tiles = tiles;
         w = tiles.length;
         h = tiles[0].length;
@@ -99,7 +101,16 @@ public class Room {
 
     public static Room testSpawn() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {2, 2, 2, 4, 2, 2, 2, 5, 2},
                 {2, 5, 6, 6, 6, 6, 6, 2, 2},
                 {2, 6, 6, 10, 10, 10, 6, 6, 2},
@@ -109,37 +120,61 @@ public class Room {
                 {2, 6, 6, 10, 10, 10, 6, 6, 2},
                 {5, 2, 6, 6, 6, 6, 6, 2, 5},
                 {2, 2, 2, 2, 2, 4, 2, 2, 2}
-        });
+        });*/
         return room;
     }
 
     public static Room testRoom() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {2, 2, 2, 2, 2},
                 {2, 2, 2, 2, 2},
                 {2, 2, 8, 2, 2},
                 {2, 2, 2, 2, 2},
                 {2, 2, 2, 2, 2}
-        });
+        });*/
         return room;
     }
 
     public static Room testRoom2() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {2, 2, 2, 2, 2},
                 {2, 2, 2, 2, 2},
                 {2, 2, 9, 2, 2},
                 {2, 2, 2, 2, 2},
                 {2, 2, 2, 2, 2}
-        });
+        });*/
         return room;
     }
 
     public static Room testBoss() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9},
                 {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8},
                 {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8},
@@ -151,24 +186,40 @@ public class Room {
                 {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8},
                 {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8},
                 {9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9}
-        });
+        });*/
         return room;
     }
 
     public static Room circle5() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {0, 1, 1, 1, 0},
                 {1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1},
                 {0, 1, 1, 1, 0}
-        });
+        });*/
         return room;
     }
     public static Room circle7() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {0, 0, 1, 1, 1, 0, 0},
                 {0, 1, 1, 1, 1, 1, 0},
                 {1, 1, 1, 1, 1, 1, 1},
@@ -176,12 +227,20 @@ public class Room {
                 {1, 1, 1, 1, 1, 1, 1},
                 {0, 1, 1, 1, 1, 1, 0},
                 {0, 0, 1, 1, 1, 0, 0}
-        });
+        });*/
         return room;
     }
     public static Room circle11() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {0, 0, 1, 1, 1, 1, 1, 1, 0, 0},
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -192,13 +251,21 @@ public class Room {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
                 {0, 0, 1, 1, 1, 1, 1, 1, 0, 0}
-        });
+        });*/
         return room;
     }
 
     public static Room circleBoss() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
                 {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
                 {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
@@ -214,12 +281,20 @@ public class Room {
                 {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
                 {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
                 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
-        });
+        });*/
         return room;
     }
     public static Room diamondSpawn() {
         Room room = new Room();
-        room.setTiles(new int[][]{
+        room.setTiles(new Tile[][]{
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
+                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        });
+        /*room.setTiles(new int[][]{
                 {0, 0, 0, 0, 1, 0, 0, 0, 0},
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
                 {0, 0, 1, 1, 1, 1, 1, 0, 0},
@@ -229,7 +304,7 @@ public class Room {
                 {0, 0, 1, 1, 1, 1, 1, 0, 0},
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
                 {0, 0, 0, 0, 1, 0, 0, 0, 0}
-        });
+        });*/
         return room;
     }
 }

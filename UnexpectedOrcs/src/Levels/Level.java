@@ -4,7 +4,9 @@ import Enemies.CreepyCrawlies.Bat;
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
 import Entities.Drops.Blood;
+import Sprites.Sprites;
 import Sprites.TileSet;
+import Tiles.Tile;
 import Utility.PVectorZComparator;
 import Utility.Util;
 import processing.core.PGraphics;
@@ -17,12 +19,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
+import static Sprites.Sprites.generatedMasks;
 import static Sprites.Sprites.tileSprites;
 import static Tiles.Tiles.WALL;
+import static Tiles.Tiles.WALL_TILE;
 import static Utility.Constants.*;
 
 public class Level {
-    protected int[][] tiles;
+    protected Tile[][] tiles;
     protected ArrayList<PVector> bossZones;
     protected ArrayList<PVector> generalZones;
 
@@ -45,7 +49,7 @@ public class Level {
     private HashMap<PVector, Boolean> smoothBeenVisited = new HashMap<PVector, Boolean>();
     private PriorityQueue<PVector> smoothQueue = new PriorityQueue<PVector>();
 
-    private PGraphics background, walls, miniMap, miniMapOverlay;
+    private PGraphics background, miniMap, miniMapOverlay;
 
     public Level(int w, int h, String name, TileSet tileset) {
         this.w = w;
@@ -62,7 +66,6 @@ public class Level {
         renderW = game.width/TILE_SIZE + 2 * buffer;
         renderH = game.height/TILE_SIZE + 2 * buffer;
 
-        walls = game.createGraphics(game.width - GUI_WIDTH, game.height);
         background = game.createGraphics(game.width - GUI_WIDTH, game.height, game.P2D);
         background.beginDraw();
         background.noSmooth();
@@ -83,13 +86,17 @@ public class Level {
         pg.background(0, 0);
         for (int i = 0; i < w; i ++) {
             for (int j = 0; j < h; j ++) {
-                int tile = tileset.walls[15];
+                Tile tile = tileset.wall;
                 try {
                     tile = tiles[i][j];
                 }
                 catch(Exception e) {
                 }
-                pg.image(tileSprites.get(tile), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
+                if(tile.solid) {
+                    pg.image(generatedMasks.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
+                } else {
+                    pg.image(tileSprites.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
+                }
             }
         }
         pg.endDraw();
@@ -112,15 +119,11 @@ public class Level {
 
         background.beginDraw();
         background.background(0);
-        walls.beginDraw();
-        walls.blendMode(game.REPLACE);
-        walls.background(0, 0);
-        walls.blendMode(game.BLEND);
         for (int x = 0; x < renderW; x ++) {
             for (int y = 0; y < renderH; y ++) {
                 int i = (x + xTileOffset) - buffer;
                 int j = (y + yTileOffset) - buffer;
-                int tile = tileset.walls[15];
+                Tile tile = tileset.wall;
                 boolean visit = false;
                 try {
                     visit = visited[i][j];
@@ -133,9 +136,13 @@ public class Level {
                     }
                     catch(Exception e) {
                     }
-                    PImage sprite = tileSprites.get(tile);
-                    if(tile > 0) background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
-                    else walls.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+
+                    PImage sprite = tileSprites.get(tile.sprite);
+                    if(tile.solid) {
+                        sprite = Sprites.generatedMasks.get(tile.sprite);
+                    }
+                    background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+
                     if(game.drawDebug) {
                         game.debugScreen.noStroke();
                         if(generalZones != null && generalZones.contains(new PVector(i, j))) {
@@ -149,63 +156,50 @@ public class Level {
                 }
             }
         }
-        walls.endDraw();
-        background.shader(outlineShader);
-        background.image(walls, 0, 0);
         background.endDraw();
         if(game.drawDebug) game.debugScreen.endDraw();
-        screen.shader(outlineShader);
         screen.image(background, 0, 0);
-
-        //PImage wall = Util.converToPImage(walls);
-
-        //screen.image(wall, 0, 0);
-        //screen.image(tileSprites.get(4), 0, 0, TILE_SIZE, TILE_SIZE);
     }
 
-    public boolean isEdge(int[][] tiles, int i, int j) {
-        return (i == 0 || j == 0 || i == tiles.length - 1 || j == tiles[0].length);
-    }
-
-    public int[] getNeighbours(int i, int j) {
-        int[] n = new int[8];
+    public boolean[] getNeighbours(int i, int j) {
+        boolean[] n = new boolean[8];
         try {
-            n[up] = tiles[i][j-1];
+            n[up] = tiles[i][j-1].solid;
         }
         catch(Exception e) {
         } //up
         try {
-            n[down] = tiles[i][j+1];
+            n[down] = tiles[i][j+1].solid;
         }
         catch(Exception e) {
         } //down
         try {
-            n[left] = tiles[i-1][j];
+            n[left] = tiles[i-1][j].solid;
         }
         catch(Exception e) {
         } //left
         try {
-            n[right] = tiles[i+1][j];
+            n[right] = tiles[i+1][j].solid;
         }
         catch(Exception e) {
         } //right
         try {
-            n[topLeft] = tiles[i-1][j-1];
+            n[topLeft] = tiles[i-1][j-1].solid;
         }
         catch(Exception e) {
         } // up left
         try {
-            n[topRight] = tiles[i+1][j-1];
+            n[topRight] = tiles[i+1][j-1].solid;
         }
         catch(Exception e) {
         } // up right
         try {
-            n[bottomLeft] = tiles[i-1][j+1];
+            n[bottomLeft] = tiles[i-1][j+1].solid;
         }
         catch(Exception e) {
         } // down left
         try {
-            n[bottomRight] = tiles[i+1][j+1];
+            n[bottomRight] = tiles[i+1][j+1].solid;
         }
         catch(Exception e) {
         } // down right
@@ -217,7 +211,7 @@ public class Level {
         while (start == null) {
             int i = game.floor(game.random(edgeSize, w-edgeSize));
             int j = game.floor(game.random(edgeSize, h-edgeSize));
-            if (tiles[i][j] > WALL) {
+            if (!tiles[i][j].solid) {
                 tiles[i][j] = tileset.spawn;
                 start = new PVector(i, j);
             }
@@ -273,11 +267,11 @@ public class Level {
             smoothBeenVisited.put(new PVector(i, j), true);
 
             if (level != 0) {
-                int[] nb = getNeighbours(i, j);
-                if (nb[up] > WALL) smoothQueue.add(new PVector(i, j - 1, level - 1));
-                if (nb[down] > WALL) smoothQueue.add(new PVector(i, j + 1, level - 1));
-                if (nb[left] > WALL) smoothQueue.add(new PVector(i - 1, j, level - 1));
-                if (nb[right] > WALL) smoothQueue.add(new PVector(i + 1, j, level - 1));
+                boolean[] nb = getNeighbours(i, j);
+                if (!nb[up]) smoothQueue.add(new PVector(i, j - 1, level - 1));
+                if (!nb[down]) smoothQueue.add(new PVector(i, j + 1, level - 1));
+                if (!nb[left]) smoothQueue.add(new PVector(i - 1, j, level - 1));
+                if (!nb[right]) smoothQueue.add(new PVector(i + 1, j, level - 1));
             }
         }
         smoothQueue.remove(0);
@@ -308,11 +302,11 @@ public class Level {
             beenVisited.put(new PVector(i, j), true);
 
             if (level != 0) {
-                int[] nb = getNeighbours(i, j);
-                if (nb[up] > WALL) queue.add(new PVector(i, j - 1, level - 1));
-                if (nb[down] > WALL) queue.add(new PVector(i, j + 1, level - 1));
-                if (nb[left] > WALL) queue.add(new PVector(i - 1, j, level - 1));
-                if (nb[right] > WALL) queue.add(new PVector(i + 1, j, level - 1));
+                boolean[] nb = getNeighbours(i, j);
+                if (!nb[up]) queue.add(new PVector(i, j - 1, level - 1));
+                if (!nb[down]) queue.add(new PVector(i, j + 1, level - 1));
+                if (!nb[left]) queue.add(new PVector(i - 1, j, level - 1));
+                if (!nb[right]) queue.add(new PVector(i + 1, j, level - 1));
             }
         }
         queue.remove(0);
@@ -339,12 +333,12 @@ public class Level {
 
     protected void drawVisitedTile(int i, int j) {
         miniMap.beginDraw();
-        int tile = WALL;
+        Tile tile = WALL_TILE;
         try {
             tile = tiles[i][j];
         }
         catch(Exception e) {}
-        miniMap.stroke(tileSprites.get(tile).get(1, 1)); //set the colour to a pixel from the tile
+        miniMap.stroke(tileSprites.get(tile.sprite).get(1, 1)); //set the colour to a pixel from the tile
 
         miniMap.point(i, j);
         miniMap.endDraw();
@@ -355,13 +349,13 @@ public class Level {
         for (int i = 0; i < dist; i ++) {
             int tX = (int)game.map(i, 0, dist, x1, x2);
             int tY = (int)game.map(i, 0, dist, y1, y2);
-            int tile = WALL;
+            Tile tile = WALL_TILE;
             try {
                 tile = tiles[tX][tY];
             }
             catch(Exception e) {
             }
-            if (tile <= WALL) return false;
+            if (tile.solid) return false;
         }
         return true;
     }
@@ -372,7 +366,7 @@ public class Level {
             int tX = (int)game.map(i, 0, dist, x1, x2);
             int tY = (int)game.map(i, 0, dist, y1, y2);
 
-            int tile = WALL;
+            Tile tile = WALL_TILE;
             try {
                 tile = tiles[tX][tY];
             }
@@ -387,10 +381,10 @@ public class Level {
             }
 
             if (!visit) {
-                if (tile <= WALL) visitTile(tX, tY);
+                if (tile.solid) visitTile(tX, tY);
                 else visitTileFull(tX, tY);
             }
-            if (tile <= WALL) {
+            if (tile.solid) {
                 break;
             }
         }
@@ -440,7 +434,7 @@ public class Level {
     }
 
 
-    public void setTiles(int[][] tiles) { //Tiles with tileset
+    public void setTiles(Tile[][] tiles) { //Tiles with tileset
         this.tiles = tiles;
         resizeLevel();
         saveLevel();
@@ -450,7 +444,6 @@ public class Level {
         renderW = game.width/TILE_SIZE + 2 * buffer;
         renderH = game.height/TILE_SIZE + 2 * buffer;
 
-        walls = game.createGraphics(game.width - GUI_WIDTH, game.height);
         background = game.createGraphics(game.width - GUI_WIDTH, game.height, game.P2D);
         background.beginDraw();
         background.noSmooth();
@@ -484,16 +477,16 @@ public class Level {
     }
 
 
-    public int[][] getTiles() {
+    public Tile[][] getTiles() {
         return tiles;
     }
 
-    public void setTile(int t, int i, int j) {
+    public void setTile(Tile t, int i, int j) {
         tiles[i][j] = t;
     }
 
-    public int getTile(int i, int j) {
-        int tile = WALL;
+    public Tile getTile(int i, int j) {
+        Tile tile = WALL_TILE;
         try { tile = tiles[i][j]; } catch(Exception e) {}
         return tile;
     }
@@ -528,7 +521,7 @@ public class Level {
 
     public void saveLevel() {
         generateImage().save("/out/level/image" + name + ".png");
-        PrintWriter file = game.createWriter("/out/level/" + name + ".txt");
+        /*PrintWriter file = game.createWriter("/out/level/txt/" + name + ".txt");
         for (int j = 0; j < h; j ++) {
             for (int i = 0; i < w; i ++) {
                 file.print(tiles[i][j]);
@@ -537,7 +530,7 @@ public class Level {
             file.println();
         }
         file.flush();
-        file.close();
+        file.close();*/
     }
 
     protected void validSpawnRooms(StandardEnemy enemy) {
