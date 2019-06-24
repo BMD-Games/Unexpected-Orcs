@@ -167,7 +167,9 @@ public class Engine {
 
     public void resize() {
         initiateScreen();
-        currentLevel.resizeCanvas();
+        try {
+            currentLevel.resizeCanvas();
+        } catch(NullPointerException e) {}//when there is no level yet
     }
 
     private void initiateScreen() {
@@ -348,7 +350,7 @@ public class Engine {
 
 
     public void addText(String cooldown, float xp, float yp, float life, int c) {
-        text.add( new Text(cooldown, xp, yp, life, c));
+        text.add(new Text(cooldown, xp, yp, life, c));
     }
 
     public Item[] getClosestBagItems() {

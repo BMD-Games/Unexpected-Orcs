@@ -93,7 +93,11 @@ public class Level {
                 catch(Exception e) {
                 }
                 if(tile.solid) {
-                    pg.image(generatedMasks.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
+                    try {
+                        pg.image(generatedMasks.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
+                    } catch (NullPointerException e) {
+                        pg.image(tileSprites.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
+                    }
                 } else {
                     pg.image(tileSprites.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
                 }
@@ -128,18 +132,20 @@ public class Level {
                 try {
                     visit = visited[i][j];
                 }
-                catch(Exception e) {
-                }
+                catch(Exception e) {}
                 if (visit) {
                     try {
                         tile = tiles[i][j];
                     }
-                    catch(Exception e) {
-                    }
+                    catch(Exception e) {}
 
                     PImage sprite = tileSprites.get(tile.sprite);
                     if(tile.solid) {
-                        sprite = Sprites.generatedMasks.get(tile.sprite);
+                        try {
+                            sprite = Sprites.generatedMasks.get(tile.sprite);
+                        } catch (NullPointerException e) {
+                           sprite = tileSprites.get(tile.sprite);
+                        }
                     }
                     background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
 

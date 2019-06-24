@@ -734,13 +734,23 @@ public class Generator {
                 val = val << 1;
                 try {
                     if (tiles[i - x][j - y].solid) val += 1;
-                } catch(Exception e) {
-                    val += 1;
-                }
+                } catch(Exception e) {}
             }
         }
 
         return (short) val;
+    }
+
+    public static Tile[][] bitMask(Tile[][] tiles) {
+        for(int i = 0; i < tiles.length; i ++) {
+            for(int j = 0; j < tiles[0].length; j ++) {
+                if(tiles[i][j].solid) {
+                    tiles[i][j] = new Tile(tiles[i][j]);
+                    tiles[i][j].bitmask(getBitMaskValue(tiles, i, j));
+                }
+            }
+        }
+        return tiles;
     }
 
     private static void saveRoomGraph(int minX, int maxX, int minY, int maxY, ArrayList<Room> placedRooms, ArrayList<ArrayList<Integer>> graph) {

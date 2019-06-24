@@ -31,7 +31,7 @@ public class Sprites {
         statusSprites = new HashMap<String, PImage>();
         playerStatusSprites = new HashMap<String, PImage>();
 
-        mask = new HashMap<>();
+        mask = new HashMap<Integer, PImage>();
         generatedMasks = new HashMap<String, PImage>();
 
         Bitmask.init();

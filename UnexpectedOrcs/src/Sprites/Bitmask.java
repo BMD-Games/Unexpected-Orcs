@@ -3,11 +3,7 @@ package Sprites;
 import Utility.Util;
 import processing.core.PImage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-
-import static Utility.Constants.game;
 
 public class Bitmask {
 
@@ -27,9 +23,8 @@ public class Bitmask {
 
         int rot = bitmaskRotation.get(bitmask);
         PImage mask = Sprites.mask.get(bitmaskImage.get(bitmask));
-
         PImage done = Util.maskImage(Sprites.tileSprites.get(sprite), Sprites.tileSprites.get(outline), mask, rot);
-        done.save("/out/level/bitmask/completed.png");
+        done.save("/out/level/bitmask/completed_" + bitmask + ".png");
 
         return done;
     }

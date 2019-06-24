@@ -81,6 +81,7 @@ public class Game extends PApplet{
             engine.show();
             if(drawDebug) {
                 image(debugScreen, 0, 0);
+                if(frameCount % 30 == 0) debugScreen.save("out/level/debug.jpg");
                 debugScreen.beginDraw();
                 debugScreen.clear();
                 debugScreen.endDraw();
@@ -121,7 +122,12 @@ public class Game extends PApplet{
         if (keyCode == ABILITY_KEY) keys[ability] = 1;
         if (keyCode == INTERACT_KEY) keys[interact] = 1;
         if(characterNaming) NewGameScreen.keyPressed(key);
-        if(key == '\\') drawDebug = !drawDebug;
+        if(key == '`') {
+            drawDebug = !drawDebug;
+            String state = "disabled";
+            if(drawDebug) state = "enabled";
+            engine.addText("Debug " + state, engine.player.x - 1, engine.player.y, 1f, 255);
+        }
     }
 
     public void keyReleased() {

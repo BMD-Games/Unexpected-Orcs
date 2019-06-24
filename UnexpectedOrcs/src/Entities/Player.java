@@ -2,6 +2,7 @@ package Entities;
 
 import File.GameFile;
 import Items.*;
+import Sound.SoundManager;
 import Stats.PlayerStats;
 import Utility.Collision.AABB;
 import Sprites.Sprites;
@@ -84,6 +85,9 @@ public class Player {
     public void damage(int amount) {
         if (amount > stats.getDefence()) {
             stats.health -= amount - stats.getDefence();
+            SoundManager.playSound("PLAYER_HURT" + game.str(game.ceil(game.random(3))));
+        } else {
+            SoundManager.playSound("ENEMY_HIT_NO_DAMAGE");
         }
     }
 
