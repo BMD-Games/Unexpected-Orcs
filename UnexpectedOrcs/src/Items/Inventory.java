@@ -147,10 +147,7 @@ public class Inventory implements Serializable {
                     bagHashCode = Objects.hashCode(itemBag);
                 }
             }
-            if (!currSelection && prevSelection) {
-                if (b1 == -1) {
-                    return;
-                }
+            if (!currSelection && prevSelection && (b1 != -1)) {
                 b2 = itemOver;
                 b2Type = menuType;
                 if (b1Type == ACTIVE && b2Type == INV) { //----INV/ACTIVE
