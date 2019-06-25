@@ -9,6 +9,7 @@ import Utility.Util;
 import processing.core.PGraphics;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import static Utility.Constants.*;
 import static Utility.Constants.game;
@@ -24,6 +25,7 @@ public class Inventory implements Serializable {
     private int b1Type, b2Type, menuType; // if inv box is in active or not
     private int b1 = -1, b2 = -1, itemOver, ACTIVE = 0, INV = 1, BAG = 2, OUT = 3;//inv box 1 and 2 for drag and swap
     private Item mouseOverItem;
+    private int bagHashCode;
 
     public final static int WIDTH = 4;
 
@@ -141,8 +143,14 @@ public class Inventory implements Serializable {
             if (currSelection && !prevSelection) {
                 b1 = itemOver;
                 b1Type = menuType;
+                if (b1Type == BAG) {
+                    bagHashCode = Objects.hashCode(itemBag);
+                }
             }
             if (!currSelection && prevSelection) {
+                if (b1 == -1) {
+                    return;
+                }
                 b2 = itemOver;
                 b2Type = menuType;
                 if (b1Type == ACTIVE && b2Type == INV) { //----INV/ACTIVE
@@ -155,14 +163,18 @@ public class Inventory implements Serializable {
                     Item bagItem = itemBag.takeItem(b2);
                     itemBag.addItem(addItemInv(bagItem, b1));
                 } else if (b1Type == BAG && b2Type == INV) {
-                    Item bagItem = itemBag.takeItem(b1);
-                    itemBag.addItem(addItemInv(bagItem, b2));
+                    if (itemBag != null && Objects.hashCode(itemBag) == bagHashCode) {
+                        Item bagItem = itemBag.takeItem(b1);
+                        itemBag.addItem(addItemInv(bagItem, b2));
+                    }
                 } else if (b1Type == ACTIVE && b2Type == BAG) { //-----ACTIVE/BAG
                     Item bagItem = itemBag.takeItem(b2);
                     itemBag.addItem(addItemActive(bagItem, b1));
                 } else if (b1Type == BAG && b2Type == ACTIVE) {
-                    Item bagItem = itemBag.takeItem(b1);
-                    itemBag.addItem(addItemActive(bagItem, b2));
+                    if (itemBag != null && Objects.hashCode(itemBag) == bagHashCode) {
+                        Item bagItem = itemBag.takeItem(b1);
+                        itemBag.addItem(addItemActive(bagItem, b2));
+                    }
                 } else if (b1Type == ACTIVE && b2Type == OUT && !inMenu) { //----ACTIVE/GROUND
                     if (itemBag == null || itemBag.isFull()) {
                         ItemBag newBag = new ItemBag(engine.player.x, engine.player.y, 0);
