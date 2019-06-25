@@ -25,7 +25,11 @@ public class Settings {
     public static int remapAction = -1;
 
     public static void loadSettings() {
-        settings = game.loadJSONObject("/assets/settings/settings.json");
+        try {
+            settings = game.loadJSONObject("/assets/settings/settings.json");
+        } catch(Exception e) {
+            settings = new JSONObject();
+        }
         loadControls();
         loadSoundSettings();
         loadVideoSettings();

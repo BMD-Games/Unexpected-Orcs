@@ -30,7 +30,6 @@ public class Level {
     protected ArrayList<PVector> bossZones;
     protected ArrayList<PVector> generalZones;
 
-    protected boolean[][] visited;
     protected boolean[][] visitedCalcLocations;
     protected int visitRadius = 8;
 
@@ -60,7 +59,6 @@ public class Level {
 
         initialiseChunks();
 
-        visited = new boolean[w][h];
         visitedCalcLocations = new boolean[w][h];
 
         renderW = game.width/TILE_SIZE + 2 * buffer;
@@ -128,26 +126,25 @@ public class Level {
                 int i = (x + xTileOffset) - buffer;
                 int j = (y + yTileOffset) - buffer;
                 Tile tile = tileset.wall;
-                boolean visit = false;
                 try {
-                    visit = visited[i][j];
+                    tile = tiles[i][j];
                 }
                 catch(Exception e) {}
-                if (visit) {
-                    try {
-                        tile = tiles[i][j];
-                    }
-                    catch(Exception e) {}
+                if (tile.visited) {
 
-                    PImage sprite = tileSprites.get(tile.sprite);
+                    PImage sprite;
                     if(tile.solid) {
                         try {
                             sprite = Sprites.generatedMasks.get(tile.sprite);
                         } catch (NullPointerException e) {
                            sprite = tileSprites.get(tile.sprite);
                         }
+                    } else {
+                        sprite = tileSprites.get(tile.sprite);
                     }
-                    background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                    if(sprite != null) {
+                            background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                    }
 
                     if(game.drawDebug) {
                         game.debugScreen.noStroke();
@@ -319,7 +316,7 @@ public class Level {
         if (queue.size() > 0) {
             visitTile((int)queue.get(0).x, (int)queue.get(0).y, (int)queue.get(0).z, beenVisited, queue);
         }
-    }//*/
+    }
 
     protected void visitTileFull(int x, int y) {
         for (int i = -1; i <= 1; i ++) {
@@ -331,20 +328,28 @@ public class Level {
 
     protected void visitTile(int i, int j) {
         try {
-            if (!visited[i][j]) drawVisitedTile(i, j);
-            visited[i][j] = true;
+            if (!tiles[i][j].visited) {
+                drawVisitedTile(i, j);
+                tiles[i][j].visited = true;
+            }
         }
         catch (Exception e) {}
     }
 
     protected void drawVisitedTile(int i, int j) {
         miniMap.beginDraw();
-        Tile tile = WALL_TILE;
+        Tile tile;
         try {
             tile = tiles[i][j];
         }
-        catch(Exception e) {}
-        miniMap.stroke(tileSprites.get(tile.sprite).get(1, 1)); //set the colour to a pixel from the tile
+        catch(Exception e) { game.println("Fucked tile", i, j); return; }
+        game.println(i, j);
+        if(tile.solid) {
+            miniMap.stroke(Sprites.generatedMasks.get(tile.sprite).get(3, 3)); //set the colour to a pixel from the tile
+        } else {
+            game.println(i, j);
+            miniMap.stroke(tileSprites.get(tile.sprite).get(3, 3)); //set the colour to a pixel from the tile
+        }
 
         miniMap.point(i, j);
         miniMap.endDraw();
@@ -381,7 +386,7 @@ public class Level {
 
             boolean visit = false;
             try {
-                visit = visited[tX][tY];
+                visit = tiles[tX][tY].visited;
             }
             catch(Exception e) {
             }
@@ -462,7 +467,6 @@ public class Level {
         this.h = tiles[0].length;
 
         initialiseChunks();
-        visited = new boolean[w][h];
         visitedCalcLocations = new boolean[w][h];
 
         renderW = game.width/TILE_SIZE + 2 * buffer;
@@ -584,7 +588,7 @@ public class Level {
 
     public boolean visited(int x, int y) {
         try {
-            return visited[x][y];
+            return tiles[x][y].visited;
         } catch(Exception e) {
             return false;
         }

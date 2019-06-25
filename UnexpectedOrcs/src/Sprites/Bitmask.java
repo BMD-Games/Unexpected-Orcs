@@ -25,7 +25,6 @@ public class Bitmask {
         PImage mask = Sprites.mask.get(bitmaskImage.get(bitmask));
         PImage done = Util.maskImage(Sprites.tileSprites.get(sprite), Sprites.tileSprites.get(outline), mask, rot);
         done.save("/out/level/bitmask/completed_" + bitmask + ".png");
-
         return done;
     }
 

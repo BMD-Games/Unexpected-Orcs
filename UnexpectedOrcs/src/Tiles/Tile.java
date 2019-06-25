@@ -8,6 +8,8 @@ import static Utility.Constants.game;
 public class Tile {
     public boolean solid;
 
+    public boolean visited = false;
+
     public String sprite;
     private short bitmask;
 
