@@ -36,6 +36,8 @@ public class Tile {
         new Tile(solid, sprite, 1f);
     }
 
+
+
     public void bitmask(short bitmask) {
         this.bitmask = bitmask;
         this.sprite = Bitmask.bitmask(sprite, bitmask);
