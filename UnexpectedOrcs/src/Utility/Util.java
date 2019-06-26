@@ -155,6 +155,24 @@ public class Util {
         return combined;
     }
 
+    public static PImage alphaImage(PImage texture, int maxAlpha) {
+        //creates a new PImage with the scaled alpha values;
+        PImage alpha = game.createImage(texture.width, texture.height, game.ARGB);
+
+        alpha.loadPixels();
+        texture.loadPixels();
+
+        for(int i = 0; i < alpha.pixels.length; i ++) {
+            int pix = texture.pixels[i];
+            alpha.pixels[i] = game.color(red(pix), green(pix), blue(pix), map(alpha(pix),0, 255, 0, maxAlpha));
+        }
+
+        alpha.updatePixels();
+        texture.updatePixels();
+
+        return alpha;
+    }
+
     public static String debuffToVerb(String debuff) {
         switch(debuff) {
             case "SLOWED":
