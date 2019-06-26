@@ -143,21 +143,12 @@ public class Engine {
 
     public void handleMouse() {
         //handle mouse released
-        //need to do something like add(player.getCurrentWeapon().newProjectile());
-        // PVector.fromAngle(player.ang)
         Weapon weapon = player.currentWeapon();
         if (weapon != null) {
-
             if (player.stats.fireTimer >= weapon.fireRate * player.stats.getFireRate()) {
                 weapon.playSound();
-
-                ArrayList<Pair> projectileStats = weapon.statusEffects == null ? new ArrayList<Pair>() : weapon.statusEffects;
-                if(player.currentScroll() != null) {
-                    projectileStats.addAll(engine.player.currentScroll().statusEffects);
-                }
                 for (int i = 0; i < weapon.numBullets; i++) {
-                    playerProjectiles.add(new Projectile(player.x, player.y, PVector.fromAngle(player.ang + game.random(-weapon.accuracy, weapon.accuracy)),
-                            weapon.bulletSpeed, weapon.range, weapon.damage + player.stats.getAttack(), weapon.bulletSprite, projectileStats));
+                    playerProjectiles.addAll(weapon.fire());
                 }
                 player.stats.fireTimer = 0;
             }

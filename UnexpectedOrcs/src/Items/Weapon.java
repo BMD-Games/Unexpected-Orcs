@@ -1,8 +1,10 @@
 package Items;
 
+import Entities.Projectile;
 import Sound.SoundManager;
 import Utility.Pair;
 import processing.core.PImage;
+import processing.core.PVector;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 
 import static Utility.Colour.colour;
 import static Utility.Constants.SPRITE_SIZE;
+import static Utility.Constants.engine;
 import static Utility.Constants.game;
 
 public class Weapon extends Item implements Serializable {
@@ -22,7 +25,7 @@ public class Weapon extends Item implements Serializable {
     //FireRate, is the wait time in seconds between shots
     public float fireRate = 1;
     //Accuracy, angle in radians the weapon will shoot within
-    public float accuracy = 0;
+    public float spread = 0;
 
     transient public PImage bulletSprite;
     public int tipColour = colour(50, 50, 50);
@@ -65,5 +68,18 @@ public class Weapon extends Item implements Serializable {
         name = name.substring(name.lastIndexOf('.') + 1).toUpperCase();
 
         SoundManager.playSound("WEAPON_" + name);
+    }
+
+    public ArrayList<Projectile> fire() {
+        ArrayList<Projectile> projectiles = new ArrayList<>(numBullets);
+        ArrayList<Pair> projectileStats = statusEffects == null ? new ArrayList<Pair>() : statusEffects;
+        if(engine.player.currentScroll() != null) {
+            projectileStats.addAll(engine.player.currentScroll().statusEffects);
+        }
+        for (int i = 0; i < numBullets; ++i) {
+            projectiles.add(new Projectile(engine.player.x, engine.player.y, numBullets == 1 ? PVector.fromAngle(engine.player.ang) : PVector.fromAngle(engine.player.ang - (spread * ((i/(numBullets-1))-0.5f))),
+                    bulletSpeed, range, damage + engine.player.stats.getAttack(), bulletSprite, projectileStats));
+        }
+        return projectiles;
     }
 }

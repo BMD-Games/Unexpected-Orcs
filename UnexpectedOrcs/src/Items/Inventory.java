@@ -295,7 +295,7 @@ public class Inventory implements Serializable {
             int fireRate = (int)(60 / ((Weapon)item).fireRate);
             desc += "Fire rate: " + fireRate + "\n";
             desc += "Range: " + ((Weapon)item).range + "\n";
-            float accuracy = 1 - ((Weapon)item).accuracy;
+            float accuracy = 1 - ((Weapon)item).spread;
             desc += "Accuracy: " + accuracy + "\n";
             desc += "Damage: " + ((Weapon)item).damage + "\n";
         } else if (type.equals("Ability")) {

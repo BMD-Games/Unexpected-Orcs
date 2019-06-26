@@ -15,7 +15,7 @@ public class GreenRod  extends Weapon {
         this.fireRate = 0.5f;
         this.numBullets = 1;
         this.range = 8;
-        this.accuracy = 0.03f;
+        this.spread = 0.03f;
         this.bulletSpeed = 10;
         this.bulletSprite = Sprites.projectileSprites.get("GREENROD");
     }
