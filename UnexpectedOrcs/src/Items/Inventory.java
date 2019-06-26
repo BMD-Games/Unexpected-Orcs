@@ -147,10 +147,7 @@ public class Inventory implements Serializable {
                     bagHashCode = Objects.hashCode(itemBag);
                 }
             }
-            if (!currSelection && prevSelection) {
-                if (b1 == -1) {
-                    return;
-                }
+            if (!currSelection && prevSelection && (b1 != -1)) {
                 b2 = itemOver;
                 b2Type = menuType;
                 if (b1Type == ACTIVE && b2Type == INV) { //----INV/ACTIVE
@@ -298,9 +295,11 @@ public class Inventory implements Serializable {
             int fireRate = (int)(60 / ((Weapon)item).fireRate);
             desc += "Fire rate: " + fireRate + "\n";
             desc += "Range: " + ((Weapon)item).range + "\n";
-            float accuracy = 1 - ((Weapon)item).accuracy;
+            float accuracy = 1 - ((Weapon)item).spread;
             desc += "Accuracy: " + accuracy + "\n";
-            desc += "Damage: " + ((Weapon)item).damage + "\n";
+            desc += "Damage: " + ((Weapon)item).damage;
+            if (((Weapon) item).numBullets > 1) desc += " x " + ((Weapon) item).numBullets;
+            desc += "\n";
         } else if (type.equals("Ability")) {
             desc += "Mana cost: " + ((Ability)item).manaCost + "\n";
             desc += "Cooldown: " + ((Ability)item).cooldown + "s\n";
