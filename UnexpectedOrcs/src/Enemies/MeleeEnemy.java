@@ -1,5 +1,6 @@
 package Enemies;
 
+import Entities.Projectile;
 import Utility.Collision.Circle;
 import Utility.Collision.CircleObject;
 import Utility.Collision.Rectangle;
@@ -33,7 +34,7 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
     protected void attack() {
         if (stats.fireTimer > attackWaitTime * stats.getFireRate()) {
             stats.fireTimer = 0;
-            engine.player.damage(stats.attack * 2);
+            engine.player.damage(new Projectile(x, y, new PVector(game.cos(angle), game.sin(angle)), 0, 0, stats.attack, null));
         }
     }
 

@@ -25,7 +25,7 @@ public class Projectile {
         this.y = y;
         this.startX = x;
         this.startY = y;
-        this. direction = direction;
+        this.direction = direction;
         this.speed = speed;
         this.range = range;
         this.damage = damage;
@@ -38,7 +38,7 @@ public class Projectile {
         this.y = y;
         this.startX = x;
         this.startY = y;
-        this. direction = direction;
+        this.direction = direction;
         this.speed = speed;
         this.range = range;
         this.damage = damage;

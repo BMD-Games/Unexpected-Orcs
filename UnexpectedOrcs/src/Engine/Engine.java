@@ -155,7 +155,6 @@ public class Engine {
         }
     }
 
-
     public void resize() {
         initiateScreen();
         try {
@@ -236,7 +235,7 @@ public class Engine {
             projectile = enemyProjectiles.get(i);
             projectile.update(delta);
             if (Rectangle.lineCollides(projectile.x, projectile.y, projectile.px, projectile.py, player.x, player.y, player.w, player.h)) {
-                player.damage(projectile.damage);
+                player.damage(projectile);
                 enemyProjectiles.remove(i);
                 continue;
             }

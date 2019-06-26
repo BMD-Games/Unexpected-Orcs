@@ -12,31 +12,31 @@ import java.util.ArrayList;
 public interface Enemy {
 
     /* Enemies need to update on tics */
-    public boolean update(double delta);
+    boolean update(double delta);
 
     /* Displays enemy to screen */
-    public void show(PGraphics screen, PVector renderOffset);
+    void show(PGraphics screen, PVector renderOffset);
 
     /* This mob takes damage */
-    public void damage(int amount, ArrayList<Pair> statusEffects);
+    void damage(int amount, ArrayList<Pair> statusEffects);
 
-    public void damage(int amount);
+    void damage(int amount);
 
     /* Drop what on death */
-    public void onDeath();
+    void onDeath();
 
     /* Checks collision with point */
-    public boolean pointCollides(float pointX, float pointY);
+    boolean pointCollides(float pointX, float pointY);
 
     /* Checks collision with point */
-    public boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2);
+    boolean lineCollides(float lineX1, float lineY1, float lineX2, float lineY2);
 
     /* Checks collision with area  */
-    public boolean AABBCollides(AABB box);
+    boolean AABBCollides(AABB box);
 
     /* Checks if mob collides with any walls */
-    public boolean validPosition(Level level, float xPos, float yPos);
+    boolean validPosition(Level level, float xPos, float yPos);
 
-    public void knockback(Projectile projectile, float knockBackMultiplier);
+    void knockback(Projectile projectile, float knockBackMultiplier);
 
 }
