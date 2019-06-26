@@ -1,6 +1,7 @@
 package Entities.Drops;
 
 import Sprites.AnimatedSprite;
+import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -31,9 +32,10 @@ public class Drop {
 
     public void show(PGraphics screen, PVector renderOffset) {
         PImage sprite = sprites.getCurrentSprite();
-        screen.tint(255, 255, 255, alpha);
+        if(alpha != 255) {
+            sprite = Util.alphaImage(sprite, alpha);
+        }
         screen.image(sprite, x * TILE_SIZE - renderOffset.x - (sprite.width * SCALE/2), y * TILE_SIZE - renderOffset.y - (sprite.height * SCALE/2), sprite.width * SCALE, sprite.height * SCALE);
-        screen.tint(255);
     }
 
     public boolean inRange(float xPos, float yPos) {

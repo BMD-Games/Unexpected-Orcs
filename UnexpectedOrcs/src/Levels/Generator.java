@@ -744,8 +744,8 @@ public class Generator {
     public static Tile[][] bitMask(Tile[][] tiles) {
         for(int i = 0; i < tiles.length; i ++) {
             for(int j = 0; j < tiles[0].length; j ++) {
+                tiles[i][j] = new Tile(tiles[i][j]);
                 if(tiles[i][j].solid) {
-                    tiles[i][j] = new Tile(tiles[i][j]);
                     tiles[i][j].bitmask(getBitMaskValue(tiles, i, j));
                 }
             }

@@ -17,6 +17,7 @@ import processing.opengl.PGraphicsOpenGL;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.PriorityQueue;
 
 import static Sprites.Sprites.generatedMasks;
@@ -130,8 +131,7 @@ public class Level {
                     tile = tiles[i][j];
                 }
                 catch(Exception e) {}
-                if (tile.visited) {
-
+                if(tile.visited) {
                     PImage sprite;
                     if(tile.solid) {
                         try {
@@ -143,7 +143,7 @@ public class Level {
                         sprite = tileSprites.get(tile.sprite);
                     }
                     if(sprite != null) {
-                            background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
+                        background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
                     }
 
                     if(game.drawDebug) {
@@ -327,7 +327,7 @@ public class Level {
     }
 
     protected void visitTile(int i, int j) {
-        try {
+       try {
             if (!tiles[i][j].visited) {
                 drawVisitedTile(i, j);
                 tiles[i][j].visited = true;
@@ -342,12 +342,11 @@ public class Level {
         try {
             tile = tiles[i][j];
         }
-        catch(Exception e) { game.println("Fucked tile", i, j); return; }
-        game.println(i, j);
+        catch(Exception e) { return; }
+
         if(tile.solid) {
             miniMap.stroke(Sprites.generatedMasks.get(tile.sprite).get(3, 3)); //set the colour to a pixel from the tile
         } else {
-            game.println(i, j);
             miniMap.stroke(tileSprites.get(tile.sprite).get(3, 3)); //set the colour to a pixel from the tile
         }
 
