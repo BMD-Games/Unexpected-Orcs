@@ -46,8 +46,6 @@ public class Weapon extends Item implements Serializable {
         this.statusEffects = statusEffects;
     }
 
-
-
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
         bulletSprite.loadPixels();

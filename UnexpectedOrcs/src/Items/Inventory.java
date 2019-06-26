@@ -297,7 +297,9 @@ public class Inventory implements Serializable {
             desc += "Range: " + ((Weapon)item).range + "\n";
             float accuracy = 1 - ((Weapon)item).spread;
             desc += "Accuracy: " + accuracy + "\n";
-            desc += "Damage: " + ((Weapon)item).damage + "\n";
+            desc += "Damage: " + ((Weapon)item).damage;
+            if (((Weapon) item).numBullets > 1) desc += " x " + ((Weapon) item).numBullets;
+            desc += "\n";
         } else if (type.equals("Ability")) {
             desc += "Mana cost: " + ((Ability)item).manaCost + "\n";
             desc += "Cooldown: " + ((Ability)item).cooldown + "s\n";
