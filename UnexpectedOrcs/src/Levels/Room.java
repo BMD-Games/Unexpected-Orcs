@@ -76,10 +76,15 @@ public class Room {
         return (this.x < edgeSize || this.x + this.w > w - edgeSize || this.y < edgeSize || this.y + this.h > h - edgeSize);
     }
 
-    public void setTiles(Tile[][] tiles) {
-        this.tiles = tiles;
-        w = tiles.length;
-        h = tiles[0].length;
+    public void setTiles(Tile[][] newTiles) {
+        w = newTiles.length;
+        h = newTiles[0].length;
+        this.tiles = new Tile[w][h];
+        for(int i = 0; i < w; i ++) {
+            for(int j = 0; j < h; j ++) {
+                this.tiles[i][j] = new Tile(newTiles[i][j]);
+            }
+        }
     }
 
     public static Room randomRoom(int minSize, int maxSize, int w, int h) {

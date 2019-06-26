@@ -136,6 +136,7 @@ public abstract class StandardEnemy implements Enemy {
             engine.addText(String.valueOf(damage), x, y - radius, 0.5f, colour(200, 0, 0));
             if(stats.health > 0) {
                 SoundManager.playSound("ENEMY_HIT_DAMAGE");
+                engine.cameraShake(0.075f, 0.02f);
             }
         } else {
             SoundManager.playSound("ENEMY_HIT_NO_DAMAGE");
@@ -213,7 +214,7 @@ public abstract class StandardEnemy implements Enemy {
         engine.addDrop(new Blood(x + game.random(radius), y + game.random(radius)));
 
         SoundManager.playSound("ENEMY_DEATH");
-        engine.cameraShake(0.1f);
+        engine.cameraShake(0.1f, 0.05f);
     }
 
     public void knockback(Projectile projectile, float knockBackMultiplier) {

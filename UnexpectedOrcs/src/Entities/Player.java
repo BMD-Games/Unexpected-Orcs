@@ -96,6 +96,7 @@ public class Player {
             SoundManager.playSound("PLAYER_HURT" + game.str(game.ceil(game.random(3))));
             knockbackX += projectile.direction.x * projectile.damage / stats.defence;
             knockbackY += projectile.direction.y * projectile.damage / stats.defence;
+            engine.cameraShake(0.075f, 0.02f);
         } else {
             SoundManager.playSound("ENEMY_HIT_NO_DAMAGE");
         }
