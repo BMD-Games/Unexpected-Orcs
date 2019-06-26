@@ -63,7 +63,7 @@ public class PlayScreen extends GUIScreen {
         screen.endDraw();
         game.image(screen, 0, 0);
 
-        if (Util.pointInBox(game.mouseX, game.mouseY, 0, 0, GUI_WIDTH, game.height)) {
+        if (Util.pointInBox(game.mouseX, game.mouseY, 0, 0, GUI_WIDTH, game.height) || Util.pointInBox(game.mouseX, game.mouseY, pause.x, pause.y, pause.w, pause.h)) {
             inMenu = true;
         } else {
             inMenu = false;

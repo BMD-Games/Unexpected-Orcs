@@ -86,6 +86,7 @@ public class Player {
         if (amount > stats.getDefence()) {
             stats.health -= amount - stats.getDefence();
             SoundManager.playSound("PLAYER_HURT" + game.str(game.ceil(game.random(3))));
+            engine.cameraShake(0.075f, 0.02f);
         } else {
             SoundManager.playSound("ENEMY_HIT_NO_DAMAGE");
         }

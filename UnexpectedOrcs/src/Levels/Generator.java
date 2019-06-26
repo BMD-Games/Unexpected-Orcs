@@ -41,6 +41,8 @@ public class Generator {
 
         //Flood fill to find regions
         int[][] regions = new int[w][h];
+
+
         int regionCount = 1; //start at 1 (0 is default value. ie not assigned yet)
 
         ArrayList<PVector> queue = new ArrayList<>();
@@ -709,15 +711,17 @@ public class Generator {
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 if (tiles[i][j] == WALL_TILE) {
-                    newTiles[i][j] = tileset.wall();
-                    newTiles[i][j].bitmask(getBitMaskValue(tiles, i, j));
+                    newTiles[i][j] = new Tile(tileset.wall());
                 } else if (tiles[i][j] == FLOOR_TILE) {
                     //use some game.random shit to add flavour to dungeons
                     if (tileset.extras.size() > 0 && game.random(1) < tileset.chance) {
-                        newTiles[i][j] = tileset.extras((int) game.random(tileset.extras.size()));
-                    } else newTiles[i][j] = tileset.floor();
+                        newTiles[i][j] = new Tile(tileset.randomTile());
+                    } else newTiles[i][j] = new Tile(tileset.floor());
                 } else {
-                    newTiles[i][j] = tiles[i][j];
+                    newTiles[i][j] = new Tile(tiles[i][j]);
+                }
+                if(newTiles[i][j].solid) {
+                    newTiles[i][j].bitmask(getBitMaskValue(tiles, i, j));
                 }
             }
         }

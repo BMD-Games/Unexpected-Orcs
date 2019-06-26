@@ -12,6 +12,7 @@ import Levels.Dungeons.*;
 import Levels.Level;
 import Sprites.Sprites;
 import Utility.Collision.Rectangle;
+import Utility.GenericPair;
 import Utility.Pair;
 import processing.core.PGraphics;
 import processing.core.PVector;
@@ -51,7 +52,8 @@ public class Engine {
 
     public Player player;
 
-    private float cameraShakeDuration = 0, cameraShakeAmp = 0.05f;
+    private float maxCameraShakeAmp = 0.05f;
+    private ArrayList<GenericPair<Float, Float>> screenShake = new ArrayList<GenericPair<Float, Float>>();
 
     public Engine() {
         //Can initialise stuff here (eg generate the first cave)
@@ -191,11 +193,20 @@ public class Engine {
     private void updateCamera(double delta, float x, float y) {
         float offX = 0;
         float offY = 0;
-        if(cameraShakeDuration > 0) {
-            offX = game.random(cameraShakeAmp);
-            offY = game.random(cameraShakeAmp);
-            cameraShakeDuration -= delta;
+        float amp = 0;
+        for(int i = screenShake.size() - 1; i >= 0; i --) {
+            GenericPair<Float, Float> p = screenShake.get(i);
+            p.setA(p.a() - (float)delta);
+            if(p.a() <= 0) {
+                screenShake.remove(i);
+                continue;
+            }
+            if(p.b() > amp) {
+                amp = p.b();
+            }
         }
+        offX = game.random(amp);
+        offY = game.random(amp);
         camera.x = x + offX;
         camera.y = y + offY;
     }
@@ -220,10 +231,8 @@ public class Engine {
         }
     }
 
-    public void cameraShake(float duration) {
-        if(cameraShakeDuration < duration) {
-            cameraShakeDuration = duration;
-        }
+    public void cameraShake(float duration, float shakeAmp) {
+        screenShake.add(new GenericPair<>(duration, game.constrain(shakeAmp, 0, maxCameraShakeAmp)));
     }
 
     private void showCamera() {
