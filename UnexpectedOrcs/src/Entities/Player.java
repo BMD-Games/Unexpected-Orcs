@@ -43,7 +43,15 @@ public class Player {
     }
 
     public void move(double delta, boolean[] neighbours) {
-        PVector movement = new PVector(getDX(delta, neighbours), getDY(delta, neighbours));
+        PVector knockback = new PVector(knockbackX, knockbackY);
+        if (knockback.mag() > 15) {
+            knockback.normalize();
+            knockback.mult(15);
+        }
+        knockbackX -= knockback.x;
+        knockbackY -= knockback.y;
+
+        PVector movement = new PVector(getDX(delta, neighbours, knockback), getDY(delta, neighbours, knockback));
         movement.normalize();
         movement.mult(stats.getSpeed());
         dirX = movement.x;
@@ -54,8 +62,8 @@ public class Player {
         getMoving(movement);
     }
 
-    private float getDX(double delta, boolean[] neighbours) {
-        float dx = (float)((keys[right] - keys[left]) * (delta * stats.getSpeed()));
+    private float getDX(double delta, boolean[] neighbours, PVector knockback) {
+        float dx = (float)(delta) * ((keys[right] - keys[left]) * stats.getSpeed() + knockback.x);
         int xpos = (int)x;
         int ypos = (int)y;
         if (dx < 0 && neighbours[left]) {
@@ -68,8 +76,8 @@ public class Player {
         return dx;
     }
 
-    private float getDY(double delta, boolean[] neighbours) {
-        float dy = (float)((keys[down] - keys[up]) * (delta * stats.getSpeed()));
+    private float getDY(double delta, boolean[] neighbours, PVector knockback) {
+        float dy = (float)(delta) * ((keys[down] - keys[up]) * stats.getSpeed() + knockback.y);
         int xpos = (int)x;
         int ypos = (int)y;
         if (dy < 0 && neighbours[up]) {
@@ -82,10 +90,12 @@ public class Player {
         return dy;
     }
 
-    public void damage(int amount) {
-        if (amount > stats.getDefence()) {
-            stats.health -= amount - stats.getDefence();
+    public void damage(Projectile projectile) {
+        if (projectile.damage > stats.getDefence()) {
+            stats.health -= projectile.damage - stats.getDefence();
             SoundManager.playSound("PLAYER_HURT" + game.str(game.ceil(game.random(3))));
+            knockbackX += projectile.direction.x * projectile.damage / stats.defence;
+            knockbackY += projectile.direction.y * projectile.damage / stats.defence;
             engine.cameraShake(0.075f, 0.02f);
         } else {
             SoundManager.playSound("ENEMY_HIT_NO_DAMAGE");

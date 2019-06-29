@@ -222,7 +222,6 @@ public abstract class StandardEnemy implements Enemy {
             knockbackX += projectile.direction.x * projectile.damage * knockBackMultiplier / stats.defence;
             knockbackY += projectile.direction.y * projectile.damage * knockBackMultiplier / stats.defence;
         }
-
     }
 
     public void setSprite(PImage sprite) {

@@ -4,10 +4,12 @@ import Enemies.Enemy;
 import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
+import Entities.Projectile;
 import Sprites.AnimatedSprite;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
 import processing.core.PImage;
+import processing.core.PVector;
 
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
@@ -45,8 +47,9 @@ public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
     public boolean update(double delta) {
         if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
             attackWait += delta;
+            //Check melee attack
             if (pointCollides(engine.player.x, engine.player.y) && attackWait > attackWaitTime) {
-                engine.player.damage(18);
+                engine.player.damage(new Projectile(x, y, new PVector(game.cos(angle), game.sin(angle)), 0, 0, stats.attack, null));
                 attackWait = 0;
             }
         }
