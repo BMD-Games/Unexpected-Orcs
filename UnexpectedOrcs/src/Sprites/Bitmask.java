@@ -5,6 +5,8 @@ import processing.core.PImage;
 
 import java.util.HashMap;
 
+import static Utility.Constants.game;
+
 public class Bitmask {
 
     public static HashMap<Integer, Integer> bitmaskMap = new HashMap<>(); //Maps bitmask to equivalent bitmask value (lots of cross-overs)

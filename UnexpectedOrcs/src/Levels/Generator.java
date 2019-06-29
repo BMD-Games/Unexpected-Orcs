@@ -7,6 +7,8 @@ import processing.core.PGraphics;
 import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static Tiles.Tiles.*;
 import static Utility.Constants.edgeSize;
@@ -15,7 +17,7 @@ import static Utility.Constants.game;
 public class Generator {
 
     //------CAVE GENERATION--------
-    public static int[][] generateCave(int w, int h, int iterations, float chance) {
+    public static void generateCave(Level level, int w, int h, int iterations, float chance) {
 
         game.noiseSeed(game.millis());
         float lod = 0.1f;
@@ -41,10 +43,9 @@ public class Generator {
 
         //Flood fill to find regions
         int[][] regions = new int[w][h];
-
+        ArrayList<ArrayList<PVector>> regionList = new ArrayList<>();
 
         int regionCount = 1; //start at 1 (0 is default value. ie not assigned yet)
-
         ArrayList<PVector> queue = new ArrayList<>();
 
         for (int i = 0; i < w; i++) {
@@ -52,6 +53,7 @@ public class Generator {
                 if (tiles[i][j] == WALL || regions[i][j] != 0) continue;
 
                 queue.add(new PVector(i, j));
+                regionList.add(new ArrayList<PVector>());
                 while (queue.size() > 0) {
                     PVector current = queue.get(0);
                     int x = (int) current.x;
@@ -59,6 +61,7 @@ public class Generator {
 
                     queue.remove(0);
                     regions[x][y] = regionCount;
+                    regionList.get(regionList.size() - 1).add(new PVector(x, y));
 
                     try {
                         if (regions[x + 1][y] == 0 && tiles[x + 1][y] != WALL && !queue.contains(new PVector(x + 1, y))) queue.add(new PVector(x + 1, y));
@@ -82,28 +85,85 @@ public class Generator {
             }
         }
 
-        saveCaveRegions(regions, regionCount);
 
-        return tiles;
+        saveCaveRegions(regionList, w, h);
+
+        Tile[][] newTiles = connectRegions(regionList, regions, intsToTiles(tiles));
+        newTiles = finishingPass(newTiles, level.tileset);
+        level.setTiles(newTiles);
     }
 
-    private static void saveCaveRegions(int[][] tiles, int regionCount) {
-        PGraphics img = game.createGraphics(tiles.length, tiles[0].length);
+    private static void saveCaveRegions(ArrayList<ArrayList<PVector>> regions, int w, int h) {
+        PGraphics img = game.createGraphics(w, h);
         img.beginDraw();
         img.colorMode(game.HSB);
-        for (int i = 0; i < img.width; i++) {
-            for (int j = 0; j < img.height; j++) {
-                if (tiles[i][j] == 0) img.stroke(0);
-                else {
-                    img.stroke(tiles[i][j] / (float) regionCount * 255, 255, 255);
-                }
-                img.point(i, j);
+        img.background(0);
+        for (ArrayList<PVector> region : regions) {
+            for (PVector tile : region) {
+                img.stroke(regions.indexOf(region) / (float) regions.size() * 255, 255, 255);
+                img.point(tile.x, tile.y);
             }
         }
 
         img.endDraw();
         img.save("./out/level/caveRegions.png");
     }
+
+    private static Tile[][] connectRegions(ArrayList<ArrayList<PVector>> regionList, int[][] regions, Tile[][] tiles) {
+        Collections.sort(regionList, new Comparator<ArrayList<PVector>>() {
+            @Override
+            public int compare(ArrayList<PVector> o1, ArrayList<PVector> o2) {
+                return o1.size() - o2.size();
+            }
+        });
+
+        while(regionList.size() > 1) {
+            ArrayList<PVector> region = regionList.get(0);
+            int startIndex = (int)game.random(region.size());
+            int x = (int)region.get(startIndex).x;
+            int y = (int)region.get(startIndex).y;
+
+            int targetIndex = (int)game.random(regionList.get(1).size());
+            int tx = (int)regionList.get(1).get(targetIndex).x;//target x
+            int ty = (int)regionList.get(1).get(targetIndex).y;//target x
+
+            while(region.contains(new PVector(x, y)) || tiles[x][y].solid) {
+                //Biased random walk towards target
+                if(tiles[x][y].solid) {
+                    tiles[x][y] = new Tile(WOOD);
+                }
+                float chance = game.random(1);
+                if(chance <= 0.5) {
+                    //X axis movement
+                    chance = game.random(1);
+                    if((chance <= 0.75 && x < tx) || (chance <= 0.25 && x > tx)) {
+                        x += 1;
+                    } else if(x == tx) {
+                        x += chance <= 0.5 ? 1 : -1;
+                    } else {
+                        x -= 1;
+                    }
+                    x = game.constrain(x, 0, tiles.length);
+                } else {
+                    //Y axis movement
+                    chance = game.random(1);
+                    if((chance <= 0.75 && y < ty) || (chance <= 0.25 && y > ty)) {
+                        y += 1;
+                    } else if(y == ty) {
+                        y += chance <= 0.5 ? 1 : -1;
+                    } else {
+                        y -= 1;
+                    }
+                    y = game.constrain(y, 0, tiles[0].length);
+                }
+
+            }
+            regionList.remove(0);
+
+        }
+        return tiles;
+    }
+
 
     private static void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
         for (int i = 0; i < w; i++) {
@@ -689,19 +749,22 @@ public class Generator {
         return tiles;
     }
 
-    public static Tile[][] finishingPass(int[][] tiles, TileSet tileset) {
-        int w = tiles.length;
-        int h = tiles[0].length;
-        Tile[][] newTiles = new Tile[w][h];
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
-                if(tiles[i][j] == FLOOR) newTiles[i][j] = FLOOR_TILE;
-                else newTiles[i][j] = WALL_TILE;
+    public static Tile[][] intsToTiles(int[][]ints) {
+        Tile[][] tiles = new Tile[ints.length][ints[0].length];
+        for(int i = 0; i < tiles.length; i ++) {
+            for(int j = 0; j < tiles[0].length; j ++) {
+                if(ints[i][j] == WALL) {
+                    tiles[i][j] = WALL_TILE;
+                } else {
+                    tiles[i][j] = FLOOR_TILE;
+                }
             }
         }
+        return tiles;
+    }
 
-        return finishingPass(newTiles, tileset);
-
+    public static Tile[][] finishingPass(int[][] tiles, TileSet tileSet) {
+        return finishingPass(intsToTiles(tiles), tileSet);
     }
 
     public static Tile[][] finishingPass(Tile[][] tiles, TileSet tileset) {

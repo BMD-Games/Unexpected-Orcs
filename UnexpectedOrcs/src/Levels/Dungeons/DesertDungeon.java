@@ -12,6 +12,8 @@ import static Utility.Constants.*;
 
 public class DesertDungeon extends Level {
 
+    float chance = 0.4f; //chance the a cell will be a wall
+    int iterations = 5;
     /***
      Creates a dungeon and appends the tiles to the Level it's been given.
 
@@ -27,7 +29,7 @@ public class DesertDungeon extends Level {
 
     public DesertDungeon() {
         super(160, 90, "Desert", TileSet.desertTileSet());
-        this.setTiles(Generator.finishingPass(Generator.generateCave(w, h, 5, 0.4f), tileset));
+        Generator.generateCave(this, w, h, iterations, chance);
         generateStart();
         generateEnemies();
     }
