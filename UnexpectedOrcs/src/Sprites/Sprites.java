@@ -107,6 +107,9 @@ public class Sprites {
         tileSprites.put("BLOOD_SHINE", getSprite(tilesheet, 1, 5, 1, 1, SPRITE_SIZE));
         tileSprites.put("BLOOD_EYE", getSprite(tilesheet, 2, 5, 1, 1, SPRITE_SIZE));
 
+        tileSprites.put("COBBLE", getSprite(tilesheet, 0, 6, 1, 1, SPRITE_SIZE));
+        tileSprites.put("STONE_TILE", getSprite(tilesheet, 1, 6, 1, 1, SPRITE_SIZE));
+
 
         //-----ITEM SPRITES-----
         PImage itemsheet = app.loadImage("/assets/sprites/itemsheet.png");

@@ -16,6 +16,8 @@ import static Utility.Constants.game;
 
 public class Generator {
 
+    private static final int treasureRoomMaxSize = 150;
+
     //------CAVE GENERATION--------
     public static void generateCave(Level level, int w, int h, int iterations, float chance) {
 
@@ -88,7 +90,7 @@ public class Generator {
 
         saveCaveRegions(regionList, w, h);
 
-        Tile[][] newTiles = connectRegions(regionList, regions, intsToTiles(tiles));
+        Tile[][] newTiles = connectRegions(level, regionList, regions, intsToTiles(tiles));
         newTiles = finishingPass(newTiles, level.tileset);
         level.setTiles(newTiles);
     }
@@ -109,7 +111,7 @@ public class Generator {
         img.save("./out/level/caveRegions.png");
     }
 
-    private static Tile[][] connectRegions(ArrayList<ArrayList<PVector>> regionList, int[][] regions, Tile[][] tiles) {
+    private static Tile[][] connectRegions(Level level, ArrayList<ArrayList<PVector>> regionList, int[][] regions, Tile[][] tiles) {
         Collections.sort(regionList, new Comparator<ArrayList<PVector>>() {
             @Override
             public int compare(ArrayList<PVector> o1, ArrayList<PVector> o2) {
@@ -119,6 +121,11 @@ public class Generator {
 
         while(regionList.size() > 1) {
             ArrayList<PVector> region = regionList.get(0);
+
+            if(region.size() < treasureRoomMaxSize) {
+                tiles = treasureRoom(level, region, tiles);
+            }
+
             int startIndex = (int)game.random(region.size());
             int x = (int)region.get(startIndex).x;
             int y = (int)region.get(startIndex).y;
@@ -164,6 +171,17 @@ public class Generator {
         return tiles;
     }
 
+    private static Tile[][] treasureRoom(Level level, ArrayList<PVector> region, Tile[][] tiles) {
+
+        for(int i = 0; i < region.size(); i ++) {
+            PVector tile = region.get(i);
+            tiles[(int)tile.x][(int)tile.y] = new Tile(STONE_TILE);
+        }
+
+        //Add monsters in random points of the region
+        //level.addEnemies();
+        return tiles;
+    }
 
     private static void iterateGeneration(int[][] tiles, int[][] oldTiles, int w, int h, boolean firstPhase) {
         for (int i = 0; i < w; i++) {
