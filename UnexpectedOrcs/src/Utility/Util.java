@@ -150,6 +150,7 @@ public class Util {
         pg.popMatrix();
         pg.endDraw();
         outline.mask(pg);
+        outline.save("out/level/outline");
         PImage combined = getCombinedSprite(texture, outline);
         combined.save("/out/level/bitmask/final.png");
         return combined;
