@@ -50,4 +50,8 @@ public class Tiles {
     public final static Tile BLOOD = new FloorTile("BLOOD");
     public final static Tile BLOOD_SHINE = new FloorTile("BLOOD_SHINE");
     public final static Tile BLOOD_EYE = new FloorTile("BLOOD_EYE");
+
+
+    public final static Tile COBBLE = new FloorTile("COBBLE");
+    public final static Tile STONE_TILE = new FloorTile("STONE_TILE");
 }
