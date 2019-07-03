@@ -90,7 +90,6 @@ public class Rectangle {
                 if((yDir == 1 && validBottom(level, x, y + addY, w, h)) ||
                         (yDir == -1 && validTop(level, checkX, y + addY, w, h))) {
                     y += addY;
-                    System.out.println("Strafing in Y");
                 }
             } else if(!xAdjusted && yAdjusted) {
                 float addX;
@@ -99,7 +98,6 @@ public class Rectangle {
                 if((yDir == 1 && validBottom(level, x, y + addX, w, h)) ||
                         (yDir == -1 && validTop(level, checkX, y + addX, w, h))) {
                     x += addX;
-                    System.out.println("Strafing in X");
                 }
             }
         }
