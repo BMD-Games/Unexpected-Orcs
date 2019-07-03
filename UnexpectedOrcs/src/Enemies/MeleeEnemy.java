@@ -14,7 +14,6 @@ import static Utility.Constants.*;
 public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
 
     protected float attackWaitTime = 0.8f;
-    protected float lastPlayerX = 0, lastPlayerY = 0;
 
     public MeleeEnemy(float x, float y, int tier, PImage sprite) {
         super(x, y, tier, sprite);
@@ -22,18 +21,12 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
     }
 
     public boolean update(double delta) {
-        if (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y)) {
-            lastPlayerX = engine.player.x;
-            lastPlayerY = engine.player.y;
-            if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
-                if (pointCollides(engine.player.x, engine.player.y)) {
-                    attack();
-                } else {
-                    move(delta, angle);
-                }
+        if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
+            if (pointCollides(engine.player.x, engine.player.y)) {
+                attack();
+            } else if (!pointCollides(lastPlayerX, lastPlayerY)) {
+                move(delta, angle);
             }
-        } else if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
-            move(delta, game.atan2(lastPlayerY - y, lastPlayerX - x));
         }
         return super.update(delta);
     }
@@ -45,7 +38,7 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
         }
     }
 
-    protected void move(double delta, float targetAngle) {
+    private void move(double delta, float targetAngle) {
         float moveX;
         float moveY;
         int knockbackMax = 15;
