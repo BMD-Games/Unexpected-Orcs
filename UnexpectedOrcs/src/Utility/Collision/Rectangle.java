@@ -63,21 +63,41 @@ public class Rectangle {
             int yDir = Util.sign(moveY);
             float checkX = xDir == 1 ? game.ceil(x) - w/2 - 0.01f : game.floor(x) + w/2 + 0.01f;
             float checkY = yDir == 1 ? game.ceil(y) - h/2 - 0.01f : game.floor(y) + h/2 + 0.01f;
-            boolean adjusted = false;
+            boolean xAdjusted = false, yAdjusted = false;
             if((xDir == 1 && !validRight(level, x, checkY, w, h)) || (xDir == -1 && !validLeft(level, x, checkY, w, h))) {
                 x = checkX;
-                adjusted = true;
+                xAdjusted = true;
+
             }
             if((yDir == 1 && !validBottom(level, checkX, y, w, h)) || (yDir == -1 && !validTop(level, checkX, y, w, h))) {
                 y = checkY;
-                adjusted = true;
+                yAdjusted = true;
             }
-            if(!adjusted) {
+            if(!(xAdjusted || yAdjusted)) {
                 if((xDir == 1 && !validRight(level, x, y, w, h)) || (xDir == -1 && !validLeft(level, x, y, w, h))) {
                     x = checkX;
+                    xAdjusted = true;
                 }
                 if((yDir == 1 && !validBottom(level, x, y, w, h)) || (yDir == -1 && !validTop(level, checkX, y, w, h))) {
                     y = checkY;
+                    yAdjusted = true;
+                }
+            }
+            if(xAdjusted && !yAdjusted) {
+                float addY;
+                if(xDir == yDir) addY = moveX;
+                else addY = -moveX;
+                if((yDir == 1 && validBottom(level, x, y + addY, w, h)) ||
+                        (yDir == -1 && validTop(level, checkX, y + addY, w, h))) {
+                    y += addY;
+                }
+            } else if(!xAdjusted && yAdjusted) {
+                float addX;
+                if(xDir == yDir) addX = moveX;
+                else addX = -moveX;
+                if((yDir == 1 && validBottom(level, x, y + addX, w, h)) ||
+                        (yDir == -1 && validTop(level, checkX, y + addX, w, h))) {
+                    x += addX;
                 }
             }
         }
@@ -99,7 +119,7 @@ public class Rectangle {
         boolean bottom = Util.lineLine(x1, y1, x2, y2, rx, ry+rh, rx+rw, ry+rh);
 
         //if ANY of the above are true, the line has hit the rectangle
-        if (left || right || top || bottom) {
+        if(left || right || top || bottom) {
             return true;
         }
         return false;

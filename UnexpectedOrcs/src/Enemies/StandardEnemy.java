@@ -28,6 +28,7 @@ public abstract class StandardEnemy implements Enemy {
     public float x, y, knockbackX, knockbackY;
     protected float lastMoveSpeed = 0;
     public String type;
+    float lastPlayerX, lastPlayerY;
 
     protected int range = 10;
     protected float radius = 0.5f;
@@ -60,7 +61,11 @@ public abstract class StandardEnemy implements Enemy {
 
     /* Enemies need to update on tics */
     public boolean update(double delta) {
-        float angleDiff = game.atan2(engine.player.y - y, engine.player.x - x) - angle;
+        if (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y)) {
+            lastPlayerX = engine.player.x;
+            lastPlayerY = engine.player.y;
+        }
+        float angleDiff = game.atan2(lastPlayerY - y, lastPlayerX - x) - angle;
         float maxRotation = 1.8f * ((float)delta) / (1 + lastMoveSpeed);
         if (Math.abs(angleDiff) < (1.1 * delta) || Math.abs(angleDiff) > 2 * Math.PI - maxRotation) {
             angle += angleDiff;

@@ -24,8 +24,8 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
         if (Util.distance(x, y, engine.player.x, engine.player.y) < range) {
             if (pointCollides(engine.player.x, engine.player.y)) {
                 attack();
-            } else {
-                move(delta);
+            } else if (!pointCollides(lastPlayerX, lastPlayerY)) {
+                move(delta, angle);
             }
         }
         return super.update(delta);
@@ -38,7 +38,7 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
         }
     }
 
-    protected void move(double delta) {
+    private void move(double delta, float targetAngle) {
         float moveX;
         float moveY;
         int knockbackMax = 15;
@@ -47,13 +47,13 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
             PVector knockbackLeftOver = knockback;
             knockbackLeftOver.setMag(knockback.mag() - knockbackMax);
             knockback.setMag(knockbackMax);
-            moveX = (stats.getSpeed() * game.cos(angle) + knockback.x) * (float) delta;
-            moveY = (stats.getSpeed() * game.sin(angle) + knockback.y) * (float) delta;
+            moveX = (stats.getSpeed() * game.cos(targetAngle) + knockback.x) * (float) delta;
+            moveY = (stats.getSpeed() * game.sin(targetAngle) + knockback.y) * (float) delta;
             knockbackX = knockbackLeftOver.x;
             knockbackY = knockbackLeftOver.y;
         } else {
-            moveX = (stats.getSpeed() * game.cos(angle) + knockbackX) * (float) delta;
-            moveY = (stats.getSpeed() * game.sin(angle) + knockbackY) * (float) delta;
+            moveX = (stats.getSpeed() * game.cos(targetAngle) + knockbackX) * (float) delta;
+            moveY = (stats.getSpeed() * game.sin(targetAngle) + knockbackY) * (float) delta;
             knockbackX = knockbackY = 0;
         }
         float[] coords;
