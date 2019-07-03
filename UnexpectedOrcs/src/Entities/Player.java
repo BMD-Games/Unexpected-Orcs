@@ -4,6 +4,7 @@ import File.GameFile;
 import Items.*;
 import Sound.SoundManager;
 import Stats.PlayerStats;
+import Tiles.Tile;
 import Utility.Collision.AABB;
 import Sprites.Sprites;
 import processing.core.PGraphics;
@@ -42,7 +43,7 @@ public class Player {
         bound = new AABB(x, y, w, h);
     }
 
-    public void move(double delta, boolean[] neighbours) {
+    public void move(double delta, boolean[] neighbours, float speedMod) {
         PVector knockback = new PVector(knockbackX, knockbackY);
         if (knockback.mag() > 15) {
             knockback.normalize();
@@ -53,7 +54,7 @@ public class Player {
 
         PVector movement = new PVector(getDX(delta, neighbours, knockback), getDY(delta, neighbours, knockback));
         movement.normalize();
-        movement.mult(stats.getSpeed());
+        movement.mult(stats.getSpeed() * speedMod);
         dirX = movement.x;
         dirY = movement.y;
         movement.mult((float)delta);
@@ -102,7 +103,7 @@ public class Player {
         }
     }
 
-    public void update(double delta, boolean[] neighbours) {
+    public void update(double delta, boolean[] neighbours, float speedMod) {
         ang = game.atan2(game.mouseY - game.height/2, game.mouseX - (game.width/2 + GUI_WIDTH/2));
 
         if (inv.active[1] != null ) {
@@ -111,7 +112,7 @@ public class Player {
 
         ability();
         getFacing();
-        move(delta, neighbours);
+        move(delta, neighbours, speedMod);
         updateBound();
 
         inv.update();

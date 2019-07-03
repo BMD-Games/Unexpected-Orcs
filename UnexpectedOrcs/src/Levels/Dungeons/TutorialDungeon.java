@@ -31,7 +31,7 @@ public class TutorialDungeon  extends Level {
     public TutorialDungeon() {
         super(15, 50, "DungeonTutorial", TileSet.cellarTileSet());
 
-        this.setTiles(Generator.bitMask(new Tile[][]{
+        this.setTiles(Generator.finishingPass(new Tile[][]{
                 {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
                 {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
                 {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
@@ -45,7 +45,7 @@ public class TutorialDungeon  extends Level {
                 {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
                 {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
                 {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
-        }));
+        }, TileSet.cellarTileSet()));
 
         start = new PVector(3,7);
         generateEnemies();

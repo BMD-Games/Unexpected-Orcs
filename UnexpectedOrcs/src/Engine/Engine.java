@@ -74,7 +74,7 @@ public class Engine {
         double delta = (game.millis() - lastUpdate)/1000; //seconds passed since last update
         if (game.mousePressed && !inMenu) handleMouse();
 
-        player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y));
+        player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y), currentLevel.getTile((int)player.x, (int)player.y).speedMod);
         if (player.stats.getHealth() <= 0) {
             //absolutely get hack3d loser
             //game.setState("DEAD");

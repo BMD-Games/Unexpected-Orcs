@@ -11,36 +11,39 @@ public class Tile {
     public boolean visited = false;
 
     public String sprite;
-    private short bitmask;
+    public short bitmask;
 
     public float speedMod;
+
+    public String groupID;
 
     public Tile(Tile tile) {
         this.solid = tile.solid;
         this.sprite = tile.sprite;
+        this.bitmask = tile.bitmask;
         this.speedMod = tile.speedMod;
+        this.groupID = tile.groupID;
     }
 
-    public Tile(boolean solid, String sprite, float speedMod, short bitmask) {
-        new Tile(solid, sprite, speedMod);
+    public Tile(boolean solid, String sprite, float speedMod, short bitmask, String groupID) {
+        new Tile(solid, sprite, speedMod, groupID);
         bitmask(bitmask);
     }
 
-    public Tile(boolean solid, String sprite, float speedMod) {
+    public Tile(boolean solid, String sprite, float speedMod, String groupID) {
         this.solid = solid;
         this.sprite = sprite;
         this.speedMod = speedMod;
+        this.groupID = groupID;
     }
 
-    public Tile(boolean solid, String sprite) {
-        new Tile(solid, sprite, 1f);
+    public Tile(boolean solid, String sprite, String groupID) {
+        new Tile(solid, sprite, 1f, groupID);
     }
-
-
 
     public void bitmask(short bitmask) {
         this.bitmask = bitmask;
-        this.sprite = Bitmask.bitmask(sprite, bitmask);
+        this.sprite = Bitmask.bitmask(this, bitmask);
     }
 
 }

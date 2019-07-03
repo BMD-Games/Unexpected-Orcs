@@ -6,6 +6,7 @@ import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -91,6 +92,7 @@ public class Generator {
         saveCaveRegions(regionList, w, h);
 
         Tile[][] newTiles = connectRegions(level, regionList, regions, intsToTiles(tiles));
+
         newTiles = finishingPass(newTiles, level.tileset);
         level.setTiles(newTiles);
     }
@@ -119,6 +121,9 @@ public class Generator {
             }
         });
 
+        level.start = regionList.get(regionList.size() - 1).get((int)game.random(regionList.get(regionList.size() - 1).size())).add(0.5f, 0.5f);
+        tiles[(int)level.start.x][(int)level.start.y] = level.tileset.spawn();
+
         while(regionList.size() > 1) {
             ArrayList<PVector> region = regionList.get(0);
 
@@ -137,8 +142,13 @@ public class Generator {
             while(region.contains(new PVector(x, y)) || tiles[x][y].solid) {
                 //Biased random walk towards target
                 if(tiles[x][y].solid) {
-                    tiles[x][y] = new Tile(WOOD);
+                    tiles[x][y] = level.tileset.connectionPath();
                 }
+
+                if(numNeighboursSimple(tiles, x, y) < 4) {
+                    break;
+                }
+
                 float chance = game.random(1);
                 if(chance <= 0.5) {
                     //X axis movement
@@ -150,7 +160,7 @@ public class Generator {
                     } else {
                         x -= 1;
                     }
-                    x = game.constrain(x, 0, tiles.length);
+                    x = game.constrain(x, 1, tiles.length-1);
                 } else {
                     //Y axis movement
                     chance = game.random(1);
@@ -161,7 +171,7 @@ public class Generator {
                     } else {
                         y -= 1;
                     }
-                    y = game.constrain(y, 0, tiles[0].length);
+                    y = game.constrain(y, 1, tiles[0].length-1);
                 }
 
             }
@@ -175,7 +185,7 @@ public class Generator {
 
         for(int i = 0; i < region.size(); i ++) {
             PVector tile = region.get(i);
-            tiles[(int)tile.x][(int)tile.y] = new Tile(STONE_TILE);
+            tiles[(int)tile.x][(int)tile.y] = level.tileset.treasureFloor();
         }
 
         //Add monsters in random points of the region
@@ -241,9 +251,31 @@ public class Generator {
         return num;
     }
 
+    private static int numNeighboursSimple(Tile[][] tiles, int x, int y) {
+        //counts the number of walls in a square centred at x, y, only looks in cardianl directions
+        int num = 0;
+        try {
+            if (tiles[x - 1][y].solid) num++;
+        } catch (Exception ignored) {
+        }
+        try {
+            if (tiles[x + 1][y].solid) num++;
+        } catch (Exception ignored) {
+        }
+        try {
+            if (tiles[x][y - 1].solid) num++;
+        } catch (Exception ignored) {
+        }
+        try {
+            if (tiles[x][y + 1].solid) num++;
+        } catch (Exception ignored) {
+        }
+        return num;
+    }
+
 //------DUNGEON GENERATION---------
 
-    public static int[][] generateWindyDungeon(int w, int h, int roomAttempts, int minSize, int maxSize, float straightChance, float loopChance) {
+    public static void generateWindyDungeon(Level level, int w, int h, int roomAttempts, int minSize, int maxSize, float straightChance, float loopChance) {
 
         int[][] tiles = new int[w][h];
         int[][] region = new int[w][h];
@@ -261,6 +293,15 @@ public class Generator {
                 }
             }
             regionCount++;
+        }
+
+        PVector start = null;
+        while(start == null) {
+            int x = (int)game.random(w);
+            int y = (int)game.random(h);
+            if(tiles[x][y] == FLOOR) {
+                start = new PVector(x, y);
+            }
         }
 
         //find maze seed points and run each maze to completion
@@ -343,8 +384,10 @@ public class Generator {
                 }
             }
         }
-
-        return tiles;
+        Tile[][] newTiles = intsToTiles(tiles);
+        level.start = start;
+        newTiles[(int)start.x][(int)start.y] = level.tileset.spawn();
+        level.setTiles(finishingPass(newTiles, level.tileset));
     }
 
     private static ArrayList<int[]> placeRooms(int w, int h, int roomAttempts, int minSize, int maxSize) {
@@ -801,15 +844,14 @@ public class Generator {
                 } else {
                     newTiles[i][j] = new Tile(tiles[i][j]);
                 }
-                if(newTiles[i][j].solid) {
-                    newTiles[i][j].bitmask(getBitMaskValue(tiles, i, j));
-                }
             }
         }
-        return newTiles;
+        return bitMask(newTiles);
     }
 
     public static short getBitMaskValue(Tile[][] tiles, int i, int j) {
+
+        String groupID = tiles[i][j].groupID;
 
         int val = 0;
 
@@ -818,7 +860,7 @@ public class Generator {
                 if (x == 0 && y == 0) continue;
                 val = val << 1;
                 try {
-                    if (tiles[i - x][j - y].solid) val += 1;
+                    if (tiles[i - x][j - y].groupID.equals(groupID)) val += 1;
                 } catch(Exception e) {}
             }
         }
@@ -830,9 +872,7 @@ public class Generator {
         for(int i = 0; i < tiles.length; i ++) {
             for(int j = 0; j < tiles[0].length; j ++) {
                 tiles[i][j] = new Tile(tiles[i][j]);
-                if(tiles[i][j].solid) {
-                    tiles[i][j].bitmask(getBitMaskValue(tiles, i, j));
-                }
+                tiles[i][j].bitmask(getBitMaskValue(tiles, i, j));
             }
         }
         return tiles;

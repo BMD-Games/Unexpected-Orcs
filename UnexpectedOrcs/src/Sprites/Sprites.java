@@ -3,6 +3,8 @@ package Sprites;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import Tiles.Tiles;
+
 import java.util.HashMap;
 
 import static Utility.Constants.SPRITE_SIZE;
@@ -59,56 +61,65 @@ public class Sprites {
 
         //--Walls--
         tileSprites.put("WALL", getSprite(tilesheet, 0, 31, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.testWallGroup, getSprite(tilesheet, 6, 0, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("STONE_BRICK_BOTTOM", getSprite(tilesheet, 0, 30, 1, 1, SPRITE_SIZE));
         tileSprites.put("STONE_BRICK", getSprite(tilesheet, 1, 30, 1, 1, SPRITE_SIZE));
-        tileSprites.put("STONE_BRICK_OUTLINE", getSprite(tilesheet, 3, 30, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.stoneBrickGroup, getSprite(tilesheet, 3, 30, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("ROCK_BOTTOM", getSprite(tilesheet, 0, 29, 1, 1, SPRITE_SIZE));
         tileSprites.put("ROCK", getSprite(tilesheet, 1, 29, 1, 1, SPRITE_SIZE));
-        tileSprites.put("ROCK_OUTLINE", getSprite(tilesheet, 3, 29, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.rockGroup, getSprite(tilesheet, 3, 29, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("HEDGE_BOTTOM", getSprite(tilesheet, 0, 28, 1, 1, SPRITE_SIZE));
         tileSprites.put("HEDGE", getSprite(tilesheet, 1, 28, 1, 1, SPRITE_SIZE));
-        tileSprites.put("HEDGE_OUTLINE", getSprite(tilesheet, 3, 28, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.hedgeGroup, getSprite(tilesheet, 3, 28, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("SANDSTONE_BOTTOM", getSprite(tilesheet, 0, 27, 1, 1, SPRITE_SIZE));
         tileSprites.put("SANDSTONE", getSprite(tilesheet, 1, 27, 1, 1, SPRITE_SIZE));
-        tileSprites.put("SANDSTONE_OUTLINE", getSprite(tilesheet, 3, 27, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.sandStoneGroup, getSprite(tilesheet, 3, 27, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("BLOOD_SPONGE_BOTTOM", getSprite(tilesheet, 0, 26, 1, 1, SPRITE_SIZE));
         tileSprites.put("BLOOD_SPONGE", getSprite(tilesheet, 1, 26, 1, 1, SPRITE_SIZE));
-        tileSprites.put("BLOOD_SPONGE_OUTLINE", getSprite(tilesheet, 3, 26, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.bloodSpongeGroup, getSprite(tilesheet, 3, 26, 1, 1, SPRITE_SIZE));
 
         //--Floor--
         tileSprites.put("FLOOR", getSprite(tilesheet, 1, 31, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.testFloorGroup, getSprite(tilesheet, 6, 0, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("WOOD", getSprite(tilesheet, 0, 1, 1, 1, SPRITE_SIZE));
         tileSprites.put("STAR_WOOD", getSprite(tilesheet, 1, 1, 1, 1, SPRITE_SIZE));
         tileSprites.put("BROKEN_WOOD",  getSprite(tilesheet, 2, 1, 1, 1, SPRITE_SIZE));
         tileSprites.put("LONG_WOOD", getSprite(tilesheet, 3, 1, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.woodGroup, getSprite(tilesheet, 6, 1, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("STONE", getSprite(tilesheet, 0, 2, 1, 1, SPRITE_SIZE));
         tileSprites.put("X_STONE", getSprite(tilesheet, 1, 2, 1, 1, SPRITE_SIZE));
         tileSprites.put("RUBBLE_STONE",  getSprite(tilesheet, 2, 2, 1, 1, SPRITE_SIZE));
         tileSprites.put("SKULL_STONE", getSprite(tilesheet, 3, 2, 1, 1, SPRITE_SIZE));
+        tileSprites.put("COBBLE", getSprite(tilesheet, 4, 2, 1, 1, SPRITE_SIZE));
+        tileSprites.put("STONE_TILE", getSprite(tilesheet, 5, 2, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.stoneGroup, getSprite(tilesheet, 6, 2, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.cobbleGroup, getSprite(tilesheet, 6, 2, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.stoneTileGroup, getSprite(tilesheet, 6, 2, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("GRASS", getSprite(tilesheet, 0, 3, 1, 1, SPRITE_SIZE));
         tileSprites.put("PATCH_GRASS", getSprite(tilesheet, 1, 3, 1, 1, SPRITE_SIZE));
         tileSprites.put("MUSHROOM_GRASS",  getSprite(tilesheet, 2, 3, 1, 1, SPRITE_SIZE));
         tileSprites.put("GRASS_TUFT", getSprite(tilesheet, 3, 3, 1, 1, SPRITE_SIZE));
         tileSprites.put("GRASS_LEAF", getSprite(tilesheet, 4, 3, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.grassGroup, getSprite(tilesheet, 6, 3, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("SAND", getSprite(tilesheet, 0, 4, 1, 1, SPRITE_SIZE));
         tileSprites.put("SAND_ROCK", getSprite(tilesheet, 1, 4, 1, 1, SPRITE_SIZE));
         tileSprites.put("SAND_CACTUS",  getSprite(tilesheet, 2, 4, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.sandGroup, getSprite(tilesheet, 6, 4, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("BLOOD", getSprite(tilesheet, 0, 5, 1, 1, SPRITE_SIZE));
         tileSprites.put("BLOOD_SHINE", getSprite(tilesheet, 1, 5, 1, 1, SPRITE_SIZE));
         tileSprites.put("BLOOD_EYE", getSprite(tilesheet, 2, 5, 1, 1, SPRITE_SIZE));
+        tileSprites.put(Tiles.bloodGroup, getSprite(tilesheet, 6, 5, 1, 1, SPRITE_SIZE));
 
-        tileSprites.put("COBBLE", getSprite(tilesheet, 0, 6, 1, 1, SPRITE_SIZE));
-        tileSprites.put("STONE_TILE", getSprite(tilesheet, 1, 6, 1, 1, SPRITE_SIZE));
 
 
         //-----ITEM SPRITES-----

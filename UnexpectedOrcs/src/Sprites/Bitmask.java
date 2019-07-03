@@ -1,5 +1,6 @@
 package Sprites;
 
+import Tiles.Tile;
 import Utility.Util;
 import processing.core.PImage;
 
@@ -16,25 +17,33 @@ public class Bitmask {
 
     private static int[] bottoms = new int[]{11, 22, 24, 8, 2, 16, 0, 26, 31, 30, 27, 10, 18};
 
-    public static PImage generateImage(String sprite, int bitmask) {
+    public static PImage generateImage(Tile tile, int bitmask) {
         bitmask = bitmaskMap.get(bitmask); //get stripped mask
-
-        String outline = sprite + "_OUTLINE";
-
-        if(Util.contains(bottoms, bitmask)) sprite += "_BOTTOM";
+        String sprite = tile.sprite;
+        if(tile.solid && Util.contains(bottoms, bitmask)) sprite += "_BOTTOM";
 
         int rot = bitmaskRotation.get(bitmask);
-        PImage mask = Sprites.mask.get(bitmaskImage.get(bitmask));
-        PImage done = Util.maskImage(Sprites.tileSprites.get(sprite), Sprites.tileSprites.get(outline), mask, rot);
-        done.save("/out/level/bitmask/completed_" + bitmask + ".png");
+        PImage done;
+        try {
+            done = Util.maskImage(Sprites.tileSprites.get(sprite), Sprites.tileSprites.get(tile.groupID), Sprites.mask.get(bitmaskImage.get(bitmask)), rot);
+        } catch(Exception e) {
+            done = game.createImage(16, 16, game.ARGB);
+            done.loadPixels();
+            for(int i = 0; i < 16; i ++) {
+                done.pixels[i + i * 16] = game.color(0, 255, 0);
+            }
+            done.updatePixels();
+            game.println(tile.sprite, tile.groupID);
+
+        }
         return done;
     }
 
-    public static String bitmask(String sprite, int bitmask) {
-        String newSprite = sprite + "_" + bitmaskMap.get(bitmask);
+    public static String bitmask(Tile tile, int bitmask) {
+        String newSprite = tile.sprite + "_" + bitmaskMap.get(bitmask);
 
         if(Sprites.generatedMasks.getOrDefault(newSprite, null) == null) {
-            Sprites.generatedMasks.put(newSprite, generateImage(sprite, bitmask));
+            Sprites.generatedMasks.put(newSprite, generateImage(tile, bitmask));
         }
         return newSprite;
     }

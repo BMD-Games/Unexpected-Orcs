@@ -91,13 +91,9 @@ public class Level {
                 }
                 catch(Exception e) {
                 }
-                if(tile.solid) {
-                    try {
-                        pg.image(generatedMasks.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
-                    } catch (NullPointerException e) {
-                        pg.image(tileSprites.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
-                    }
-                } else {
+                try {
+                    pg.image(generatedMasks.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
+                } catch (NullPointerException e) {
                     pg.image(tileSprites.get(tile.sprite), i * SPRITE_SIZE, j * SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE);
                 }
             }
@@ -130,18 +126,9 @@ public class Level {
                 try {
                     tile = tiles[i][j];
                 }
-                catch(Exception e) {}
+                catch(Exception e) {continue;}
                 if(tile.visited) {
-                    PImage sprite;
-                    if(tile.solid) {
-                        try {
-                            sprite = Sprites.generatedMasks.get(tile.sprite);
-                        } catch (NullPointerException e) {
-                           sprite = tileSprites.get(tile.sprite);
-                        }
-                    } else {
-                        sprite = tileSprites.get(tile.sprite);
-                    }
+                    PImage sprite = Sprites.generatedMasks.get(tile.sprite);
                     if(sprite != null) {
                         background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
                     }
@@ -208,17 +195,6 @@ public class Level {
         } // down right
 
         return n;
-    }
-
-    public void generateStart() {
-        while (start == null) {
-            int i = game.floor(game.random(edgeSize, w-edgeSize));
-            int j = game.floor(game.random(edgeSize, h-edgeSize));
-            if (!tiles[i][j].solid) {
-                tiles[i][j] = tileset.spawn;
-                start = new PVector(i, j);
-            }
-        }
     }
 
     protected void updateBosses() {
@@ -343,12 +319,7 @@ public class Level {
             tile = tiles[i][j];
         }
         catch(Exception e) { return; }
-
-        if(tile.solid) {
-            miniMap.stroke(Sprites.generatedMasks.get(tile.sprite).get(3, 3)); //set the colour to a pixel from the tile
-        } else {
-            miniMap.stroke(tileSprites.get(tile.sprite).get(3, 3)); //set the colour to a pixel from the tile
-        }
+        miniMap.stroke(Sprites.generatedMasks.get(tile.sprite).get(2, 2)); //set the colour to a pixel from the tile
 
         miniMap.point(i, j);
         miniMap.endDraw();

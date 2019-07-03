@@ -20,7 +20,6 @@ public class BloodDungeon  extends Level {
         super(160, 90, "Cave", TileSet.bloodTileSet());
 
         Generator.generateCave(this, w, h, iterations, chance);
-        generateStart();
         generateEnemies();
     }
 

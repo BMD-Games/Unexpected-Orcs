@@ -22,7 +22,6 @@ public class Cave extends Level {
         super(160, 90, "Cave", TileSet.caveTileset());
 
         Generator.generateCave(this, w, h, iterations, chance);
-        generateStart();
         generateEnemies();
     }
 

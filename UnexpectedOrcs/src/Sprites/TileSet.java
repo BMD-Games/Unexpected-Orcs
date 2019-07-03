@@ -11,7 +11,7 @@ import static Utility.Constants.game;
 public class TileSet {
 
     //this tile holds reference to a collection of Sprites, these can be used when generating a dungeon, to make them look nice
-    public Tile wall, floor, spawn;
+    public Tile wall, floor, spawn, treasureFloor, connectionPath;
     public ArrayList<GenericPair<Tile, Float>> extras = new ArrayList<GenericPair<Tile, Float>>();  //Extras are variations of floor tiles to spice shit up a bit
 
     public float chance = 0.05f;
@@ -22,6 +22,14 @@ public class TileSet {
 
     public Tile floor() {
         return new Tile(floor);
+    }
+
+    public Tile treasureFloor() {
+        return new Tile(treasureFloor);
+    }
+
+    public Tile connectionPath() {
+        return new Tile(connectionPath);
     }
 
     public Tile extrasTiles(int index) {
@@ -73,6 +81,10 @@ public class TileSet {
 
         tileset.floor = STONE;
         tileset.spawn = X_STONE;
+
+        tileset.connectionPath = WOOD;
+        tileset.treasureFloor = STONE_TILE;
+
         tileset.extras.add(new GenericPair<Tile, Float>(RUBBLE_STONE, 10f));
         tileset.extras.add(new GenericPair<Tile, Float>(SKULL_STONE, 1f));
 
@@ -86,6 +98,10 @@ public class TileSet {
 
         tileset.floor = WOOD;
         tileset.spawn = STAR_WOOD;
+
+        tileset.connectionPath = WOOD;
+        tileset.treasureFloor = STONE_TILE;
+
         tileset.extras.add(new GenericPair<Tile, Float>(BROKEN_WOOD, 1f));
         tileset.extras.add(new GenericPair<Tile, Float>(LONG_WOOD, 2f));
 
@@ -98,7 +114,7 @@ public class TileSet {
         tileset.wall = SANDSTONE;
 
         tileset.floor = SAND;
-        tileset.spawn = SAND;
+        tileset.spawn = SAND;   
         tileset.extras.add(new GenericPair<Tile, Float>(SAND_ROCK, 3f));
         tileset.extras.add(new GenericPair<Tile, Float>(SAND_CACTUS, 1f));
 

@@ -24,9 +24,8 @@ public class GrassDungeon  extends Level {
     public GrassDungeon() {
         super(60, 45, "DungeonGrass", TileSet.grassTileset());
 
-        this.setTiles(Generator.finishingPass(Generator.generateWindyDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance), tileset));
+        Generator.generateWindyDungeon(this, w, h, roomAttempts, minRoomSize, maxRoomSize, straightChance, loopChance);
         //this.setTiles(generateStraightDungeon(w, h, roomAttempts, minRoomSize, maxRoomSize));
-        generateStart();
         generateEnemies();
     }
 

@@ -30,7 +30,6 @@ public class DesertDungeon extends Level {
     public DesertDungeon() {
         super(160, 90, "Desert", TileSet.desertTileSet());
         Generator.generateCave(this, w, h, iterations, chance);
-        generateStart();
         generateEnemies();
     }
 
