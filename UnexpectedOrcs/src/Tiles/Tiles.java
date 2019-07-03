@@ -63,6 +63,8 @@ public class Tiles {
     public final static Tile SAND = new FloorTile("SAND", sandGroup);
     public final static Tile SAND_ROCK = new FloorTile("SAND_ROCK", sandGroup);
     public final static Tile SAND_CACTUS = new FloorTile("SAND_CACTUS", sandGroup);
+    public final static Tile SAND_TILE = new FloorTile("SAND_TILE", sandGroup);
+    public final static Tile COMPACT_SAND = new FloorTile("COMPACT_SAND", sandGroup);
 
     public final static Tile BLOOD = new FloorTile("BLOOD", bloodGroup);
     public final static Tile BLOOD_SHINE = new FloorTile("BLOOD_SHINE", bloodGroup);

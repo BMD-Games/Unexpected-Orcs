@@ -114,7 +114,11 @@ public class TileSet {
         tileset.wall = SANDSTONE;
 
         tileset.floor = SAND;
-        tileset.spawn = SAND;   
+        tileset.spawn = SAND;
+
+        tileset.connectionPath = COMPACT_SAND;
+        tileset.treasureFloor = SAND_TILE;
+
         tileset.extras.add(new GenericPair<Tile, Float>(SAND_ROCK, 3f));
         tileset.extras.add(new GenericPair<Tile, Float>(SAND_CACTUS, 1f));
 
@@ -128,6 +132,10 @@ public class TileSet {
 
         tileset.floor = BLOOD;
         tileset.spawn = BLOOD_SHINE;
+
+        tileset.connectionPath = WOOD;
+        tileset.treasureFloor = SAND;
+
         tileset.extras.add(new GenericPair<Tile, Float>(BLOOD_EYE, 1f));
 
         tileset.chance = 0.01f;

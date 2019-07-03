@@ -113,6 +113,8 @@ public class Sprites {
         tileSprites.put("SAND", getSprite(tilesheet, 0, 4, 1, 1, SPRITE_SIZE));
         tileSprites.put("SAND_ROCK", getSprite(tilesheet, 1, 4, 1, 1, SPRITE_SIZE));
         tileSprites.put("SAND_CACTUS",  getSprite(tilesheet, 2, 4, 1, 1, SPRITE_SIZE));
+        tileSprites.put("SAND_TILE",  getSprite(tilesheet, 3, 4, 1, 1, SPRITE_SIZE));
+        tileSprites.put("COMPACT_SAND",  getSprite(tilesheet, 4, 4, 1, 1, SPRITE_SIZE));
         tileSprites.put(Tiles.sandGroup, getSprite(tilesheet, 6, 4, 1, 1, SPRITE_SIZE));
 
         tileSprites.put("BLOOD", getSprite(tilesheet, 0, 5, 1, 1, SPRITE_SIZE));

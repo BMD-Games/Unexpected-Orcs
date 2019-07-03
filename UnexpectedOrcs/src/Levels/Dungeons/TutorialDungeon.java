@@ -12,6 +12,7 @@ import Enemies.Plants.Rose;
 import Enemies.StandardEnemy;
 import Entities.Drops.Portals.BloodPortal;
 import Entities.Drops.Portals.CavePortal;
+import Entities.Drops.Portals.DesertPortal;
 import Levels.Generator;
 import Levels.Level;
 import Sprites.TileSet;
@@ -52,7 +53,7 @@ public class TutorialDungeon  extends Level {
     }
 
     void generateEnemies() {
-        engine.addDrop(new CavePortal(9, 7));
+        engine.addDrop(new DesertPortal(9, 7));
 
         addEnemy(new Chomp(9, 7, 1));
     }
