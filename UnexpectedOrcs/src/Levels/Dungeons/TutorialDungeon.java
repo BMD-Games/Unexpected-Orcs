@@ -10,6 +10,7 @@ import Enemies.Elementals.PoisonElemental;
 import Enemies.Plants.Daisy;
 import Enemies.Plants.Rose;
 import Enemies.StandardEnemy;
+import Entities.Drops.Chest;
 import Entities.Drops.Portals.BloodPortal;
 import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.Portals.DesertPortal;
@@ -50,6 +51,8 @@ public class TutorialDungeon  extends Level {
 
         start = new PVector(3,7);
         generateEnemies();
+
+        engine.addDrop(new Chest(6, 7));
     }
 
     void generateEnemies() {

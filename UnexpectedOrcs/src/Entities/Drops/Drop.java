@@ -14,6 +14,8 @@ public class Drop {
     public AnimatedSprite sprites;
     public boolean alive = true;
 
+    protected PImage activeSprite;
+
     protected int alpha = 255;
 
     public Drop(float x, float y, float radius, float lifeTime) {
@@ -32,6 +34,9 @@ public class Drop {
 
     public void show(PGraphics screen, PVector renderOffset) {
         PImage sprite = sprites.getCurrentSprite();
+        if(activeSprite != null && inRange(engine.player.x, engine.player.y)) {
+            sprite = activeSprite;
+        }
         if(alpha != 255) {
             sprite = Util.alphaImage(sprite, alpha);
         }

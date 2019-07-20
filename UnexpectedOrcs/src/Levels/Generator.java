@@ -1,5 +1,6 @@
 package Levels;
 
+import Entities.Drops.Chest;
 import Sprites.TileSet;
 import Tiles.Tile;
 import Utility.Util;
@@ -12,12 +13,12 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import static Tiles.Tiles.*;
-import static Utility.Constants.edgeSize;
-import static Utility.Constants.game;
+import static Utility.Constants.*;
 
 public class Generator {
 
     private static final int treasureRoomMaxSize = 150;
+    private static final int treasureRoomMinSize = 10;
 
     //------CAVE GENERATION--------
     public static void generateCave(Level level, int w, int h, int iterations, float chance) {
@@ -131,6 +132,13 @@ public class Generator {
                 tiles = treasureRoom(level, region, tiles);
             }
 
+            if(region.size() < treasureRoomMinSize) {
+                tiles = fillInRegion(level, region, tiles);
+                regionList.remove(0);
+                game.println("region too small");
+                continue;
+            }
+
             int startIndex = (int)game.random(region.size());
             int x = (int)region.get(startIndex).x;
             int y = (int)region.get(startIndex).y;
@@ -143,37 +151,46 @@ public class Generator {
                 //Biased random walk towards target
                 if(tiles[x][y].solid) {
                     tiles[x][y] = level.tileset.connectionPath();
+                    region.add(new PVector(x, y));
                 }
 
-                if(numNeighboursSimple(tiles, x, y) < 4) {
-                    break;
-                }
-
-                float chance = game.random(1);
-                if(chance <= 0.5) {
-                    //X axis movement
-                    chance = game.random(1);
-                    if((chance <= 0.75 && x < tx) || (chance <= 0.25 && x > tx)) {
+                try {
+                    if(!tiles[x + 1][y].solid && !region.contains(new PVector(x + 1, y))) {
                         x += 1;
-                    } else if(x == tx) {
-                        x += chance <= 0.5 ? 1 : -1;
-                    } else {
+                        break;
+                    }
+                    if(!tiles[x - 1][y].solid && !region.contains(new PVector(x - 1, y))) {
                         x -= 1;
+                        break;
                     }
-                    x = game.constrain(x, 1, tiles.length-1);
-                } else {
-                    //Y axis movement
-                    chance = game.random(1);
-                    if((chance <= 0.75 && y < ty) || (chance <= 0.25 && y > ty)) {
+                    if(!tiles[x][y + 1].solid && !region.contains(new PVector(x, y + 1))) {
                         y += 1;
-                    } else if(y == ty) {
-                        y += chance <= 0.5 ? 1 : -1;
-                    } else {
-                        y -= 1;
+                        break;
                     }
-                    y = game.constrain(y, 1, tiles[0].length-1);
+                    if(!tiles[x][y - 1].solid && !region.contains(new PVector(x, y - 1))) {
+                        y -= 1;
+                        break;
+                    }
+                }catch (Exception e) {}
+
+
+                int dx = game.abs(tx - x);
+                int dy = game.abs(ty - y);
+
+                float chance = game.random(dx + dy);
+
+                if(chance <= dx) {
+                    x += x < tx ? 1 : -1;
+                } else {
+                    y += y < ty ? 1 : -1;
                 }
 
+
+            }
+            int regionIndex = getTileRegion(regionList, x, y);
+            game.println("ended in region " + regionIndex);
+            if(regionIndex != -1) {
+                regionList.get(regionIndex).addAll(regionList.get(0));
             }
             regionList.remove(0);
 
@@ -181,15 +198,41 @@ public class Generator {
         return tiles;
     }
 
+    private static int getTileRegion(ArrayList<ArrayList<PVector>> regionList, int x, int y) {
+        PVector tile = new PVector(x, y);
+
+        for(int i = 0; i < regionList.size(); i ++) {
+            if(regionList.get(i).contains(tile)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     private static Tile[][] treasureRoom(Level level, ArrayList<PVector> region, Tile[][] tiles) {
 
         for(int i = 0; i < region.size(); i ++) {
             PVector tile = region.get(i);
-            tiles[(int)tile.x][(int)tile.y] = level.tileset.treasureFloor();
+            if(tiles[(int)tile.x][(int)tile.y] != level.tileset.connectionPath()) {
+                tiles[(int) tile.x][(int) tile.y] = level.tileset.treasureFloor();
+            }
         }
 
         //Add monsters in random points of the region
         //level.addEnemies();
+
+        PVector tile = region.get((int)game.random(region.size()));
+
+        engine.addDrop(new Chest((int)tile.x, (int)tile.y));
+        return tiles;
+    }
+
+    private static Tile[][] fillInRegion(Level level, ArrayList<PVector> region, Tile[][] tiles) {
+        for(int i = 0; i < region.size(); i ++) {
+            PVector tile = region.get(i);
+            tiles[(int)tile.x][(int)tile.y] = level.tileset.wall();
+        }
         return tiles;
     }
 

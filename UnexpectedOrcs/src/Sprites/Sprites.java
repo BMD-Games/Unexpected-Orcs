@@ -220,6 +220,7 @@ public class Sprites {
         dropSprites.put("BAG_1", getSprite(dropsheet, 1, 0, 1, 1, dropSize));
         dropSprites.put("BAG_2", getSprite(dropsheet, 2, 0, 1, 1, dropSize));
         dropSprites.put("CHEST", getSprite(dropsheet, 3, 0, 1, 1, dropSize));
+        dropSprites.put("CHEST_OPEN", getSprite(dropsheet, 4, 0, 1, 1, dropSize));
 
         dropSprites.put("ORB", getSprite(dropsheet, 0, 1, 1, 1, dropSize));
         dropSprites.put("PACK", getSprite(dropsheet, 1, 1, 1, 1, dropSize));

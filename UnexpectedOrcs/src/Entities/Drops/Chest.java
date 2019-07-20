@@ -10,10 +10,10 @@ public class Chest extends Drop {
     public Item[] items = new Item[4];
     public boolean opened = false; //Will be set to false at the beginning of each new life. Once true, items will only be able to be added.
 
-
     public Chest(float x, float y) {
         super(x, y, 0.5f, 60);
         this.sprites = new AnimatedSprite(dropSprites.get("CHEST"));
+        this.activeSprite = dropSprites.get("CHEST_OPEN");
     }
 
     public boolean update(double delta, float px, float py) {
