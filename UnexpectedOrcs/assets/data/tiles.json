@@ -1,0 +1,32 @@
+{
+  "tiles" : [
+    {
+      "WALL_TILE" : {
+        "solid" :  true,
+        "sprite" : "WALL",
+        "spriteX" : 0,
+        "spriteY" : 31,
+        "spriteW" : 1,
+        "spriteH" : 1,
+        "spriteScale" : 16,
+        "group" : "testWallGroup"
+      }
+    },
+    {
+      "STONE_BRICK" : {
+        "solid" :  true,
+        "sprite" : "STONE_BRICK",
+        "spriteX" : 1,
+        "spriteY" : 30,
+        "spriteW" : 1,
+        "spriteH" : 1,
+        "spriteScale" : 16,
+
+        "bottomX" : 0,
+        "bottomY" :
+
+        "group" : "stoneBrickGroup"
+      }
+    }
+  ]
+}
