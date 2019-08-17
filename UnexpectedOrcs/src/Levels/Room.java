@@ -11,7 +11,7 @@ import static Utility.Constants.*;
 public class Room {
 
     public int x, y, w, h;
-    public Tile[][] tiles;
+    public String[][] tiles;
 
     Room() {
     }
@@ -48,7 +48,7 @@ public class Room {
     }
 
     public boolean inRoom(int px, int py) {
-        return (!tiles[px-x][py-y].solid) && Util.pointInBox(px, py, x, y, w, h);
+        return (!Tiles.get(tiles[px-x][py-y]).solid) && Util.pointInBox(px, py, x, y, w, h);
     }
 
     public PVector midPoint() {
@@ -76,13 +76,13 @@ public class Room {
         return (this.x < edgeSize || this.x + this.w > w - edgeSize || this.y < edgeSize || this.y + this.h > h - edgeSize);
     }
 
-    public void setTiles(Tile[][] newTiles) {
+    public void setTiles(String[][] newTiles) {
         w = newTiles.length;
         h = newTiles[0].length;
-        this.tiles = new Tile[w][h];
+        this.tiles = new String[w][h];
         for(int i = 0; i < w; i ++) {
             for(int j = 0; j < h; j ++) {
-                this.tiles[i][j] = new Tile(newTiles[i][j]);
+                this.tiles[i][j] = newTiles[i][j];
             }
         }
     }
@@ -107,209 +107,115 @@ public class Room {
     public static Room testSpawn() {
         Room room = new Room();
 
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {2, 2, 2, 4, 2, 2, 2, 5, 2},
-                {2, 5, 6, 6, 6, 6, 6, 2, 2},
-                {2, 6, 6, 10, 10, 10, 6, 6, 2},
-                {2, 6, 10, 10, 13, 10, 10, 6, 2},
-                {4, 6, 10, 13, 11, 13, 10, 6, 2},
-                {2, 6, 10, 10, 13, 10, 10, 6, 2},
-                {2, 6, 6, 10, 10, 10, 6, 6, 2},
-                {5, 2, 6, 6, 6, 6, 6, 2, 5},
-                {2, 2, 2, 2, 2, 4, 2, 2, 2}
-        });*/
         return room;
     }
 
     public static Room testRoom() {
         Room room = new Room();
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {2, 2, 2, 2, 2},
-                {2, 2, 2, 2, 2},
-                {2, 2, 8, 2, 2},
-                {2, 2, 2, 2, 2},
-                {2, 2, 2, 2, 2}
-        });*/
         return room;
     }
 
     public static Room testRoom2() {
         Room room = new Room();
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {2, 2, 2, 2, 2},
-                {2, 2, 2, 2, 2},
-                {2, 2, 9, 2, 2},
-                {2, 2, 2, 2, 2},
-                {2, 2, 2, 2, 2}
-        });*/
         return room;
     }
 
     public static Room testBoss() {
         Room room = new Room();
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9},
-                {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8},
-                {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8},
-                {8, 6, 6, 2, 2, 2, 2, 2, 6, 6, 8},
-                {8, 6, 6, 2, 2, 2, 2, 2, 6, 6, 8},
-                {8, 6, 6, 2, 2, 3, 2, 2, 6, 6, 8},
-                {8, 6, 6, 2, 2, 2, 2, 2, 6, 6, 8},
-                {8, 6, 6, 2, 2, 2, 2, 2, 6, 6, 8},
-                {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8},
-                {8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8},
-                {9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9}
-        });*/
         return room;
     }
 
     public static Room circle5() {
         Room room = new Room();
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {0, 1, 1, 1, 0},
-                {1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1},
-                {0, 1, 1, 1, 0}
-        });*/
         return room;
     }
     public static Room circle7() {
         Room room = new Room();
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {0, 0, 1, 1, 1, 0, 0},
-                {0, 1, 1, 1, 1, 1, 0},
-                {1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1},
-                {0, 1, 1, 1, 1, 1, 0},
-                {0, 0, 1, 1, 1, 0, 0}
-        });*/
         return room;
     }
     public static Room circle11() {
         Room room = new Room();
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {0, 0, 1, 1, 1, 1, 1, 1, 0, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {0, 0, 1, 1, 1, 1, 1, 1, 0, 0}
-        });*/
         return room;
     }
 
     public static Room circleBoss() {
         Room room = new Room();
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-                {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
-        });*/
         return room;
     }
     public static Room diamondSpawn() {
         Room room = new Room();
-        room.setTiles(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, WOOD, WOOD, WOOD, WOOD, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        room.setTiles(new String[][]{
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
+                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         });
-        /*room.setTiles(new int[][]{
-                {0, 0, 0, 0, 1, 0, 0, 0, 0},
-                {0, 0, 0, 1, 1, 1, 0, 0, 0},
-                {0, 0, 1, 1, 1, 1, 1, 0, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 0},
-                {1, 1, 1, 1, 7, 1, 1, 1, 1},
-                {0, 1, 1, 1, 1, 1, 1, 1, 0},
-                {0, 0, 1, 1, 1, 1, 1, 0, 0},
-                {0, 0, 0, 1, 1, 1, 0, 0, 0},
-                {0, 0, 0, 0, 1, 0, 0, 0, 0}
-        });*/
         return room;
     }
 }

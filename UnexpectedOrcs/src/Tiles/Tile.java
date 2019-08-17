@@ -1,7 +1,6 @@
 package Tiles;
 
 import Sprites.Bitmask;
-import Sprites.Sprites;
 
 import static Utility.Constants.game;
 
@@ -39,6 +38,14 @@ public class Tile {
 
     public Tile(boolean solid, String sprite, String groupID) {
         new Tile(solid, sprite, 1f, groupID);
+    }
+
+    public Tile(String tilename) {
+        this.solid = Tiles.Tiles.get(tilename).solid;
+        this.sprite = Tiles.Tiles.get(tilename).sprite;
+        this.bitmask = Tiles.Tiles.get(tilename).bitmask;
+        this.speedMod = Tiles.Tiles.get(tilename).speedMod;
+        this.groupID = Tiles.Tiles.get(tilename).groupID;
     }
 
     public void bitmask(short bitmask) {

@@ -10,6 +10,7 @@ import GUI.Screens.OptionsScreen;
 import Settings.Settings;
 import Sound.SoundManager;
 import Sprites.Sprites;
+import Tiles.Tiles;
 import Utility.Constants;
 import Utility.Util;
 import processing.core.PApplet;
@@ -76,7 +77,7 @@ public class Game extends PApplet{
     public void draw() {
         updateMouse();
 
-        if(STATE.equals( "PLAYING")) {
+        if(STATE.equals("PLAYING")) {
             engine.update();
             engine.show();
             if(drawDebug) {
@@ -86,11 +87,11 @@ public class Game extends PApplet{
                 debugScreen.clear();
                 debugScreen.endDraw();
             }
-        } else if (STATE.equals( "PAUSED")) {
+        } else if (STATE.equals("PAUSED")) {
             engine.show();
         }
 
-        if(STATE.equals( "LOADING")) {
+        if(STATE.equals("LOADING")) {
             LoadingScreen.show(g);
         } else {
             gui.show();
@@ -106,9 +107,9 @@ public class Game extends PApplet{
         if(STATE.equals("PLAYING")){
             miniMapZoom -= e.getCount();
             miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
-        } else if(STATE.equals( "LOAD")) {
+        } else if(STATE.equals("LOAD")) {
             LoadScreen.loadScroll.changeScrollPosition(e.getCount());
-        } else if(STATE.equals( "OPTIONS")) {
+        } else if(STATE.equals("OPTIONS")) {
             OptionsScreen.settingsScroll.changeScrollPosition(e.getCount());
         }
     }
@@ -188,8 +189,8 @@ public class Game extends PApplet{
 
         loadPercentage = 2/7f;
         loadMessage = "Loading Assets";
-        Sprites.loadAssets(this);
-
+        Sprites.loadAssets();
+        Tiles.loadTileJSON("/assets/data/tiles.json");
 
         loadPercentage = 3/7f;
         loadMessage = "Generating level";

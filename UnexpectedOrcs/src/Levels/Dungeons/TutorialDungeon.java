@@ -1,29 +1,18 @@
 package Levels.Dungeons;
 
-import Enemies.Chomps.BigChomp;
-import Enemies.Chomps.BossChomp;
 import Enemies.Chomps.Chomp;
-import Enemies.Elementals.FireElemental;
-import Enemies.Elementals.IceElemental;
-import Enemies.Elementals.MagicElemental;
-import Enemies.Elementals.PoisonElemental;
-import Enemies.Plants.Daisy;
-import Enemies.Plants.Rose;
 import Enemies.StandardEnemy;
 import Entities.Drops.Chest;
-import Entities.Drops.Portals.BloodPortal;
-import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.Portals.DesertPortal;
 import Levels.Generator;
 import Levels.Level;
 import Sprites.TileSet;
-import Tiles.FloorTile;
 import Tiles.Tile;
+import Tiles.Tiles;
 import processing.core.PVector;
 
-import static Tiles.Tiles.STONE_BRICK;
-import static Tiles.Tiles.WOOD;
-import static Utility.Constants.*;
+import static Utility.Constants.engine;
+import static Utility.Constants.game;
 
 public class TutorialDungeon  extends Level {
 
@@ -33,20 +22,20 @@ public class TutorialDungeon  extends Level {
     public TutorialDungeon() {
         super(15, 50, "DungeonTutorial", TileSet.cellarTileSet());
 
-        this.setTiles(Generator.finishingPass(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        this.setTiles(Generator.finishingPass(new String[][] {
+                { "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
+                { "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
         }, TileSet.cellarTileSet()));
 
         start = new PVector(3,7);

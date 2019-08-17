@@ -7,7 +7,6 @@ import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -92,10 +91,8 @@ public class Generator {
 
         saveCaveRegions(regionList, w, h);
 
-        Tile[][] newTiles = connectRegions(level, regionList, regions, intsToTiles(tiles));
-
-        newTiles = finishingPass(newTiles, level.tileset);
-        level.setTiles(newTiles);
+        String[][] newTiles = connectRegions(level, regionList, regions, intsToTileStrings(tiles));
+        level.setTiles(finishingPass(newTiles, level.tileset));
     }
 
     private static void saveCaveRegions(ArrayList<ArrayList<PVector>> regions, int w, int h) {
@@ -114,7 +111,7 @@ public class Generator {
         img.save("./out/level/caveRegions.png");
     }
 
-    private static Tile[][] connectRegions(Level level, ArrayList<ArrayList<PVector>> regionList, int[][] regions, Tile[][] tiles) {
+    private static String[][] connectRegions(Level level, ArrayList<ArrayList<PVector>> regionList, int[][] regions, String[][] tiles) {
         Collections.sort(regionList, new Comparator<ArrayList<PVector>>() {
             @Override
             public int compare(ArrayList<PVector> o1, ArrayList<PVector> o2) {
@@ -147,27 +144,27 @@ public class Generator {
             int tx = (int)regionList.get(1).get(targetIndex).x;//target x
             int ty = (int)regionList.get(1).get(targetIndex).y;//target x
 
-            while(region.contains(new PVector(x, y)) || tiles[x][y].solid) {
+            while(region.contains(new PVector(x, y)) || Tiles.get(tiles[x][y]).solid) {
                 //Biased random walk towards target
-                if(tiles[x][y].solid) {
+                if(Tiles.get(tiles[x][y]).solid) {
                     tiles[x][y] = level.tileset.connectionPath();
                     region.add(new PVector(x, y));
                 }
 
                 try {
-                    if(!tiles[x + 1][y].solid && !region.contains(new PVector(x + 1, y))) {
+                    if(!Tiles.get(tiles[x + 1][y]).solid && !region.contains(new PVector(x + 1, y))) {
                         x += 1;
                         break;
                     }
-                    if(!tiles[x - 1][y].solid && !region.contains(new PVector(x - 1, y))) {
+                    if(!Tiles.get(tiles[x - 1][y]).solid && !region.contains(new PVector(x - 1, y))) {
                         x -= 1;
                         break;
                     }
-                    if(!tiles[x][y + 1].solid && !region.contains(new PVector(x, y + 1))) {
+                    if(!Tiles.get(tiles[x][y + 1]).solid && !region.contains(new PVector(x, y + 1))) {
                         y += 1;
                         break;
                     }
-                    if(!tiles[x][y - 1].solid && !region.contains(new PVector(x, y - 1))) {
+                    if(!Tiles.get(tiles[x][y - 1]).solid && !region.contains(new PVector(x, y - 1))) {
                         y -= 1;
                         break;
                     }
@@ -210,7 +207,7 @@ public class Generator {
         return -1;
     }
 
-    private static Tile[][] treasureRoom(Level level, ArrayList<PVector> region, Tile[][] tiles) {
+    private static String[][] treasureRoom(Level level, ArrayList<PVector> region, String[][] tiles) {
 
         for(int i = 0; i < region.size(); i ++) {
             PVector tile = region.get(i);
@@ -228,7 +225,7 @@ public class Generator {
         return tiles;
     }
 
-    private static Tile[][] fillInRegion(Level level, ArrayList<PVector> region, Tile[][] tiles) {
+    private static String[][] fillInRegion(Level level, ArrayList<PVector> region, String[][] tiles) {
         for(int i = 0; i < region.size(); i ++) {
             PVector tile = region.get(i);
             tiles[(int)tile.x][(int)tile.y] = level.tileset.wall();
@@ -427,7 +424,7 @@ public class Generator {
                 }
             }
         }
-        Tile[][] newTiles = intsToTiles(tiles);
+        String[][] newTiles = intsToTileStrings(tiles);
         level.start = start;
         newTiles[(int)start.x][(int)start.y] = level.tileset.spawn();
         level.setTiles(finishingPass(newTiles, level.tileset));
@@ -761,11 +758,11 @@ public class Generator {
         int h = maxY - minY;
 
 
-        Tile[][] tiles = new Tile[w][h];
+        String[][] tiles = new String[w][h];
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
-                tiles[i][j] = WALL_TILE;
+                tiles[i][j] = "WALL";
             }
         }
 
@@ -776,7 +773,7 @@ public class Generator {
             Room room = placedRooms.get(i);
             for (int x = 0; x < room.w; x++) {
                 for (int y = 0; y < room.h; y++) {
-                    Tile tile = room.tiles[x][y];
+                    String tile = room.tiles[x][y];
                     tiles[x + room.x][y + room.y] = tile;
                     if (i > 0 && i < placedRooms.size() - 1) {
                         //General room (not spawn or boss room)
@@ -792,15 +789,13 @@ public class Generator {
         //place corridors into tile grid
         for (Corridor c : corridors) {
             for (PVector pos : c.path) {
-                if (tiles[(int) pos.x][(int) pos.y].solid) {
-                    tiles[(int) pos.x][(int) pos.y] = FLOOR_TILE;
+                if (Tiles.get(tiles[(int) pos.x][(int) pos.y]).solid) {
+                    tiles[(int) pos.x][(int) pos.y] = "FLOOR";
                 }
             }
         }
 
-        tiles = finishingPass(tiles, level.tileset);
-
-        level.setTiles(tiles);
+        level.setTiles(finishingPass(tiles, level.tileset));
         level.setStart(placedRooms.get(0).midPoint());
         level.setZones(bossRegions, generalRegions);
     }
@@ -853,14 +848,14 @@ public class Generator {
         return tiles;
     }
 
-    public static Tile[][] intsToTiles(int[][]ints) {
-        Tile[][] tiles = new Tile[ints.length][ints[0].length];
+    public static String[][] intsToTileStrings(int[][]ints) {
+        String[][] tiles = new String[ints.length][ints[0].length];
         for(int i = 0; i < tiles.length; i ++) {
             for(int j = 0; j < tiles[0].length; j ++) {
                 if(ints[i][j] == WALL) {
-                    tiles[i][j] = WALL_TILE;
+                    tiles[i][j] = "WALL";
                 } else {
-                    tiles[i][j] = FLOOR_TILE;
+                    tiles[i][j] = "FLOOR";
                 }
             }
         }
@@ -868,24 +863,24 @@ public class Generator {
     }
 
     public static Tile[][] finishingPass(int[][] tiles, TileSet tileSet) {
-        return finishingPass(intsToTiles(tiles), tileSet);
+        return finishingPass(intsToTileStrings(tiles), tileSet);
     }
 
-    public static Tile[][] finishingPass(Tile[][] tiles, TileSet tileset) {
+    public static Tile[][] finishingPass(String[][] tiles, TileSet tileset) {
         int w = tiles.length;
         int h = tiles[0].length;
         Tile[][] newTiles = new Tile[w][h];
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
-                if (tiles[i][j] == WALL_TILE) {
+                if (tiles[i][j].equals("WALL")) {
                     newTiles[i][j] = new Tile(tileset.wall());
-                } else if (tiles[i][j] == FLOOR_TILE) {
-                    //use some game.random shit to add flavour to dungeons
+                } else if (tiles[i][j].equals("FLOOR")) {
                     if (tileset.extras.size() > 0 && game.random(1) < tileset.chance) {
                         newTiles[i][j] = new Tile(tileset.randomTile());
                     } else newTiles[i][j] = new Tile(tileset.floor());
                 } else {
                     newTiles[i][j] = new Tile(tiles[i][j]);
+                    game.println("here", newTiles[i][j].sprite, Tiles.get(tiles[i][j]).sprite);
                 }
             }
         }

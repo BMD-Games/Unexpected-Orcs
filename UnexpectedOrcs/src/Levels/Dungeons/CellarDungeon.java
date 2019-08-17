@@ -21,7 +21,7 @@ public class CellarDungeon  extends Level implements RoomLevel {
      minRadius - minimum distance between rooms
      maxRadius - maximum distance between rooms
      spawnRoom - Preset for the spawn room
-     bossRoom  - Preset for the boss romm
+     bossRoom  - Preset for the boss room
      rooms     - Presets for all other rooms
      ***/
 
@@ -32,8 +32,6 @@ public class CellarDungeon  extends Level implements RoomLevel {
     }
 
     void generateEnemies() {
-
-        game.println("here");
         //Add enemies to level
         StandardEnemy enemy;
         for(int i = 0; i < 20; i ++) {

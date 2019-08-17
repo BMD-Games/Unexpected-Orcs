@@ -5,9 +5,8 @@ import GUI.Button;
 import Utility.Util;
 import processing.core.PGraphics;
 
-import static Sprites.Sprites.tileSprites;
-import static Tiles.Tiles.BLOOD_EYE;
-import static Utility.Constants.*;
+import static Utility.Constants.TILE_SIZE;
+import static Utility.Constants.game;
 
 public class MenuScreen extends GUIScreen {
 

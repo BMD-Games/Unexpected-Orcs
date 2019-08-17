@@ -3,7 +3,6 @@ package Levels;
 import Enemies.CreepyCrawlies.Bat;
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
-import Entities.Drops.Blood;
 import Sprites.Sprites;
 import Sprites.TileSet;
 import Tiles.Tile;
@@ -14,16 +13,13 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.opengl.PGraphicsOpenGL;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.PriorityQueue;
 
+import static Tiles.Tiles.*;
 import static Sprites.Sprites.generatedMasks;
 import static Sprites.Sprites.tileSprites;
-import static Tiles.Tiles.WALL;
-import static Tiles.Tiles.WALL_TILE;
 import static Utility.Constants.*;
 
 public class Level {
@@ -85,7 +81,7 @@ public class Level {
         pg.background(0, 0);
         for (int i = 0; i < w; i ++) {
             for (int j = 0; j < h; j ++) {
-                Tile tile = tileset.wall;
+                Tile tile = Tiles.get(tileset.wall);
                 try {
                     tile = tiles[i][j];
                 }
@@ -122,13 +118,17 @@ public class Level {
             for (int y = 0; y < renderH; y ++) {
                 int i = (x + xTileOffset) - buffer;
                 int j = (y + yTileOffset) - buffer;
-                Tile tile = tileset.wall;
+                Tile tile;
                 try {
                     tile = tiles[i][j];
                 }
-                catch(Exception e) {continue;}
+                catch(Exception e) {
+                    tile = Tiles.get(tileset.wall);
+                }
                 if(tile.visited) {
                     PImage sprite = Sprites.generatedMasks.get(tile.sprite);
+                    //game.println(tile.sprite.equals(null), tile.sprite.equals("null_0"));
+                    //sprite.save("/out/level/tileloading/_tile:"+(tile.sprite == null ? "null":tile.sprite)+".png");
                     if(sprite != null) {
                         background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
                     }
@@ -330,7 +330,7 @@ public class Level {
         for (int i = 0; i < dist; i ++) {
             int tX = (int)game.map(i, 0, dist, x1, x2);
             int tY = (int)game.map(i, 0, dist, y1, y2);
-            Tile tile = WALL_TILE;
+            Tile tile = Tiles.get("WALL");
             try {
                 tile = tiles[tX][tY];
             }
@@ -347,7 +347,7 @@ public class Level {
             int tX = (int)game.map(i, 0, dist, x1, x2);
             int tY = (int)game.map(i, 0, dist, y1, y2);
 
-            Tile tile = WALL_TILE;
+            Tile tile = Tiles.get("WALL");
             try {
                 tile = tiles[tX][tY];
             }
@@ -466,7 +466,7 @@ public class Level {
     }
 
     public Tile getTile(int i, int j) {
-        Tile tile = WALL_TILE;
+        Tile tile = Tiles.get("WALL");
         try { tile = tiles[i][j]; } catch(Exception e) {}
         return tile;
     }
