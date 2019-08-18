@@ -880,7 +880,6 @@ public class Generator {
                     } else newTiles[i][j] = new Tile(tileset.floor());
                 } else {
                     newTiles[i][j] = new Tile(tiles[i][j]);
-                    game.println("here", newTiles[i][j].sprite, Tiles.get(tiles[i][j]).sprite);
                 }
             }
         }

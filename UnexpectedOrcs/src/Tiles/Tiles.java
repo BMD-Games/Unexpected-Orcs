@@ -55,16 +55,11 @@ public class Tiles {
 
         PImage tilesheet = game.loadImage(data.getString("spritesheet"));
 
-        game.println(data.getString("spritesheet"));
-
         int spriteScale = data.getInt("spritescale");
 
         loadTileData(tiles, spriteScale, tilesheet);
         loadSpriteData(sprites, spriteScale, tilesheet);
         loadBitMaskTextures(tilesheet);
-
-        game.printArray(Tiles.keySet());
-        game.printArray(Sprites.tileSprites.keySet());
     }
 
     private static void loadTileData(JSONArray tiles, int spriteScale, PImage tilesheet) {
@@ -93,14 +88,12 @@ public class Tiles {
                 }
 
                 Sprites.tileSprites.put(name, Sprites.getSprite(tilesheet, spriteX, spriteY, spriteW, spriteH, spriteScale));
-                Sprites.tileSprites.get(name).save("/out/level/tileloading/" + name + ".png");
 
                 try {
                     int bottomX = tile.getInt("bottomX");
                     int bottomY = tile.getInt("bottomY");
                     //load bottom texture
                     Sprites.tileSprites.put(name + "_BOTTOM", Sprites.getSprite(tilesheet, bottomX, bottomY, spriteW, spriteH, spriteScale));
-                    Sprites.tileSprites.get(name+"_BOTTOM").save("/out/level/tileloading/" + name + "_BOTTOM.png");
                 } catch(Exception e) {}
             } catch(Exception e) {
                 System.out.println(String.format("Error loading tile data for tile: '%s'", name));
