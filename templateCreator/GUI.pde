@@ -60,6 +60,7 @@ void drawMenu() {
   } else {
     pg.text("Floor tile", width - GUI_WIDTH + 10, SPRITE_SIZE * MAX_SCALE + 35);
   }
+  pg.text("Tile: " +(int)getTile().x + ", " + (int)getTile().y, buff, height - 15);
 }
 
 float getRowPos(int row) {

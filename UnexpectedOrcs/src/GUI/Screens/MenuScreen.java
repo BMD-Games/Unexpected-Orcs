@@ -14,6 +14,7 @@ public class MenuScreen extends GUIScreen {
     private static Button load = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 0.5f, "LOAD");
     private static Button options = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 1, "OPTIONS");
     private static Button exit = new Button(game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 2, "EXIT");
+    private static Button credits = new Button(0, game.height - TILE_SIZE, "GS");
 
     public static void show(PGraphics screen) {
         //Draws the main menu
@@ -25,6 +26,7 @@ public class MenuScreen extends GUIScreen {
         load.show(screen);
         options.show(screen);
         exit.show(screen);
+        credits.show(screen);
 
         screen.endDraw();
         //draw to screen
@@ -41,10 +43,10 @@ public class MenuScreen extends GUIScreen {
             LoadScreen.loadScroll.setScrollElements(GameFile.loadAllSaves());
         } else if (exit.pressed()) {
             game.quitGame();
+        } else if(credits.pressed()) {
+            game.setState("CREDITS");
         } else if(Util.pointInBox(game.mouseX, game.mouseY, 0, 0, TILE_SIZE, TILE_SIZE)) {
             game.setState("TEST");
-        } else if(Util.pointInBox(game.mouseX, game.mouseY, game.width-TILE_SIZE, 0, TILE_SIZE, TILE_SIZE)) {
-            game.setState("CREDITS");
         }
     }
 
@@ -53,5 +55,6 @@ public class MenuScreen extends GUIScreen {
         load = new Button (game.width/2 - TILE_SIZE, game.height/2 - TILE_SIZE * 0.5f, "LOAD");
         options = new Button (game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 1, "OPTIONS");
         exit = new Button(game.width/2 - TILE_SIZE, game.height/2 + TILE_SIZE * 2, "EXIT");
+        credits = new Button(0, game.height - TILE_SIZE, "GS");
     }
 }
