@@ -108,27 +108,28 @@ public class Game extends PApplet{
             miniMapZoom -= e.getCount();
             miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
         } else if(STATE.equals("LOAD")) {
-            LoadScreen.loadScroll.changeScrollPosition(e.getCount());
+            LoadScreen.loadScroll.changeScrollPosition(e.getCount() * 20);
         } else if(STATE.equals("OPTIONS")) {
-            OptionsScreen.settingsScroll.changeScrollPosition(e.getCount());
+            OptionsScreen.settingsScroll.changeScrollPosition(e.getCount() * 20);
         }
     }
 
     public void keyPressed() {
         if (remapNextKey) remapKey(remapAction, keyCode);
+        if(gui.keyInput) { gui.handleKeyInput(key); return; }
+        if(key == '`') {
+            drawDebug = !drawDebug;
+            String state = "disabled";
+            if(drawDebug) state = "enabled";
+            engine.addText("Debug " + state, engine.player.x - 1, engine.player.y, 1f, 255);
+            return;
+        }
         if (keyCode == UP_KEY) keys[up] = 1;
         if (keyCode == LEFT_KEY) keys[left] = 1;
         if (keyCode == DOWN_KEY) keys[down] = 1;
         if (keyCode == RIGHT_KEY) keys[right] = 1;
         if (keyCode == ABILITY_KEY) keys[ability] = 1;
         if (keyCode == INTERACT_KEY) keys[interact] = 1;
-        if(characterNaming) NewGameScreen.keyPressed(key);
-        if(key == '`') {
-            drawDebug = !drawDebug;
-            String state = "disabled";
-            if(drawDebug) state = "enabled";
-            engine.addText("Debug " + state, engine.player.x - 1, engine.player.y, 1f, 255);
-        }
     }
 
     public void keyReleased() {

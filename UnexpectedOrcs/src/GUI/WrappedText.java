@@ -8,6 +8,7 @@ public class WrappedText {
     public int lines;
     public int textSize;
     public int textHeight;
+    public float width;
 
     public WrappedText(String string, int lines, int textSize) {
         this.string = string;
@@ -16,6 +17,13 @@ public class WrappedText {
         this.textHeight = lines * textSize;
     }
 
+    public WrappedText(String string, int lines, int textSize, float width) {
+        this.width = width;
+        this.string = string;
+        this.lines = lines;
+        this.textSize = textSize;
+        this.textHeight = lines * textSize;
+    }
 
     /*Manually wrap text that goes over a certain width
     returns the number of lines it will take.
@@ -53,6 +61,6 @@ public class WrappedText {
             }
         }
 
-        return new WrappedText(newString, numLines, textSize);
+        return new WrappedText(newString, numLines, textSize, w);
     }
 }

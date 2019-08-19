@@ -25,6 +25,8 @@ public class PlayerStats extends Stats implements Serializable {
     private int baseHealth = 100, baseMana = 100;
     public int baseVitality = 5, baseAttack = 1, baseWisdom = 5, baseDefence = 1;
 
+    private long randomSeed;
+
     private float baseSpeed = 2;
 
     private int totalKills = 0;
@@ -247,6 +249,14 @@ public class PlayerStats extends Stats implements Serializable {
         for(int key : stat.keySet()) {
             stat.put(key, (int)(stat.get(key) * percent));
         }
+    }
+
+    public Long getSeed() {
+        return this.randomSeed;
+    }
+
+    public void setSeed(long seed) {
+        this.randomSeed = seed;
     }
 
 }

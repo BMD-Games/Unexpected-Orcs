@@ -348,8 +348,8 @@ public class Engine {
     }
 
 
-    public void addText(String cooldown, float xp, float yp, float life, int c) {
-        text.add(new Text(cooldown, xp, yp, life, c));
+    public void addText(String str, float xp, float yp, float life, int c) {
+        text.add(new Text(str, xp, yp, life, c));
     }
 
     public Item[] getClosestBagItems() {

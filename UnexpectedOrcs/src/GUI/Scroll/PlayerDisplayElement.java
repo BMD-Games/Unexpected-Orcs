@@ -18,7 +18,7 @@ public class PlayerDisplayElement extends ScrollElement {
     private DisplayBar mp;
 
     public PlayerDisplayElement(String name, PlayerStats stats, Inventory inv) {
-        super(name, "", 200);
+        super(name, "Seed: " + stats.getSeed().toString(), 200);
 
         this.stats = stats;
         this.inv = inv;
@@ -47,6 +47,7 @@ public class PlayerDisplayElement extends ScrollElement {
             screen.stroke(200);
             screen.noFill();
             screen.rect(x, y, w, h);
+            screen.strokeWeight(1);
             screen.image(guiSprites.get("TICK"), x + w - TILE_SIZE/2 - gui.buff, y + gui.buff, TILE_SIZE/2, TILE_SIZE/2);
         } else {
             screen.image(guiSprites.get("BLANK_1x1"), x + w - TILE_SIZE/2 - gui.buff, y + gui.buff, TILE_SIZE/2, TILE_SIZE/2);

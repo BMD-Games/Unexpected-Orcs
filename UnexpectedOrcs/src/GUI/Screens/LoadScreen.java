@@ -1,17 +1,14 @@
 package GUI.Screens;
 
-import Engine.Engine;
 import File.GameFile;
 import GUI.Button;
 import GUI.PopUp.ConfirmDelete;
 import GUI.PopUp.ConfirmationCallback;
 import GUI.Scroll.ScrollElement;
 import GUI.Scroll.ScrollWindow;
-import Utility.Constants;
 import processing.core.PGraphics;
 
 import static Utility.Constants.*;
-import static Utility.Constants.game;
 
 public class LoadScreen extends GUIScreen {
 
@@ -22,9 +19,9 @@ public class LoadScreen extends GUIScreen {
     public static ScrollWindow loadScroll = new ScrollWindow(game.width/8, game.height/4, game.width/4 * 3, game.height/2, new ScrollElement[0]);
 
     static ConfirmationCallback confirm = (name) -> { showConfirmation = false; GameFile.deleteSave((String)name[0]); loadScroll.setScrollElements(GameFile.loadAllSaves()); };
-    static ConfirmationCallback cancel = name -> { showConfirmation = false; };
-    private static ConfirmDelete deleteChar = new ConfirmDelete("Delete", "This will permenantly delete your character. You will not be able to get it back."
-                                           , game.width/4, game.height/4, game.width/2, game.height/2, confirm, cancel, null);
+    static ConfirmationCallback cancel = (name) -> { showConfirmation = false; };
+    private static ConfirmDelete deleteChar = new ConfirmDelete("Delete", "This will permenantly delete your character. You will not be able to get it back.",
+            game.width/4, game.height/4, game.width/2, game.height/2, confirm, cancel, null);
 
 
     public static void show(PGraphics screen) {
@@ -32,6 +29,10 @@ public class LoadScreen extends GUIScreen {
 
         clearScreen(screen);
         game.image(game.title, 0, 0, game.width, game.height);
+
+
+        game.fill(0, 60);
+        game.rect(-TILE_SIZE, -TILE_SIZE, game.width + TILE_SIZE, game.height + TILE_SIZE);
 
         loadScroll.update();
         loadScroll.show(screen);
@@ -86,7 +87,7 @@ public class LoadScreen extends GUIScreen {
 
         ConfirmationCallback confirm = (name) -> { showConfirmation = false; GameFile.deleteSave((String)name[0]); loadScroll.setScrollElements(GameFile.loadAllSaves()); };
         ConfirmationCallback cancel = name -> { showConfirmation = false; };
-        ConfirmDelete deleteChar = new ConfirmDelete("Delete", "This will permenantly delete your character. You will not be able to get it back."
-                , game.width/4, game.height/4, game.width/2, game.height/2, confirm, cancel, null);
+        ConfirmDelete deleteChar = new ConfirmDelete("Delete", "This will permenantly delete your character. You will not be able to get it back.",
+                game.width/4, game.height/4, game.width/2, game.height/2, confirm, cancel, null);
     }
 }

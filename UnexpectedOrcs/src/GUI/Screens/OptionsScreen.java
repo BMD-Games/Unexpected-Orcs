@@ -25,6 +25,9 @@ public class OptionsScreen extends GUIScreen {
         clearScreen(screen);
         game.image(game.title, 0, 0, game.width, game.height);
 
+        game.fill(0, 60);
+        game.rect(-TILE_SIZE, -TILE_SIZE, game.width + TILE_SIZE, game.height + TILE_SIZE);
+
         settingsScroll.update();
         settingsScroll.show(screen);
 

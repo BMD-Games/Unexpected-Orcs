@@ -198,12 +198,13 @@ public class Sprites {
         guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
         guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
         guiSprites.put("QUICK", getSprite(sheet, 3, 1, 2, 1, guiSize));
-        guiSprites.put("YES", getSprite(sheet, 3, 3, 2, 1, guiSize));
+        guiSprites.put("YES", getSprite(sheet, 3, 2, 2, 1, guiSize));
         guiSprites.put("NO", getSprite(sheet, 5, 2, 2, 1, guiSize));
         guiSprites.put("TICK", getSprite(sheet, 7, 2, 1, 1, guiSize));
         guiSprites.put("APPLY", getSprite(sheet, 0, 4, 2, 1, guiSize));
         guiSprites.put("CREDITS", getSprite(sheet, 2, 4, 2, 1, guiSize));
         guiSprites.put("GS", getSprite(sheet, 4, 4, 1, 1, guiSize));
+        guiSprites.put("SEED", getSprite(sheet, 5, 4, 2, 1, guiSize));
 
         guiSprites.put("UP", getSprite(sheet, 2, 6, 0.5f, 0.5f, guiSize));
         guiSprites.put("DOWN", getSprite(sheet, 2.5f, 6, 0.5f, 0.5f, guiSize));
