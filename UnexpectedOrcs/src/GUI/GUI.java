@@ -123,7 +123,6 @@ public class GUI {
     }
 
     public void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
-        screen.pushMatrix();
         int mouseOverWidth = 3 * GUI_WIDTH/4;
         int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
 
@@ -153,7 +152,7 @@ public class GUI {
         screen.textSize(description.textSize);
         screen.textLeading(description.textSize);
         screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
-        screen.popMatrix();
+        screen.noStroke();
     }
 
     public void drawMouseOverText(float x, float y, WrappedText description) {

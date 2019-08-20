@@ -118,6 +118,8 @@ public class NewGameScreen extends GUIScreen {
             gui.keyInput = false;
             engine.reset(true);
             engine.setPlayer(new Player());
+            engine.player.stats.setSeed((seedValue == null ? new Date().getTime() : seedValue));
+            game.randomSeed(engine.player.stats.getSeed());
             game.setState("PLAYING");
             playerName = "";
         } else if(seed.pressed()) {

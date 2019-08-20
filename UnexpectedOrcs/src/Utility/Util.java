@@ -154,6 +154,46 @@ public class Util {
         return combined;
     }
 
+    public static PImage replaceColour(PImage texture, int oldColour, int newColour ) {
+        PImage replaced = texture.copy();
+
+        texture.loadPixels();
+        replaced.loadPixels();
+
+        float r = game.red(oldColour);
+        float g = game.green(oldColour);
+        float b = game.blue(oldColour);
+
+        float nR = game.red(newColour);
+        float nG = game.green(newColour);
+        float nB = game.blue(newColour);
+
+        for(int i = 0; i < texture.pixels.length; i ++) {
+
+            if(game.red(texture.pixels[i]) == r && game.green(texture.pixels[i]) == g  && game.blue(texture.pixels[i]) == b) replaced.pixels[i] = game.color(nR, nG, nB, game.alpha(texture.pixels[i]));
+        }
+        texture.updatePixels();
+        replaced.updatePixels();
+        return replaced;
+    }
+
+    public static int averageColour(PImage img) {
+        int avgR = 0;
+        int avgG = 0;
+        int avgB = 0;
+        img.loadPixels();
+
+        for(int i = 0; i < img.pixels.length; i ++) {
+            if(game.alpha(img.pixels[i]) < 255) continue;
+            avgR += game.red(img.pixels[i]);
+            avgG += game.green(img.pixels[i]);
+            avgB += game.blue(img.pixels[i]);
+        }
+
+        img.updatePixels();
+        return colour(avgR/img.pixels.length, avgG/img.pixels.length, avgB/img.pixels.length);
+    }
+
     public static PImage alphaImage(PImage texture, int maxAlpha) {
         //creates a new PImage with the scaled alpha values;
         PImage alpha = game.createImage(texture.width, texture.height, game.ARGB);
