@@ -82,9 +82,9 @@ public class NewGameScreen extends GUIScreen {
                 seedDialogOpen = false;
             }
         } else if(quick.pressed()) {
-            gui.drawMouseOverText(game.mouseX, game.mouseY, wrapText("Quick games DO NOT GET SAVED!", TILE_SIZE * 2, TILE_SIZE/2));
+            gui.drawMouseOverText(game.mouseX, game.mouseY, wrapText("Quick games DO NOT GET SAVED!", TILE_SIZE * 3, TILE_SIZE/2));
         } else if(seed.pressed()) {
-            gui.drawMouseOverText(game.mouseX, game.mouseY, wrapText("Set seed for player" + (seedValue != null ? " " + seedValue.toString() : ""), TILE_SIZE * 2, TILE_SIZE/2));
+            gui.drawMouseOverText(game.mouseX, game.mouseY, wrapText("Set seed for player" + (seedValue != null ? " " + seedValue.toString() : ""), TILE_SIZE * 3, TILE_SIZE/2));
         }
 
 

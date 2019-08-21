@@ -82,7 +82,6 @@ public class Game extends PApplet{
             engine.show();
             if(drawDebug) {
                 image(debugScreen, 0, 0);
-                if(frameCount % 30 == 0) debugScreen.save("out/level/debug.jpg");
                 debugScreen.beginDraw();
                 debugScreen.clear();
                 debugScreen.endDraw();

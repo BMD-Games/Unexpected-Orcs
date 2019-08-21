@@ -65,6 +65,11 @@ public class Sprites {
         itemSprites.put("STAFF_TIP", getSprite(itemsheet, 5, 2, 1, 1, itemSize));
         itemSprites.put("SPEAR_TIP", getSprite(itemsheet, 6, 2, 1, 1, itemSize));
         itemSprites.put("BOW_TIP", getSprite(itemsheet, 7, 2, 1, 1, itemSize));
+        itemSprites.put("SWORD", getSprite(itemsheet, 5, 3, 1, 1, itemSize));
+        itemSprites.put("SWORD_TIP", getSprite(itemsheet, 6, 3, 1, 1, itemSize));
+        itemSprites.put("AXE", getSprite(itemsheet, 5, 4, 1, 1, itemSize));
+        itemSprites.put("AXE_TIP", getSprite(itemsheet, 6, 4, 1, 1, itemSize));
+
 
         itemSprites.put("GREENROD", getSprite(itemsheet, 0, 5, 1, 1, itemSize));
         itemSprites.put("REDROD", getSprite(itemsheet, 1, 5, 1, 1, itemSize));

@@ -28,7 +28,7 @@
       "name": "HEDGE",
       "spriteX": 1,
       "spriteY": 28,
-      "bottomX": 0,
+      "bottomX": 4,
       "bottomY": 28,
       "group": "hedgeGroup"
     },
@@ -45,7 +45,7 @@
       "spriteX": 1,
       "spriteY": 26,
       "bottomX": 0,
-      "bottomY": 29,
+      "bottomY": 26,
       "group": "stoneBrickGroup"
     },
 
