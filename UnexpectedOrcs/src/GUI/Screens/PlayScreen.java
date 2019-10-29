@@ -86,6 +86,7 @@ public class PlayScreen extends GUIScreen {
         }
         showingPortal = true;
         enterPortal.show(screen);
+        screen.fill(255);
         screen.textAlign(game.CENTER, game.CENTER);
         screen.text("Enter " + portal.name, enterPortal.x, enterPortal.y, enterPortal.w, enterPortal.h);
     }

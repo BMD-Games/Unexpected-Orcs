@@ -78,21 +78,23 @@ public class Corridor {
 
         }
 
-        return reconstructPath(parents, stop, r1, r2);
+        return reconstructPath(parents, stop, rooms, r1, r2);
     }
 
-    private static Corridor reconstructPath(HashMap<PVector, PVector> parents, PVector current, int r1, int r2) {
+    private static Corridor reconstructPath(HashMap<PVector, PVector> parents, PVector current, ArrayList<Room> rooms, int r1, int r2) {
 
         float minX = Float.POSITIVE_INFINITY, maxX  = Float.NEGATIVE_INFINITY, minY = Float.POSITIVE_INFINITY, maxY = Float.NEGATIVE_INFINITY;
 
         ArrayList<PVector> path = new ArrayList<>();
 
         while(current != null) {
-            path.add(current);
-            if(current.x < minX) minX = current.x;
-            if(current.x > maxX) maxX = current.x;
-            if(current.y < minY) minY = current.y;
-            if(current.y > maxY) maxY = current.y;
+            if(!rooms.get(r1).containsCorridorPoint((int)current.x, (int)current.y) && !rooms.get(r2).containsCorridorPoint((int)current.x, (int)current.y)) {
+                path.add(current);
+                if(current.x < minX) minX = current.x;
+                if(current.x > maxX) maxX = current.x;
+                if(current.y < minY) minY = current.y;
+                if(current.y > maxY) maxY = current.y;
+            }
 
             current = parents.get(current);
         }

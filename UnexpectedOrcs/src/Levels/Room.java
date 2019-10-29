@@ -39,6 +39,10 @@ public class Room {
         return Util.pointInBox(x, y, this.x, this.y, this.w, this.h);
     }
 
+    public boolean containsCorridorPoint(int x, int y) {
+        return Util.pointInBox(x, y, this.x + 2, this.y + 2, this.w - 4, this.h - 4);
+    }
+
     public boolean overlapsX(Room room) {
         return ((x >= room.x && x <= room.x + room.w) || (x + w >= room.x && x + w <= room.x + room.w));
     }
@@ -97,62 +101,69 @@ public class Room {
         return new Room();
     }
 
-
-    public static Room randomlyPlaceRoom(Room room, int w, int h) {
-        room.x = (int)game.random(edgeSize, w - room.w - edgeSize);
-        room.y = (int)game.random(edgeSize, h - room.h - edgeSize);
-        return room;
-    }
-
     public static Room testSpawn() {
         Room room = new Room();
 
-        room.setTiles(new String[][]{
-                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
+        room.setTiles(new String[][] {
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"},
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"},
+                {"FLOOR","FLOOR","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","FLOOR","FLOOR"},
+                {"FLOOR","FLOOR","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","FLOOR","FLOOR"},
+                {"FLOOR","FLOOR","STONE_TILE","STONE_TILE","SAND_TILE","STONE_TILE","STONE_TILE","FLOOR","FLOOR"},
+                {"FLOOR","FLOOR","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","FLOOR","FLOOR"},
+                {"FLOOR","FLOOR","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","FLOOR","FLOOR"},
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"},
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"}
         });
         return room;
     }
 
-    public static Room testRoom() {
+    public static Room testRoom1() {
         Room room = new Room();
-        room.setTiles(new String[][]{
-                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
+        room.setTiles(new String[][] {
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"},
+                {"FLOOR","GRASS","GRASS","GRASS","FLOOR"},
+                {"FLOOR","GRASS","GRASS","GRASS","FLOOR"},
+                {"FLOOR","GRASS","GRASS","GRASS","FLOOR"},
+                {"FLOOR","GRASS","GRASS","GRASS","FLOOR"},
+                {"FLOOR","GRASS","GRASS","GRASS","FLOOR"},
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"}
         });
         return room;
     }
 
     public static Room testRoom2() {
         Room room = new Room();
-        room.setTiles(new String[][]{
-                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
+        room.setTiles(new String[][] {
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"},
+                {"FLOOR","WALL","WALL","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","WALL","WALL","FLOOR"},
+                {"FLOOR","WALL","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","WALL","FLOOR"},
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"},
+                {"FLOOR","WALL","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","WALL","FLOOR"},
+                {"FLOOR","WALL","WALL","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","WALL","WALL","FLOOR"},
+                {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"}
         });
         return room;
     }
 
     public static Room testBoss() {
         Room room = new Room();
-        room.setTiles(new String[][]{
-                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "WOOD", "WOOD", "WOOD", "WOOD", "STONE_BRICK"},
-                {"STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK", "STONE_BRICK"}
+        room.setTiles(new String[][] {
+                {"STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE"},
+                {"STONE_TILE","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","STONE_TILE","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","WALL","WALL","WALL","WALL","FLOOR","STONE_TILE","FLOOR","WALL","WALL","WALL","WALL","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","WALL","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","WALL","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","WALL","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","WALL","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","WALL","STONE_TILE","STONE_TILE","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","STONE_TILE","STONE_TILE","WALL","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","FLOOR","STONE_TILE","STONE_TILE","FLOOR","WALL","WALL","WALL","FLOOR","STONE_TILE","STONE_TILE","FLOOR","FLOOR","STONE_TILE"},
+                {"STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","FLOOR","WALL","WALL","WALL","FLOOR","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE"},
+                {"STONE_TILE","FLOOR","FLOOR","STONE_TILE","STONE_TILE","FLOOR","WALL","WALL","WALL","FLOOR","STONE_TILE","STONE_TILE","FLOOR","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","WALL","STONE_TILE","STONE_TILE","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","STONE_TILE","STONE_TILE","WALL","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","WALL","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","WALL","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","WALL","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","WALL","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","WALL","WALL","WALL","WALL","FLOOR","STONE_TILE","FLOOR","WALL","WALL","WALL","WALL","FLOOR","STONE_TILE"},
+                {"STONE_TILE","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","STONE_TILE","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","STONE_TILE"},
+                {"STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE"}
         });
         return room;
     }

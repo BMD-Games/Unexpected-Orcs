@@ -27,7 +27,7 @@ public class CellarDungeon  extends Level implements RoomLevel {
 
     public CellarDungeon() {
         super(60, 45, "Cellar", TileSet.cellarTileSet());
-        Generator.generateConnectedDungeon(this, 20, game.PI/4, 5, 10, Room.testSpawn(), Room.testBoss(), new Room[]{Room.testRoom()});
+        Generator.generateConnectedDungeon(this, 20, game.PI/4, 5, 10, Room.testSpawn(), Room.testBoss(), new Room[]{Room.testRoom1(), Room.testRoom2()});
         generateEnemies();
     }
 
