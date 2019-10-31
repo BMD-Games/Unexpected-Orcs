@@ -21,11 +21,11 @@ import static Utility.Colour.*;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public abstract class StandardEnemy implements Enemy {
+public abstract class StandardEnemy extends Enemy {
 
     public int tier;
 
-    public float x, y, knockbackX, knockbackY;
+    public float knockbackX, knockbackY;
     protected float lastMoveSpeed = 0;
     public String type;
     float lastPlayerX, lastPlayerY;
@@ -49,9 +49,8 @@ public abstract class StandardEnemy implements Enemy {
     public ArrayList<String> typeList = new ArrayList();
 
     public StandardEnemy(float x, float y, int tier, PImage sprite) {
+        super(x, y);
         this.tier = tier;
-        this.x = x;
-        this.y = y;
 
         this.setSprite(sprite);
 

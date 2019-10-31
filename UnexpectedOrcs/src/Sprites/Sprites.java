@@ -182,6 +182,9 @@ public class Sprites {
         dropSprites.put("PORTAL_BLOOD3", getSprite(dropsheet, 8, 6, 2, 2, dropSize));
         dropSprites.put("PORTAL_BLOOD_ACTIVE", getSprite(dropsheet, 8, 8, 2, 2, dropSize));
 
+        dropSprites.put("MONEY_BAG_CLOSED", getSprite(dropsheet, 19, 3, 1, 1, dropSize));
+        dropSprites.put("MONEY_BAG_OPEN", getSprite(dropsheet, 19, 4, 1, 1, dropSize));
+
         //-----GUI SPRITES----
         PImage sheet = game.loadImage("/assets/sprites/spritesheet.png");
         int guiSize = 16;

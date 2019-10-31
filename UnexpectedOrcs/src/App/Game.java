@@ -7,6 +7,8 @@ import GUI.Screens.LoadScreen;
 import GUI.Screens.LoadingScreen;
 import GUI.Screens.NewGameScreen;
 import GUI.Screens.OptionsScreen;
+import Levels.Dungeons.Cave;
+import Levels.Level;
 import Settings.Settings;
 import Sound.SoundManager;
 import Sprites.Sprites;
@@ -28,8 +30,6 @@ import static Settings.Settings.*;
 import static Utility.Constants.*;
 
 public class Game extends PApplet{
-
-    // HashMap<String, SoundFile> soundFiles;
 
 
     public String STATE;
@@ -76,6 +76,15 @@ public class Game extends PApplet{
 
     public void draw() {
         updateMouse();
+
+        if(STATE.equals("TEST")) {
+            for(int i = 0; i < 10; i ++) {
+                println("Test " + i);
+                Level level = new Cave();
+                level.setName("CaveTest" + i);
+                level.saveLevel();
+            }
+        }
 
         if(STATE.equals("PLAYING")) {
             engine.update();

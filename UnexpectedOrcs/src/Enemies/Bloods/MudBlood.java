@@ -15,7 +15,7 @@ import static Utility.Constants.engine;
 import static Utility.Constants.game;
 import static Utility.Constants.itemFactory;
 
-public class MudBlood extends MeleeEnemy implements Enemy, RectangleObject {
+public class MudBlood extends MeleeEnemy implements  RectangleObject {
 
     private float w = 1, h = 1;
 

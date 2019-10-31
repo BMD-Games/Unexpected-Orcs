@@ -11,7 +11,7 @@ import processing.core.PImage;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class Crawler extends MeleeEnemy implements Enemy, RectangleObject {
+public class Crawler extends MeleeEnemy implements  RectangleObject {
 
     private float w = 0.44f, h = 0.5f;
 

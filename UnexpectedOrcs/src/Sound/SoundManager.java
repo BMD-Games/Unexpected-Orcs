@@ -40,7 +40,7 @@ public class SoundManager {
 
         addAllFilesToMap(soundFiles, soundPath);
         addAllFilesToMap(musicFiles, musicPath);
-         sound = new Sound(app);
+        sound = new Sound(app);
 
     }
 

@@ -10,7 +10,7 @@ import processing.core.PImage;
 import static Sprites.Sprites.*;
 import static Utility.Constants.*;
 
-public class KingElemental extends Elemental implements Enemy {
+public class KingElemental extends Elemental {
 
     private float summonWait;
 

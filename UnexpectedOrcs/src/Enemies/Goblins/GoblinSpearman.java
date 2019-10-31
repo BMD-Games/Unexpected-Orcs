@@ -11,7 +11,7 @@ import processing.core.PImage;
 import static Sprites.Sprites.*;
 import static Utility.Constants.*;
 
-public class GoblinSpearman extends MeleeEnemy implements Enemy, RectangleObject {
+public class GoblinSpearman extends MeleeEnemy implements  RectangleObject {
 
     private float w = 0.4f, h = 0.5f;
 

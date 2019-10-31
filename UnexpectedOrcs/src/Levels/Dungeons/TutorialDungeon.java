@@ -1,6 +1,7 @@
 package Levels.Dungeons;
 
 import Enemies.Chomps.Chomp;
+import Enemies.MoneyBag;
 import Enemies.StandardEnemy;
 import Entities.Drops.Chest;
 import Entities.Drops.Portals.CavePortal;
@@ -48,6 +49,9 @@ public class TutorialDungeon  extends Level {
         engine.addDrop(new CavePortal(7.5f, 8.5f));
 
         addEnemy(new Chomp(7.5f, 9.5f, 1));
+
+
+        addEnemy(new MoneyBag(7.5f, 12.5f));
     }
 
     protected void validSpawn(StandardEnemy enemy) {

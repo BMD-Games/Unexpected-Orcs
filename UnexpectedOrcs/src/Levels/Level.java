@@ -3,6 +3,7 @@ package Levels;
 import Enemies.CreepyCrawlies.Bat;
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
+import Enemies.StaticEnemy;
 import Sprites.Sprites;
 import Sprites.TileSet;
 import Tiles.Tile;
@@ -127,8 +128,6 @@ public class Level {
                 }
                 if(tile.visited) {
                     PImage sprite = Sprites.generatedMasks.get(tile.sprite);
-                    //game.println(tile.sprite.equals(null), tile.sprite.equals("null_0"));
-                    //sprite.save("/out/level/tileloading/_tile:"+(tile.sprite == null ? "null":tile.sprite)+".png");
                     if(sprite != null) {
                         background.image(sprite, i * TILE_SIZE - renderOffset.x, j * TILE_SIZE - renderOffset.y, (sprite.width * SCALE), (sprite.height * SCALE));
                     }
@@ -374,14 +373,30 @@ public class Level {
     private void initialiseChunks() {
         CHUNK_W = game.ceil(w/(float)CHUNK_SIZE);
         CHUNK_H = game.ceil(h/(float)CHUNK_SIZE);
+
+        ArrayList<Enemy> enemyList = null;
+        if(enemies != null) {
+             enemyList = new ArrayList<>();
+
+            for (ArrayList<Enemy> chunk : enemies) {
+                enemyList.addAll(chunk);
+            }
+        }
         enemies = new ArrayList[CHUNK_W * CHUNK_H];
         for(int i = 0; i < enemies.length; i ++) {
             enemies[i] = new ArrayList<Enemy>();
         }
+        if(enemyList != null) {
+            for (Enemy e : enemyList) {
+                addEnemy(e);
+            }
+        }
     }
 
-    public void addEnemy(StandardEnemy enemy) {
+    public void addEnemy(Enemy enemy) {
         int chunk = getChunk((int)enemy.x, (int)enemy.y);
+
+
         if(chunk == -1) return;
         if(enemies[chunk] == null) enemies[chunk] = new ArrayList<Enemy>();
         enemies[chunk].add(enemy);

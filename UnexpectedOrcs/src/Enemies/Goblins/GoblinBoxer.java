@@ -12,7 +12,7 @@ import processing.core.PImage;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class GoblinBoxer extends MeleeEnemy implements Enemy, RectangleObject {
+public class GoblinBoxer extends MeleeEnemy implements  RectangleObject {
 
     private float w = 1, h = 1;
 

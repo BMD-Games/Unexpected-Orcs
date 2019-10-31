@@ -30,6 +30,16 @@ public class AnimatedSprite {
         this.frameLength = 1;
     }
 
+    public AnimatedSprite(PImage... sprites) {
+        this(1, sprites);
+    }
+
+    public AnimatedSprite(float frameLength, PImage... sprites) {
+        this.sprites = sprites;
+
+        this.frameLength = frameLength;
+    }
+
     public PImage getCurrentSprite() {
         return sprites[currentSprite];
     }
@@ -43,6 +53,10 @@ public class AnimatedSprite {
                 currentSprite -= sprites.length;
             }
         }
+    }
+
+    public void setCurrentSprite(int sprite) {
+        this.currentSprite = sprite % sprites.length;
     }
 
     public void reset() {

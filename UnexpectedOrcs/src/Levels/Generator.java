@@ -1,5 +1,6 @@
 package Levels;
 
+import Enemies.MoneyBag;
 import Entities.Drops.Chest;
 import Sprites.TileSet;
 import Tiles.Tile;
@@ -91,7 +92,7 @@ public class Generator {
 
         saveCaveRegions(regionList, w, h);
 
-        String[][] newTiles = connectRegions(level, regionList, regions, intsToTileStrings(tiles));
+        String[][] newTiles = connectRegions(level, regionList, intsToTileStrings(tiles));
         level.setTiles(finishingPass(newTiles, level.tileset));
     }
 
@@ -111,7 +112,7 @@ public class Generator {
         img.save("./out/level/caveRegions.png");
     }
 
-    private static String[][] connectRegions(Level level, ArrayList<ArrayList<PVector>> regionList, int[][] regions, String[][] tiles) {
+    private static String[][] connectRegions(Level level, ArrayList<ArrayList<PVector>> regionList, String[][] tiles) {
         Collections.sort(regionList, new Comparator<ArrayList<PVector>>() {
             @Override
             public int compare(ArrayList<PVector> o1, ArrayList<PVector> o2) {
@@ -213,11 +214,16 @@ public class Generator {
             PVector tile = region.get(i);
             if(tiles[(int)tile.x][(int)tile.y] != level.tileset.connectionPath()) {
                 tiles[(int) tile.x][(int) tile.y] = level.tileset.treasureFloor();
+                //add money bags in the treasure room
+                if(game.random(1) < 0.4) {
+                    level.addEnemy(new MoneyBag(tile.x + 0.5f, tile.y + 0.5f));
+                }
             }
         }
 
         //Add monsters in random points of the region
         //level.addEnemies();
+
 
         PVector tile = region.get((int)game.random(region.size()));
 

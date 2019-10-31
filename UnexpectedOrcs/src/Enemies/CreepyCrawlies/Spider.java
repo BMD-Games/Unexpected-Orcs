@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class Spider extends RangedEnemy implements Enemy, RectangleObject {
+public class Spider extends RangedEnemy implements  RectangleObject {
 
     private float w = 0.5f, h = 0.5f;
 
