@@ -33,7 +33,7 @@ public class PlayScreen extends GUIScreen {
     private static boolean showingPortal = false;
 
     private static PImage map, over;
-    private static int pZoomLevel;
+    private static float pZoomLevel;
 
     public static void show(PGraphics screen) {
         //Draws the GUI during gameplay
@@ -108,6 +108,7 @@ public class PlayScreen extends GUIScreen {
         if(miniMapZoom != pZoomLevel) {
             map = Util.scaleImage(engine.currentLevel.getMiniMap().get(), (int) scale);
             over = Util.scaleImage(engine.currentLevel.getOverlay().get(), (int) scale);
+            pZoomLevel = miniMapZoom;
         }
 
         screen.fill(150);
