@@ -1,6 +1,7 @@
 package Entities.Drops;
 
 import Levels.Level;
+import Sound.SoundManager;
 import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -19,6 +20,7 @@ public class Portal extends Drop {
     }
 
     public Level getLevel() { //Override this with the level specific to a given portal
+        SoundManager.playSound("PORTAL_USE");
         return null;
     }
 

@@ -15,6 +15,7 @@ public class CellarPortal extends Portal {
 
     @Override
     public Level getLevel() {
+        super.getLevel();
         return new CellarDungeon();
     }
 }

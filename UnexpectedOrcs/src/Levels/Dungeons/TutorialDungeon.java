@@ -51,7 +51,11 @@ public class TutorialDungeon  extends Level {
         addEnemy(new Chomp(7.5f, 9.5f, 1));
 
 
+        addEnemy(new MoneyBag(5.5f, 12.5f));
+        addEnemy(new MoneyBag(6.5f, 12.5f));
         addEnemy(new MoneyBag(7.5f, 12.5f));
+        addEnemy(new MoneyBag(8.5f, 12.5f));
+        addEnemy(new MoneyBag(9.5f, 12.5f));
     }
 
     protected void validSpawn(StandardEnemy enemy) {

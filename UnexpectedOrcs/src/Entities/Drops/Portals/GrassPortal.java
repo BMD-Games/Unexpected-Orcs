@@ -18,6 +18,7 @@ public class GrassPortal extends Portal {
 
     @Override
     public Level getLevel() {
+        super.getLevel();
         return new GrassDungeon();
     }
 }

@@ -1,6 +1,8 @@
 package Stats;
 
 import GUI.WrappedText;
+import Sound.SoundManager;
+import Utility.Colour;
 import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -48,6 +50,7 @@ public class PlayerStats extends Stats implements Serializable {
     }
 
     public void addPack(String stat, int tier) {
+        SoundManager.playSound("HEAL");
         switch(stat) {
             case(HEALTH):
                 health = game.constrain(health + tier * 10, 0, healthMax);
@@ -59,35 +62,73 @@ public class PlayerStats extends Stats implements Serializable {
     }
 
     public void addOrbStat(String stat, int tier) {
+        SoundManager.playSound("ORB");
         totalKills ++;
+        int newVal;
+        int colour = statColours.get(stat);
         switch(stat) {
             case(HEALTH):
                 healthKills.put(tier, healthKills.getOrDefault(tier, 0) + 1);
-                healthMax = (int)calcStatValue(healthKills, baseHealth, 5, 0.5f);
+                newVal = (int)calcStatValue(healthKills, baseHealth, 5, 0.5f);
+                if(healthMax != newVal) {
+                    SoundManager.playSound("LEVEL_UP");
+                    engine.addText("Health leveled up", engine.player.x, engine.player.y, 1f, colour);
+                    healthMax = newVal;
+                }
                 break;
             case(MANA):
                 manaKills.put(tier, manaKills.getOrDefault(tier, 0) + 1);
-                manaMax = (int)calcStatValue(manaKills, baseMana, 5, 0.2f);
+                newVal = (int)calcStatValue(manaKills, baseMana, 5, 0.2f);
+                if(manaMax != newVal) {
+                    SoundManager.playSound("LEVEL_UP");
+                    engine.addText("Mana leveled up", engine.player.x, engine.player.y, 1f, colour);
+                    manaMax = newVal;
+                }
                 break;
             case(VITALITY):
                 vitalityKills.put(tier, vitalityKills.getOrDefault(tier, 0) + 1);
-                vitality = (int)calcStatValue(vitalityKills, baseVitality, 1, 0.1f);
+                newVal = (int)calcStatValue(vitalityKills, baseVitality, 1, 0.1f);
+                if(vitality != newVal) {
+                    SoundManager.playSound("LEVEL_UP");
+                    engine.addText("Vitality leveled up", engine.player.x, engine.player.y, 1f, colour);
+                    vitality = newVal;
+                }
                 break;
             case(ATTACK):
                 attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
-                attack = (int)calcStatValue(attackKills, baseAttack, 1, 0.1f);
+                newVal = (int)calcStatValue(attackKills, baseAttack, 1, 0.1f);
+                if(attack != newVal) {
+                    SoundManager.playSound("LEVEL_UP");
+                    engine.addText("Attack leveled up", engine.player.x, engine.player.y, 1f, colour);
+                    attack = newVal;
+                }
                 break;
             case(WISDOM):
                 wisdomKills.put(tier, wisdomKills.getOrDefault(tier, 0) + 1);
-                wisdom = (int)calcStatValue(wisdomKills, baseWisdom, 1, 0.1f);
+                newVal = (int)calcStatValue(wisdomKills, baseWisdom, 1, 0.1f);
+                if(wisdom != newVal) {
+                    SoundManager.playSound("LEVEL_UP");
+                    engine.addText("Wisdom leveled up", engine.player.x, engine.player.y, 1f, colour);
+                    wisdom = newVal;
+                }
                 break;
             case(DEFENCE):
                 defenceKills.put(tier, defenceKills.getOrDefault(tier, 0) + 1);
-                defence = (int)calcStatValue(defenceKills, baseDefence, 1, 0.1f);
+                newVal = (int)calcStatValue(defenceKills, baseDefence, 1, 0.1f);
+                if(defence != newVal) {
+                    SoundManager.playSound("LEVEL_UP");
+                    engine.addText("Defence leveled up", engine.player.x, engine.player.y, 1f, colour);
+                    defence = newVal;
+                }
                 break;
             case(SPEED):
                 speedKills.put(tier, speedKills.getOrDefault(tier, 0) + 1);
-                speed = calcStatValue(speedKills, baseSpeed, 1, 0.1f);
+                float newSpeed = calcStatValue(speedKills, baseSpeed, 1, 0.1f);
+                if(speed != newSpeed) {
+                    SoundManager.playSound("LEVEL_UP");
+                    engine.addText("Speed leveled up", engine.player.x, engine.player.y, 1f, colour);
+                    speed = newSpeed;
+                }
                 break;
         }
     }
