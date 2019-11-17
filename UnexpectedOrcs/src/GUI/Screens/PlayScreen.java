@@ -105,11 +105,9 @@ public class PlayScreen extends GUIScreen {
         int sx = (int) ((engine.player.x * scale) - vw / 2); //get the x-cord to start
         int sy = (int) ((engine.player.y * scale) - vh / 2); //get the y-cord to start
 
-        if(miniMapZoom != pZoomLevel) {
-            map = Util.scaleImage(engine.currentLevel.getMiniMap().get(), (int) scale);
-            over = Util.scaleImage(engine.currentLevel.getOverlay().get(), (int) scale);
-            pZoomLevel = miniMapZoom;
-        }
+        map = Util.scaleImage(engine.currentLevel.getMiniMap().get(), (int) scale);
+        over = Util.scaleImage(engine.currentLevel.getOverlay().get(), (int) scale);
+        pZoomLevel = miniMapZoom;
 
         screen.fill(150);
         screen.rect(0, game.height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);

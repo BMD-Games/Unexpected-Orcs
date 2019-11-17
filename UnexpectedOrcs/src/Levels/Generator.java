@@ -779,14 +779,18 @@ public class Generator {
             Room room = placedRooms.get(i);
             for (int x = 0; x < room.w; x++) {
                 for (int y = 0; y < room.h; y++) {
-                    String tile = room.tiles[x][y];
-                    tiles[x + room.x][y + room.y] = tile;
-                    if (i > 0 && i < placedRooms.size() - 1) {
-                        //General room (not spawn or boss room)
-                        generalRegions.add(new PVector(x + room.x, y + room.y));
-                    } else if (i == placedRooms.size() - 1) {
-                        //Boss room
-                        bossRegions.add(new PVector(x + room.x, y + room.y));
+                    try {
+                        String tile = room.tiles[x][y];
+                        tiles[x + room.x][y + room.y] = tile;
+                        if (i > 0 && i < placedRooms.size() - 1) {
+                            //General room (not spawn or boss room)
+                            generalRegions.add(new PVector(x + room.x, y + room.y));
+                        } else if (i == placedRooms.size() - 1) {
+                            //Boss room
+                            bossRegions.add(new PVector(x + room.x, y + room.y));
+                        }
+                    } catch(Exception e) {
+                        game.println(x, room.x, y, room.y);
                     }
                 }
             }
