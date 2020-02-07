@@ -16,7 +16,7 @@ import static Utility.Constants.*;
 
 public abstract class StaticEnemy extends Enemy {
 
-    AnimatedSprite sprites;
+    protected AnimatedSprite sprites;
 
     public boolean interactWithBullets;
 

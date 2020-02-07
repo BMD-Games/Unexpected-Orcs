@@ -182,8 +182,17 @@ public class Sprites {
         dropSprites.put("PORTAL_BLOOD3", getSprite(dropsheet, 8, 6, 2, 2, dropSize));
         dropSprites.put("PORTAL_BLOOD_ACTIVE", getSprite(dropsheet, 8, 8, 2, 2, dropSize));
 
-        dropSprites.put("MONEY_BAG_CLOSED", getSprite(dropsheet, 19, 3, 1, 1, dropSize));
-        dropSprites.put("MONEY_BAG_OPEN", getSprite(dropsheet, 19, 4, 1, 1, dropSize));
+        dropSprites.put("BARREL", getSprite(dropsheet, 18, 0, 1, 1, dropSize));
+        dropSprites.put("BARREL_OPEN", getSprite(dropsheet, 19, 0, 1, 1, dropSize));
+
+        dropSprites.put("CRATE", getSprite(dropsheet, 18, 1, 1, 1, dropSize));
+        dropSprites.put("CRATE_OPEN", getSprite(dropsheet, 19, 1, 1, 1, dropSize));
+
+        dropSprites.put("POT", getSprite(dropsheet, 18, 2, 1, 1, dropSize));
+        dropSprites.put("POT_OPEN", getSprite(dropsheet, 19, 2, 1, 1, dropSize));
+
+        dropSprites.put("MONEY_BAG_CLOSED", getSprite(dropsheet, 18, 3, 1, 1, dropSize));
+        dropSprites.put("MONEY_BAG_OPEN", getSprite(dropsheet, 19, 3, 1, 1, dropSize));
 
         //-----GUI SPRITES----
         PImage sheet = game.loadImage("/assets/sprites/spritesheet.png");

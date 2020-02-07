@@ -1,7 +1,7 @@
 package Levels.Dungeons;
 
 import Enemies.Chomps.Chomp;
-import Enemies.MoneyBag;
+import Enemies.Static.MoneyBag;
 import Enemies.StandardEnemy;
 import Entities.Drops.Chest;
 import Entities.Drops.Portals.CavePortal;

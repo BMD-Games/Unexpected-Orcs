@@ -1,6 +1,6 @@
 package Levels;
 
-import Enemies.MoneyBag;
+import Enemies.Static.MoneyBag;
 import Entities.Drops.Chest;
 import Sprites.TileSet;
 import Tiles.Tile;
@@ -224,6 +224,8 @@ public class Generator {
         //Add monsters in random points of the region
         //level.addEnemies();
 
+
+        game.println("Treasure Room Generated!");
 
         PVector tile = region.get((int)game.random(region.size()));
 

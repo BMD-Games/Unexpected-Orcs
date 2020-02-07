@@ -1,5 +1,6 @@
-package Enemies;
+package Enemies.Static;
 
+import Enemies.StaticEnemy;
 import Entities.Drops.StatOrb;
 import Sound.SoundManager;
 import Sprites.AnimatedSprite;
@@ -19,7 +20,7 @@ public class MoneyBag extends StaticEnemy implements CircleObject {
     private boolean opened = false;
 
     public MoneyBag(float x, float y) {
-        super(x, y, new AnimatedSprite(dropSprites.get("MONEY_BAG_CLOSED"), dropSprites.get("MONEY_BAG_OPEN")), true);
+        super(x, y, new AnimatedSprite(dropSprites.get("POT"), dropSprites.get("POT_OPEN")), true);
     }
 
 

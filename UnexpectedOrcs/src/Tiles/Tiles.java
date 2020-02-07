@@ -117,7 +117,6 @@ public class Tiles {
                 int spriteH = sprite.getInt("spriteH", 1);
 
                 Sprites.tileSprites.put(name, Sprites.getSprite(tilesheet, spriteX, spriteY, spriteW, spriteH, spriteScale));
-                Sprites.tileSprites.get(name).save("/out/level/tileloading/" + name + ".png");
 
             } catch(Exception e) {
                 System.out.println(String.format("Error loading tile data for sprite: '%s'", name));
