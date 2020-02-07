@@ -3,6 +3,7 @@ package Levels.Dungeons;
 import Enemies.Chomps.BigChomp;
 import Enemies.Chomps.BossChomp;
 import Enemies.Chomps.Chomp;
+import Enemies.CreepyCrawlies.Slugite;
 import Enemies.Elementals.FireElemental;
 import Enemies.Elementals.IceElemental;
 import Enemies.Elementals.MagicElemental;
@@ -34,6 +35,11 @@ public class GrassDungeon  extends Level {
         StandardEnemy enemy;
         for(int i = 0; i < 12; i ++) {
             enemy = new FireElemental(game.random(w), game.random(h), 1);
+            validSpawn(enemy);
+            addEnemy(enemy);
+        }
+        for(int i = 0; i < 30; i ++) {
+            enemy = new Slugite(game.random(w), game.random(h), 1);
             validSpawn(enemy);
             addEnemy(enemy);
         }

@@ -10,12 +10,12 @@ import processing.core.PImage;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class Crawler extends MeleeEnemy implements RectangleObject {
+public class Slugite extends MeleeEnemy implements RectangleObject {
 
-    private float w = 0.44f, h = 0.5f;
+    private float w = 0.5f, h = 0.5f;
 
-    public Crawler(float x, float y, int tier) {
-        super(x, y, tier, charSprites.get("CRAWLER_LEFT"));
+    public Slugite(float x, float y, int tier) {
+        super(x, y, tier, charSprites.get("SLUGITE_LONG"));
         stats.speed = 1.2f + 0.2f * tier;
         stats.attack = 8 + 12 * tier;
         stats.defence = 4 * tier;
@@ -23,7 +23,7 @@ public class Crawler extends MeleeEnemy implements RectangleObject {
         stats.healthMax = (int)stats.health;
         stats.vitality = 2;
         attackWaitTime = 0.5f;
-        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("CRAWLER_LEFT"), charSprites.get("CRAWLER_RIGHT")}, 0.2f);
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("SLUGITE_SHORT"), charSprites.get("SLUGITE_MEDIUM"), charSprites.get("SLUGITE_LONG"), charSprites.get("SLUGITE_MEDIUM")}, 0.2f);
     }
 
     public float getWidth() {

@@ -260,6 +260,9 @@ public class Sprites {
         charSprites.put("ROSE_LONG", getSprite(charsheet, 7, 1, 1, 1, charSize));
         charSprites.put("DAISY_SHORT", getSprite(charsheet, 8, 0, 1, 1, charSize));
         charSprites.put("DAISY_LONG", getSprite(charsheet, 9, 0, 1, 1, charSize));
+        charSprites.put("SLUGITE_LONG", getSprite(charsheet, 10, 5, 2, 1, charSize));
+        charSprites.put("SLUGITE_SHORT", getSprite(charsheet, 12, 5, 2, 1, charSize));
+        charSprites.put("SLUGITE_MEDIUM", getSprite(charsheet, 14, 5, 2, 1, charSize));
 
         //Load cave mobs
         charSprites.put("SPIDER", getSprite(charsheet, 6, 2, 1, 1, charSize));
