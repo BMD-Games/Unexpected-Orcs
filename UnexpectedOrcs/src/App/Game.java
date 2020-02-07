@@ -7,9 +7,12 @@ import GUI.Screens.LoadScreen;
 import GUI.Screens.LoadingScreen;
 import GUI.Screens.NewGameScreen;
 import GUI.Screens.OptionsScreen;
+import Levels.Dungeons.Cave;
+import Levels.Level;
 import Settings.Settings;
 import Sound.SoundManager;
 import Sprites.Sprites;
+import Tiles.Tiles;
 import Utility.Constants;
 import Utility.Util;
 import processing.core.PApplet;
@@ -27,8 +30,6 @@ import static Settings.Settings.*;
 import static Utility.Constants.*;
 
 public class Game extends PApplet{
-
-    // HashMap<String, SoundFile> soundFiles;
 
 
     public String STATE;
@@ -76,21 +77,29 @@ public class Game extends PApplet{
     public void draw() {
         updateMouse();
 
-        if(STATE.equals( "PLAYING")) {
+        if(STATE.equals("TEST")) {
+            for(int i = 0; i < 10; i ++) {
+                println("Test " + i);
+                Level level = new Cave();
+                level.setName("CaveTest" + i);
+                level.saveLevel();
+            }
+        }
+
+        if(STATE.equals("PLAYING")) {
             engine.update();
             engine.show();
             if(drawDebug) {
                 image(debugScreen, 0, 0);
-                if(frameCount % 30 == 0) debugScreen.save("out/level/debug.jpg");
                 debugScreen.beginDraw();
                 debugScreen.clear();
                 debugScreen.endDraw();
             }
-        } else if (STATE.equals( "PAUSED")) {
+        } else if (STATE.equals("PAUSED")) {
             engine.show();
         }
 
-        if(STATE.equals( "LOADING")) {
+        if(STATE.equals("LOADING")) {
             LoadingScreen.show(g);
         } else {
             gui.show();
@@ -106,28 +115,29 @@ public class Game extends PApplet{
         if(STATE.equals("PLAYING")){
             miniMapZoom -= e.getCount();
             miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
-        } else if(STATE.equals( "LOAD")) {
-            LoadScreen.loadScroll.changeScrollPosition(e.getCount());
-        } else if(STATE.equals( "OPTIONS")) {
-            OptionsScreen.settingsScroll.changeScrollPosition(e.getCount());
+        } else if(STATE.equals("LOAD")) {
+            LoadScreen.loadScroll.changeScrollPosition(e.getCount() * 20);
+        } else if(STATE.equals("OPTIONS")) {
+            OptionsScreen.settingsScroll.changeScrollPosition(e.getCount() * 20);
         }
     }
 
     public void keyPressed() {
         if (remapNextKey) remapKey(remapAction, keyCode);
+        if(gui.keyInput) { gui.handleKeyInput(key); return; }
+        if(key == '`') {
+            drawDebug = !drawDebug;
+            String state = "disabled";
+            if(drawDebug) state = "enabled";
+            engine.addText("Debug " + state, engine.player.x - 1, engine.player.y, 1f, 255);
+            return;
+        }
         if (keyCode == UP_KEY) keys[up] = 1;
         if (keyCode == LEFT_KEY) keys[left] = 1;
         if (keyCode == DOWN_KEY) keys[down] = 1;
         if (keyCode == RIGHT_KEY) keys[right] = 1;
         if (keyCode == ABILITY_KEY) keys[ability] = 1;
         if (keyCode == INTERACT_KEY) keys[interact] = 1;
-        if(characterNaming) NewGameScreen.keyPressed(key);
-        if(key == '`') {
-            drawDebug = !drawDebug;
-            String state = "disabled";
-            if(drawDebug) state = "enabled";
-            engine.addText("Debug " + state, engine.player.x - 1, engine.player.y, 1f, 255);
-        }
     }
 
     public void keyReleased() {
@@ -188,8 +198,8 @@ public class Game extends PApplet{
 
         loadPercentage = 2/7f;
         loadMessage = "Loading Assets";
-        Sprites.loadAssets(this);
-
+        Sprites.loadAssets();
+        Tiles.loadTileJSON("/assets/data/tiles.json");
 
         loadPercentage = 3/7f;
         loadMessage = "Generating level";

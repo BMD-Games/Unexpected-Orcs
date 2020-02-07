@@ -3,7 +3,7 @@ package Levels;
 import Enemies.CreepyCrawlies.Bat;
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
-import Entities.Drops.Blood;
+import Enemies.StaticEnemy;
 import Sprites.Sprites;
 import Sprites.TileSet;
 import Tiles.Tile;
@@ -14,16 +14,13 @@ import processing.core.PImage;
 import processing.core.PVector;
 import processing.opengl.PGraphicsOpenGL;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.PriorityQueue;
 
+import static Tiles.Tiles.*;
 import static Sprites.Sprites.generatedMasks;
 import static Sprites.Sprites.tileSprites;
-import static Tiles.Tiles.WALL;
-import static Tiles.Tiles.WALL_TILE;
 import static Utility.Constants.*;
 
 public class Level {
@@ -85,7 +82,7 @@ public class Level {
         pg.background(0, 0);
         for (int i = 0; i < w; i ++) {
             for (int j = 0; j < h; j ++) {
-                Tile tile = tileset.wall;
+                Tile tile = Tiles.get(tileset.wall);
                 try {
                     tile = tiles[i][j];
                 }
@@ -122,11 +119,13 @@ public class Level {
             for (int y = 0; y < renderH; y ++) {
                 int i = (x + xTileOffset) - buffer;
                 int j = (y + yTileOffset) - buffer;
-                Tile tile = tileset.wall;
+                Tile tile;
                 try {
                     tile = tiles[i][j];
                 }
-                catch(Exception e) {continue;}
+                catch(Exception e) {
+                    tile = Tiles.get(tileset.wall);
+                }
                 if(tile.visited) {
                     PImage sprite = Sprites.generatedMasks.get(tile.sprite);
                     if(sprite != null) {
@@ -330,7 +329,7 @@ public class Level {
         for (int i = 0; i < dist; i ++) {
             int tX = (int)game.map(i, 0, dist, x1, x2);
             int tY = (int)game.map(i, 0, dist, y1, y2);
-            Tile tile = WALL_TILE;
+            Tile tile = Tiles.get("WALL");
             try {
                 tile = tiles[tX][tY];
             }
@@ -347,7 +346,7 @@ public class Level {
             int tX = (int)game.map(i, 0, dist, x1, x2);
             int tY = (int)game.map(i, 0, dist, y1, y2);
 
-            Tile tile = WALL_TILE;
+            Tile tile = Tiles.get("WALL");
             try {
                 tile = tiles[tX][tY];
             }
@@ -374,14 +373,30 @@ public class Level {
     private void initialiseChunks() {
         CHUNK_W = game.ceil(w/(float)CHUNK_SIZE);
         CHUNK_H = game.ceil(h/(float)CHUNK_SIZE);
+
+        ArrayList<Enemy> enemyList = null;
+        if(enemies != null) {
+             enemyList = new ArrayList<>();
+
+            for (ArrayList<Enemy> chunk : enemies) {
+                enemyList.addAll(chunk);
+            }
+        }
         enemies = new ArrayList[CHUNK_W * CHUNK_H];
         for(int i = 0; i < enemies.length; i ++) {
             enemies[i] = new ArrayList<Enemy>();
         }
+        if(enemyList != null) {
+            for (Enemy e : enemyList) {
+                addEnemy(e);
+            }
+        }
     }
 
-    public void addEnemy(StandardEnemy enemy) {
+    public void addEnemy(Enemy enemy) {
         int chunk = getChunk((int)enemy.x, (int)enemy.y);
+
+
         if(chunk == -1) return;
         if(enemies[chunk] == null) enemies[chunk] = new ArrayList<Enemy>();
         enemies[chunk].add(enemy);
@@ -466,7 +481,7 @@ public class Level {
     }
 
     public Tile getTile(int i, int j) {
-        Tile tile = WALL_TILE;
+        Tile tile = Tiles.get("WALL");
         try { tile = tiles[i][j]; } catch(Exception e) {}
         return tile;
     }

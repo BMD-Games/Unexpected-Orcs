@@ -20,4 +20,6 @@ public class GUIScreen {
         screen.image(game.title, 0, 0, game.width, game.height);
     }
 
+    public static void handleKeyInput(char key) {}
+
 }

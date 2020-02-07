@@ -33,7 +33,7 @@ public class Bitmask {
                 done.pixels[i + i * 16] = game.color(0, 255, 0);
             }
             done.updatePixels();
-            game.println(tile.sprite, tile.groupID);
+            game.println("TWAT", tile.sprite, tile.groupID);
 
         }
         return done;

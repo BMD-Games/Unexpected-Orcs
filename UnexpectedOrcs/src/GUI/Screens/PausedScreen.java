@@ -2,10 +2,14 @@ package GUI.Screens;
 
 import File.GameFile;
 import GUI.Button;
+import Utility.Util;
 import processing.core.PGraphics;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
+import static GUI.WrappedText.wrapText;
 import static Utility.Constants.*;
-import static Utility.Constants.game;
 
 public class PausedScreen extends GUIScreen {
 
@@ -24,6 +28,20 @@ public class PausedScreen extends GUIScreen {
         menu.show(screen);
         options.show(screen);
         play.show(screen);
+
+        screen.fill(255);
+        screen.textAlign(game.CENTER, game.CENTER);
+        if(engine.player.stats.getSeed() != null) {
+            screen.text("SEED: " + engine.player.stats.getSeed(), game.width/2, game.height - TILE_SIZE);
+
+            float width = game.textWidth("SEED: " + engine.player.stats.getSeed());
+            if(Util.pointInBox(game.mouseX, game.mouseY, game.width/2 - width/2, game.height - TILE_SIZE, width, TILE_SIZE/4)) {
+                gui.drawMouseOverText(game.mouseX, game.mouseY, wrapText("Click to copy seed", TILE_SIZE * 3.2f, TILE_SIZE/2));
+            }
+        }
+
+
+
         screen.endDraw();
         game.image(screen, 0, 0);
     }
@@ -36,10 +54,16 @@ public class PausedScreen extends GUIScreen {
             game.setState("OPTIONS");
         } else if (load.pressed()) {
             game.setState("LOAD");
-        } else if (menu.pressed()) {
+        } else if(menu.pressed()) {
             game.setState("MENU");
             GameFile.saveGame();
             engine.initiateDrops();
+        } else if(engine.player.stats.getSeed() != null && Util.pointInBox(game.mouseX, game.mouseY, game.width/2 - game.textWidth("SEED: " + engine.player.stats.getSeed())/2,
+                game.height - TILE_SIZE, game.textWidth("SEED: " + engine.player.stats.getSeed()), TILE_SIZE/4)) {
+            //copy the seed to the clipboard
+            StringSelection selection = new StringSelection(String.valueOf(engine.player.stats.getSeed()));
+            Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clip.setContents(selection, selection);
         }
     }
 

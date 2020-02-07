@@ -277,7 +277,7 @@ public class Engine {
         ArrayList<Integer> chunks = currentLevel.getChunks((int)player.x, (int)player.y);
         for (int i = 0; i < chunks.size(); i ++) {
             for (int j = currentLevel.enemies[chunks.get(i)].size() - 1; j >= 0; j --) {
-                StandardEnemy enemy = (StandardEnemy)currentLevel.enemies[chunks.get(i)].get(j);
+                Enemy enemy = currentLevel.enemies[chunks.get(i)].get(j);
                 if (!enemy.update(delta)) { //if update function returns false, the enemy is dead
                     enemy.onDeath();
                     currentLevel.enemies[chunks.get(i)].remove(j); //remove enemy
@@ -348,8 +348,8 @@ public class Engine {
     }
 
 
-    public void addText(String cooldown, float xp, float yp, float life, int c) {
-        text.add(new Text(cooldown, xp, yp, life, c));
+    public void addText(String str, float xp, float yp, float life, int c) {
+        text.add(new Text(str, xp, yp, life, c));
     }
 
     public Item[] getClosestBagItems() {

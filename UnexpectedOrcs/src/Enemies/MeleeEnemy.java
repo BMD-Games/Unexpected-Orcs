@@ -11,7 +11,7 @@ import processing.core.PVector;
 
 import static Utility.Constants.*;
 
-public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
+public abstract class MeleeEnemy extends StandardEnemy {
 
     protected float attackWaitTime = 0.8f;
 

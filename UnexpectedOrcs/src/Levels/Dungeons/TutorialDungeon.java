@@ -1,29 +1,17 @@
 package Levels.Dungeons;
 
-import Enemies.Chomps.BigChomp;
-import Enemies.Chomps.BossChomp;
 import Enemies.Chomps.Chomp;
-import Enemies.Elementals.FireElemental;
-import Enemies.Elementals.IceElemental;
-import Enemies.Elementals.MagicElemental;
-import Enemies.Elementals.PoisonElemental;
-import Enemies.Plants.Daisy;
-import Enemies.Plants.Rose;
+import Enemies.Static.MoneyBag;
 import Enemies.StandardEnemy;
 import Entities.Drops.Chest;
-import Entities.Drops.Portals.BloodPortal;
 import Entities.Drops.Portals.CavePortal;
-import Entities.Drops.Portals.DesertPortal;
 import Levels.Generator;
 import Levels.Level;
 import Sprites.TileSet;
-import Tiles.FloorTile;
-import Tiles.Tile;
 import processing.core.PVector;
 
-import static Tiles.Tiles.STONE_BRICK;
-import static Tiles.Tiles.WOOD;
-import static Utility.Constants.*;
+import static Utility.Constants.engine;
+import static Utility.Constants.game;
 
 public class TutorialDungeon  extends Level {
 
@@ -33,32 +21,41 @@ public class TutorialDungeon  extends Level {
     public TutorialDungeon() {
         super(15, 50, "DungeonTutorial", TileSet.cellarTileSet());
 
-        this.setTiles(Generator.finishingPass(new Tile[][]{
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, WOOD, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK},
-                {STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK, STONE_BRICK}
+        this.setTiles(Generator.finishingPass(new String[][] {
+                {"STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK"},
+                {"STONE_BRICK","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","STONE_BRICK"},
+                {"STONE_BRICK","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","STONE_BRICK"},
+                {"STONE_BRICK","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","STONE_BRICK"},
+                {"STONE_BRICK","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","STONE_BRICK"},
+                {"STONE_BRICK","SAND_TILE","SAND_CACTUS","SAND","SAND","SAND_TILE","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","SAND_TILE","SAND_TILE","GRASS","GRASS","SAND_TILE","GRASS","MUSHROOM_GRASS","SAND_TILE","STONE_BRICK"},
+                {"STONE_BRICK","SAND_TILE","SAND","SAND","SAND_ROCK","SAND_TILE","STONE_BRICK","BROKEN_WOOD","WOOD","WOOD","STONE_BRICK","SAND_TILE","SAND_TILE","GRASS","GRASS_TUFT","SAND_TILE","GRASS","GRASS","SAND_TILE","STONE_BRICK"},
+                {"STONE_BRICK","SAND_TILE","SAND","SAND","SAND","SAND_TILE","STONE_BRICK","WOOD","LONG_WOOD","WOOD","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","STONE_BRICK"},
+                {"STONE_BRICK","SAND_TILE","SAND","SAND","SAND_CACTUS","SAND_TILE","STONE_BRICK","WOOD","BROKEN_WOOD","WOOD","STONE_BRICK","SAND_TILE","SAND_TILE","GRASS_TUFT","GRASS","SAND_TILE","GRASS","GRASS","SAND_TILE","STONE_BRICK"},
+                {"STONE_BRICK","SAND_TILE","SAND_ROCK","SAND","SAND","SAND_TILE","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","SAND_TILE","SAND_TILE","GRASS_LEAF","GRASS","SAND_TILE","GRASS","GRASS_TUFT","SAND_TILE","STONE_BRICK"},
+                {"STONE_BRICK","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","SAND_TILE","STONE_BRICK"},
+                {"STONE_BRICK","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","STONE_BRICK"},
+                {"STONE_BRICK","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","STONE_BRICK"},
+                {"STONE_BRICK","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","HEDGE","STONE_BRICK"},
+                {"STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK","STONE_BRICK"}
         }, TileSet.cellarTileSet()));
 
-        start = new PVector(3,7);
+        start = new PVector(7.5f,15.5f);
         generateEnemies();
 
-        engine.addDrop(new Chest(6, 7));
+        engine.addDrop(new Chest(7.5f, 10.5f));
     }
 
     void generateEnemies() {
-        engine.addDrop(new DesertPortal(9, 7));
+        engine.addDrop(new CavePortal(7.5f, 8.5f));
 
-        addEnemy(new Chomp(9, 7, 1));
+        addEnemy(new Chomp(7.5f, 9.5f, 1));
+
+
+        addEnemy(new MoneyBag(5.5f, 12.5f));
+        addEnemy(new MoneyBag(6.5f, 12.5f));
+        addEnemy(new MoneyBag(7.5f, 12.5f));
+        addEnemy(new MoneyBag(8.5f, 12.5f));
+        addEnemy(new MoneyBag(9.5f, 12.5f));
     }
 
     protected void validSpawn(StandardEnemy enemy) {

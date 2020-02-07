@@ -11,7 +11,7 @@ import processing.core.PImage;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class Rose extends RangedEnemy implements Enemy, RectangleObject {
+public class Rose extends RangedEnemy implements  RectangleObject {
 
     private float w = 0.5f, h = 0.5f;
 

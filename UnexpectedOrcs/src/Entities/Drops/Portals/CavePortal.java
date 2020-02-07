@@ -19,6 +19,7 @@ public class CavePortal extends Portal {
 
     @Override
     public Level getLevel() {
+        super.getLevel();
         return new Cave();
     }
 }

@@ -5,6 +5,7 @@ import GUI.WrappedText;
 import Items.Abilities.*;
 import Items.Scrolls.DebuffScroll;
 import Items.Weapons.GreenRod;
+import Sound.SoundManager;
 import Utility.Util;
 import processing.core.PGraphics;
 
@@ -41,7 +42,7 @@ public class Inventory implements Serializable {
 
     public Inventory() {
         active[0] = new GreenRod();
-        active[1] = new SwiftBoots();
+        active[1] = new Teleport();
         active[2] = new Armour("LEATHER_ARMOUR", "Plain Leather Armour", 5);
         active[3] = new DebuffScroll(new String[]{"SLOWED"});
 
@@ -49,7 +50,7 @@ public class Inventory implements Serializable {
         inv[1] = new FireBomb();
         inv[2] = new SpellBomb();
         inv[3] = new Telescope();
-        inv[4] = new Teleport();
+        inv[4] = new SwiftBoots();
         inv[5] = new Knockback();
     }
 
@@ -148,6 +149,7 @@ public class Inventory implements Serializable {
                 }
             }
             if (!currSelection && prevSelection && (b1 != -1)) {
+                SoundManager.playSound("INVENTORY");
                 b2 = itemOver;
                 b2Type = menuType;
                 if (b1Type == ACTIVE && b2Type == INV) { //----INV/ACTIVE

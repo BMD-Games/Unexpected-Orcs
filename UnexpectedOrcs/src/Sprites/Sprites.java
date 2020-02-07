@@ -8,6 +8,7 @@ import Tiles.Tiles;
 import java.util.HashMap;
 
 import static Utility.Constants.SPRITE_SIZE;
+import static Utility.Constants.game;
 
 public class Sprites {
     public static HashMap<String, PImage> tileSprites;
@@ -22,7 +23,7 @@ public class Sprites {
     public static HashMap<Integer, PImage> mask;
     public static HashMap<String, PImage> generatedMasks;
 
-    public static void loadAssets(PApplet app) {
+    public static void loadAssets() {
         
         tileSprites = new HashMap<String, PImage>();
         itemSprites = new HashMap<String, PImage>();
@@ -38,94 +39,8 @@ public class Sprites {
 
         Bitmask.init();
 
-        //-----TILE SPRITES-----
-        PImage tilesheet = app.loadImage("/assets/sprites/tilesheet.png");
-
-        //--Mask--
-        //---Image Masks---
-        mask.put(255, getSprite(tilesheet, 0, 25, 1, 1, SPRITE_SIZE));
-        mask.put(0, getSprite(tilesheet, 1, 25, 1, 1, SPRITE_SIZE));
-        mask.put(2, getSprite(tilesheet, 2, 25, 1, 1, SPRITE_SIZE));
-        mask.put(22, getSprite(tilesheet, 3, 25, 1, 1, SPRITE_SIZE));
-        mask.put(214, getSprite(tilesheet, 4, 25, 1, 1, SPRITE_SIZE));
-        mask.put(66, getSprite(tilesheet, 5, 25, 1, 1, SPRITE_SIZE));
-        mask.put(18, getSprite(tilesheet, 6, 25, 1, 1, SPRITE_SIZE));
-        mask.put(210, getSprite(tilesheet, 7, 25, 1, 1, SPRITE_SIZE));
-        mask.put(86, getSprite(tilesheet, 8, 25, 1, 1, SPRITE_SIZE));
-        mask.put(82, getSprite(tilesheet, 9, 25, 1, 1, SPRITE_SIZE));
-        mask.put(91, getSprite(tilesheet, 10, 25, 1, 1, SPRITE_SIZE));
-        mask.put(90, getSprite(tilesheet, 11, 25, 1, 1, SPRITE_SIZE));
-        mask.put(219, getSprite(tilesheet, 12, 25, 1, 1, SPRITE_SIZE));
-        mask.put(123, getSprite(tilesheet, 13, 25, 1, 1, SPRITE_SIZE));
-        mask.put(251, getSprite(tilesheet, 14, 25, 1, 1, SPRITE_SIZE));
-
-        //--Walls--
-        tileSprites.put("WALL", getSprite(tilesheet, 0, 31, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.testWallGroup, getSprite(tilesheet, 6, 0, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("STONE_BRICK_BOTTOM", getSprite(tilesheet, 0, 30, 1, 1, SPRITE_SIZE));
-        tileSprites.put("STONE_BRICK", getSprite(tilesheet, 1, 30, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.stoneBrickGroup, getSprite(tilesheet, 3, 30, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("ROCK_BOTTOM", getSprite(tilesheet, 0, 29, 1, 1, SPRITE_SIZE));
-        tileSprites.put("ROCK", getSprite(tilesheet, 1, 29, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.rockGroup, getSprite(tilesheet, 3, 29, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("HEDGE_BOTTOM", getSprite(tilesheet, 0, 28, 1, 1, SPRITE_SIZE));
-        tileSprites.put("HEDGE", getSprite(tilesheet, 1, 28, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.hedgeGroup, getSprite(tilesheet, 3, 28, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("SANDSTONE_BOTTOM", getSprite(tilesheet, 0, 27, 1, 1, SPRITE_SIZE));
-        tileSprites.put("SANDSTONE", getSprite(tilesheet, 1, 27, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.sandStoneGroup, getSprite(tilesheet, 3, 27, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("BLOOD_SPONGE_BOTTOM", getSprite(tilesheet, 0, 26, 1, 1, SPRITE_SIZE));
-        tileSprites.put("BLOOD_SPONGE", getSprite(tilesheet, 1, 26, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.bloodSpongeGroup, getSprite(tilesheet, 3, 26, 1, 1, SPRITE_SIZE));
-
-        //--Floor--
-        tileSprites.put("FLOOR", getSprite(tilesheet, 1, 31, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.testFloorGroup, getSprite(tilesheet, 6, 0, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("WOOD", getSprite(tilesheet, 0, 1, 1, 1, SPRITE_SIZE));
-        tileSprites.put("STAR_WOOD", getSprite(tilesheet, 1, 1, 1, 1, SPRITE_SIZE));
-        tileSprites.put("BROKEN_WOOD",  getSprite(tilesheet, 2, 1, 1, 1, SPRITE_SIZE));
-        tileSprites.put("LONG_WOOD", getSprite(tilesheet, 3, 1, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.woodGroup, getSprite(tilesheet, 6, 1, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("STONE", getSprite(tilesheet, 0, 2, 1, 1, SPRITE_SIZE));
-        tileSprites.put("X_STONE", getSprite(tilesheet, 1, 2, 1, 1, SPRITE_SIZE));
-        tileSprites.put("RUBBLE_STONE",  getSprite(tilesheet, 2, 2, 1, 1, SPRITE_SIZE));
-        tileSprites.put("SKULL_STONE", getSprite(tilesheet, 3, 2, 1, 1, SPRITE_SIZE));
-        tileSprites.put("COBBLE", getSprite(tilesheet, 4, 2, 1, 1, SPRITE_SIZE));
-        tileSprites.put("STONE_TILE", getSprite(tilesheet, 5, 2, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.stoneGroup, getSprite(tilesheet, 6, 2, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.cobbleGroup, getSprite(tilesheet, 6, 2, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.stoneTileGroup, getSprite(tilesheet, 6, 2, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("GRASS", getSprite(tilesheet, 0, 3, 1, 1, SPRITE_SIZE));
-        tileSprites.put("PATCH_GRASS", getSprite(tilesheet, 1, 3, 1, 1, SPRITE_SIZE));
-        tileSprites.put("MUSHROOM_GRASS",  getSprite(tilesheet, 2, 3, 1, 1, SPRITE_SIZE));
-        tileSprites.put("GRASS_TUFT", getSprite(tilesheet, 3, 3, 1, 1, SPRITE_SIZE));
-        tileSprites.put("GRASS_LEAF", getSprite(tilesheet, 4, 3, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.grassGroup, getSprite(tilesheet, 6, 3, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("SAND", getSprite(tilesheet, 0, 4, 1, 1, SPRITE_SIZE));
-        tileSprites.put("SAND_ROCK", getSprite(tilesheet, 1, 4, 1, 1, SPRITE_SIZE));
-        tileSprites.put("SAND_CACTUS",  getSprite(tilesheet, 2, 4, 1, 1, SPRITE_SIZE));
-        tileSprites.put("SAND_TILE",  getSprite(tilesheet, 3, 4, 1, 1, SPRITE_SIZE));
-        tileSprites.put("COMPACT_SAND",  getSprite(tilesheet, 4, 4, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.sandGroup, getSprite(tilesheet, 6, 4, 1, 1, SPRITE_SIZE));
-
-        tileSprites.put("BLOOD", getSprite(tilesheet, 0, 5, 1, 1, SPRITE_SIZE));
-        tileSprites.put("BLOOD_SHINE", getSprite(tilesheet, 1, 5, 1, 1, SPRITE_SIZE));
-        tileSprites.put("BLOOD_EYE", getSprite(tilesheet, 2, 5, 1, 1, SPRITE_SIZE));
-        tileSprites.put(Tiles.bloodGroup, getSprite(tilesheet, 6, 5, 1, 1, SPRITE_SIZE));
-
-
-
         //-----ITEM SPRITES-----
-        PImage itemsheet = app.loadImage("/assets/sprites/itemsheet.png");
+        PImage itemsheet = game.loadImage("/assets/sprites/itemsheet.png");
         int itemSize = 16;
 
         //Stats
@@ -150,6 +65,11 @@ public class Sprites {
         itemSprites.put("STAFF_TIP", getSprite(itemsheet, 5, 2, 1, 1, itemSize));
         itemSprites.put("SPEAR_TIP", getSprite(itemsheet, 6, 2, 1, 1, itemSize));
         itemSprites.put("BOW_TIP", getSprite(itemsheet, 7, 2, 1, 1, itemSize));
+        itemSprites.put("SWORD", getSprite(itemsheet, 5, 3, 1, 1, itemSize));
+        itemSprites.put("SWORD_TIP", getSprite(itemsheet, 6, 3, 1, 1, itemSize));
+        itemSprites.put("AXE", getSprite(itemsheet, 5, 4, 1, 1, itemSize));
+        itemSprites.put("AXE_TIP", getSprite(itemsheet, 6, 4, 1, 1, itemSize));
+
 
         itemSprites.put("GREENROD", getSprite(itemsheet, 0, 5, 1, 1, itemSize));
         itemSprites.put("REDROD", getSprite(itemsheet, 1, 5, 1, 1, itemSize));
@@ -176,7 +96,7 @@ public class Sprites {
 
         //-----STAT SPRITES-----
 
-        PImage statusSheet = app.loadImage("/assets/sprites/statussheet.png");
+        PImage statusSheet = game.loadImage("/assets/sprites/statussheet.png");
         int statusSize = 8;
 
         statusSprites.put("SWIFT", getSprite(statusSheet, 0, 0, 1, 1, statusSize));
@@ -196,7 +116,7 @@ public class Sprites {
 
         //-----PLAYER EFFECT SPRITES-----
 
-        PImage playerStatusSheet = app.loadImage("/assets/sprites/playerstatussheet.png");
+        PImage playerStatusSheet = game.loadImage("/assets/sprites/playerstatussheet.png");
         int playerStatusSize = 16;
 
         playerStatusSprites.put("DAMAGING", getSprite(playerStatusSheet, 0, 0, 1, 1, playerStatusSize));
@@ -213,7 +133,7 @@ public class Sprites {
         playerStatusSprites.put("DAZED", getSprite(playerStatusSheet, 5, 1, 1, 1, playerStatusSize));
 
         //-----DROP SPRITES-----
-        PImage dropsheet = app.loadImage("/assets/sprites/dropsheet.png");
+        PImage dropsheet = game.loadImage("/assets/sprites/dropsheet.png");
         int dropSize = 8;
 
         dropSprites.put("BAG_0", getSprite(dropsheet, 0, 0, 1, 1, dropSize));
@@ -262,8 +182,20 @@ public class Sprites {
         dropSprites.put("PORTAL_BLOOD3", getSprite(dropsheet, 8, 6, 2, 2, dropSize));
         dropSprites.put("PORTAL_BLOOD_ACTIVE", getSprite(dropsheet, 8, 8, 2, 2, dropSize));
 
+        dropSprites.put("BARREL", getSprite(dropsheet, 18, 0, 1, 1, dropSize));
+        dropSprites.put("BARREL_OPEN", getSprite(dropsheet, 19, 0, 1, 1, dropSize));
+
+        dropSprites.put("CRATE", getSprite(dropsheet, 18, 1, 1, 1, dropSize));
+        dropSprites.put("CRATE_OPEN", getSprite(dropsheet, 19, 1, 1, 1, dropSize));
+
+        dropSprites.put("POT", getSprite(dropsheet, 18, 2, 1, 1, dropSize));
+        dropSprites.put("POT_OPEN", getSprite(dropsheet, 19, 2, 1, 1, dropSize));
+
+        dropSprites.put("MONEY_BAG_CLOSED", getSprite(dropsheet, 18, 3, 1, 1, dropSize));
+        dropSprites.put("MONEY_BAG_OPEN", getSprite(dropsheet, 19, 3, 1, 1, dropSize));
+
         //-----GUI SPRITES----
-        PImage sheet = app.loadImage("/assets/sprites/spritesheet.png");
+        PImage sheet = game.loadImage("/assets/sprites/spritesheet.png");
         int guiSize = 16;
 
         guiSprites.put("PLAY", getSprite(sheet, 0, 0, 2, 1, guiSize));
@@ -283,10 +215,13 @@ public class Sprites {
         guiSprites.put("BLANK_2x1", getSprite(sheet, 0, 7, 2, 1, guiSize));
         guiSprites.put("BLANK_1x1", getSprite(sheet, 2, 7, 1, 1, guiSize));
         guiSprites.put("QUICK", getSprite(sheet, 3, 1, 2, 1, guiSize));
-        guiSprites.put("YES", getSprite(sheet, 3, 3, 2, 1, guiSize));
+        guiSprites.put("YES", getSprite(sheet, 3, 2, 2, 1, guiSize));
         guiSprites.put("NO", getSprite(sheet, 5, 2, 2, 1, guiSize));
         guiSprites.put("TICK", getSprite(sheet, 7, 2, 1, 1, guiSize));
         guiSprites.put("APPLY", getSprite(sheet, 0, 4, 2, 1, guiSize));
+        guiSprites.put("CREDITS", getSprite(sheet, 2, 4, 2, 1, guiSize));
+        guiSprites.put("GS", getSprite(sheet, 4, 4, 1, 1, guiSize));
+        guiSprites.put("SEED", getSprite(sheet, 5, 4, 2, 1, guiSize));
 
         guiSprites.put("UP", getSprite(sheet, 2, 6, 0.5f, 0.5f, guiSize));
         guiSprites.put("DOWN", getSprite(sheet, 2.5f, 6, 0.5f, 0.5f, guiSize));
@@ -294,7 +229,7 @@ public class Sprites {
         guiSprites.put("RIGHT", getSprite(sheet, 2.5f, 6.5f, 0.5f, 0.5f, guiSize));
 
         //-----CHAR SPRITES-----
-        PImage charsheet = app.loadImage("/assets/sprites/charsheet.png");
+        PImage charsheet = game.loadImage("/assets/sprites/charsheet.png");
         int charSize = 8;
 
         //Load player sprites
@@ -411,7 +346,7 @@ public class Sprites {
         charSprites.put("WOLF_BITING", getSprite(charsheet, 8, 5, 2, 1, charSize));
 
         //-----BULLET SPRITES-----
-        PImage projectilesheet = app.loadImage("/assets/sprites/projectilesheet.png");
+        PImage projectilesheet = game.loadImage("/assets/sprites/projectilesheet.png");
         int projectileSize = 8;
 
         projectileSprites.put("GREENROD", getSprite(projectilesheet, 0, 0, 1, 1, projectileSize));
@@ -428,7 +363,7 @@ public class Sprites {
         projectileSprites.put("THORN", getSprite(projectilesheet, 1, 2, 1, 1, projectileSize));
         projectileSprites.put("STINGER", getSprite(projectilesheet, 2, 2, 1, 1, projectileSize));
 
-        app.cursor(guiSprites.get("CURSOR"));
+        game.cursor(guiSprites.get("CURSOR"));
     }
 
     public static PImage getSprite(PImage image, float x, float y, float w, float h, int spriteSize) {

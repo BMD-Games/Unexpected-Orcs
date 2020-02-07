@@ -32,6 +32,9 @@ public class PlayScreen extends GUIScreen {
 
     private static boolean showingPortal = false;
 
+    private static PImage map, over;
+    private static float pZoomLevel;
+
     public static void show(PGraphics screen) {
         //Draws the GUI during gameplay
 
@@ -86,29 +89,25 @@ public class PlayScreen extends GUIScreen {
         }
         showingPortal = true;
         enterPortal.show(screen);
+        screen.fill(255);
         screen.textAlign(game.CENTER, game.CENTER);
         screen.text("Enter " + portal.name, enterPortal.x, enterPortal.y, enterPortal.w, enterPortal.h);
     }
 
     private static void renderMiniMap(PGraphics screen) {
 
+
         float vw = GUI_WIDTH - (2 * invBuff); //game.width of the view
         float vh = vw * 0.8f;
 
-        int minScale = game.max(game.ceil(vw/engine.currentLevel.w), game.ceil(vh/engine.currentLevel.h));
-        int scale = game.max((int)((vw/engine.currentLevel.w) * miniMapZoom), minScale);
+        int scale = (int) game.map(miniMapZoom, zoomMin, zoomMax, 4, 20);
 
-        int sx = (int)((engine.player.x * scale) - vw/2); //get the x-cord to start
-        int sy = (int)((engine.player.y * scale) - vh/2); //get the y-cord to start
+        int sx = (int) ((engine.player.x * scale) - vw / 2); //get the x-cord to start
+        int sy = (int) ((engine.player.y * scale) - vh / 2); //get the y-cord to start
 
-        //when you get close to the edges - stop centering on the player
-        if (sx < 0) sx = 0;
-        if (sy < 0) sy = 0;
-        if (sx > (engine.currentLevel.w * scale) - vw) sx = (int)((engine.currentLevel.w * scale) - vw);
-        if (sy > (engine.currentLevel.h * scale) - vh) sy = (int)((engine.currentLevel.h * scale) - vh);
-
-        PImage map = Util.scaleImage(engine.currentLevel.getMiniMap().get(), (int)scale);
-        PImage over = Util.scaleImage(engine.currentLevel.getOverlay().get(), (int)scale);
+        map = Util.scaleImage(engine.currentLevel.getMiniMap().get(), (int) scale);
+        over = Util.scaleImage(engine.currentLevel.getOverlay().get(), (int) scale);
+        pZoomLevel = miniMapZoom;
 
         screen.fill(150);
         screen.rect(0, game.height - vh - invBuff * 2, vw + invBuff * 2, vh + invBuff * 2);

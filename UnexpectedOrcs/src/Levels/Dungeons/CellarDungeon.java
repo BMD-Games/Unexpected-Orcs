@@ -21,19 +21,17 @@ public class CellarDungeon  extends Level implements RoomLevel {
      minRadius - minimum distance between rooms
      maxRadius - maximum distance between rooms
      spawnRoom - Preset for the spawn room
-     bossRoom  - Preset for the boss romm
+     bossRoom  - Preset for the boss room
      rooms     - Presets for all other rooms
      ***/
 
     public CellarDungeon() {
         super(60, 45, "Cellar", TileSet.cellarTileSet());
-        Generator.generateConnectedDungeon(this, 20, game.PI/4, 5, 10, Room.testSpawn(), Room.testBoss(), new Room[]{Room.testRoom()});
+        Generator.generateConnectedDungeon(this, 20, game.PI/4, 5, 10, Room.testSpawn(), Room.testBoss(), new Room[]{Room.testRoom1(), Room.testRoom2()});
         generateEnemies();
     }
 
     void generateEnemies() {
-
-        game.println("here");
         //Add enemies to level
         StandardEnemy enemy;
         for(int i = 0; i < 20; i ++) {

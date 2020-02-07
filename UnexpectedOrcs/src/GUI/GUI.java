@@ -14,6 +14,8 @@ public class GUI {
     private PImage title = game.loadImage("/assets/sprites/title.png");
     public PGraphics screen;
 
+    public boolean keyInput = false;
+
     public static int buff = (int)(SCALE * 3/2f); //for mouseOver stuff;
 
     public GUI() {
@@ -54,23 +56,47 @@ public class GUI {
         }
     }
 
+    public void handleKeyInput(char key) {
+        if(game.STATE.equals("MENU")) {
+            MenuScreen.handleKeyInput(key);
+        } else if(game.STATE.equals("OPTIONS")) {
+            OptionsScreen.handleKeyInput(key);
+        } else if(game.STATE.equals("PAUSED")) {
+            PausedScreen.handleKeyInput(key);
+        } else if(game.STATE.equals("PLAYING")) {
+            PlayScreen.handleKeyInput(key);
+        } else if(game.STATE.equals("DEAD")) {
+            DeadScreen.handleKeyInput(key);
+        } else if(game.STATE.equals("LOAD")) {
+            LoadScreen.handleKeyInput(key);
+        } else if(game.STATE.equals("NEWGAME")) {
+            NewGameScreen.handleKeyInput(key);
+        } else if(game.STATE.equals("CREDITS")) {
+            CreditsScreen.handleKeyInput(key);
+        }
+
+        else if(game.STATE.equals("TEST")) {
+            TestScreen.handleMouseReleased();
+        }
+    }
+
     public void handleMouseReleased() {
         //------Main Buttons
-        if (game.STATE.equals( "MENU")) {
+        if(game.STATE.equals("MENU")) {
             MenuScreen.handleMouseReleased();
-        } else if (game.STATE.equals( "OPTIONS")) {
+        } else if(game.STATE.equals("OPTIONS")) {
             OptionsScreen.handleMouseReleased();
-        } else if (game.STATE.equals( "PAUSED")) {
+        } else if(game.STATE.equals("PAUSED")) {
             PausedScreen.handleMouseReleased();
-        } else if (game.STATE.equals( "PLAYING")) {
+        } else if(game.STATE.equals("PLAYING")) {
             PlayScreen.handleMouseReleased();
-        } else if (game.STATE.equals( "DEAD")) {
+        } else if(game.STATE.equals("DEAD")) {
             DeadScreen.handleMouseReleased();
-        } else if (game.STATE.equals( "LOAD")) {
+        } else if(game.STATE.equals("LOAD")) {
            LoadScreen.handleMouseReleased();
-        } else if (game.STATE.equals( "NEWGAME")) {
+        } else if(game.STATE.equals("NEWGAME")) {
             NewGameScreen.handleMouseReleased();
-        } else if (game.STATE.equals("CREDITS")) {
+        } else if(game.STATE.equals("CREDITS")) {
             CreditsScreen.handleMouseReleased();
         }
 
@@ -84,8 +110,8 @@ public class GUI {
 
         int mouseOverSize = TILE_SIZE + buff * 4;
 
-        if (x + mouseOverSize > screen.width) x = screen.width - mouseOverSize;
-        if (y + mouseOverSize > screen.height) y = screen.height - mouseOverSize;
+        if(x + mouseOverSize > screen.width) x = screen.width - mouseOverSize;
+        if(y + mouseOverSize > screen.height) y = screen.height - mouseOverSize;
 
         screen.fill(100);
         screen.rect(x, y, mouseOverSize, mouseOverSize);
@@ -97,12 +123,11 @@ public class GUI {
     }
 
     public void drawMouseOverText(float x, float y, WrappedText title, WrappedText subtitle, WrappedText description) {
-        screen.pushMatrix();
         int mouseOverWidth = 3 * GUI_WIDTH/4;
         int mouseOverHeight = title.textHeight + subtitle.textHeight + description.textHeight + (buff * 5);
 
-        if (x + mouseOverWidth > screen.width) x = screen.width - mouseOverWidth;
-        if (y + mouseOverHeight > screen.height) y = screen.height - mouseOverHeight;
+        if(x + mouseOverWidth > screen.width) x = screen.width - mouseOverWidth;
+        if(y + mouseOverHeight > screen.height) y = screen.height - mouseOverHeight;
 
         screen.textAlign(game.LEFT, game.TOP);
 
@@ -127,16 +152,16 @@ public class GUI {
         screen.textSize(description.textSize);
         screen.textLeading(description.textSize);
         screen.text(description.string, x + buff * 2, (y + mouseOverHeight) - description.textHeight - buff);
-        screen.popMatrix();
+        screen.noStroke();
     }
 
     public void drawMouseOverText(float x, float y, WrappedText description) {
         screen.pushMatrix();
-        int mouseOverWidth = 3 * GUI_WIDTH/4;
+        int mouseOverWidth = description.width != 0 ? (int)description.width : 3 * GUI_WIDTH/4;
         int mouseOverHeight = description.textHeight + (buff * 2);
 
-        if (x + mouseOverWidth > screen.width) x = screen.width - mouseOverWidth;
-        if (y + mouseOverHeight > screen.height) y = screen.height - mouseOverHeight;
+        if(x + mouseOverWidth > screen.width) x = screen.width - mouseOverWidth;
+        if(y + mouseOverHeight > screen.height) y = screen.height - mouseOverHeight;
 
         screen.textAlign(game.LEFT, game.TOP);
 
@@ -164,5 +189,6 @@ public class GUI {
         PausedScreen.refresh();
         PlayScreen.refresh();
         TestScreen.refresh();
+        CreditsScreen.refresh();
     }
 }

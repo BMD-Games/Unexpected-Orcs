@@ -9,7 +9,7 @@ import processing.core.PVector;
 import static Sprites.Sprites.*;
 import static Utility.Constants.*;
 
-public abstract class RangedEnemy extends StandardEnemy implements Enemy {
+public abstract class RangedEnemy extends StandardEnemy {
 
     protected PImage projectileSprite = projectileSprites.get("WAND");
     protected float shotWaitTime = 1;

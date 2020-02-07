@@ -1,32 +1,293 @@
 {
-  "tiles" : [
+  "spritescale": 16,
+  "spritesheet": "/assets/sprites/tilesheet.png",
+  "tiles": [
     {
-      "WALL_TILE" : {
-        "solid" :  true,
-        "sprite" : "WALL",
-        "spriteX" : 0,
-        "spriteY" : 31,
-        "spriteW" : 1,
-        "spriteH" : 1,
-        "spriteScale" : 16,
-        "group" : "testWallGroup"
-      }
+      "name": "WALL",
+      "spriteX": 0,
+      "spriteY": 0,
+      "group": "testWallGroup"
     },
     {
-      "STONE_BRICK" : {
-        "solid" :  true,
-        "sprite" : "STONE_BRICK",
-        "spriteX" : 1,
-        "spriteY" : 30,
-        "spriteW" : 1,
-        "spriteH" : 1,
-        "spriteScale" : 16,
+      "name": "STONE_BRICK",
+      "spriteX": 1,
+      "spriteY": 30,
+      "bottomX": 0,
+      "bottomY": 30,
+      "group": "stoneBrickGroup"
+    },
+    {
+      "name": "ROCK",
+      "spriteX": 1,
+      "spriteY": 29,
+      "bottomX": 0,
+      "bottomY": 29,
+      "group": "rockGroup"
+    },
+    {
+      "name": "HEDGE",
+      "spriteX": 1,
+      "spriteY": 28,
+      "bottomX": 4,
+      "bottomY": 28,
+      "group": "hedgeGroup"
+    },
+    {
+      "name": "SANDSTONE",
+      "spriteX": 1,
+      "spriteY": 27,
+      "bottomX": 0,
+      "bottomY": 27,
+      "group": "sandstoneGroup"
+    },
+    {
+      "name": "BLOOD_SPONGE",
+      "spriteX": 1,
+      "spriteY": 26,
+      "bottomX": 0,
+      "bottomY": 26,
+      "group": "stoneBrickGroup"
+    },
 
-        "bottomX" : 0,
-        "bottomY" :
-
-        "group" : "stoneBrickGroup"
-      }
+    {
+      "name": "FLOOR",
+      "solid": false,
+      "spriteX": 1,
+      "spriteY": 0,
+      "group": "testFloorGroup"
+    },
+    {
+      "name": "WOOD",
+      "solid": false,
+      "spriteX": 0,
+      "spriteY": 1,
+      "group": "woodGroup"
+    },
+    {
+      "name": "STAR_WOOD",
+      "solid": false,
+      "spriteX": 1,
+      "spriteY": 1,
+      "group": "woodGroup"
+    },
+    {
+      "name": "BROKEN_WOOD",
+      "solid": false,
+      "spriteX": 2,
+      "spriteY": 1,
+      "group": "woodGroup"
+    },
+    {
+      "name": "LONG_WOOD",
+      "solid": false,
+      "spriteX": 3,
+      "spriteY": 1,
+      "group": "woodGroup"
+    },
+    {
+      "name": "STONE",
+      "solid": false,
+      "spriteX": 0,
+      "spriteY": 2,
+      "group": "stoneGroup"
+    },
+    {
+      "name": "X_STONE",
+      "solid": false,
+      "spriteX": 1,
+      "spriteY": 2,
+      "group": "stoneGroup"
+    },
+    {
+      "name": "RUBBLE_STONE",
+      "solid": false,
+      "spriteX": 2,
+      "spriteY": 2,
+      "group": "stoneGroup"
+    },
+    {
+      "name": "SKULL_STONE",
+      "solid": false,
+      "spriteX": 3,
+      "spriteY": 2,
+      "group": "stoneGroup"
+    },
+    {
+      "name": "COBBLE",
+      "solid": false,
+      "spriteX": 4,
+      "spriteY": 2,
+      "group": "cobbleGroup"
+    },
+    {
+      "name": "STONE_TILE",
+      "solid": false,
+      "spriteX": 5,
+      "spriteY": 2,
+      "group": "stoneTileGroup"
+    },
+    {
+      "name": "GRASS",
+      "solid": false,
+      "spriteX": 0,
+      "spriteY": 3,
+      "group": "grassGroup"
+    },
+    {
+      "name": "PATCH_GRASS",
+      "solid": false,
+      "spriteX": 1,
+      "spriteY": 3,
+      "group": "grassGroup"
+    },
+    {
+      "name": "MUSHROOM_GRASS",
+      "solid": false,
+      "spriteX": 2,
+      "spriteY": 3,
+      "group": "grassGroup"
+    },
+    {
+      "name": "GRASS_TUFT",
+      "solid": false,
+      "spriteX": 3,
+      "spriteY": 3,
+      "group": "grassGroup"
+    },
+    {
+      "name": "GRASS_LEAF",
+      "solid": false,
+      "spriteX": 4,
+      "spriteY": 3,
+      "group": "grassGroup"
+    },
+    {
+      "name": "SAND",
+      "solid": false,
+      "spriteX": 0,
+      "spriteY": 4,
+      "group": "sandGroup"
+    },
+    {
+      "name": "SAND_ROCK",
+      "solid": false,
+      "spriteX": 1,
+      "spriteY": 4,
+      "group": "sandGroup"
+    },
+    {
+      "name": "SAND_CACTUS",
+      "solid": false,
+      "spriteX": 2,
+      "spriteY": 4,
+      "group": "sandGroup"
+    },
+    {
+      "name": "SAND_TILE",
+      "solid": false,
+      "spriteX": 3,
+      "spriteY": 4,
+      "group": "sandGroup"
+    },
+    {
+      "name": "COMPACT_SAND",
+      "solid": false,
+      "spriteX": 4,
+      "spriteY": 4,
+      "group": "sandGroup"
+    },
+    {
+      "name": "BLOOD",
+      "solid": false,
+      "spriteX": 0,
+      "spriteY": 5,
+      "group": "bloodGroup"
+    },
+    {
+      "name": "BLOOD_SHINE",
+      "solid": false,
+      "spriteX": 1,
+      "spriteY": 5,
+      "group": "bloodGroup"
+    },
+    {
+      "name": "BLOOD_EYE",
+      "solid": false,
+      "spriteX": 2,
+      "spriteY": 5,
+      "group": "bloodGroup"
+    }
+  ],
+  "sprites": [
+    {
+      "name": "testWallGroup",
+      "spriteX": 6,
+      "spriteY": 0
+    },
+    {
+      "name": "stoneBrickGroup",
+      "spriteX": 3,
+      "spriteY": 30
+    },
+    {
+      "name": "rockGroup",
+      "spriteX": 3,
+      "spriteY": 29
+    },
+    {
+      "name": "hedgeGroup",
+      "spriteX": 3,
+      "spriteY": 28
+    },
+    {
+      "name": "sandstoneGroup",
+      "spriteX": 3,
+      "spriteY": 27
+    },
+    {
+      "name": "bloodSpongeGroup",
+      "spriteX": 3,
+      "spriteY": 26
+    },
+    {
+      "name": "testFloorGroup",
+      "spriteX": 6,
+      "spriteY": 0
+    },
+    {
+      "name": "woodGroup",
+      "spriteX": 6,
+      "spriteY": 1
+    },
+    {
+      "name": "stoneGroup",
+      "spriteX": 6,
+      "spriteY": 2
+    },
+    {
+      "name": "cobbleGroup",
+      "spriteX": 6,
+      "spriteY": 2
+    },
+    {
+      "name": "stoneTileGroup",
+      "spriteX": 6,
+      "spriteY": 2
+    },
+    {
+      "name": "grassGroup",
+      "spriteX": 6,
+      "spriteY": 3
+    },
+    {
+      "name": "sandGroup",
+      "spriteX": 6,
+      "spriteY": 4
+    },
+    {
+      "name": "bloodGroup",
+      "spriteX": 6,
+      "spriteY": 5
     }
   ]
 }

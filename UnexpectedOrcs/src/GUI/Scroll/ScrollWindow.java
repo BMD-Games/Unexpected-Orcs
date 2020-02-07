@@ -78,11 +78,12 @@ public class ScrollWindow {
         screen.stroke(88);
         screen.strokeWeight(4);
         screen.rect(x, y, w, h);
+        screen.strokeWeight(1);
     }
 
     public void changeScrollPosition(int scrollCount) {
         if (maxScrollPosition > 0) {
-            scrollPosition = game.constrain(scrollPosition + 10 * scrollCount, 0, maxScrollPosition);
+            scrollPosition = game.constrain(scrollPosition + scrollCount, 0, maxScrollPosition);
         }
     }
 

@@ -1,5 +1,7 @@
 package Tiles;
 
+import static Utility.Constants.game;
+
 public class WallTile extends Tile {
 
     public WallTile(String sprite, float speedMod, short bitmask, String groupID) {

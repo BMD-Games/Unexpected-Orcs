@@ -1,6 +1,20 @@
 package Tiles;
 
+import Sprites.Sprites;
+import processing.core.PImage;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
+
+import java.util.HashMap;
+
+import static Utility.Constants.SPRITE_SIZE;
+import static Utility.Constants.game;
+
 public class Tiles {
+
+
+    public static HashMap<String, Tile> Tiles;
+
     //----ZONES-----
     public final static int NO_SPAWN = 0;
     public final static int BOSS     = 1;
@@ -19,58 +33,126 @@ public class Tiles {
     public final static String stoneTileGroup = "stoneTileGroup";
 
     public final static String bloodSpongeGroup = "bloodSpongeGroup";
-    public final static String sandStoneGroup = "sandStoneGroup";
+    public final static String sandstoneGroup = "sandstoneGroup";
     public final static String hedgeGroup = "hedgeGroup";
     public final static String rockGroup = "rockGroup";
     public final static String stoneBrickGroup = "stoneBrickGroup";
 
 
-//Tiles you cannont walk through are <= 0
-//Tiles you can walk through are > 0
-//Avoid using -1 as it can mean errors
-
-    //----Generic Tiles----- Used for map generation
+    //----Generic Tile VALUES----- Used for map generation
     public final static int WALL   = 0;
     public final static int FLOOR  = 1;
 
-    //----Wall Tiles------
-    public final static Tile WALL_TILE = new WallTile("WALL", testWallGroup);
-    public final static Tile STONE_BRICK = new WallTile("STONE_BRICK", stoneBrickGroup);
-    public final static Tile ROCK = new WallTile("ROCK", rockGroup);
-    public final static Tile HEDGE = new WallTile("HEDGE", hedgeGroup);
-    public final static Tile SANDSTONE = new WallTile("SANDSTONE", sandStoneGroup);
-    public final static Tile BLOOD_SPONGE = new WallTile("BLOOD_SPONGE", bloodSpongeGroup);
 
-    //----Floor Tiles------
-    public final static Tile FLOOR_TILE = new FloorTile("FLOOR", testFloorGroup);
+    public static void loadTileJSON(String path) {
+        Tiles = new HashMap<String, Tile>();
 
-    public final static Tile WOOD = new FloorTile("WOOD", woodGroup);
-    public final static Tile STAR_WOOD = new FloorTile("STAR_WOOD", woodGroup);
-    public final static Tile LONG_WOOD = new FloorTile("LONG_WOOD", woodGroup);
-    public final static Tile BROKEN_WOOD = new FloorTile("BROKEN_WOOD", woodGroup);
+        JSONObject data = game.loadJSONObject(path);
+        if(data == null) return;
 
-    public final static Tile STONE = new FloorTile("STONE", stoneGroup);
-    public final static Tile X_STONE = new FloorTile("X_STONE", stoneGroup);
-    public final static Tile RUBBLE_STONE = new FloorTile("RUBBLE_STONE", stoneGroup);
-    public final static Tile SKULL_STONE = new FloorTile("SKULL_STONE", stoneGroup);
+        JSONArray tiles = data.getJSONArray("tiles");
+        JSONArray sprites = data.getJSONArray("sprites");
 
-    public final static Tile GRASS = new FloorTile("GRASS", grassGroup);
-    public final static Tile PATCH_GRASS = new FloorTile("PATCH_GRASS", grassGroup);
-    public final static Tile MUSHROOM_GRASS = new FloorTile("MUSHROOM_GRASS", grassGroup);
-    public final static Tile GRASS_TUFT = new FloorTile("GRASS_TUFT", grassGroup);
-    public final static Tile GRASS_LEAF = new FloorTile("GRASS_LEAF", grassGroup);
+        PImage tilesheet = game.loadImage(data.getString("spritesheet"));
 
-    public final static Tile SAND = new FloorTile("SAND", sandGroup);
-    public final static Tile SAND_ROCK = new FloorTile("SAND_ROCK", sandGroup);
-    public final static Tile SAND_CACTUS = new FloorTile("SAND_CACTUS", sandGroup);
-    public final static Tile SAND_TILE = new FloorTile("SAND_TILE", sandGroup);
-    public final static Tile COMPACT_SAND = new FloorTile("COMPACT_SAND", sandGroup);
+        int spriteScale = data.getInt("spritescale");
 
-    public final static Tile BLOOD = new FloorTile("BLOOD", bloodGroup);
-    public final static Tile BLOOD_SHINE = new FloorTile("BLOOD_SHINE", bloodGroup);
-    public final static Tile BLOOD_EYE = new FloorTile("BLOOD_EYE", bloodGroup);
+        loadTileData(tiles, spriteScale, tilesheet);
+        loadSpriteData(sprites, spriteScale, tilesheet);
+        loadBitMaskTextures(tilesheet);
+    }
 
+    private static void loadTileData(JSONArray tiles, int spriteScale, PImage tilesheet) {
+        //Creates the tiles based on the data in the JSON file and loads the required sprites
+        for(int i = 0; i < tiles.size(); i ++) {
+            JSONObject tile = tiles.getJSONObject(i);
 
-    public final static Tile COBBLE = new FloorTile("COBBLE", cobbleGroup);
-    public final static Tile STONE_TILE = new FloorTile("STONE_TILE", stoneTileGroup);
+            String name = tile.getString("name");
+            try {
+                String group = tile.getString("group");
+
+                int spriteX = tile.getInt("spriteX");
+                int spriteY = tile.getInt("spriteY");
+
+                int spriteW = tile.getInt("spriteW", 1);
+                int spriteH = tile.getInt("spriteH", 1);
+
+                float speedMod = tile.getFloat("speedMod", 1);
+
+                boolean solid = tile.getBoolean("solid", true);
+
+                if(solid) {
+                    Tiles.put(name, new WallTile(name, speedMod, group));
+                } else {
+                    Tiles.put(name, new FloorTile(name, speedMod, group));
+                }
+
+                Sprites.tileSprites.put(name, Sprites.getSprite(tilesheet, spriteX, spriteY, spriteW, spriteH, spriteScale));
+
+                try {
+                    int bottomX = tile.getInt("bottomX");
+                    int bottomY = tile.getInt("bottomY");
+                    //load bottom texture
+                    Sprites.tileSprites.put(name + "_BOTTOM", Sprites.getSprite(tilesheet, bottomX, bottomY, spriteW, spriteH, spriteScale));
+                } catch(Exception e) {}
+            } catch(Exception e) {
+                System.out.println(String.format("Error loading tile data for tile: '%s'", name));
+            }
+        }
+    }
+
+    private static void loadSpriteData(JSONArray sprites, int spriteScale, PImage tilesheet) {
+        //Loads the "extra" sprites needed (ie sprites for bitmasking)
+        for(int i = 0; i < sprites.size(); i ++) {
+            JSONObject sprite = sprites.getJSONObject(i);
+
+            String name = sprite.getString("name");
+            try {
+                String group = sprite.getString("group");
+
+                int spriteX = sprite.getInt("spriteX");
+                int spriteY = sprite.getInt("spriteY");
+
+                int spriteW = sprite.getInt("spriteW", 1);
+                int spriteH = sprite.getInt("spriteH", 1);
+
+                Sprites.tileSprites.put(name, Sprites.getSprite(tilesheet, spriteX, spriteY, spriteW, spriteH, spriteScale));
+
+            } catch(Exception e) {
+                System.out.println(String.format("Error loading tile data for sprite: '%s'", name));
+            }
+        }
+    }
+
+    private static void loadBitMaskTextures(PImage tilesheet) {
+        //---Image Masks---
+        Sprites.mask.put(255,Sprites.getSprite(tilesheet, 0, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(0,Sprites.getSprite(tilesheet, 1, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(2,Sprites.getSprite(tilesheet, 2, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(22,Sprites.getSprite(tilesheet, 3, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(214,Sprites.getSprite(tilesheet, 4, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(66,Sprites.getSprite(tilesheet, 5, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(18,Sprites.getSprite(tilesheet, 6, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(210,Sprites.getSprite(tilesheet, 7, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(86,Sprites.getSprite(tilesheet, 8, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(82,Sprites.getSprite(tilesheet, 9, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(91,Sprites.getSprite(tilesheet, 10, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(90,Sprites.getSprite(tilesheet, 11, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(219,Sprites.getSprite(tilesheet, 12, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(123,Sprites.getSprite(tilesheet, 13, 25, 1, 1, SPRITE_SIZE));
+        Sprites.mask.put(251,Sprites.getSprite(tilesheet, 14, 25, 1, 1, SPRITE_SIZE));
+    }
+
+    public static Tile[][] stringToTileArray(String[][] stringTiles) {
+        Tile[][] tiles = new Tile[stringTiles.length][stringTiles[0].length];
+
+        for(int i = 0; i < stringTiles.length; i ++) {
+            for(int j = 0; j < stringTiles[0].length; j ++) {
+                tiles[i][j] = new Tile(stringTiles[i][j]);
+            }
+        }
+
+        return tiles;
+    }
+
 }

@@ -1,177 +1,146 @@
 import java.util.Map;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-
 
 int SPRITE_SIZE = 16;
 int MAX_SCALE = 8;
-int SCALE = 4;
-int TILE_SIZE = SPRITE_SIZE * SCALE;
+float SCALE = 4;
+int TILE_SIZE = (int)(SPRITE_SIZE * SCALE);
 
 int GUI_WIDTH = SPRITE_SIZE * MAX_SCALE + 20;
 
-final int MIN_TILE = -81, MAX_TILE = 17;
-int tile = WALL;
-
 int w = 15;
-int h = 50;
+int h = 20;
 
-int xoff = 0, yoff = 0;
+float xoff = 0, yoff = 0;
 
-int[][] tiles = new int[w][h];
+String[][] tiles = new String[w][h];
+String[] tileNames;
+
+int tile = 0;
+
+PGraphics pg;
 
 void setup() {
-  size(1080, 720);
+  size(1080, 720, FX2D);
   noSmooth();
   background(200);
   
-  loadAssets();
+  loadTileJSON("../UnexpectedOrcs/assets/data/tiles.json");
+  initMenu();
+  
+  pg = createGraphics(width, height);
+  pg.noSmooth();
+  
+  clearTiles();
+  
 }
 
 void draw() {
-  TILE_SIZE = SPRITE_SIZE * SCALE;
-  background(200);
+  TILE_SIZE = (int)(SPRITE_SIZE * SCALE);
+  pg.beginDraw();
+  pg.background(100);
+  pg.noFill();
+  pg.stroke(150);
   for (int i = 0; i < w; i ++) {
     for (int j = 0; j < h; j ++) {
-      image(tileSprites.get(tiles[i][j]), GUI_WIDTH + (i + xoff) * TILE_SIZE, (j + yoff) * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      try {
+        if(tiles[i][j] != null && !tileOffScreen(i, j)) pg.image(tileSprites.get(tiles[i][j]), (i * TILE_SIZE) + xoff, (j * TILE_SIZE) + yoff, TILE_SIZE, TILE_SIZE);
+        else pg.rect((i * TILE_SIZE) + xoff, (j * TILE_SIZE) + yoff, TILE_SIZE, TILE_SIZE);
+      } catch(Exception e) {
+        println(tiles[i][j]);
+      }
     }
   }
-  noFill();
-  stroke(255);
-  rect(((int)getTile().x + xoff) * TILE_SIZE + GUI_WIDTH, ((int)getTile().y + yoff) * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-  fill(200);
-  noStroke();
-  rect(0, 0, GUI_WIDTH, height);
-  image(tileSprites.get(tile), 10, 10, SPRITE_SIZE * MAX_SCALE, SPRITE_SIZE * MAX_SCALE);
+  pg.noFill();
+  pg.stroke(255);
+  pg.rect(((int)getTile().x * TILE_SIZE) + xoff, ((int)getTile().y * TILE_SIZE) + yoff, TILE_SIZE, TILE_SIZE);
+  pg.fill(150);
+  pg.noStroke();
+  pg.rect(width - GUI_WIDTH, 0, GUI_WIDTH, height);
+  drawMenu();
+  pg.endDraw();
+  
+  image(pg, 0, 0, width, height);
 }
 
 void mouseReleased() {
+  if(mouseButton == RIGHT) return;
+  if(mouseInBox(width - GUI_WIDTH, 0, GUI_WIDTH, height)) {
+    checkMenu();
+    return;
+  }
   PVector pos = getTile();
   try { 
-    tiles[(int)pos.x][(int)pos.y] = tile;
+    tiles[(int)pos.x][(int)pos.y] = tileNames[tile];
   } 
   catch(Exception e) {
   }
 }
 
 void mouseDragged() {
+  if(mouseInBox(width - GUI_WIDTH, 0, GUI_WIDTH, height)) return;
+  
+  if(mouseButton == RIGHT) {
+    yoff += (mouseY - pmouseY);
+    xoff += (mouseX - pmouseX);
+    return;
+  }
+  
   PVector pos = getTile();
   try { 
-    tiles[(int)pos.x][(int)pos.y] = tile;
+    tiles[(int)pos.x][(int)pos.y] = tileNames[tile];
   } 
   catch(Exception e) {
   }
 }
 
 void mouseWheel(MouseEvent event) {
-  int e = event.getCount();
-  tile = constrain(tile + e, MIN_TILE, MAX_TILE);
-  if (tile == -1 && e < 0) tile = -2;
-  if (tile == -1 && e > 0) tile = 0;
+  int e = event.getCount();  
+  SCALE = constrain(SCALE - ((e * SCALE)/10f), 0.1, MAX_SCALE);
 }
 
 void keyPressed() {
+  
   if (keyCode == UP) yoff += 1;
   if (keyCode == DOWN) yoff -= 1;
   if (keyCode == LEFT) xoff += 1;
   if (keyCode == RIGHT) xoff -= 1;
   if (key == '=') SCALE = constrain(SCALE + 1, 1, MAX_SCALE);
   if (key == '-') SCALE = constrain(SCALE - 1, 1, MAX_SCALE);
-  if (key == 's') saveToFile();
-  if (key == 'l') loadFromFile();
+  if (key == 'S') saveToFile();
+  if (key == 'L') loadFromFile();
+  if (key == 'C') clearTiles();
   if (key == ' ') { xoff = yoff = 0; SCALE = 4; }
 }
 
 PVector getTile() {
-  return new PVector((mouseX-GUI_WIDTH)/TILE_SIZE - xoff, mouseY/TILE_SIZE - yoff);
+  return new PVector((mouseX - xoff)/TILE_SIZE, (mouseY - yoff)/TILE_SIZE);
 }
 
-void saveToFile() {
-  JFrame frame = new JFrame();
-  JFileChooser chooseSave = new JFileChooser(sketchPath() + "/out/");
-  chooseSave.setSelectedFile(new File("Room_" + year() + "_" + month() + "_" + day() + ".txt"));
-  int val = chooseSave.showOpenDialog(frame);
-  if (val == JFileChooser.APPROVE_OPTION) {
-    saveToFile(chooseSave.getSelectedFile().getPath());
-  }
+PVector getScreen(int x, int y) {
+  return new PVector((x * TILE_SIZE)  + xoff, (y * TILE_SIZE) + yoff);
 }
 
-void saveToFile(String path) {
-  PrintWriter file = createWriter(path);
-  file.println("{");
-  for (int i = 0; i < w; i ++) {
-    file.print("{");
-    for (int j = 0; j < h; j ++) {
-      file.print(tiles[i][j]);
-      if (j < h - 1) file.print(',');
+boolean pointInBox(float x, float y, float bx, float by, float bw, float bh) {
+  return (x >= bx && x <= bx + bw && y >= by && y <= by + bh);
+}
+
+boolean mouseInBox(float x, float y, float w, float h) {
+  return pointInBox(mouseX, mouseY, x, y, w, h);
+}
+
+PImage getSprite(PImage image, int x, int y, int w, int h, int spriteSize) {
+  return image.get(x * spriteSize, y * spriteSize, w * spriteSize, h * spriteSize);
+}
+
+boolean tileOffScreen(int i, int j) {
+  return (i * TILE_SIZE) + xoff < -TILE_SIZE || (i * TILE_SIZE) + xoff > width - GUI_WIDTH || (j * TILE_SIZE) + yoff < - TILE_SIZE || (j * TILE_SIZE) + yoff > height;
+}
+
+void clearTiles() {
+  tiles = new String[w][h];
+  for(int i = 0; i < w; i ++) {
+    for(int j = 0; j < h; j ++) {
+      tiles[i][j] = "WALL";
     }
-    file.print("}");
-    if (i < w - 1) file.print(",");
-    file.println();
-  }
-  file.print("}");
-  file.flush();
-  file.close();
-}
-
-void loadFromFile() {
-  JFrame frame = new JFrame();
-  JFileChooser chooseLoad = new JFileChooser(sketchPath() + "/out/");
-  int val = chooseLoad.showOpenDialog(frame);
-  if (val == JFileChooser.APPROVE_OPTION) {
-    loadFromFile(chooseLoad.getSelectedFile().getPath());
-  }
-}
-
-void loadFromFile(String path) {
-  ArrayList<int[]> loadedTiles = new ArrayList<int[]>();
-  BufferedReader reader = createReader(path);
-
-  if (reader == null) { 
-    println("Could not find file: " + path); 
-    return;
-  };
-  String line = "";
-  try { 
-    reader.readLine(); 
-    line = reader.readLine();
-  } 
-  catch(Exception e) { 
-    line = null;
-  };
-  while (line != null) {
-    if (line.equals("}")) break;
-    line = line.substring(line.indexOf("{") + 1, line.indexOf("}"));
-    String[] values = split(line, ',');
-    int[] tileRow = new int[values.length];
-    for (int i = 0; i < values.length; i ++) {
-      try { 
-        tileRow[i] = int(values[i]);
-      } 
-      catch(Exception e) { 
-        println("Error in file: " + path); 
-        return;
-      }
-    }
-    loadedTiles.add(tileRow);
-    try { 
-      line = reader.readLine();
-    } 
-    catch(Exception e) { 
-      line = null;
-    };
-  }
-
-  try {
-    w = loadedTiles.size();
-    h = loadedTiles.get(0).length;
-    tiles = new int[w][h];
-    for (int i = 0; i < w; i ++) {
-      tiles[i] = loadedTiles.get(i);
-    }
-  } 
-  catch(Exception e) { 
-    println("Error in file: " + path); 
-    return;
   }
 }

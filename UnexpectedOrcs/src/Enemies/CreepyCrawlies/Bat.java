@@ -12,7 +12,7 @@ import processing.core.PImage;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class Bat extends MeleeEnemy implements Enemy, RectangleObject {
+public class Bat extends MeleeEnemy implements  RectangleObject {
 
     private float w = 0.5f, h = 0.5f;
     private float animationTime = 0;

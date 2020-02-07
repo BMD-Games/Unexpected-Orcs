@@ -7,6 +7,7 @@ import Stats.PlayerStats;
 import Tiles.Tile;
 import Utility.Collision.AABB;
 import Sprites.Sprites;
+import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -25,11 +26,15 @@ public class Player {
     private String[] headSprites = {"FACE_BACK", "FACE_RIGHT", "FACE_FRONT", "FACE_LEFT"};
     private String[] bodySprites = {"BODY_FRONT", "BODY_BACK", "BODY_LEFT", "BODY_RIGHT"};
 
+    private PImage[] tintedBodySprites = new PImage[4];
+
     public PlayerStats stats = new PlayerStats();
 
     public Inventory inv = new Inventory();
 
     private AABB bound;
+
+    private String prevArmour = "";
 
     public Player(float x, float y) {
         this.x = x; //in tile space, not screen space;
@@ -106,6 +111,20 @@ public class Player {
     public void update(double delta, boolean[] neighbours, float speedMod) {
         ang = game.atan2(game.mouseY - game.height/2, game.mouseX - (game.width/2 + GUI_WIDTH/2));
 
+        String name = currentArmour() == null ? "" : currentArmour().name;
+
+        if(!name.equals(prevArmour)) {
+            prevArmour = name;
+            if (!name.equals("")) {
+                int avg = Util.averageColour(currentArmour().sprite);
+
+                tintedBodySprites = new PImage[4];
+                tintedBodySprites[0] = Util.replaceColour(Sprites.charSprites.get(bodySprites[0]), game.color(255, 255, 255), avg);
+                tintedBodySprites[1] = Util.replaceColour(Sprites.charSprites.get(bodySprites[1]), game.color(255, 255, 255), avg);
+                tintedBodySprites[2] = Util.replaceColour(Sprites.charSprites.get(bodySprites[2]), game.color(255, 255, 255), avg);
+                tintedBodySprites[3] = Util.replaceColour(Sprites.charSprites.get(bodySprites[3]), game.color(255, 255, 255), avg);
+            }
+        }
         if (inv.active[1] != null ) {
             updateCooldown(delta);
         }
@@ -158,15 +177,15 @@ public class Player {
     }
 
     private void getMoving(PVector direction) {
-        bodySprite = Sprites.charSprites.get(bodySprites[0]);
+        bodySprite = prevArmour.equals("") ? Sprites.charSprites.get(bodySprites[0]): tintedBodySprites[0];
         if (direction.y == 0) {
             if (direction.x > 0) {
-                bodySprite = Sprites.charSprites.get(bodySprites[3]);
+                bodySprite = prevArmour.equals("") ? Sprites.charSprites.get(bodySprites[3]): tintedBodySprites[3];
             } else if (direction.x < 0) {
-                bodySprite = Sprites.charSprites.get(bodySprites[2]);
+                bodySprite = prevArmour.equals("") ? Sprites.charSprites.get(bodySprites[2]): tintedBodySprites[2];
             }
         } else if (direction.y < 0) {
-            bodySprite = Sprites.charSprites.get(bodySprites[1]);
+            bodySprite = prevArmour.equals("") ? Sprites.charSprites.get(bodySprites[1]): tintedBodySprites[1];
         }
     }
 

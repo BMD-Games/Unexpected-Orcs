@@ -8,7 +8,7 @@ import processing.core.PImage;
 import static Sprites.Sprites.*;
 import static Utility.Constants.*;
 
-public class PoisonElemental extends Elemental implements Enemy {
+public class PoisonElemental extends Elemental {
 
     public PoisonElemental(float x, float y, int tier) {
         super(x, y, tier);

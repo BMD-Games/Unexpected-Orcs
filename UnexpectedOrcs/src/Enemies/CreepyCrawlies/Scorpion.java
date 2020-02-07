@@ -14,7 +14,7 @@ import processing.core.PVector;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class Scorpion extends RangedEnemy implements Enemy, RectangleObject {
+public class Scorpion extends RangedEnemy implements  RectangleObject {
 
     private float w = 0.4f, h = 0.5f;
     protected float attackWait = 0;

@@ -8,7 +8,7 @@ import processing.core.PImage;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class FireElemental extends Elemental implements Enemy {
+public class FireElemental extends Elemental {
 
     public FireElemental(float x, float y, int tier) {
         super(x, y, tier);

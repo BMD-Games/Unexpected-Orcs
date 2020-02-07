@@ -7,6 +7,7 @@ import GUI.Scroll.ScrollElement;
 import Items.Inventory;
 import Stats.PlayerStats;
 import Utility.Util;
+import processing.core.PApplet;
 
 import java.io.*;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class GameFile {
     public static Player loadPlayer(String savename) {
         Player player = new Player();
         player.stats = loadStats(savename);
+        game.randomSeed(player.stats.getSeed());
         player.inv = loadInventory(savename);
         return player;
     }
@@ -56,6 +58,7 @@ public class GameFile {
             FileOutputStream statsSaveFile = new FileOutputStream(game.sketchPath() + "/saves/" + savename + "/stats.txt");
             ObjectOutputStream inv = new ObjectOutputStream(statsSaveFile);
             inv.writeObject(engine.player.stats);
+            //inv.writeObject((PApplet)(game).internalRandom);
             inv.close();
             statsSaveFile.close();
         }

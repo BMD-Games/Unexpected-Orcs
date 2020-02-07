@@ -10,7 +10,7 @@ import Utility.Collision.CircleObject;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class Chomp extends MeleeEnemy implements Enemy, CircleObject {
+public class Chomp extends MeleeEnemy implements  CircleObject {
 
     public Chomp(float x, float y, int tier) {
         super(x, y, tier,charSprites.get("CHOMP_BLACK_SMALL"));

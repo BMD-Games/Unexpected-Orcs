@@ -18,7 +18,7 @@ public class ConfirmDelete extends ConfirmationWindow {
         if(val == OPEN) {
             return;
         } else if(val == CONFIRM) {
-            if(callbackParams == null) return;
+            //if(callbackParams == null) return;
             confirm.callback(callbackParams);
         } else if(val == CANCEL) {
             cancel.callback(callbackParams);
