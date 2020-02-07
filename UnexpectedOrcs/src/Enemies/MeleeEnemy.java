@@ -44,13 +44,11 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
         int knockbackMax = 15;
         PVector knockback = new PVector(knockbackX, knockbackY);
         if (knockback.mag() > knockbackMax) {
-            PVector knockbackLeftOver = knockback;
-            knockbackLeftOver.setMag(knockback.mag() - knockbackMax);
             knockback.setMag(knockbackMax);
             moveX = (stats.getSpeed() * game.cos(targetAngle) + knockback.x) * (float) delta;
             moveY = (stats.getSpeed() * game.sin(targetAngle) + knockback.y) * (float) delta;
-            knockbackX = knockbackLeftOver.x;
-            knockbackY = knockbackLeftOver.y;
+            knockbackX -= knockback.x;
+            knockbackY -= knockback.y;
         } else {
             moveX = (stats.getSpeed() * game.cos(targetAngle) + knockbackX) * (float) delta;
             moveY = (stats.getSpeed() * game.sin(targetAngle) + knockbackY) * (float) delta;
@@ -62,7 +60,7 @@ public abstract class MeleeEnemy extends StandardEnemy implements Enemy {
         } else if(this instanceof CircleObject) {
             coords = Circle.adjust(engine.currentLevel, x, y, radius, moveX, moveY);
         } else {
-            coords = new float[] {x + moveX, y + moveY};
+            coords = new float[]{x + moveX, y + moveY};
         }
         x = coords[0];
         y = coords[1];
