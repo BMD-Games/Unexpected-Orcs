@@ -8,6 +8,8 @@ import Levels.Level;
 import Sound.SoundManager;
 import Sprites.AnimatedSprite;
 import Stats.Stats;
+import Stats.StatType;
+import Stats.StatusEffectType;
 import Utility.Collision.*;
 import Utility.Pair;
 import Utility.Util;
@@ -92,7 +94,7 @@ public abstract class StandardEnemy extends Enemy {
         // display status effects of the enemy
         int i = 0;
         PImage statusSprite;
-        for (String status : stats.statusEffects.keySet()) {
+        for (StatusEffectType status : stats.statusEffects.keySet()) {
             statusSprite = statusSprites.get(status);
             screen.image(statusSprite, radius / 2 + TILE_SIZE * i / 4, SPRITE_SIZE / 2, statusSprite.width, statusSprite.height);
             i++;
@@ -126,7 +128,7 @@ public abstract class StandardEnemy extends Enemy {
     /* Takes damage */
     public void damage(int amount, ArrayList<Pair> statusEffects) {
         for (Pair pair : statusEffects) {
-            if (typeList.contains(pair.a) || pair.a.equals("ALL")) {
+            if (typeList.contains(pair.a) || pair.a.equals(StatusEffectType.ALL)) {
                 this.stats.addStatusEffect(pair.b, 1);
             }
         }
@@ -204,10 +206,10 @@ public abstract class StandardEnemy extends Enemy {
 
     public void onDeath() {
         if (game.random(1) < 0.08) {
-            engine.addDrop(new Pack(x, y, tier, "HEALTH"));
+            engine.addDrop(new Pack(x, y, tier, StatType.HEALTH));
         }
         if (game.random(1) < 0.04) {
-            engine.addDrop(new Pack(x, y, tier, "MANA"));
+            engine.addDrop(new Pack(x, y, tier, StatType.MANA));
         }
 
 

@@ -1,6 +1,7 @@
 package Entities.Drops;
 
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Util;
 import processing.core.PVector;
 
@@ -10,7 +11,7 @@ import static Utility.Constants.statColours;
 
 public class Pack extends Drop{
 
-    private String stat;
+    private StatType stat;
     private int tier;
     private float amount;
 
@@ -19,7 +20,7 @@ public class Pack extends Drop{
     private boolean playerWasInRange = false;
     private float vel = 0, acc = 4f;
 
-    public Pack(float x, float y, int tier, String stat) {
+    public Pack(float x, float y, int tier, StatType stat) {
         super(x, y, 1f, 15);
         this.stat = stat;
         this.tier = tier;

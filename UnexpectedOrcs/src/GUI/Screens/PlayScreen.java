@@ -6,6 +6,7 @@ import Entities.Drops.Portal;
 import GUI.Bars.DisplayBar;
 import GUI.WrappedText;
 import Items.Inventory;
+import Stats.StatusEffectType;
 import Utility.Util;
 import GUI.Button;
 import processing.core.PGraphics;
@@ -120,11 +121,11 @@ public class PlayScreen extends GUIScreen {
     private static void showStatusEffects(PGraphics screen) {
         int i = 0;
         String mouseOverEffect = "";
-        for (String effect : engine.player.stats.statusEffects.keySet()) {
+        for (StatusEffectType effect : engine.player.stats.statusEffects.keySet()) {
             i++;
             screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
             if (Util.pointInBox(game.mouseX, game.mouseY, screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE)) {
-                mouseOverEffect = effect;
+                mouseOverEffect = effect.name();
             }
         }
 

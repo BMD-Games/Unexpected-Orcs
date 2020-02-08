@@ -3,6 +3,7 @@ package Enemies.Elementals;
 import Enemies.Enemy;
 import Enemies.MeleeEnemy;
 import Sprites.AnimatedSprite;
+import Stats.StatusEffectType;
 import Utility.Collision.CircleObject;
 import processing.core.PImage;
 
@@ -13,7 +14,7 @@ public abstract class Elemental extends MeleeEnemy implements  CircleObject {
 
     protected float animationTime = 0;
     protected PImage[] sprites = {charSprites.get("FIRE_ELEMENTAL"), charSprites.get("ICE_ELEMENTAL"), charSprites.get("MAGIC_ELEMENTAL"), charSprites.get("POISON_ELEMENTAL")};
-    protected String statusEffect;
+    protected StatusEffectType statusEffect;
 
     public Elemental(float x, float y, int tier) {
         super(x, y, tier, charSprites.get("FIRE_ELEMENTAL"));

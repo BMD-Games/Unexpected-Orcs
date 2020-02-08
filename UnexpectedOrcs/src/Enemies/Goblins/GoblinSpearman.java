@@ -5,6 +5,7 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.RectangleObject;
 import processing.core.PImage;
 
@@ -37,7 +38,7 @@ public class GoblinSpearman extends MeleeEnemy implements  RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.VITALITY));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {
             itembag.addItem(itemFactory.createSpear(tier));

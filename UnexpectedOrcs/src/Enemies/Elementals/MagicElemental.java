@@ -3,6 +3,8 @@ package Enemies.Elementals;
 import Enemies.Enemy;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
+import Stats.StatusEffectType;
 import processing.core.PImage;
 
 import static Sprites.Sprites.*;
@@ -12,7 +14,7 @@ public class MagicElemental extends Elemental {
 
     public MagicElemental(float x, float y, int tier) {
         super(x, y, tier);
-        statusEffect = "CURSED";
+        statusEffect = StatusEffectType.CURSED;
         setSprite(charSprites.get("MAGIC_ELEMENTAL"));
         sprites[0] = charSprites.get("MAGIC_ELEMENTAL");
         sprites[1] = charSprites.get("MAGIC_ELEMENTAL_2");
@@ -23,7 +25,7 @@ public class MagicElemental extends Elemental {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "WISDOM"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.WISDOM));
     }
 
 }

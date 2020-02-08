@@ -7,6 +7,7 @@ import Entities.Drops.Portals.BloodPortal;
 import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.RectangleObject;
 import processing.core.PImage;
 
@@ -40,7 +41,7 @@ public class MudBlood extends MeleeEnemy implements  RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.VITALITY));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.5) {
             itembag.addItem(itemFactory.createRandomWeapon(tier));

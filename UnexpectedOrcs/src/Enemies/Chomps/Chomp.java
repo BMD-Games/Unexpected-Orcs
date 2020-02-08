@@ -5,6 +5,7 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.CircleObject;
 
 import static Utility.Constants.*;
@@ -26,7 +27,7 @@ public class Chomp extends MeleeEnemy implements  CircleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.SPEED));
         ItemBag itemBag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.12) {
             itemBag.addItem(itemFactory.createRandomWeapon(tier));

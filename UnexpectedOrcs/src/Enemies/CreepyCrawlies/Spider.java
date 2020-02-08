@@ -6,6 +6,8 @@ import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Entities.Projectile;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
+import Stats.StatusEffectType;
 import Utility.Collision.RectangleObject;
 import Utility.Pair;
 import processing.core.PImage;
@@ -46,7 +48,7 @@ public class Spider extends RangedEnemy implements  RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.MANA));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {
             itembag.addItem(itemFactory.createRandomWeapon(tier));
@@ -58,7 +60,7 @@ public class Spider extends RangedEnemy implements  RectangleObject {
         if((stats.fireTimer > shotWaitTime * stats.getFireRate()) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
             stats.fireTimer = 0;
             ArrayList<Pair> statusEffects = new ArrayList(1);
-            statusEffects.add(new Pair("ALL", "SLOWED"));
+            statusEffects.add(new Pair(StatusEffectType.ALL, StatusEffectType.SLOWED));
             engine.enemyProjectiles.add(new Projectile(x, y, new PVector(game.cos(angle), game.sin(angle)), stats.speed * 3, range, stats.attack, projectileSprite, statusEffects));
         }
     }

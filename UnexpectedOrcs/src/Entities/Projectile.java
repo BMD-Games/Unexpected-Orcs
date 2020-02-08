@@ -16,7 +16,7 @@ public class Projectile {
     public float x, y, px, py;
     public int damage;
     private PImage sprite;
-    public ArrayList<Pair> statusEffects = new ArrayList();
+    public ArrayList<Pair> statusEffects;
     public float knockBackMultiplier = 1;
 
 
@@ -43,7 +43,7 @@ public class Projectile {
         this.range = range;
         this.damage = damage;
         this.sprite = sprite;
-        this.statusEffects = new ArrayList();
+        this.statusEffects = new ArrayList<Pair>();
     }
 
     public Projectile(float x, float y, PVector direction, float speed, float range, int damage, PImage sprite, ArrayList<Pair> statusEffects, float knockBackMultiplier) {

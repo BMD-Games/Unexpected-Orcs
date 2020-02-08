@@ -5,6 +5,7 @@ import Entities.Drops.StatOrb;
 import Sound.SoundManager;
 import Sprites.AnimatedSprite;
 import Stats.PlayerStats;
+import Stats.StatType;
 import Utility.Collision.CircleObject;
 import Utility.Pair;
 
@@ -41,7 +42,7 @@ public class MoneyBag extends StaticEnemy implements CircleObject {
 
     private void openBag() {
         SoundManager.playSound("COIN");
-        String stat = PlayerStats.STATS[(int)game.random(PlayerStats.STATS.length)];
+        StatType stat = StatType.randomStat();
         engine.addDrop(new StatOrb(x, y, engine.player.stats.getMedianTeir(stat), stat));
     }
 

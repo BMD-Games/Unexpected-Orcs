@@ -2,7 +2,6 @@ package Stats;
 
 import GUI.WrappedText;
 import Sound.SoundManager;
-import Utility.Colour;
 import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -10,6 +9,7 @@ import processing.core.PImage;
 import java.io.Serializable;
 import java.util.*;
 
+import static Stats.StatType.*;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
@@ -23,16 +23,6 @@ public class PlayerStats extends Stats implements Serializable {
     public HashMap<Integer, Integer> wisdomKills = new HashMap<Integer, Integer>();
     public HashMap<Integer, Integer> defenceKills = new HashMap<Integer, Integer>();
     public HashMap<Integer, Integer> speedKills = new HashMap<Integer, Integer>();
-
-    public static final String HEALTH = "HEALTH";
-    public static final String MANA = "MANA";
-    public static final String VITALITY = "VITALITY";
-    public static final String ATTACK = "ATTACK";
-    public static final String WISDOM = "WISDOM";
-    public static final String DEFENCE = "DEFENCE";
-    public static final String SPEED = "SPEED";
-    
-    public static String[] STATS = new String[] {HEALTH, MANA, VITALITY, ATTACK, WISDOM, DEFENCE, SPEED};
 
     private int baseHealth = 100, baseMana = 100;
     public int baseVitality = 5, baseAttack = 1, baseWisdom = 5, baseDefence = 1;
@@ -49,25 +39,25 @@ public class PlayerStats extends Stats implements Serializable {
         mana = baseMana;
     }
 
-    public void addPack(String stat, int tier) {
+    public void addPack(StatType stat, int tier) {
         SoundManager.playSound("HEAL");
         switch(stat) {
-            case(HEALTH):
+            case HEALTH:
                 health = game.constrain(health + tier * 10, 0, healthMax);
                 break;
-            case(MANA):
+            case MANA:
                 mana = game.constrain(mana + tier * 10, 0, manaMax);
                 break;
         }
     }
 
-    public void addOrbStat(String stat, int tier) {
+    public void addOrbStat(StatType stat, int tier) {
         SoundManager.playSound("ORB");
         totalKills ++;
         int newVal;
         int colour = statColours.get(stat);
         switch(stat) {
-            case(HEALTH):
+            case HEALTH:
                 healthKills.put(tier, healthKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(healthKills, baseHealth, 5, 0.5f);
                 if(healthMax != newVal) {
@@ -76,7 +66,7 @@ public class PlayerStats extends Stats implements Serializable {
                     healthMax = newVal;
                 }
                 break;
-            case(MANA):
+            case MANA:
                 manaKills.put(tier, manaKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(manaKills, baseMana, 5, 0.2f);
                 if(manaMax != newVal) {
@@ -85,7 +75,7 @@ public class PlayerStats extends Stats implements Serializable {
                     manaMax = newVal;
                 }
                 break;
-            case(VITALITY):
+            case VITALITY:
                 vitalityKills.put(tier, vitalityKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(vitalityKills, baseVitality, 1, 0.1f);
                 if(vitality != newVal) {
@@ -94,7 +84,7 @@ public class PlayerStats extends Stats implements Serializable {
                     vitality = newVal;
                 }
                 break;
-            case(ATTACK):
+            case ATTACK:
                 attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(attackKills, baseAttack, 1, 0.1f);
                 if(attack != newVal) {
@@ -103,7 +93,7 @@ public class PlayerStats extends Stats implements Serializable {
                     attack = newVal;
                 }
                 break;
-            case(WISDOM):
+            case WISDOM:
                 wisdomKills.put(tier, wisdomKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(wisdomKills, baseWisdom, 1, 0.1f);
                 if(wisdom != newVal) {
@@ -112,7 +102,7 @@ public class PlayerStats extends Stats implements Serializable {
                     wisdom = newVal;
                 }
                 break;
-            case(DEFENCE):
+            case DEFENCE:
                 defenceKills.put(tier, defenceKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(defenceKills, baseDefence, 1, 0.1f);
                 if(defence != newVal) {
@@ -121,7 +111,7 @@ public class PlayerStats extends Stats implements Serializable {
                     defence = newVal;
                 }
                 break;
-            case(SPEED):
+            case SPEED:
                 speedKills.put(tier, speedKills.getOrDefault(tier, 0) + 1);
                 float newSpeed = calcStatValue(speedKills, baseSpeed, 1, 0.1f);
                 if(speed != newSpeed) {
@@ -252,23 +242,23 @@ public class PlayerStats extends Stats implements Serializable {
         String desc = "";
 
         if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // attack sprite hover
-            statName = ATTACK;
+            statName = ATTACK.name();
             type = String.valueOf(getAttack());
             desc = "Increases Damage dealt by player projectiles";
         } else if (Util.pointInBox(x, y, TILE_SIZE * 2 - gui.buff * 2 + tx, ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // defence sprite hover
-            statName = DEFENCE;
+            statName = DEFENCE.name();
             type = String.valueOf(getDefence());
             desc = "Decreases damage taken from enemies";
         } else if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, gui.buff + TILE_SIZE / 2 + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // vitality hover
-            statName = VITALITY;
+            statName = VITALITY.name();
             type = String.valueOf(getVitality());
             desc = "Increases health regeneration rate";
         } else if (Util.pointInBox(x, y, TILE_SIZE * 2 - gui.buff * 2 + tx, gui.buff + TILE_SIZE / 2 + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // wisdom hover
-            statName = WISDOM;
+            statName = WISDOM.name();
             type = String.valueOf(getVitality());
             desc = "Increases mana regeneration rate";
         } else if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, 2 * gui.buff + TILE_SIZE + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // speed hover
-            statName = SPEED;
+            statName = SPEED.name();
             type = String.valueOf((int)(speed * 100));
             desc = "Increases player speed";
         }
@@ -310,7 +300,7 @@ public class PlayerStats extends Stats implements Serializable {
         this.randomSeed = seed;
     }
 
-    public int getMedianTeir(String stat) {
+    public int getMedianTeir(StatType stat) {
      Integer[] statTiers = null;
         if(stat.equals(HEALTH)) {
             statTiers = healthKills.keySet().toArray(new Integer[healthKills.size()]);

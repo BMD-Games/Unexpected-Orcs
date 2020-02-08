@@ -6,6 +6,7 @@ import Items.Abilities.*;
 import Items.Scrolls.DebuffScroll;
 import Items.Weapons.GreenRod;
 import Sound.SoundManager;
+import Stats.StatusEffectType;
 import Utility.Util;
 import processing.core.PGraphics;
 
@@ -44,7 +45,7 @@ public class Inventory implements Serializable {
         active[0] = new GreenRod();
         active[1] = new Teleport();
         active[2] = new Armour("LEATHER_ARMOUR", "Plain Leather Armour", 5);
-        active[3] = new DebuffScroll(new String[]{"SLOWED"});
+        active[3] = new DebuffScroll(new StatusEffectType[]{StatusEffectType.SLOWED});
 
         inv[0] = itemFactory.createRandomWeapon(4);
         inv[1] = new FireBomb();

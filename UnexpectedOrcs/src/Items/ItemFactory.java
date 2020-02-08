@@ -4,6 +4,7 @@ import Items.Weapons.Bow;
 import Items.Weapons.Spear;
 import Items.Weapons.Staff;
 import Items.Weapons.Wand;
+import Stats.StatusEffectType;
 import Utility.Pair;
 import Utility.Util;
 
@@ -62,9 +63,9 @@ public class ItemFactory {
         return wand;
     }
 
-    public Wand createWand(int tier, String ability) {
+    public Wand createWand(int tier, StatusEffectType ability) {
         Wand wand = createWand(tier);
-        wand.statusEffects.add(new Pair("ALL", ability));
+        wand.statusEffects.add(new Pair(StatusEffectType.ALL, ability));
         return wand;
     }
 
@@ -79,9 +80,9 @@ public class ItemFactory {
         return staff;
     }
 
-    public Staff createStaff(int tier, String ability) {
+    public Staff createStaff(int tier, StatusEffectType ability) {
         Staff staff = createStaff(tier);
-        staff.statusEffects.add(new Pair("ALL", ability));
+        staff.statusEffects.add(new Pair(StatusEffectType.ALL, ability));
         return staff;
     }
 
@@ -96,9 +97,9 @@ public class ItemFactory {
         return spear;
     }
 
-    public Spear createSpear(int tier, String ability) {
+    public Spear createSpear(int tier, StatusEffectType ability) {
         Spear spear = createSpear(tier);
-        spear.statusEffects.add(new Pair("ALL", ability));
+        spear.statusEffects.add(new Pair(StatusEffectType.ALL, ability));
         return spear;
     }
 
@@ -113,9 +114,9 @@ public class ItemFactory {
         return bow;
     }
 
-    public Bow createBow(int tier, String ability) {
+    public Bow createBow(int tier, StatusEffectType ability) {
         Bow bow = createBow(tier);
-        bow.statusEffects.add(new Pair("ALL", ability));
+        bow.statusEffects.add(new Pair(StatusEffectType.ALL, ability));
         return bow;
     }
 

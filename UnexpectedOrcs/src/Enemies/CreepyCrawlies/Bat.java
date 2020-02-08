@@ -6,9 +6,12 @@ import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Items.Scrolls.DebuffScroll;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
+import Stats.StatusEffectType;
 import Utility.Collision.RectangleObject;
 import processing.core.PImage;
 
+import static Stats.StatusEffectType.DAZED;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
@@ -56,17 +59,17 @@ public class Bat extends MeleeEnemy implements  RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.SPEED));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.1) {
-            itembag.addItem(new DebuffScroll(new String[] {"DAZED"}));
+            itembag.addItem(new DebuffScroll(new StatusEffectType[] {StatusEffectType.DAZED}));
         }
         engine.addDrop(itembag);
     }
 
     protected void attack() {
         super.attack();
-        engine.player.stats.addStatusEffect("DAZED", 5);
+        engine.player.stats.addStatusEffect(DAZED, 5);
     }
 
 }

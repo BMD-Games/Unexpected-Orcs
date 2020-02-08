@@ -3,6 +3,8 @@ package Enemies.Elementals;
 import Enemies.Enemy;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
+import Stats.StatusEffectType;
 import processing.core.PImage;
 
 import static Utility.Constants.*;
@@ -12,7 +14,7 @@ public class FireElemental extends Elemental {
 
     public FireElemental(float x, float y, int tier) {
         super(x, y, tier);
-        statusEffect = "SICK";
+        statusEffect = StatusEffectType.SICK;
         setSprite(charSprites.get("FIRE_ELEMENTAL"));
         sprites[0] = charSprites.get("FIRE_ELEMENTAL");
         sprites[1] = charSprites.get("FIRE_ELEMENTAL_2");
@@ -23,7 +25,7 @@ public class FireElemental extends Elemental {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "VITALITY"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.VITALITY));
     }
 
 }

@@ -5,6 +5,7 @@ import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
 import processing.core.PImage;
@@ -44,7 +45,7 @@ public class Cactus extends RangedEnemy implements  RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.ATTACK));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {
             itembag.addItem(itemFactory.createWand(tier));

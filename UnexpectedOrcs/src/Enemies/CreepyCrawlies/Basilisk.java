@@ -6,6 +6,7 @@ import Entities.Drops.ItemBag;
 import Entities.Drops.Portals.GrassPortal;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.RectangleObject;
 import processing.core.PImage;
 
@@ -37,7 +38,7 @@ public class Basilisk extends MeleeEnemy implements  RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "SPEED"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.SPEED));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.5) {
             itembag.addItem(itemFactory.createRandomWeapon(tier));
