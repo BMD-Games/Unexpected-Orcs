@@ -29,7 +29,7 @@ public class PlayerStats extends Stats implements Serializable {
 
     private long randomSeed;
 
-    private float baseSpeed = 2;
+    private float baseSpeed = 3;
 
     private int totalKills = 0;
 
