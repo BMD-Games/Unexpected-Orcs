@@ -120,18 +120,18 @@ public class PlayScreen extends GUIScreen {
 
     private static void showStatusEffects(PGraphics screen) {
         int i = 0;
-        String mouseOverEffect = "";
+        StatusEffectType mouseOverEffect = null;
         for (StatusEffectType effect : engine.player.stats.statusEffects.keySet()) {
             i++;
             screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
             if (Util.pointInBox(game.mouseX, game.mouseY, screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE)) {
-                mouseOverEffect = effect.name();
+                mouseOverEffect = effect;
             }
         }
 
-        if (!mouseOverEffect.equals("")) {
+        if (mouseOverEffect != null) {
             int mouseOverWidth = 3 * GUI_WIDTH/4;
-            WrappedText title = WrappedText.wrapText(mouseOverEffect, mouseOverWidth - gui.buff * 4, TILE_SIZE/2);
+            WrappedText title = WrappedText.wrapText(mouseOverEffect.name(), mouseOverWidth - gui.buff * 4, TILE_SIZE/2);
             WrappedText subtitle = WrappedText.wrapText(Util.roundTo(engine.player.stats.statusEffects.get(mouseOverEffect), 10) + "s remaining", mouseOverWidth - gui.buff * 4, TILE_SIZE/2);
             WrappedText description = WrappedText.wrapText("", mouseOverWidth - gui.buff * 4, 0);
             gui.drawMouseOverText(game.mouseX, game.mouseY, title, subtitle, description);

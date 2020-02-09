@@ -1,8 +1,13 @@
 package Stats;
 
+import Entities.Projectile;
 import GUI.WrappedText;
+import Items.Weapon;
+import Items.Weapons.WeaponType;
 import Sound.SoundManager;
+import Utility.StatusEffect;
 import Utility.Util;
+import javafx.util.Pair;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -24,6 +29,9 @@ public class PlayerStats extends Stats implements Serializable {
     public HashMap<Integer, Integer> defenceKills = new HashMap<Integer, Integer>();
     public HashMap<Integer, Integer> speedKills = new HashMap<Integer, Integer>();
 
+    private int maxMasteryKills = 1000;
+    private HashMap<WeaponType, Integer> masteryKills = new HashMap<WeaponType, Integer>();
+
     private int baseHealth = 100, baseMana = 100;
     public int baseVitality = 5, baseAttack = 1, baseWisdom = 5, baseDefence = 1;
 
@@ -37,6 +45,28 @@ public class PlayerStats extends Stats implements Serializable {
         calcAllStats();
         health = baseHealth;
         mana = baseMana;
+    }
+
+    @Override
+    public int getDefence() {
+        int d = super.getDefence();
+
+        if(master()) {
+            d *= 1.2; //+20% bonus
+        }
+
+        return d;
+    }
+
+    @Override
+    public float getFireRate() {
+        float d = super.getFireRate();
+
+        if(master(WeaponType.MELEE)) {
+            d *= 1.2; //+20% bonus
+        }
+
+        return d;
     }
 
     public void addPack(StatType stat, int tier) {
@@ -328,6 +358,58 @@ public class PlayerStats extends Stats implements Serializable {
         });
 
         return tiers.size() == 0 ? 0 : tiers.get(tiers.size()/2);
+    }
+
+    private void addMasteryKill(WeaponType weaponType) {
+        masteryKills.put(weaponType, masteryKills.getOrDefault(weaponType, 0) + 1);
+    }
+
+    public void applyMastery(WeaponType weaponType, Projectile projectile) {
+        //add mastery bonuses to projectiles
+
+        float percent = 1 + (0.2f * masterPercent(weaponType));
+
+        projectile.damage *= percent;
+
+        if(master(weaponType) && weaponType.equals(WeaponType.RANGED)) {
+            projectile.range *= 1.2;
+        }
+
+
+    }
+
+    public void applyMastery(List<StatusEffect> scrollStatus) {
+        if(master(WeaponType.MAGIC)) {
+            for(StatusEffect statusEffect : scrollStatus) {
+                statusEffect.duration *= 1.2;
+            }
+        }
+    }
+
+    public void applyMastery(float weaponCoolDown) {
+
+    }
+
+    public float masterPercent(WeaponType weaponType) {
+        float num = game.min(maxMasteryKills, masteryKills.getOrDefault(weaponType, 0));
+        return num/maxMasteryKills;
+    }
+
+    //returns if the player is a master of a given weapon type
+    public boolean master(WeaponType weaponType) {
+        return masteryKills.getOrDefault(weaponType, 0) > maxMasteryKills;
+    }
+
+    //returns if the player is a master of ALL weapon types
+    public boolean master() {
+        boolean master = true;
+        for(WeaponType weaponType : WeaponType.values()) {
+            master = master & master(weaponType);
+            if(!master) {
+                break;
+            }
+        }
+        return master;
     }
 
 }

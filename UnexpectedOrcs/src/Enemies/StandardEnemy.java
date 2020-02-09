@@ -11,7 +11,7 @@ import Stats.Stats;
 import Stats.StatType;
 import Stats.StatusEffectType;
 import Utility.Collision.*;
-import Utility.Pair;
+import Utility.StatusEffect;
 import Utility.Util;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -126,10 +126,10 @@ public abstract class StandardEnemy extends Enemy {
     }
 
     /* Takes damage */
-    public void damage(int amount, ArrayList<Pair> statusEffects) {
-        for (Pair pair : statusEffects) {
-            if (typeList.contains(pair.a) || pair.a.equals(StatusEffectType.ALL)) {
-                this.stats.addStatusEffect(pair.b, 1);
+    public void damage(int amount, ArrayList<StatusEffect> statusEffects) {
+        for (StatusEffect statusEffect : statusEffects) {
+            if (typeList.contains(statusEffect.affects) || statusEffect.affects.equals(StatusEffectType.ALL)) {
+                this.stats.addStatusEffect(statusEffect.status, statusEffect.duration);
             }
         }
         damage(amount);

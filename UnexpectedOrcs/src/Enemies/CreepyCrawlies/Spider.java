@@ -1,6 +1,5 @@
 package Enemies.CreepyCrawlies;
 
-import Enemies.Enemy;
 import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
@@ -9,7 +8,7 @@ import Sprites.AnimatedSprite;
 import Stats.StatType;
 import Stats.StatusEffectType;
 import Utility.Collision.RectangleObject;
-import Utility.Pair;
+import Utility.StatusEffect;
 import processing.core.PImage;
 import processing.core.PVector;
 
@@ -59,8 +58,8 @@ public class Spider extends RangedEnemy implements  RectangleObject {
     protected void attack() {
         if((stats.fireTimer > shotWaitTime * stats.getFireRate()) && (engine.currentLevel.canSee((int)x, (int)y, (int)engine.player.x, (int)engine.player.y))) {
             stats.fireTimer = 0;
-            ArrayList<Pair> statusEffects = new ArrayList(1);
-            statusEffects.add(new Pair(StatusEffectType.ALL, StatusEffectType.SLOWED));
+            ArrayList<StatusEffect> statusEffects = new ArrayList(1);
+            statusEffects.add(new StatusEffect(StatusEffectType.ALL, StatusEffectType.SLOWED, 1));
             engine.enemyProjectiles.add(new Projectile(x, y, new PVector(game.cos(angle), game.sin(angle)), stats.speed * 3, range, stats.attack, projectileSprite, statusEffects));
         }
     }

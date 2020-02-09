@@ -75,6 +75,7 @@ public class Stats implements Serializable {
     }
 
     public int getDefence() {
+
         if(statusEffects.containsKey("ARMOURBREAK") && !statusEffects.containsKey("ARMOURED")) {
             return 0;
         }

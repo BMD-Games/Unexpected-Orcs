@@ -362,6 +362,8 @@ public class Sprites {
         projectileSprites.put("STAFF", getSprite(projectilesheet, 1, 1, 1, 1, projectileSize));
         projectileSprites.put("SPEAR", getSprite(projectilesheet, 2, 1, 1, 1, projectileSize));
         projectileSprites.put("ARROW", getSprite(projectilesheet, 3, 1, 1, 1, projectileSize));
+        projectileSprites.put("AXE", getSprite(projectilesheet, 4, 1, 1, 1, projectileSize));
+        projectileSprites.put("SWORD", getSprite(projectilesheet, 5, 1, 1, 1, projectileSize));
 
         projectileSprites.put("LEAF", getSprite(projectilesheet, 0, 2, 1, 1, projectileSize));
         projectileSprites.put("THORN", getSprite(projectilesheet, 1, 2, 1, 1, projectileSize));

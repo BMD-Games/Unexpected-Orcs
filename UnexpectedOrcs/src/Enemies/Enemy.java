@@ -3,7 +3,7 @@ package Enemies;
 import Entities.Projectile;
 import Levels.Level;
 import Utility.Collision.AABB;
-import Utility.Pair;
+import Utility.StatusEffect;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -25,7 +25,7 @@ public abstract class Enemy {
     public abstract void show(PGraphics screen, PVector renderOffset);
 
     /* This mob takes damage */
-    public abstract void damage(int amount, ArrayList<Pair> statusEffects);
+    public abstract void damage(int amount, ArrayList<StatusEffect> statusEffects);
 
     public abstract void damage(int amount);
 
