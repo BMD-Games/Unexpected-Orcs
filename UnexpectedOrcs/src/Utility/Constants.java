@@ -5,12 +5,16 @@ import Engine.Engine;
 import Entities.Player;
 import GUI.GUI;
 import Items.ItemFactory;
+import Stats.StatType;
+import Stats.StatusEffectType;
 import processing.core.PFont;
 import processing.core.PVector;
 import processing.opengl.PShader;
 
 import java.util.HashMap;
 
+import static Stats.StatType.*;
+import static Stats.StatusEffectType.*;
 import static Utility.Colour.colour;
 
 public class Constants {
@@ -71,36 +75,19 @@ public class Constants {
     public static GUI gui;
     public static ItemFactory itemFactory = new ItemFactory();
 
-    public static HashMap<String, Boolean> STATUSES = new HashMap<String, Boolean>();
-    public static HashMap<String, Integer> statColours = new HashMap<String, Integer>();
+    public static HashMap<StatType, Integer> statColours = new HashMap<StatType, Integer>();
 
     //Return values for pop-up windows
     public static int OPEN = 0, CONFIRM = 1, CANCEL = 2;
 
-    //List of available stats, used to confirm genuine status effects
-    String[] stats = {"HEALTH", "MANA", "SPEED", "WISDOM", "DEFENCE", "ATTACK"};
-
     public static void loadStats() {
-        STATUSES.put("SICK", true);
-        STATUSES.put("HEALING", true);
-        STATUSES.put("WEAK", true);
-        STATUSES.put("DAMAGING", true);
-        STATUSES.put("CURSED", true);
-        STATUSES.put("SMART", true);
-        STATUSES.put("ARMOURBREAK", true);
-        STATUSES.put("ARMOURED", true);
-        STATUSES.put("DAZED", true);
-        STATUSES.put("BEZERK", true);
-        STATUSES.put("SLOWED", true);
-        STATUSES.put("SWIFT", true);
-
-        statColours.put("HEALTH", colour(230, 100, 100));
-        statColours.put("MANA", colour(153, 217, 234));
-        statColours.put("SPEED", colour(100, 230, 100));
-        statColours.put("WISDOM", colour(140, 50, 230));
-        statColours.put("DEFENCE", colour(0, 15, 230));
-        statColours.put("ATTACK", colour(230, 150, 0));
-        statColours.put("VITALITY", colour(255, 105, 180));
+        statColours.put(HEALTH, colour(230, 100, 100));
+        statColours.put(MANA, colour(153, 217, 234));
+        statColours.put(SPEED, colour(100, 230, 100));
+        statColours.put(WISDOM, colour(140, 50, 230));
+        statColours.put(DEFENCE, colour(0, 15, 230));
+        statColours.put(ATTACK, colour(230, 150, 0));
+        statColours.put(VITALITY, colour(255, 105, 180));
     }
 
     public static void setGame(Game g) {

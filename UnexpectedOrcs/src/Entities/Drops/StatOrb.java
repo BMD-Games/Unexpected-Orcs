@@ -1,6 +1,7 @@
 package Entities.Drops;
 
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Util;
 import processing.core.PVector;
 
@@ -9,14 +10,14 @@ import static Sprites.Sprites.*;
 
 public class StatOrb extends Drop {
 
-    private String stat;
+    private StatType stat;
     private int tier;
     private float pickUpRadius = 0.3f;
 
     private boolean playerWasInRange = false;
     private float vel = 0, acc = 2.5f;
 
-    public StatOrb(float x, float y, int tier, String stat) {
+    public StatOrb(float x, float y, int tier, StatType stat) {
         super(x, y, 3, 10);
         this.stat = stat;
         this.tier = tier;

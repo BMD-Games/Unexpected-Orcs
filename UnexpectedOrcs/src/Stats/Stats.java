@@ -13,14 +13,12 @@ public class Stats implements Serializable {
 
     public float speed = 0, fireTimer = 0;
 
-    public HashMap<String, Float> statusEffects = new HashMap<String, Float>();
-
-    private int numSegments = 3;
+    public HashMap<StatusEffectType, Float> statusEffects = new HashMap<StatusEffectType, Float>();
 
     public void update(double delta) {
-        String s;
+        StatusEffectType s;
         for(int i = 0; i < statusEffects.keySet().size(); i++) {
-            s = (String)statusEffects.keySet().toArray()[i];
+            s = (StatusEffectType) statusEffects.keySet().toArray()[i];
             if(statusEffects.get(s) - delta < 0) {
                 statusEffects.remove(s);
             } else {
@@ -29,20 +27,16 @@ public class Stats implements Serializable {
         }
 
         if(health < healthMax) {
-            float currentMax = game.ceil(health/(healthMax/(float)numSegments)) * (healthMax/(float)numSegments);
-            health = game.constrain(health + (float)(getVitality() * delta), 0, currentMax);
+            health = game.constrain(health + (float)(getVitality() * delta), 0, healthMax);
         }
         if(mana < manaMax) {
-            float currentMax = game.ceil(mana/(manaMax/(float)numSegments)) * (manaMax/(float)numSegments);
-            mana = game.constrain(mana + (float)(getWisdom() * delta), 0, currentMax);
+            mana = game.constrain(mana + (float)(getWisdom() * delta), 0, manaMax);
         }
         fireTimer += (float)(delta);
     }
 
-    public void addStatusEffect(String name, float duration) {
-        if(STATUSES.getOrDefault(name, false)) {
-            statusEffects.put(name, duration);
-        }
+    public void addStatusEffect(StatusEffectType statusEffect, float duration) {
+        statusEffects.put(statusEffect, duration);
     }
 
     public int getHealth() { return (int)health; }
@@ -81,6 +75,7 @@ public class Stats implements Serializable {
     }
 
     public int getDefence() {
+
         if(statusEffects.containsKey("ARMOURBREAK") && !statusEffects.containsKey("ARMOURED")) {
             return 0;
         }

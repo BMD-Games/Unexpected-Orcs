@@ -1,12 +1,12 @@
 package Items;
 
-import Utility.Pair;
+import Utility.StatusEffect;
 
 import java.util.ArrayList;
 
 public class Scroll extends Item {
 
-    public ArrayList<Pair> statusEffects;
+    public ArrayList<StatusEffect> statusEffects;
     public String description;
 
     public Scroll(String sprite, String name) {

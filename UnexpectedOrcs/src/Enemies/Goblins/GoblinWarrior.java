@@ -5,6 +5,7 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.RectangleObject;
 import processing.core.PImage;
 
@@ -36,7 +37,7 @@ public class GoblinWarrior extends MeleeEnemy implements  RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "DEFENCE"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.DEFENCE));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.05) {
             itembag.addItem(itemFactory.createWand(tier));

@@ -4,6 +4,8 @@ import Enemies.Enemy;
 import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
+import Stats.StatusEffectType;
 import Utility.Util;
 import processing.core.PImage;
 
@@ -23,7 +25,7 @@ public class KingElemental extends Elemental {
         stats.speed = 0.2f * tier;
         stats.defence = 2 + 8 * tier;
         attackWaitTime = 1;
-        statusEffect = "DAZED";
+        statusEffect = StatusEffectType.DAZED;
         setSprite(charSprites.get("KING_ELEMENTAL"));
         sprites[0] = Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_1"));
         sprites[1] = Util.getCombinedSprite(sprite, charSprites.get("ELEMENTAL_BODYGUARDS_2"));
@@ -47,7 +49,7 @@ public class KingElemental extends Elemental {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.MANA));
         engine.addDrop(new CavePortal(x, y));
     }
 

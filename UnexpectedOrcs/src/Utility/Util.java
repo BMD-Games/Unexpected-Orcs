@@ -2,6 +2,7 @@ package Utility;
 
 import GUI.Screens.*;
 import Settings.Settings;
+import Stats.StatusEffectType;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -212,37 +213,37 @@ public class Util {
         return alpha;
     }
 
-    public static String debuffToVerb(String debuff) {
+    public static String debuffToVerb(StatusEffectType debuff) {
         switch(debuff) {
-            case "SLOWED":
+            case SLOWED:
                 return "slowing";
-            case "DAZED":
+            case DAZED:
                 return "dazing";
-            case "WEAK":
+            case WEAK:
                 return "weakening";
-            case "ARMOUR_BREAK":
+            case ARMOURBREAK:
                 return "armour piercing";
-            case "CURSED":
+            case CURSED:
                 return "cursing";
-            case "SICK":
+            case SICK:
                 return "illness";
         }
         return "No such debuff";
     }
 
-    public static String debuffToPresentVerb(String debuff) {
+    public static String debuffToPresentVerb(StatusEffectType debuff) {
         switch(debuff) {
-            case "SLOWED":
+            case SLOWED:
                 return "slows";
-            case "DAZED":
+            case DAZED:
                 return "dazes";
-            case "WEAK":
+            case WEAK:
                 return "weakens";
-            case "ARMOUR_BREAK":
+            case ARMOURBREAK:
                 return "breaks the armour of";
-            case "CURSED":
+            case CURSED:
                 return "curses";
-            case "SICK":
+            case SICK:
                 return "poisons";
         }
         return "No such debuff";

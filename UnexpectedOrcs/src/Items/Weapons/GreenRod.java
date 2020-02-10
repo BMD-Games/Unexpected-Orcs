@@ -2,7 +2,7 @@ package Items.Weapons;
 
 import Items.Weapon;
 import Sound.SoundManager;
-import Utility.Pair;
+import Utility.StatusEffect;
 import Sprites.Sprites;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class GreenRod  extends Weapon {
 
     public GreenRod() {
-        super("GREENROD", "Green Rod", new ArrayList<Pair>());
+        super("GREENROD", "Green Rod", new ArrayList<StatusEffect>());
         this.damage = 5;
         this.fireRate = 0.5f;
         this.numBullets = 1;

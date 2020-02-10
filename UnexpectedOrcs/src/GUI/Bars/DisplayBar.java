@@ -22,7 +22,7 @@ public class DisplayBar {
         this.c = c;
         percentFull = 1.0f;
 
-        element = new HUDElement(x - TILE_SIZE/16, y, "BAR");
+        element = new HUDElement(x - TILE_SIZE/16, y, "BAR_SMOOTH");
     }
 
     public DisplayBar(float x, float y, int c, String spriteName) {

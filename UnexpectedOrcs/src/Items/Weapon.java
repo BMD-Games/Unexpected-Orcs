@@ -1,8 +1,9 @@
 package Items;
 
 import Entities.Projectile;
+import Items.Weapons.WeaponType;
 import Sound.SoundManager;
-import Utility.Pair;
+import Utility.StatusEffect;
 import processing.core.PImage;
 import processing.core.PVector;
 
@@ -19,6 +20,8 @@ import static Utility.Constants.game;
 
 public class Weapon extends Item implements Serializable {
 
+    public WeaponType weaponType;
+
     //Bulletspeed in  tiles per second?
     public int damage = 1, numBullets = 1, range = 1, bulletSpeed = 1;
 
@@ -30,17 +33,15 @@ public class Weapon extends Item implements Serializable {
     transient public PImage bulletSprite;
     public int tipColour = colour(50, 50, 50);
 
-    protected String weaponType;
+    public ArrayList<StatusEffect> statusEffects = new ArrayList<StatusEffect>();
 
-    public ArrayList<Pair> statusEffects = new ArrayList<Pair>();
-
-    public Weapon(String spriteName, String name, ArrayList<Pair> statusEffects) {
+    public Weapon(String spriteName, String name, ArrayList<StatusEffect> statusEffects) {
         super(spriteName, name);
         this.type = "Weapon";
         this.statusEffects = statusEffects;
     }
 
-    public Weapon(PImage sprite, String name, ArrayList<Pair> statusEffects) {
+    public Weapon(PImage sprite, String name, ArrayList<StatusEffect> statusEffects) {
         super(sprite, name);
         this.type = "Weapon";
         this.statusEffects = statusEffects;
@@ -70,13 +71,17 @@ public class Weapon extends Item implements Serializable {
 
     public ArrayList<Projectile> fire() {
         ArrayList<Projectile> projectiles = new ArrayList<>(numBullets);
-        ArrayList<Pair> projectileStats = statusEffects == null ? new ArrayList<Pair>() : statusEffects;
+        ArrayList<StatusEffect> projectileStats = statusEffects == null ? new ArrayList<StatusEffect>() : statusEffects;
         if(engine.player.currentScroll() != null) {
             projectileStats.addAll(engine.player.currentScroll().statusEffects);
         }
         for (int i = 0; i < numBullets; ++i) {
-            projectiles.add(new Projectile(engine.player.x, engine.player.y, numBullets == 1 ? PVector.fromAngle(engine.player.ang) : PVector.fromAngle(engine.player.ang - (spread * ((i/(numBullets-1))-0.5f))),
-                    bulletSpeed, range, damage + engine.player.stats.getAttack(), bulletSprite, projectileStats));
+            Projectile proj = new Projectile(engine.player.x, engine.player.y, numBullets == 1 ? PVector.fromAngle(engine.player.ang) : PVector.fromAngle(engine.player.ang - (spread * ((i/(numBullets-1))-0.5f))),
+                    bulletSpeed, range, damage + engine.player.stats.getAttack(), bulletSprite, projectileStats);
+
+            engine.player.stats.applyMastery(weaponType, proj);
+
+            projectiles.add(proj);
         }
         return projectiles;
     }

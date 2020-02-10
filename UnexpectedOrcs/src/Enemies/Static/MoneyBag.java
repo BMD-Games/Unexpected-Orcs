@@ -4,15 +4,14 @@ import Enemies.StaticEnemy;
 import Entities.Drops.StatOrb;
 import Sound.SoundManager;
 import Sprites.AnimatedSprite;
-import Stats.PlayerStats;
+import Stats.StatType;
 import Utility.Collision.CircleObject;
-import Utility.Pair;
+import Utility.StatusEffect;
 
 import java.util.ArrayList;
 
 import static Sprites.Sprites.dropSprites;
 import static Utility.Constants.engine;
-import static Utility.Constants.game;
 
 public class MoneyBag extends StaticEnemy implements CircleObject {
 
@@ -25,7 +24,7 @@ public class MoneyBag extends StaticEnemy implements CircleObject {
 
 
     @Override
-    public void damage(int amount, ArrayList<Pair> statusEffects) {
+    public void damage(int amount, ArrayList<StatusEffect> statusEffects) {
         damage(amount);
     }
 
@@ -41,7 +40,7 @@ public class MoneyBag extends StaticEnemy implements CircleObject {
 
     private void openBag() {
         SoundManager.playSound("COIN");
-        String stat = PlayerStats.STATS[(int)game.random(PlayerStats.STATS.length)];
+        StatType stat = StatType.randomStat();
         engine.addDrop(new StatOrb(x, y, engine.player.stats.getMedianTeir(stat), stat));
     }
 

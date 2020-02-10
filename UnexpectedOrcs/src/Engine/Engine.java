@@ -1,7 +1,6 @@
 package Engine;
 
 import Enemies.Enemy;
-import Enemies.StandardEnemy;
 import Entities.Drops.*;
 import Entities.Player;
 import Entities.Projectile;
@@ -10,10 +9,8 @@ import Items.Item;
 import Items.Weapon;
 import Levels.Dungeons.*;
 import Levels.Level;
-import Sprites.Sprites;
 import Utility.Collision.Rectangle;
 import Utility.GenericPair;
-import Utility.Pair;
 import processing.core.PGraphics;
 import processing.core.PVector;
 import processing.opengl.PGraphicsOpenGL;
@@ -21,7 +18,6 @@ import processing.opengl.PGraphicsOpenGL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static Tiles.Tiles.WALL;
 import static Utility.Constants.*;
 import static processing.core.PConstants.P2D;
 

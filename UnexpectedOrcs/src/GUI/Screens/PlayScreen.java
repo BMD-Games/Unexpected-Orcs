@@ -6,6 +6,7 @@ import Entities.Drops.Portal;
 import GUI.Bars.DisplayBar;
 import GUI.WrappedText;
 import Items.Inventory;
+import Stats.StatusEffectType;
 import Utility.Util;
 import GUI.Button;
 import processing.core.PGraphics;
@@ -119,8 +120,8 @@ public class PlayScreen extends GUIScreen {
 
     private static void showStatusEffects(PGraphics screen) {
         int i = 0;
-        String mouseOverEffect = "";
-        for (String effect : engine.player.stats.statusEffects.keySet()) {
+        StatusEffectType mouseOverEffect = null;
+        for (StatusEffectType effect : engine.player.stats.statusEffects.keySet()) {
             i++;
             screen.image(playerStatusSprites.get(effect), screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE);
             if (Util.pointInBox(game.mouseX, game.mouseY, screen.width - i * TILE_SIZE, screen.height - TILE_SIZE, TILE_SIZE, TILE_SIZE)) {
@@ -128,9 +129,9 @@ public class PlayScreen extends GUIScreen {
             }
         }
 
-        if (!mouseOverEffect.equals("")) {
+        if (mouseOverEffect != null) {
             int mouseOverWidth = 3 * GUI_WIDTH/4;
-            WrappedText title = WrappedText.wrapText(mouseOverEffect, mouseOverWidth - gui.buff * 4, TILE_SIZE/2);
+            WrappedText title = WrappedText.wrapText(mouseOverEffect.name(), mouseOverWidth - gui.buff * 4, TILE_SIZE/2);
             WrappedText subtitle = WrappedText.wrapText(Util.roundTo(engine.player.stats.statusEffects.get(mouseOverEffect), 10) + "s remaining", mouseOverWidth - gui.buff * 4, TILE_SIZE/2);
             WrappedText description = WrappedText.wrapText("", mouseOverWidth - gui.buff * 4, 0);
             gui.drawMouseOverText(game.mouseX, game.mouseY, title, subtitle, description);
@@ -140,7 +141,6 @@ public class PlayScreen extends GUIScreen {
     private static void drawQuest(PGraphics screen) {
         float x = (game.width - GUI_WIDTH)/2 + GUI_WIDTH;
         float y = game.height/2;
-        float r = game.min(x, y) - TILE_SIZE/2;
         PImage sprite = null;
         for (Enemy boss : engine.currentLevel.bosses) {
             if(((StandardEnemy) boss).stats.health <= 0) continue;
@@ -151,8 +151,20 @@ public class PlayScreen extends GUIScreen {
                 bossBar.show(screen);
             } else if(game.dist(bx, by, engine.player.x, engine.player.y) > game.min(x, y)/TILE_SIZE) {
                 float ang = game.atan2(by - engine.player.y, bx - engine.player.x);
-                float dx = x + game.cos(ang) * r;
-                float dy = y + game.sin(ang) * r;
+
+                float absCos = game.abs(game.cos(ang));
+                float absSin = game.abs(game.sin(ang));
+
+                float d = y/absSin;
+
+                if((x - GUI_WIDTH) * absSin < y * absCos) {
+                    d = (x - GUI_WIDTH)/absCos;
+                }
+
+                d -= TILE_SIZE/2;
+
+                float dx = x + game.cos(ang) * d;
+                float dy = y + game.sin(ang) * d;
                 screen.pushMatrix();
                 screen.translate(dx, dy);
                 screen.rotate(ang);

@@ -5,6 +5,7 @@ import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.CircleObject;
 import Utility.Util;
 
@@ -32,7 +33,7 @@ public class BigChomp extends Chomp {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.ATTACK));
         ItemBag itemBag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {
             itemBag.addItem(itemFactory.createRandomWeapon(tier));

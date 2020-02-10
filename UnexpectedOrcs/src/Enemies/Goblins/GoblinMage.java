@@ -5,6 +5,7 @@ import Enemies.RangedEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.RectangleObject;
 import Utility.Util;
 import processing.core.PImage;
@@ -45,7 +46,7 @@ public class GoblinMage extends RangedEnemy implements  RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.HEALTH));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {
             itembag.addItem(itemFactory.createStaff(tier));

@@ -3,6 +3,8 @@ package Enemies.Elementals;
 import Enemies.Enemy;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
+import Stats.StatusEffectType;
 import processing.core.PImage;
 
 import static Sprites.Sprites.*;
@@ -12,7 +14,7 @@ public class IceElemental extends Elemental {
 
     public IceElemental(float x, float y, int tier) {
         super(x, y, tier);
-        statusEffect = "SLOWED";
+        statusEffect = StatusEffectType.SLOWED;
         setSprite(charSprites.get("ICE_ELEMENTAL"));
         sprites[0] = charSprites.get("ICE_ELEMENTAL");
         sprites[1] = charSprites.get("ICE_ELEMENTAL_2");
@@ -23,7 +25,7 @@ public class IceElemental extends Elemental {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "MANA"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.MANA));
     }
 
 }

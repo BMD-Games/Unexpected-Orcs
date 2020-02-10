@@ -10,6 +10,6 @@ public class Wand extends Weapon {
         super(Util.getCombinedSprite(Sprites.itemSprites.get("WAND"), Sprites.itemSprites.get("WAND_TIP"), colour), "Wand", null);
         bulletSprite = Util.applyColourToImage(Sprites.projectileSprites.get("WAND"), colour);
         tipColour = colour;
+        weaponType = WeaponType.MAGIC;
     }
-
 }

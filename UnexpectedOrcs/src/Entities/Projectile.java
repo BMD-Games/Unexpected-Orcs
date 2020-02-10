@@ -1,6 +1,6 @@
 package Entities;
 
-import Utility.Pair;
+import Utility.StatusEffect;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -12,15 +12,15 @@ import static Utility.Constants.*;
 public class Projectile {
 
     public PVector direction;
-    private float startX, startY, speed, range;
-    public float x, y, px, py;
+    private float startX, startY, speed;
+    public float x, y, px, py, range;
     public int damage;
     private PImage sprite;
-    public ArrayList<Pair> statusEffects = new ArrayList();
+    public ArrayList<StatusEffect> statusEffects;
     public float knockBackMultiplier = 1;
 
 
-    public Projectile(float x, float y, PVector direction, float speed, float range, int damage, PImage sprite, ArrayList<Pair> statusEffects) {
+    public Projectile(float x, float y, PVector direction, float speed, float range, int damage, PImage sprite, ArrayList<StatusEffect> statusEffects) {
         this.x = x;
         this.y = y;
         this.startX = x;
@@ -43,10 +43,10 @@ public class Projectile {
         this.range = range;
         this.damage = damage;
         this.sprite = sprite;
-        this.statusEffects = new ArrayList();
+        this.statusEffects = new ArrayList<StatusEffect>();
     }
 
-    public Projectile(float x, float y, PVector direction, float speed, float range, int damage, PImage sprite, ArrayList<Pair> statusEffects, float knockBackMultiplier) {
+    public Projectile(float x, float y, PVector direction, float speed, float range, int damage, PImage sprite, ArrayList<StatusEffect> statusEffects, float knockBackMultiplier) {
         this(x, y, direction, speed, range, damage, sprite, statusEffects);
         this.knockBackMultiplier = knockBackMultiplier;
     }

@@ -1,15 +1,20 @@
 package Stats;
 
+import Entities.Projectile;
 import GUI.WrappedText;
+import Items.Weapon;
+import Items.Weapons.WeaponType;
 import Sound.SoundManager;
-import Utility.Colour;
+import Utility.StatusEffect;
 import Utility.Util;
+import javafx.util.Pair;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
 import java.io.Serializable;
 import java.util.*;
 
+import static Stats.StatType.*;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
@@ -24,22 +29,15 @@ public class PlayerStats extends Stats implements Serializable {
     public HashMap<Integer, Integer> defenceKills = new HashMap<Integer, Integer>();
     public HashMap<Integer, Integer> speedKills = new HashMap<Integer, Integer>();
 
-    public static final String HEALTH = "HEALTH";
-    public static final String MANA = "MANA";
-    public static final String VITALITY = "VITALITY";
-    public static final String ATTACK = "ATTACK";
-    public static final String WISDOM = "WISDOM";
-    public static final String DEFENCE = "DEFENCE";
-    public static final String SPEED = "SPEED";
-    
-    public static String[] STATS = new String[] {HEALTH, MANA, VITALITY, ATTACK, WISDOM, DEFENCE, SPEED};
+    private int maxMasteryKills = 1000;
+    private HashMap<WeaponType, Integer> masteryKills = new HashMap<WeaponType, Integer>();
 
     private int baseHealth = 100, baseMana = 100;
     public int baseVitality = 5, baseAttack = 1, baseWisdom = 5, baseDefence = 1;
 
     private long randomSeed;
 
-    private float baseSpeed = 2;
+    private float baseSpeed = 3;
 
     private int totalKills = 0;
 
@@ -49,25 +47,47 @@ public class PlayerStats extends Stats implements Serializable {
         mana = baseMana;
     }
 
-    public void addPack(String stat, int tier) {
+    @Override
+    public int getDefence() {
+        int d = super.getDefence();
+
+        if(master()) {
+            d *= 1.2; //+20% bonus
+        }
+
+        return d;
+    }
+
+    @Override
+    public float getFireRate() {
+        float d = super.getFireRate();
+
+        if(master(WeaponType.MELEE)) {
+            d *= 1.2; //+20% bonus
+        }
+
+        return d;
+    }
+
+    public void addPack(StatType stat, int tier) {
         SoundManager.playSound("HEAL");
         switch(stat) {
-            case(HEALTH):
+            case HEALTH:
                 health = game.constrain(health + tier * 10, 0, healthMax);
                 break;
-            case(MANA):
+            case MANA:
                 mana = game.constrain(mana + tier * 10, 0, manaMax);
                 break;
         }
     }
 
-    public void addOrbStat(String stat, int tier) {
+    public void addOrbStat(StatType stat, int tier) {
         SoundManager.playSound("ORB");
         totalKills ++;
         int newVal;
         int colour = statColours.get(stat);
         switch(stat) {
-            case(HEALTH):
+            case HEALTH:
                 healthKills.put(tier, healthKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(healthKills, baseHealth, 5, 0.5f);
                 if(healthMax != newVal) {
@@ -76,7 +96,7 @@ public class PlayerStats extends Stats implements Serializable {
                     healthMax = newVal;
                 }
                 break;
-            case(MANA):
+            case MANA:
                 manaKills.put(tier, manaKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(manaKills, baseMana, 5, 0.2f);
                 if(manaMax != newVal) {
@@ -85,7 +105,7 @@ public class PlayerStats extends Stats implements Serializable {
                     manaMax = newVal;
                 }
                 break;
-            case(VITALITY):
+            case VITALITY:
                 vitalityKills.put(tier, vitalityKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(vitalityKills, baseVitality, 1, 0.1f);
                 if(vitality != newVal) {
@@ -94,7 +114,7 @@ public class PlayerStats extends Stats implements Serializable {
                     vitality = newVal;
                 }
                 break;
-            case(ATTACK):
+            case ATTACK:
                 attackKills.put(tier, attackKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(attackKills, baseAttack, 1, 0.1f);
                 if(attack != newVal) {
@@ -103,7 +123,7 @@ public class PlayerStats extends Stats implements Serializable {
                     attack = newVal;
                 }
                 break;
-            case(WISDOM):
+            case WISDOM:
                 wisdomKills.put(tier, wisdomKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(wisdomKills, baseWisdom, 1, 0.1f);
                 if(wisdom != newVal) {
@@ -112,7 +132,7 @@ public class PlayerStats extends Stats implements Serializable {
                     wisdom = newVal;
                 }
                 break;
-            case(DEFENCE):
+            case DEFENCE:
                 defenceKills.put(tier, defenceKills.getOrDefault(tier, 0) + 1);
                 newVal = (int)calcStatValue(defenceKills, baseDefence, 1, 0.1f);
                 if(defence != newVal) {
@@ -121,7 +141,7 @@ public class PlayerStats extends Stats implements Serializable {
                     defence = newVal;
                 }
                 break;
-            case(SPEED):
+            case SPEED:
                 speedKills.put(tier, speedKills.getOrDefault(tier, 0) + 1);
                 float newSpeed = calcStatValue(speedKills, baseSpeed, 1, 0.1f);
                 if(speed != newSpeed) {
@@ -252,23 +272,23 @@ public class PlayerStats extends Stats implements Serializable {
         String desc = "";
 
         if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // attack sprite hover
-            statName = ATTACK;
+            statName = ATTACK.name();
             type = String.valueOf(getAttack());
             desc = "Increases Damage dealt by player projectiles";
         } else if (Util.pointInBox(x, y, TILE_SIZE * 2 - gui.buff * 2 + tx, ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // defence sprite hover
-            statName = DEFENCE;
+            statName = DEFENCE.name();
             type = String.valueOf(getDefence());
             desc = "Decreases damage taken from enemies";
         } else if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, gui.buff + TILE_SIZE / 2 + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // vitality hover
-            statName = VITALITY;
+            statName = VITALITY.name();
             type = String.valueOf(getVitality());
             desc = "Increases health regeneration rate";
         } else if (Util.pointInBox(x, y, TILE_SIZE * 2 - gui.buff * 2 + tx, gui.buff + TILE_SIZE / 2 + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // wisdom hover
-            statName = WISDOM;
+            statName = WISDOM.name();
             type = String.valueOf(getVitality());
             desc = "Increases mana regeneration rate";
         } else if (Util.pointInBox(x, y, TILE_SIZE/2 - gui.buff * 2 + tx, 2 * gui.buff + TILE_SIZE + ty, TILE_SIZE / 2, TILE_SIZE / 2)) { // speed hover
-            statName = SPEED;
+            statName = SPEED.name();
             type = String.valueOf((int)(speed * 100));
             desc = "Increases player speed";
         }
@@ -310,7 +330,7 @@ public class PlayerStats extends Stats implements Serializable {
         this.randomSeed = seed;
     }
 
-    public int getMedianTeir(String stat) {
+    public int getMedianTeir(StatType stat) {
      Integer[] statTiers = null;
         if(stat.equals(HEALTH)) {
             statTiers = healthKills.keySet().toArray(new Integer[healthKills.size()]);
@@ -338,6 +358,58 @@ public class PlayerStats extends Stats implements Serializable {
         });
 
         return tiers.size() == 0 ? 0 : tiers.get(tiers.size()/2);
+    }
+
+    private void addMasteryKill(WeaponType weaponType) {
+        masteryKills.put(weaponType, masteryKills.getOrDefault(weaponType, 0) + 1);
+    }
+
+    public void applyMastery(WeaponType weaponType, Projectile projectile) {
+        //add mastery bonuses to projectiles
+
+        float percent = 1 + (0.2f * masterPercent(weaponType));
+
+        projectile.damage *= percent;
+
+        if(master(weaponType) && weaponType.equals(WeaponType.RANGED)) {
+            projectile.range *= 1.2;
+        }
+
+
+    }
+
+    public void applyMastery(List<StatusEffect> scrollStatus) {
+        if(master(WeaponType.MAGIC)) {
+            for(StatusEffect statusEffect : scrollStatus) {
+                statusEffect.duration *= 1.2;
+            }
+        }
+    }
+
+    public void applyMastery(float weaponCoolDown) {
+
+    }
+
+    public float masterPercent(WeaponType weaponType) {
+        float num = game.min(maxMasteryKills, masteryKills.getOrDefault(weaponType, 0));
+        return num/maxMasteryKills;
+    }
+
+    //returns if the player is a master of a given weapon type
+    public boolean master(WeaponType weaponType) {
+        return masteryKills.getOrDefault(weaponType, 0) > maxMasteryKills;
+    }
+
+    //returns if the player is a master of ALL weapon types
+    public boolean master() {
+        boolean master = true;
+        for(WeaponType weaponType : WeaponType.values()) {
+            master = master & master(weaponType);
+            if(!master) {
+                break;
+            }
+        }
+        return master;
     }
 
 }

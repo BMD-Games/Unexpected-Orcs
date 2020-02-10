@@ -1,6 +1,8 @@
 package Items.Abilities;
 
 import Items.Ability;
+
+import static Stats.StatusEffectType.SWIFT;
 import static Utility.Constants.*;
 
 public class SwiftBoots  extends Ability {
@@ -14,7 +16,7 @@ public class SwiftBoots  extends Ability {
     @Override
     public boolean ability(){
         if (engine.player.cooldownTimer <= 0 && manaCost <= engine.player.stats.getMana()){
-            engine.player.stats.addStatusEffect("SWIFT", 3);
+            engine.player.stats.addStatusEffect(SWIFT, 3);
             // soundFiles.get("FLYBY").play();
             return true;
         }

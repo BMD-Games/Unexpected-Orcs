@@ -6,6 +6,7 @@ import Entities.Drops.ItemBag;
 import Entities.Drops.Portals.CavePortal;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.CircleObject;
 import Utility.Util;
 
@@ -35,7 +36,7 @@ public class BossChomp extends Chomp {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "HEALTH"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.HEALTH));
         ItemBag itemBag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.2) {
             itemBag.addItem(itemFactory.createRandomWeapon(tier));

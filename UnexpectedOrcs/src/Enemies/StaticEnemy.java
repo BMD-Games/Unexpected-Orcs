@@ -5,7 +5,7 @@ import Entities.Projectile;
 import Levels.Level;
 import Sprites.AnimatedSprite;
 import Utility.Collision.*;
-import Utility.Pair;
+import Utility.StatusEffect;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -43,7 +43,7 @@ public abstract class StaticEnemy extends Enemy {
     }
 
     @Override
-    public abstract void damage(int amount, ArrayList<Pair> statusEffects);
+    public abstract void damage(int amount, ArrayList<StatusEffect> statusEffects);
 
     @Override
     public abstract void damage(int amount);

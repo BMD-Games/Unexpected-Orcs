@@ -10,6 +10,7 @@ public class Staff extends Weapon {
         super(Util.getCombinedSprite(Sprites.itemSprites.get("STAFF"), Sprites.itemSprites.get("STAFF_TIP"), colour), "Staff", null);
         bulletSprite = Util.applyColourToImage(Sprites.projectileSprites.get("STAFF"), colour);
         tipColour = colour;
+        weaponType = WeaponType.MAGIC;
     }
 
 }
