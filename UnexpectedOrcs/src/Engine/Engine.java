@@ -41,8 +41,8 @@ public class Engine {
 
     private ArrayList<Text> text = new ArrayList<Text>();
 
-    public int closestBag = -1;
-    public int closestPortal = -1;
+    private int closestBag = -1;
+    private int closestPortal = -1;
     private float closestBagDist = (float)Double.POSITIVE_INFINITY;
     private float closestPortalDist = (float)Double.POSITIVE_INFINITY;
 
@@ -143,7 +143,7 @@ public class Engine {
         return new PVector(camera.x * TILE_SIZE - (screen.width/2), camera.y * TILE_SIZE - (screen.height/2));
     }
 
-    public void handleMouse() {
+    private void handleMouse() {
         //handle mouse released
         Weapon weapon = player.currentWeapon();
         if (weapon != null) {

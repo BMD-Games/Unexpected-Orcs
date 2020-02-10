@@ -283,6 +283,8 @@ public class Sprites {
         charSprites.put("ANTLION_RIGHT", getSprite(charsheet, 9, 3, 1, 1, charSize));
         charSprites.put("SCORPION", getSprite(charsheet, 8, 1, 2, 1, charSize));
         charSprites.put("SCORPION_BITING", getSprite(charsheet, 10, 1, 2, 1, charSize));
+        charSprites.put("WOLF", getSprite(charsheet, 8, 4, 2, 1, charSize));
+        charSprites.put("WOLF_BITING", getSprite(charsheet, 8, 5, 2, 1, charSize));
 
         //Load element sprites
         charSprites.put("FIRE_ELEMENTAL", getSprite(charsheet, 0, 4, 1, 1, charSize));
@@ -332,21 +334,16 @@ public class Sprites {
         charSprites.put("BLOOD_MONSTER_MOVING", getSprite(charsheet, 14, 6, 2, 2, charSize));
 
         //Load blood monsters
-        charSprites.put("DEMON_CAMEL", getSprite(charsheet, 12, 2, 2, 1, charSize));
-        charSprites.put("DEMON_CAMEL_WALKING", getSprite(charsheet, 12, 3, 2, 1, charSize));
-        charSprites.put("DEMON_NIBBLER", getSprite(charsheet, 10, 2, 1, 1, charSize));
-        charSprites.put("DEMON_NIBBLER_CROUCHING", getSprite(charsheet, 10, 3, 1, 1, charSize));
-        charSprites.put("DEMON_BITER", getSprite(charsheet, 11, 2, 1, 1, charSize));
-        charSprites.put("DEMON_BITER_BITING", getSprite(charsheet, 11, 3, 1, 1, charSize));
+        charSprites.put("BLOOD_CAMEL", getSprite(charsheet, 12, 2, 2, 1, charSize));
+        charSprites.put("BLOOD_CAMEL_WALKING", getSprite(charsheet, 12, 3, 2, 1, charSize));
+        charSprites.put("BLOOD_NIBBLER", getSprite(charsheet, 10, 2, 1, 1, charSize));
+        charSprites.put("BLOOD_NIBBLER_CROUCHING", getSprite(charsheet, 10, 3, 1, 1, charSize));
+        charSprites.put("BLOOD_BITER", getSprite(charsheet, 11, 2, 1, 1, charSize));
+        charSprites.put("BLOOD_BITER_BITING", getSprite(charsheet, 11, 3, 1, 1, charSize));
 
         //Load misc mobs
         charSprites.put("GHOST_BALL_WHITE", getSprite(charsheet, 14, 4, 1, 1, charSize));
         charSprites.put("GHOST_BALL_BLACK", getSprite(charsheet, 15, 4, 1, 1, charSize));
-        charSprites.put("SLUG", getSprite(charsheet, 10, 5, 2, 1, charSize));
-        charSprites.put("SLUG_COILED", getSprite(charsheet, 12, 5, 2, 1, charSize));
-        charSprites.put("SLUG_BITING", getSprite(charsheet, 14, 5, 2, 1, charSize));
-        charSprites.put("WOLF", getSprite(charsheet, 8, 4, 2, 1, charSize));
-        charSprites.put("WOLF_BITING", getSprite(charsheet, 8, 5, 2, 1, charSize));
 
         //-----BULLET SPRITES-----
         PImage projectilesheet = game.loadImage("/assets/sprites/projectilesheet.png");

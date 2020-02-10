@@ -10,20 +10,20 @@ import processing.core.PImage;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public class BloodCamel extends MeleeEnemy implements RectangleObject {
+public class Wolf extends MeleeEnemy implements RectangleObject {
 
     private float w = 0.5f, h = 1f;
 
-    public BloodCamel(float x, float y, int tier) {
-        super(x, y, tier, charSprites.get("BLOOD_CAMEL"));
-        stats.speed = 0.7f + 0.1f * tier;
-        stats.attack = 10 + 14 * tier;
-        stats.defence = 6 * tier;
-        stats.health = 40 + 35 * tier;
+    public Wolf(float x, float y, int tier) {
+        super(x, y, tier, charSprites.get("WOLF"));
+        stats.speed = 1.3f + 0.2f * tier;
+        stats.attack = 12 + 16 * tier;
+        stats.defence = 3 * tier;
+        stats.health = 25 + 25 * tier;
         stats.healthMax = (int)stats.health;
-        stats.vitality = 3;
+        stats.vitality = 2;
         attackWaitTime = 0.5f;
-        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("BLOOD_CAMEL"), charSprites.get("BLOOD_CAMEL_WALKING")}, 0.3f);
+        animatedSprite = new AnimatedSprite(new PImage[] {charSprites.get("WOLF"), charSprites.get("WOLF_BITING")}, 0.3f);
     }
 
     public float getWidth() {

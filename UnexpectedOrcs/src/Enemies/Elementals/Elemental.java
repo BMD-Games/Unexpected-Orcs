@@ -9,7 +9,7 @@ import processing.core.PImage;
 import static Utility.Constants.*;
 import static Sprites.Sprites.*;
 
-public abstract class Elemental extends MeleeEnemy implements  CircleObject {
+public abstract class Elemental extends MeleeEnemy implements CircleObject {
 
     protected float animationTime = 0;
     protected PImage[] sprites = {charSprites.get("FIRE_ELEMENTAL"), charSprites.get("ICE_ELEMENTAL"), charSprites.get("MAGIC_ELEMENTAL"), charSprites.get("POISON_ELEMENTAL")};

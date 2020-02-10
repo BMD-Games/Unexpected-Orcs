@@ -13,7 +13,7 @@ import static Utility.Constants.*;
 import static Utility.Colour.*;
 import static Sprites.Sprites.*;
 
-public class GoblinArcher extends RangedEnemy implements  RectangleObject {
+public class GoblinArcher extends RangedEnemy implements RectangleObject {
 
     private float w = 0.4f, h = 0.5f;
 

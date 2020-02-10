@@ -1,9 +1,8 @@
 package Levels.Dungeons;
 
-import Enemies.CreepyCrawlies.Basilisk;
-import Enemies.CreepyCrawlies.Bat;
-import Enemies.CreepyCrawlies.Crawler;
-import Enemies.CreepyCrawlies.Spider;
+import Enemies.CreepyCrawlies.*;
+import Enemies.CreepyCrawlies.BloodBiter;
+import Enemies.CreepyCrawlies.BloodCamel;
 import Enemies.Goblins.*;
 import Enemies.StandardEnemy;
 import Levels.Generator;
@@ -27,22 +26,12 @@ public class BloodDungeon  extends Level {
         //Add enemies to level
         StandardEnemy enemy;
         for(int i = 0; i < 30; ++i) {
-            enemy = new GoblinArcher(game.random(w), game.random(h), 1);
+            enemy = new BloodBiter(game.random(w), game.random(h), 1);
             validSpawn(enemy);
             addEnemy(enemy);
         }
         for(int i = 0; i < 30; ++i) {
-            enemy = new GoblinMage(game.random(w), game.random(h), 1);
-            validSpawn(enemy);
-            addEnemy(enemy);
-        }
-        for(int i = 0; i < 30; ++i) {
-            enemy = new GoblinSpearman(game.random(w), game.random(h), 1);
-            validSpawn(enemy);
-            addEnemy(enemy);
-        }
-        for(int i = 0; i < 30; ++i) {
-            enemy = new GoblinWarrior(game.random(w), game.random(h), 1);
+            enemy = new BloodCamel(game.random(w), game.random(h), 1);
             validSpawn(enemy);
             addEnemy(enemy);
         }

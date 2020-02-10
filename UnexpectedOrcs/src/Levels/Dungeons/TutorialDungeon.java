@@ -1,7 +1,10 @@
 package Levels.Dungeons;
 
 import Enemies.Chomps.Chomp;
+import Enemies.CreepyCrawlies.BloodBiter;
+import Enemies.CreepyCrawlies.BloodCamel;
 import Enemies.CreepyCrawlies.Slugite;
+import Enemies.CreepyCrawlies.Wolf;
 import Enemies.Enemy;
 import Enemies.Static.MoneyBag;
 import Enemies.StandardEnemy;
