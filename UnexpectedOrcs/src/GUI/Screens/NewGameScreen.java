@@ -1,5 +1,6 @@
 package GUI.Screens;
 
+import App.GameState;
 import Entities.Player;
 import Entities.Text;
 import File.GameFile;
@@ -96,7 +97,7 @@ public class NewGameScreen extends GUIScreen {
     public static void handleMouseReleased() {
         if(seedDialogOpen) return;
         if(back.pressed()) {
-            game.setState("MENU");
+            game.setState(GameState.MENU);
             playerName = "";
             gui.keyInput = false;
         } else if (play.pressed()) {
@@ -109,7 +110,7 @@ public class NewGameScreen extends GUIScreen {
                 engine.player.stats.setSeed((seedValue == null ? new Date().getTime() : seedValue));
                 game.randomSeed(engine.player.stats.getSeed());
                 GameFile.saveGame();
-                game.setState("PLAYING");
+                game.setState(GameState.PLAYING);
                 playerName = "";
             }
         } else if (quick.pressed()) {
@@ -120,7 +121,7 @@ public class NewGameScreen extends GUIScreen {
             engine.setPlayer(new Player());
             engine.player.stats.setSeed((seedValue == null ? new Date().getTime() : seedValue));
             game.randomSeed(engine.player.stats.getSeed());
-            game.setState("PLAYING");
+            game.setState(GameState.PLAYING);
             playerName = "";
         } else if(seed.pressed()) {
             seedDialogOpen = true;
@@ -143,7 +144,7 @@ public class NewGameScreen extends GUIScreen {
                 engine.reset(true);
                 engine.setPlayer(new Player());
                 GameFile.saveGame();
-                game.setState("PLAYING");
+                game.setState(GameState.PLAYING);
                 playerName = "";
             }
         } else if (Character.isLetterOrDigit(key) && playerName.length() < 10) {

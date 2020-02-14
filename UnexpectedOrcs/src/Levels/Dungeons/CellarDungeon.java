@@ -5,12 +5,11 @@ import Enemies.StandardEnemy;
 import Levels.Generator;
 import Levels.Level;
 import Levels.Room;
-import Levels.RoomLevel;
 import Sprites.TileSet;
 
 import static Utility.Constants.*;
 
-public class CellarDungeon  extends Level implements RoomLevel {
+public class CellarDungeon  extends Level {
 
     /***
      Creates a dungeon and appends the tiles to the Level it's been given.
@@ -78,7 +77,6 @@ public class CellarDungeon  extends Level implements RoomLevel {
         validBossSpawn(enemy);
         addEnemy(enemy);
         bosses.add(enemy);
-        game.println("done");
     }
 
 

@@ -1,5 +1,6 @@
 package GUI;
 
+import App.GameState;
 import GUI.Screens.*;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -32,75 +33,75 @@ public class GUI {
 
 
     public void show() {
-        if(game.STATE.equals("MENU")) {
+        if(game.STATE.equals(GameState.MENU)) {
             MenuScreen.show(screen);
-        } else if(game.STATE.equals("OPTIONS")) {
+        } else if(game.STATE.equals(GameState.OPTIONS)) {
             OptionsScreen.show(screen);
-        } else if(game.STATE.equals("PLAYING")) {
+        } else if(game.STATE.equals(GameState.PLAYING)) {
             PlayScreen.show(screen);
-        } else if(game.STATE.equals("PAUSED")) {
+        } else if(game.STATE.equals(GameState.PAUSED)) {
             PausedScreen.show(screen);
-        } else if(game.STATE.equals("DEAD")) {
+        } else if(game.STATE.equals(GameState.DEAD)) {
             DeadScreen.show(screen);
-        } else if(game.STATE.equals("NEWGAME")) {
+        } else if(game.STATE.equals(GameState.NEWGAME)) {
             NewGameScreen.show(screen);
-        } else if(game.STATE.equals("LOAD")) {
+        } else if(game.STATE.equals(GameState.LOAD)) {
             LoadScreen.show(screen);
-        } else if(game.STATE.equals("CREDITS")) {
+        } else if(game.STATE.equals(GameState.CREDITS)) {
             CreditsScreen.show(screen);
-        } else if(game.STATE.equals("TEST")) {
+        } else if(game.STATE.equals(GameState.TEST)) {
             TestScreen.show(screen);
         }
         else {
-            game.setState("MENU");
+            game.setState(GameState.MENU);
         }
     }
 
     public void handleKeyInput(char key) {
-        if(game.STATE.equals("MENU")) {
+        if(game.STATE.equals(GameState.MENU)) {
             MenuScreen.handleKeyInput(key);
-        } else if(game.STATE.equals("OPTIONS")) {
+        } else if(game.STATE.equals(GameState.OPTIONS)) {
             OptionsScreen.handleKeyInput(key);
-        } else if(game.STATE.equals("PAUSED")) {
+        } else if(game.STATE.equals(GameState.PAUSED)) {
             PausedScreen.handleKeyInput(key);
-        } else if(game.STATE.equals("PLAYING")) {
+        } else if(game.STATE.equals(GameState.PLAYING)) {
             PlayScreen.handleKeyInput(key);
-        } else if(game.STATE.equals("DEAD")) {
+        } else if(game.STATE.equals(GameState.DEAD)) {
             DeadScreen.handleKeyInput(key);
-        } else if(game.STATE.equals("LOAD")) {
+        } else if(game.STATE.equals(GameState.LOAD)) {
             LoadScreen.handleKeyInput(key);
-        } else if(game.STATE.equals("NEWGAME")) {
+        } else if(game.STATE.equals(GameState.NEWGAME)) {
             NewGameScreen.handleKeyInput(key);
-        } else if(game.STATE.equals("CREDITS")) {
+        } else if(game.STATE.equals(GameState.CREDITS)) {
             CreditsScreen.handleKeyInput(key);
         }
 
-        else if(game.STATE.equals("TEST")) {
+        else if(game.STATE.equals(GameState.TEST)) {
             TestScreen.handleMouseReleased();
         }
     }
 
     public void handleMouseReleased() {
         //------Main Buttons
-        if(game.STATE.equals("MENU")) {
+        if(game.STATE.equals(GameState.MENU)) {
             MenuScreen.handleMouseReleased();
-        } else if(game.STATE.equals("OPTIONS")) {
+        } else if(game.STATE.equals(GameState.OPTIONS)) {
             OptionsScreen.handleMouseReleased();
-        } else if(game.STATE.equals("PAUSED")) {
+        } else if(game.STATE.equals(GameState.PAUSED)) {
             PausedScreen.handleMouseReleased();
-        } else if(game.STATE.equals("PLAYING")) {
+        } else if(game.STATE.equals(GameState.PLAYING)) {
             PlayScreen.handleMouseReleased();
-        } else if(game.STATE.equals("DEAD")) {
+        } else if(game.STATE.equals(GameState.DEAD)) {
             DeadScreen.handleMouseReleased();
-        } else if(game.STATE.equals("LOAD")) {
+        } else if(game.STATE.equals(GameState.LOAD)) {
            LoadScreen.handleMouseReleased();
-        } else if(game.STATE.equals("NEWGAME")) {
+        } else if(game.STATE.equals(GameState.NEWGAME)) {
             NewGameScreen.handleMouseReleased();
-        } else if(game.STATE.equals("CREDITS")) {
+        } else if(game.STATE.equals(GameState.CREDITS)) {
             CreditsScreen.handleMouseReleased();
         }
 
-        else if(game.STATE.equals("TEST")) {
+        else if(game.STATE.equals(GameState.TEST)) {
             TestScreen.handleMouseReleased();
         }
     }

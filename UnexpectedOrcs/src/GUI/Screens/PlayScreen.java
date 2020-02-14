@@ -1,5 +1,6 @@
 package GUI.Screens;
 
+import App.GameState;
 import Enemies.Enemy;
 import Enemies.StandardEnemy;
 import Entities.Drops.Portal;
@@ -78,7 +79,7 @@ public class PlayScreen extends GUIScreen {
         if(showingPortal && enterPortal.pressed()) {
             engine.enterClosestPortal();
         } else if(pause.pressed()) {
-            game.setState("PAUSED");
+            game.setState(GameState.PAUSED);
         }
     }
 

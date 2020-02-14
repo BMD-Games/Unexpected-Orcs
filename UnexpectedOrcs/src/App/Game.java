@@ -32,8 +32,8 @@ import static Utility.Constants.*;
 public class Game extends PApplet{
 
 
-    public String STATE;
-    public String PREV_STATE;
+    public GameState STATE;
+    public GameState PREV_STATE;
 
     public PImage title;
 
@@ -58,7 +58,7 @@ public class Game extends PApplet{
 
         surface.setTitle("Unexpected Orcs");
 
-        setState("LOADING");
+        setState(GameState.LOADING);
         thread("load");
 
         bitcell = createFont("./assets/fonts/bitcell.ttf", TILE_SIZE);
@@ -77,7 +77,7 @@ public class Game extends PApplet{
     public void draw() {
         updateMouse();
 
-        if(STATE.equals("TEST")) {
+        if(STATE.equals(GameState.TEST)) {
             for(int i = 0; i < 10; i ++) {
                 println("Test " + i);
                 Level level = new Cave();
@@ -86,7 +86,7 @@ public class Game extends PApplet{
             }
         }
 
-        if(STATE.equals("PLAYING")) {
+        if(STATE.equals(GameState.PLAYING)) {
             engine.update();
             engine.show();
             if(drawDebug) {
@@ -95,11 +95,11 @@ public class Game extends PApplet{
                 debugScreen.clear();
                 debugScreen.endDraw();
             }
-        } else if (STATE.equals("PAUSED")) {
+        } else if (STATE.equals(GameState.PAUSED)) {
             engine.show();
         }
 
-        if(STATE.equals("LOADING")) {
+        if(STATE.equals(GameState.LOADING)) {
             LoadingScreen.show(g);
         } else {
             gui.show();
@@ -112,12 +112,12 @@ public class Game extends PApplet{
     }
 
     public void mouseWheel(MouseEvent e) {
-        if(STATE.equals("PLAYING")){
+        if(STATE.equals(GameState.PLAYING)){
             miniMapZoom -= e.getCount();
             miniMapZoom = constrain(miniMapZoom, zoomMin, zoomMax);
-        } else if(STATE.equals("LOAD")) {
+        } else if(STATE.equals(GameState.LOAD)) {
             LoadScreen.loadScroll.changeScrollPosition(e.getCount() * 20);
-        } else if(STATE.equals("OPTIONS")) {
+        } else if(STATE.equals(GameState.OPTIONS)) {
             OptionsScreen.settingsScroll.changeScrollPosition(e.getCount() * 20);
         }
     }
@@ -148,7 +148,7 @@ public class Game extends PApplet{
         if (keyCode == ABILITY_KEY) keys[ability] = 0;
         if (keyCode == INTERACT_KEY) keys[interact] = 0;
 
-        if(STATE.equals("PLAYING")) {
+        if(STATE.equals(GameState.PLAYING)) {
             if(keyCode == HOT_SWAP_0) {
                 engine.player.inv.hotSwap(0);
             } else if(keyCode == HOT_SWAP_1) {
@@ -177,7 +177,7 @@ public class Game extends PApplet{
         Runtime.getRuntime().halt(0);
     }
 
-    public void setState(String state) {
+    public void setState(GameState state) {
         remapNextKey = false;
         PREV_STATE = STATE;
         STATE = state;
@@ -221,7 +221,7 @@ public class Game extends PApplet{
 
         loadPercentage = 1;
         loadMessage = "DONE!";
-        setState("MENU");
+        setState(GameState.MENU);
     }
 
     private void updateMouse() {
@@ -257,7 +257,7 @@ public class Game extends PApplet{
 
         loadPercentage = 1;
         loadMessage = "DONE!";
-        setState("PLAYING");
+        setState(GameState.PLAYING);
     }
 
     public void resize(int w, int h) {

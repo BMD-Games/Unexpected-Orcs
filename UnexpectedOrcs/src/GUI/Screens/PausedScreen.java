@@ -1,5 +1,6 @@
 package GUI.Screens;
 
+import App.GameState;
 import File.GameFile;
 import GUI.Button;
 import Utility.Util;
@@ -48,14 +49,14 @@ public class PausedScreen extends GUIScreen {
 
     public static void handleMouseReleased() {
         if(play.pressed()) {
-            game.setState("PLAYING");
+            game.setState(GameState.PLAYING);
             engine.updateMillis();
         } else if(options.pressed()) {
-            game.setState("OPTIONS");
+            game.setState(GameState.OPTIONS);
         } else if (load.pressed()) {
-            game.setState("LOAD");
+            game.setState(GameState.LOAD);
         } else if(menu.pressed()) {
-            game.setState("MENU");
+            game.setState(GameState.MENU);
             GameFile.saveGame();
             engine.initiateDrops();
         } else if(engine.player.stats.getSeed() != null && Util.pointInBox(game.mouseX, game.mouseY, game.width/2 - game.textWidth("SEED: " + engine.player.stats.getSeed())/2,

@@ -1,5 +1,6 @@
 package GUI.Screens;
 
+import App.GameState;
 import File.GameFile;
 import GUI.Button;
 import Utility.Util;
@@ -35,18 +36,18 @@ public class MenuScreen extends GUIScreen {
 
     public static void handleMouseReleased() {
         if(play.pressed()) {
-            game.setState("NEWGAME");
+            game.setState(GameState.NEWGAME);
         } else if(options.pressed()) {
-            game.setState("OPTIONS");
+            game.setState(GameState.OPTIONS);
         } else if (load.pressed()) {
-            game.setState("LOAD");
+            game.setState(GameState.LOAD);
             LoadScreen.loadScroll.setScrollElements(GameFile.loadAllSaves());
         } else if (exit.pressed()) {
             game.quitGame();
         } else if(credits.pressed()) {
-            game.setState("CREDITS");
+            game.setState(GameState.CREDITS);
         } else if(Util.pointInBox(game.mouseX, game.mouseY, 0, 0, TILE_SIZE, TILE_SIZE)) {
-            game.setState("TEST");
+            game.setState(GameState.TEST);
         }
     }
 

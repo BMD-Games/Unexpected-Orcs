@@ -1,15 +1,11 @@
 package Levels.Dungeons;
 
 import Enemies.Chomps.Chomp;
-import Enemies.CreepyCrawlies.BloodBiter;
-import Enemies.CreepyCrawlies.BloodCamel;
-import Enemies.CreepyCrawlies.Slugite;
-import Enemies.CreepyCrawlies.Wolf;
-import Enemies.Enemy;
-import Enemies.Static.MoneyBag;
 import Enemies.StandardEnemy;
+import Enemies.Static.MoneyBag;
 import Entities.Drops.Chest;
 import Entities.Drops.Portals.CavePortal;
+import Entities.Drops.Portals.CellarPortal;
 import Levels.Generator;
 import Levels.Level;
 import Sprites.TileSet;
@@ -51,7 +47,7 @@ public class TutorialDungeon  extends Level {
     }
 
     void generateEnemies() {
-        engine.addDrop(new CavePortal(7.5f, 8.5f));
+        engine.addDrop(new CellarPortal(7.5f, 8.5f));
 
         addEnemy(new Chomp(7.5f, 9.5f, 1));
 

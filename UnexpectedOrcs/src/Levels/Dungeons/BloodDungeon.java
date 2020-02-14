@@ -1,8 +1,7 @@
 package Levels.Dungeons;
 
 import Enemies.CreepyCrawlies.*;
-import Enemies.CreepyCrawlies.BloodBiter;
-import Enemies.CreepyCrawlies.BloodCamel;
+import Enemies.Bloods.*;
 import Enemies.Goblins.*;
 import Enemies.StandardEnemy;
 import Levels.Generator;

@@ -9,6 +9,7 @@ import Sprites.TileSet;
 import Tiles.Tile;
 import Utility.PVectorZComparator;
 import Utility.Util;
+import Utility.Vec2;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -490,6 +491,9 @@ public class Level {
         this.start = start;
     }
 
+    public void setStart(Vec2 start) {
+        this.start = start.asPVector();
+    }
     public int getWidth() {
         return w;
     }
@@ -559,17 +563,6 @@ public class Level {
             addEnemy(enemy);
         }
     }
-
-  /*protected void addBoss(StandardEnemy, int tier) {
-    //StandardEnemy enemy = className.getConstructors()[0].newInstance(game.random(w), game.random(h), tier);
-    if (this instanceof RoomLevel) {
-      validBossSpawn(enemy);
-    } else {
-      validSpawn(enemy);
-    }
-    addEnemy(enemy);
-    bosses.add(enemy);
-  }*/
 
     public boolean visited(int x, int y) {
         try {

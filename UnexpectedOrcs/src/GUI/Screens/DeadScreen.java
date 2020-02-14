@@ -1,5 +1,6 @@
 package GUI.Screens;
 
+import App.GameState;
 import GUI.Button;
 import processing.core.PGraphics;
 
@@ -23,7 +24,7 @@ public class DeadScreen extends GUIScreen {
 
     public static void handleMouseReleased() {
         if(menu.pressed()) {
-            game.setState("MENU");
+            game.setState(GameState.MENU);
         }
     }
 

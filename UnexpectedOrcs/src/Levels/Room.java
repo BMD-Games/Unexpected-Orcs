@@ -3,6 +3,7 @@ package Levels;
 import Tiles.Tile;
 import Tiles.WallTile;
 import Utility.Util;
+import Utility.Vec2;
 import processing.core.PVector;
 
 import static Tiles.Tiles.*;
@@ -13,6 +14,8 @@ public class Room {
     public int x, y, w, h;
     public String[][] tiles;
 
+    public Vec2[] doors = new Vec2[] {new Vec2(3, -1) }; //list of positions for doors and an offset from the (x, y) location of the room eg (0, 0) would put a door in the top left of room
+
     Room() {
     }
 
@@ -22,6 +25,7 @@ public class Room {
         this.w = room.w;
         this.h = room.h;
         this.tiles = room.tiles;
+        this.doors = room.doors;
     }
 
     public boolean collides(Room room) {
@@ -40,23 +44,30 @@ public class Room {
     }
 
     public boolean containsCorridorPoint(int x, int y) {
-        return Util.pointInBox(x, y, this.x + 2, this.y + 2, this.w - 4, this.h - 4);
+        return Util.pointInBox(x, y, this.x - 1, this.y - 1, this.w + 2, this.h + 2);
     }
 
-    public boolean overlapsX(Room room) {
-        return ((x >= room.x && x <= room.x + room.w) || (x + w >= room.x && x + w <= room.x + room.w));
+    public Vec2 midPoint() {
+        return new Vec2((int)(x + w/2), (int)(y + h/2));
     }
 
-    public boolean overlapsY(Room room) {
-        return ((y >= room.y && y <= room.y + room.h) || (y + h >= room.y && y + h <= room.y + room.h));
+    public Vec2 closestDoor(Room room) {
+        return closestDoor(room.midPoint());
     }
 
-    public boolean inRoom(int px, int py) {
-        return (!Tiles.get(tiles[px-x][py-y]).solid) && Util.pointInBox(px, py, x, y, w, h);
-    }
+    public Vec2 closestDoor(Vec2 door) {
+        int minDist = 10000;
+        int index = 0;
+        for(int i = 0; i < doors.length; i ++) {
+            int dx = game.abs((x + door.x )- doors[i].x);
+            int dy = game.abs((y + door.y) - doors[i].y);
+            if(dx + dy < minDist) { //use manhattan distance
+                minDist = dx + dy;
+                index = i;
+            }
+        }
 
-    public PVector midPoint() {
-        return new PVector((int)(x + w/2), (int)(y + h/2));
+        return new Vec2(doors[index].x + x, doors[index].y + y);
     }
 
     public int distanceSquare(Room room) {
@@ -76,10 +87,6 @@ public class Room {
         return game.min(edges);
     }
 
-    public boolean outOfBounds(int w, int h) {
-        return (this.x < edgeSize || this.x + this.w > w - edgeSize || this.y < edgeSize || this.y + this.h > h - edgeSize);
-    }
-
     public void setTiles(String[][] newTiles) {
         w = newTiles.length;
         h = newTiles[0].length;
@@ -89,6 +96,23 @@ public class Room {
                 this.tiles[i][j] = newTiles[i][j];
             }
         }
+    }
+
+    public boolean inDoorway(Vec2 pos) {
+        Vec2 offSet = new Vec2(pos.x - x, pos.y - y);
+        boolean inDoorway = false;
+        for(Vec2 door : doors) {
+            if(door.equals(offSet)) {
+                inDoorway = true;
+                break;
+            }
+        }
+        return inDoorway;
+    }
+
+    public boolean inDoorway(int x, int y) {
+
+        return inDoorway(new Vec2(x, y));
     }
 
     public static Room randomRoom(int minSize, int maxSize, int w, int h) {

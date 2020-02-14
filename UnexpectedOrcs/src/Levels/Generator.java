@@ -5,6 +5,7 @@ import Entities.Drops.Chest;
 import Sprites.TileSet;
 import Tiles.Tile;
 import Utility.Util;
+import Utility.Vec2;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -739,7 +740,7 @@ public class Generator {
                 if (corridors.get(corridors.size() - 1).minX < minX) minX = corridors.get(corridors.size() - 1).minX;
                 if (corridors.get(corridors.size() - 1).maxX > maxX) maxX = corridors.get(corridors.size() - 1).maxX;
                 if (corridors.get(corridors.size() - 1).minY < minY) minY = corridors.get(corridors.size() - 1).minY;
-                if (corridors.get(corridors.size() - 1).minX > maxY) maxY = corridors.get(corridors.size() - 1).maxY;
+                if (corridors.get(corridors.size() - 1).maxY > maxY) maxY = corridors.get(corridors.size() - 1).maxY;
             }
         }
 
@@ -774,8 +775,6 @@ public class Generator {
             }
         }
 
-        game.println(minX, maxX, minY, maxY, w, h);
-
         //place rooms into tile grid
         for (int i = 0; i < placedRooms.size(); i++) {
             Room room = placedRooms.get(i);
@@ -800,7 +799,7 @@ public class Generator {
 
         //place corridors into tile grid
         for (Corridor c : corridors) {
-            for (PVector pos : c.path) {
+            for (Vec2 pos : c.path) {
                 if (Tiles.get(tiles[(int) pos.x][(int) pos.y]).solid) {
                     tiles[(int) pos.x][(int) pos.y] = "FLOOR";
                 }
@@ -810,54 +809,6 @@ public class Generator {
         level.setTiles(finishingPass(tiles, level.tileset));
         level.setStart(placedRooms.get(0).midPoint());
         level.setZones(bossRegions, generalRegions);
-    }
-
-    private static int[][] connectRooms(int[][] tiles, Room r1, Room r2) {
-        PVector start = r1.midPoint();
-        PVector stop = r2.midPoint();
-
-        int x = (int) start.x;
-        int y = (int) start.y;
-
-        int dx = 0;
-        int dy = 0;
-        try {
-            dx = Util.sign(stop.x - start.x);
-        } catch (Exception ignored) {
-        }
-        ;
-        try {
-            dy = Util.sign(stop.y - start.y);
-        } catch (Exception ignored) {
-        }
-        ;
-
-        int[] dir = {dx, 0};
-        int[] dir2 = {0, dy};
-        if (game.abs(dx) < game.abs(dy)) { //do large axis first
-            dir[0] = 0;
-            dir[1] = dy;
-            dir2[0] = dx;
-            dir2[1] = 0;
-        }
-        boolean changed = false;
-        while (x != (int) stop.x || y != (int) stop.y) {
-            if (tiles[x][y] <= WALL) {
-                tiles[x][y] = FLOOR;
-            }
-            x += dir[0];
-            y += dir[1];
-            if (!changed && ((x == (int) stop.x && dx != 0) || (y == (int) stop.y && dy != 0))) {
-                changed = true;
-                dir[0] = dir2[0];
-                dir[1] = dir2[1];
-                if (dir[0] == 0 && dir[1] == 0) {
-                    break;
-                }
-            }
-        }
-
-        return tiles;
     }
 
     public static String[][] intsToTileStrings(int[][]ints) {
@@ -872,10 +823,6 @@ public class Generator {
             }
         }
         return tiles;
-    }
-
-    public static Tile[][] finishingPass(int[][] tiles, TileSet tileSet) {
-        return finishingPass(intsToTileStrings(tiles), tileSet);
     }
 
     public static Tile[][] finishingPass(String[][] tiles, TileSet tileset) {
@@ -933,7 +880,7 @@ public class Generator {
         pg.background(0);
         pg.textAlign(game.CENTER, game.CENTER);
         pg.textSize(20);
-        pg.stroke(255, 0, 0);
+        pg.stroke(255);
         for (int i = 0; i < graph.size(); i++) {
             pg.fill(255);
             Room room = placedRooms.get(i);
@@ -955,7 +902,7 @@ public class Generator {
         pg.background(0);
         pg.textAlign(game.CENTER, game.CENTER);
         pg.textSize(20);
-        pg.stroke(255, 0, 0);
+        pg.noStroke();
 
         for (int i = 0; i < placedRooms.size(); i++) {
             Room room = placedRooms.get(i);
@@ -966,11 +913,12 @@ public class Generator {
             pg.text(i, room.midPoint().x * 10, room.midPoint().y * 10);
         }
 
+        pg.strokeWeight(10);
+        pg.stroke(255);
+        pg.noFill();
         for (int i = 0; i < corridors.size(); i++) {
-            pg.stroke(255, 0, 0);
-            pg.noFill();
             pg.beginShape();
-            for (PVector vec : corridors.get(i).path) {
+            for (Vec2 vec : corridors.get(i).path) {
                 pg.vertex(vec.x * 10, vec.y * 10);
             }
             pg.endShape();

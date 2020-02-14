@@ -34,7 +34,7 @@ public class Util {
 
     //Returns whether a point (px, py) is inside a box (bx, by, w, h);
     public  static boolean pointInBox(float px, float py, float bx, float by, float w, float h) {
-        return((px >= bx) && (px <= bx + w) && (py >= by) && (py <= by + h));
+        return((px >= bx) && (px < bx + w) && (py >= by) && (py < by + h));
     }
 
     public static boolean lineLine(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {

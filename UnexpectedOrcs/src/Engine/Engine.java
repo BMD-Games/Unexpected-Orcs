@@ -1,5 +1,6 @@
 package Engine;
 
+import App.GameState;
 import Enemies.Enemy;
 import Entities.Drops.*;
 import Entities.Player;
@@ -73,7 +74,7 @@ public class Engine {
         player.update(delta, currentLevel.getNeighbours((int)player.x, (int)player.y), currentLevel.getTile((int)player.x, (int)player.y).speedMod);
         if (player.stats.getHealth() <= 0) {
             //absolutely get hack3d loser
-            //game.setState("DEAD");
+            //game.setState(GameState.DEAD);
             //player.onDeath();
         }
         updateCamera(delta, player.x, player.y);
@@ -106,12 +107,9 @@ public class Engine {
 
         showDrops();
 
-        screen.resetShader();
         for (Projectile projectile : playerProjectiles) {
             projectile.show(screen, getRenderOffset());
         }
-
-        screen.shader(outlineShader);
         for (Projectile projectile : enemyProjectiles) {
             projectile.show(screen, getRenderOffset());
         }
@@ -380,7 +378,7 @@ public class Engine {
 
     public void enterClosestPortal() {
         //empty drops, enemies etc
-        game.setState("LOADING");
+        game.setState(GameState.LOADING);
         loadMessage = "Generating " + getClosestPortal().name;
         game.thread("loadClosestPortal");
     }

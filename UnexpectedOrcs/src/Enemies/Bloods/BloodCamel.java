@@ -1,9 +1,10 @@
-package Enemies.CreepyCrawlies;
+package Enemies.Bloods;
 
 import Enemies.MeleeEnemy;
 import Entities.Drops.ItemBag;
 import Entities.Drops.StatOrb;
 import Sprites.AnimatedSprite;
+import Stats.StatType;
 import Utility.Collision.RectangleObject;
 import processing.core.PImage;
 
@@ -36,7 +37,7 @@ public class BloodCamel extends MeleeEnemy implements RectangleObject {
 
     public void onDeath() {
         super.onDeath();
-        engine.addDrop(new StatOrb(x, y, tier, "ATTACK"));
+        engine.addDrop(new StatOrb(x, y, tier, StatType.ATTACK));
         ItemBag itembag = new ItemBag(x, y, tier);
         if(game.random(1) < 0.3) {
             itembag.addItem(itemFactory.createRandomArmour(tier));

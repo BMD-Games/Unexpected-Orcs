@@ -229,25 +229,24 @@ public class Sprites {
         guiSprites.put("LEFT", getSprite(sheet, 2, 6.5f, 0.5f, 0.5f, guiSize));
         guiSprites.put("RIGHT", getSprite(sheet, 2.5f, 6.5f, 0.5f, 0.5f, guiSize));
 
-        //-----CHAR SPRITES-----
-        PImage charsheet = game.loadImage("/assets/sprites/charsheet.png");
-        int charSize = 8;
+        //-----PLAYER SPRITES-----
+        PImage playersheet = game.loadImage("/assets/sprites/player.png");
+        int playerSize = 8;
 
         //Load player sprites
-        charSprites.put("FACE_FRONT", getSprite(charsheet, 12, 0, 1, 1, charSize));
-        charSprites.put("FACE_BACK", getSprite(charsheet, 13, 0, 1, 1, charSize));
-        charSprites.put("FACE_LEFT", getSprite(charsheet, 12, 1, 1, 1, charSize));
-        charSprites.put("FACE_RIGHT", getSprite(charsheet, 13, 1, 1, 1, charSize));
+        charSprites.put("FACE_FRONT", getSprite(playersheet, 0, 0, 1, 1, playerSize));
+        charSprites.put("FACE_BACK", getSprite(playersheet, 1, 0, 1, 1, playerSize));
+        charSprites.put("FACE_LEFT", getSprite(playersheet, 2, 0, 1, 1, playerSize));
+        charSprites.put("FACE_RIGHT", getSprite(playersheet, 3, 0, 1, 1, playerSize));
 
-        charSprites.put("BODY_FRONT_DEFAULT", getSprite(charsheet, 14, 0, 1, 1, charSize));
-        charSprites.put("BODY_BACK_DEFAULT", getSprite(charsheet, 15, 0, 1, 1, charSize));
-        charSprites.put("BODY_LEFT_DEFAULT", getSprite(charsheet, 14, 1, 1, 1, charSize));
-        charSprites.put("BODY_RIGHT_DEFAULT", getSprite(charsheet, 15, 1, 1, 1, charSize));
+        charSprites.put("BODY_FRONT", getSprite(playersheet, 4, 0, 1, 1, playerSize));
+        charSprites.put("BODY_BACK", getSprite(playersheet, 5, 0, 1, 1, playerSize));
+        charSprites.put("BODY_LEFT", getSprite(playersheet, 6, 0, 1, 1, playerSize));
+        charSprites.put("BODY_RIGHT", getSprite(playersheet, 7, 0, 1, 1, playerSize));
 
-        charSprites.put("BODY_FRONT", getSprite(charsheet, 14, 2, 1, 1, charSize));
-        charSprites.put("BODY_BACK", getSprite(charsheet, 15, 2, 1, 1, charSize));
-        charSprites.put("BODY_LEFT", getSprite(charsheet, 14, 3, 1, 1, charSize));
-        charSprites.put("BODY_RIGHT", getSprite(charsheet, 15, 3, 1, 1, charSize));
+        //-----ENEMY SPRITES----
+        PImage charsheet = game.loadImage("/assets/sprites/charsheet.png");
+        int charSize = 8;
 
         //Load chomp sprites
         charSprites.put("CHOMP_BLACK_SMALL", getSprite(charsheet, 6, 0, 1, 1, charSize));

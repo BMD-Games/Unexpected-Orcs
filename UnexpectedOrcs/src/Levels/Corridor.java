@@ -1,6 +1,7 @@
 package Levels;
 
 import Utility.Util;
+import Utility.Vec2;
 import processing.core.PVector;
 
 import java.util.ArrayList;
@@ -14,11 +15,11 @@ public class Corridor {
     int r1;
     int r2;
 
-    ArrayList<PVector> path;
+    ArrayList<Vec2> path;
 
     int minX, maxX, minY, maxY;
 
-    Corridor(int r1, int r2, ArrayList<PVector> path) {
+    Corridor(int r1, int r2, ArrayList<Vec2> path) {
         this.r1 = r1;
         this.r2 = r2;
 
@@ -26,23 +27,23 @@ public class Corridor {
     }
 
     public void offset(int x, int y) {
-        for(PVector p : path) {
+        for(Vec2 p : path) {
             p.add(x, y);
         }
     }
 
     public static Corridor generateCorridor(ArrayList<Room> rooms, int r1, int r2) {
         //Find a path between the two rooms that does not intersect any other rooms
-        PVector start = rooms.get(r1).midPoint();
-        PVector stop = rooms.get(r2).midPoint();
+        Vec2 start = rooms.get(r1).closestDoor(rooms.get(r2));
+        Vec2 stop = rooms.get(r2).closestDoor(start);
 
-        ArrayList<PVector> queue = new ArrayList<>();
-        ArrayList<PVector> visited = new ArrayList<>();
+        ArrayList<Vec2> queue = new ArrayList<>();
+        ArrayList<Vec2> visited = new ArrayList<>();
 
-        HashMap<PVector, PVector> parents = new HashMap<>();
+        HashMap<Vec2, Vec2> parents = new HashMap<>();
 
-        HashMap<PVector, Integer> gScore = new HashMap<>();
-        HashMap<PVector, Integer> fScore = new HashMap<>();
+        HashMap<Vec2, Integer> gScore = new HashMap<>();
+        HashMap<Vec2, Integer> fScore = new HashMap<>();
 
         gScore.put(start, 0);
         fScore.put(start, costEstimate(start, stop));
@@ -54,18 +55,18 @@ public class Corridor {
         //game.println("Start: " + start + " Goal: " + stop);
 
         while(queue.size() > 0) {
-            PVector current = queue.remove(getClosest(queue, fScore));
+            Vec2 current = queue.remove(getClosest(queue, fScore));
 
             if(current.equals(stop)) break;
 
             visited.add(current);
 
-            PVector[] neighbours = getNeighbours(current);
+            Vec2[] neighbours = getNeighbours(current);
 
             int score = gScore.get(current) + 1;
 
-            for(PVector n : neighbours) {
-                if(validTile(rooms, (int)n.x, (int)n.y, r1, r2) && !visited.contains(n)) {
+            for(Vec2 n : neighbours) {
+                if(validTile(rooms, n.x, n.y, r1, r2) && !visited.contains(n)) {
                     if(!queue.contains(n)) queue.add(n);
 
                     if(gScore.getOrDefault(n, (int)Float.POSITIVE_INFINITY) > score) {
@@ -81,20 +82,18 @@ public class Corridor {
         return reconstructPath(parents, stop, rooms, r1, r2);
     }
 
-    private static Corridor reconstructPath(HashMap<PVector, PVector> parents, PVector current, ArrayList<Room> rooms, int r1, int r2) {
+    private static Corridor reconstructPath(HashMap<Vec2, Vec2> parents, Vec2 current, ArrayList<Room> rooms, int r1, int r2) {
 
         float minX = Float.POSITIVE_INFINITY, maxX  = Float.NEGATIVE_INFINITY, minY = Float.POSITIVE_INFINITY, maxY = Float.NEGATIVE_INFINITY;
 
-        ArrayList<PVector> path = new ArrayList<>();
+        ArrayList<Vec2> path = new ArrayList<>();
 
         while(current != null) {
-            if(!rooms.get(r1).containsCorridorPoint((int)current.x, (int)current.y) && !rooms.get(r2).containsCorridorPoint((int)current.x, (int)current.y)) {
-                path.add(current);
-                if(current.x < minX) minX = current.x;
-                if(current.x > maxX) maxX = current.x;
-                if(current.y < minY) minY = current.y;
-                if(current.y > maxY) maxY = current.y;
-            }
+            path.add(current);
+            if(current.x < minX) minX = current.x;
+            if(current.x > maxX) maxX = current.x;
+            if(current.y < minY) minY = current.y;
+            if(current.y > maxY) maxY = current.y;
 
             current = parents.get(current);
         }
@@ -112,32 +111,28 @@ public class Corridor {
 
     private static boolean validTile(ArrayList<Room> rooms, int x, int y, int r1, int r2) {
 
-        if(rooms.get(r1).contains(x, y) || rooms.get(r2).contains(x, y)) return true;
+        Room room1 = rooms.get(r1);
+        Room room2 = rooms.get(r2);
+
+        //allow if it's in a
+        if(room1.inDoorway(x, y) || room2.inDoorway(x, y)) return true;
+
+        //if(room1.contains(x, y) || room2.contains(x, y)) return false;
 
         for(int i = 0; i < rooms.size(); i ++) {
-            if(i == r1 || i == r2) continue;
+            //if(i == r1 || i == r2) continue;
 
-            if(rooms.get(i).contains(x + 1, y)) return false;
-            if(rooms.get(i).contains(x - 1, y)) return false;
-
-            if(rooms.get(i).contains(x, y + 1)) return false;
-            if(rooms.get(i).contains(x, y - 1)) return false;
-
-            if(rooms.get(i).contains(x + 1, y + 1)) return false;
-            if(rooms.get(i).contains(x + 1, y - 1)) return false;
-
-            if(rooms.get(i).contains(x - 1, y + 1)) return false;
-            if(rooms.get(i).contains(x - 1, y - 1)) return false;
+            if(rooms.get(i).containsCorridorPoint(x, y)) return false;
         }
 
         return true;
     }
 
-    private static int costEstimate(PVector pos, PVector goal) {
-        return (int)(game.abs(pos.x - goal.x) + game.abs(pos.y - goal.y));
+    private static int costEstimate(Vec2 pos, Vec2 goal) {
+        return game.abs(pos.x - goal.x) + game.abs(pos.y - goal.y);
     }
 
-    private static int getClosest(ArrayList<PVector> queue, HashMap<PVector, Integer> fScore) {
+    private static int getClosest(ArrayList<Vec2> queue, HashMap<Vec2, Integer> fScore) {
         int inf = (int)Float.POSITIVE_INFINITY;
         int min = inf;
         int index = 0;
@@ -151,13 +146,13 @@ public class Corridor {
         return index;
     }
 
-    private static PVector[] getNeighbours(PVector current) {
-        PVector[] n = new PVector[4];
+    private static Vec2[] getNeighbours(Vec2 current) {
+        Vec2[] n = new Vec2[4];
 
-        n[0] = new PVector(current.x + 1, current.y);
-        n[1] = new PVector(current.x, current.y + 1);
-        n[2] = new PVector(current.x - 1, current.y);
-        n[3] = new PVector(current.x, current.y - 1);
+        n[0] = new Vec2(current.x + 1, current.y);
+        n[1] = new Vec2(current.x, current.y + 1);
+        n[2] = new Vec2(current.x - 1, current.y);
+        n[3] = new Vec2(current.x, current.y - 1);
 
         return n;
     }

@@ -1,5 +1,6 @@
 package GUI.Screens;
 
+import App.GameState;
 import File.GameFile;
 import GUI.Button;
 import GUI.PopUp.ConfirmDelete;
@@ -65,7 +66,7 @@ public class LoadScreen extends GUIScreen {
                 engine.reset(false);
                 engine.setPlayer(loadedPlayers[loadScroll.selectedElement]);
                 loadedPlayerName = loadScroll.scrollElements[loadScroll.selectedElement].title;
-                game.setState("PLAYING");
+                game.setState(GameState.PLAYING);
             }
         } else if(deleteSave.pressed()) {
             if(loadScroll.selectedElement != -1) {
