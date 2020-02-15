@@ -733,6 +733,7 @@ public class Generator {
             //graph.get(newPos).add(deepest);
         }
 
+        //addLoops(graph);
 
         for (int i = 0; i < placedRooms.size(); i++) {
             for (int j = 0; j < graph.get(i).size(); j++) {
@@ -809,6 +810,29 @@ public class Generator {
         level.setTiles(finishingPass(tiles, level.tileset));
         level.setStart(placedRooms.get(0).midPoint());
         level.setZones(bossRegions, generalRegions);
+    }
+
+    private static void addLoops(ArrayList<ArrayList<Integer>> graph) {
+        ArrayList<Integer> deadEnds = new ArrayList<Integer>();
+        for(int i = 0; i < graph.size() - 1; i ++) { //skip the boss room
+            if(graph.get(i).size() == 0) deadEnds.add(i);
+        }
+
+        if(deadEnds.size() == 2) {
+            int a = deadEnds.get(0);
+            int b = deadEnds.get(1);
+            graph.get(a).add(b);
+            graph.get(a).add(b);
+        }
+
+        while(deadEnds.size()/3 >= 1    ) {
+            //add random connections between dead ends
+            int a = deadEnds.remove((int)game.random(deadEnds.size()));
+            int b = deadEnds.remove((int)game.random(deadEnds.size()));
+
+            graph.get(a).add(b);
+            graph.get(a).add(b);
+        }
     }
 
     public static String[][] intsToTileStrings(int[][]ints) {

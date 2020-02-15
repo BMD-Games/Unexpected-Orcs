@@ -30,7 +30,9 @@ void loadFromFile() {
 
 void saveToFile(String path) {
   PrintWriter file = createWriter(path);
-  file.println("new String[][] {");
+  file.println("Room room = new Room();");
+  //print tiles
+  file.println("room.setTiles(new String[][] {");
   for (int i = 0; i < w; i ++) {
     file.print("{");
     for (int j = 0; j < h; j ++) {
@@ -41,7 +43,18 @@ void saveToFile(String path) {
     if (i < w - 1) file.print(",");
     file.println();
   }
-  file.print("}");
+  file.println("}");
+  file.println(");");
+  
+  //print doors
+  file.println("room.doors = new Vec2[] {");
+  for(int  i = 0; i < doors.size(); i ++) {
+    file.print("new Vec2(");
+    file.print((int)doors.get(i).x + ", " + (int)doors.get(i).y);
+    file.println(")" + (i == doors.size() - 1 ? "" : ","));
+  }
+  file.println("};");
+  
   file.flush();
   file.close();
 }

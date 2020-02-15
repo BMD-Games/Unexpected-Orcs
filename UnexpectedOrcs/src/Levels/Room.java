@@ -1,20 +1,16 @@
 package Levels;
 
-import Tiles.Tile;
-import Tiles.WallTile;
 import Utility.Util;
 import Utility.Vec2;
-import processing.core.PVector;
 
-import static Tiles.Tiles.*;
-import static Utility.Constants.*;
+import static Utility.Constants.game;
 
 public class Room {
 
     public int x, y, w, h;
     public String[][] tiles;
 
-    public Vec2[] doors = new Vec2[] {new Vec2(3, -1) }; //list of positions for doors and an offset from the (x, y) location of the room eg (0, 0) would put a door in the top left of room
+    public Vec2[] doors; //list of positions for doors and an offset from the (x, y) location of the room eg (0, 0) would put a door in the top left of room
 
     Room() {
     }
@@ -115,16 +111,6 @@ public class Room {
         return inDoorway(new Vec2(x, y));
     }
 
-    public static Room randomRoom(int minSize, int maxSize, int w, int h) {
-        Room room = new Room();
-        room.w = game.floor(game.random(minSize, maxSize)); //room width
-        room.h = game.floor(game.random(minSize, maxSize)); //room height
-        room.x = game.floor(game.random(edgeSize, w - room.w - edgeSize)); //room x pos - avoid edges
-        room.y = game.floor(game.random(edgeSize, h - room.h - edgeSize)); //toom y pos - avoid edges
-
-        return new Room();
-    }
-
     public static Room testSpawn() {
         Room room = new Room();
 
@@ -139,6 +125,30 @@ public class Room {
                 {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"},
                 {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"}
         });
+
+        room.doors = new Vec2[] {new Vec2(0, -1) };
+        return room;
+    }
+
+    public static Room doorTest() {
+        Room room = new Room();
+        room.setTiles(new String[][] {
+                {"WOOD","WOOD","WOOD","WOOD","WOOD","WOOD","WOOD"},
+                {"WOOD","WOOD","WOOD","WOOD","WOOD","WOOD","WOOD"},
+                {"WOOD","WOOD","STONE_TILE","STONE_TILE","STONE_TILE","WOOD","WOOD"},
+                {"WOOD","WOOD","STONE_TILE","STONE_TILE","STONE_TILE","WOOD","WOOD"},
+                {"WOOD","WOOD","STONE_TILE","STONE_TILE","STONE_TILE","WOOD","WOOD"},
+                {"WOOD","WOOD","WOOD","WOOD","WOOD","WOOD","WOOD"},
+                {"WOOD","WOOD","WOOD","WOOD","WOOD","WOOD","WOOD"}
+            }
+        );
+        room.doors = new Vec2[] {
+            new Vec2(3, 7),
+            new Vec2(3, -1),
+            new Vec2(-1, 1),
+            new Vec2(-1, 5),
+            new Vec2(7, 3)
+        };
         return room;
     }
 
@@ -189,6 +199,7 @@ public class Room {
                 {"STONE_TILE","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","STONE_TILE","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","STONE_TILE"},
                 {"STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE"}
         });
+        room.doors = new Vec2[] {new Vec2(3, -1) };
         return room;
     }
 

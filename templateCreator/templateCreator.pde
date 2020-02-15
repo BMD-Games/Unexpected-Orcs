@@ -7,13 +7,15 @@ int TILE_SIZE = (int)(SPRITE_SIZE * SCALE);
 
 int GUI_WIDTH = SPRITE_SIZE * MAX_SCALE + 20;
 
-int w = 15;
-int h = 20;
+int w = 7;
+int h = 7;
 
-float xoff = 0, yoff = 0;
+float xoff = 1, yoff = 1;
 
 String[][] tiles = new String[w][h];
 String[] tileNames;
+
+ArrayList<PVector> doors = new ArrayList<PVector>();
 
 int tile = 0;
 
@@ -44,12 +46,12 @@ void draw() {
     for (int j = 0; j < h; j ++) {
       try {
         if(tiles[i][j] != null && !tileOffScreen(i, j)) pg.image(tileSprites.get(tiles[i][j]), (i * TILE_SIZE) + xoff, (j * TILE_SIZE) + yoff, TILE_SIZE, TILE_SIZE);
-        else pg.rect((i * TILE_SIZE) + xoff, (j * TILE_SIZE) + yoff, TILE_SIZE, TILE_SIZE);
       } catch(Exception e) {
         println(tiles[i][j]);
       }
     }
   }
+  drawDoors(pg);
   pg.noFill();
   pg.stroke(255);
   pg.rect(((int)getTile().x * TILE_SIZE) + xoff, ((int)getTile().y * TILE_SIZE) + yoff, TILE_SIZE, TILE_SIZE);
@@ -62,6 +64,29 @@ void draw() {
   image(pg, 0, 0, width, height);
 }
 
+
+void drawDoors(PGraphics pg) {
+  pg.fill(100, 50, 150);
+  pg.noStroke();
+  
+  //left
+  pg.rect((-1 * TILE_SIZE) + xoff, yoff, TILE_SIZE, TILE_SIZE * h);  
+  //right
+  pg.rect((w * TILE_SIZE) + xoff, yoff, TILE_SIZE, TILE_SIZE * h);
+  //top
+  pg.rect(xoff, (-1 * TILE_SIZE) + yoff, TILE_SIZE * w, TILE_SIZE);
+  //bottom
+  pg.rect(xoff, (h * TILE_SIZE) + yoff, TILE_SIZE * w, TILE_SIZE);
+  
+  pg.fill(150, 50, 200);
+  for(PVector door : doors) {
+    int x = (int)door.x;
+    int y = (int)door.y;
+    pg.rect((x * TILE_SIZE) + xoff, (y * TILE_SIZE) + yoff, TILE_SIZE, TILE_SIZE);
+  }
+  
+}
+
 void mouseReleased() {
   if(mouseButton == RIGHT) return;
   if(mouseInBox(width - GUI_WIDTH, 0, GUI_WIDTH, height)) {
@@ -69,10 +94,17 @@ void mouseReleased() {
     return;
   }
   PVector pos = getTile();
+  int x = (int)pos.x;
+  int y = (int)pos.y;
   try { 
-    tiles[(int)pos.x][(int)pos.y] = tileNames[tile];
+    tiles[x][y] = tileNames[tile];
   } 
   catch(Exception e) {
+    //door
+    if(((x == -1 || x == w) && (y >= 0 && y < h)) || ((y == -1 || y == h) && (x >= 0 && x < w))) {
+      if(doors.contains(pos)) doors.remove(pos);
+      else doors.add(pos);
+    }
   }
 }
 
@@ -86,9 +118,11 @@ void mouseDragged() {
   }
   
   PVector pos = getTile();
+  int x = (int)pos.x;
+  int y = (int)pos.y;
   try { 
-    tiles[(int)pos.x][(int)pos.y] = tileNames[tile];
-  } 
+    tiles[x][y] = tileNames[tile];
+  }  
   catch(Exception e) {
   }
 }
@@ -113,7 +147,13 @@ void keyPressed() {
 }
 
 PVector getTile() {
-  return new PVector((mouseX - xoff)/TILE_SIZE, (mouseY - yoff)/TILE_SIZE);
+  int x = (int)(mouseX - xoff)/TILE_SIZE;
+  int y = (int)(mouseY - yoff)/TILE_SIZE;
+
+  if(mouseX < xoff) x -= 1;
+  if(mouseY < yoff) y -= 1;
+  
+  return new PVector(x, y);
 }
 
 PVector getScreen(int x, int y) {
@@ -143,4 +183,9 @@ void clearTiles() {
       tiles[i][j] = "WALL";
     }
   }
+}
+
+void reset() {
+  clearTiles();
+  doors = new ArrayList<PVector>();
 }

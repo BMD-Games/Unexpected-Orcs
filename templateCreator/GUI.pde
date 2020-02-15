@@ -46,7 +46,6 @@ void checkMenu() {
     button.pressed();
   }
 }
-  
 
 void drawMenu() {
   for(Button button : buttons) {
