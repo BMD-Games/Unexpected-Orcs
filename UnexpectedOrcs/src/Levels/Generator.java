@@ -937,15 +937,12 @@ public class Generator {
             pg.text(i, room.midPoint().x * 10, room.midPoint().y * 10);
         }
 
-        pg.strokeWeight(10);
-        pg.stroke(255);
-        pg.noFill();
+
+        pg.fill(255);
         for (int i = 0; i < corridors.size(); i++) {
-            pg.beginShape();
             for (Vec2 vec : corridors.get(i).path) {
-                pg.vertex(vec.x * 10, vec.y * 10);
+                pg.rect(vec.x * 10, vec.y * 10, 10, 10);
             }
-            pg.endShape();
         }
 
         pg.endDraw();

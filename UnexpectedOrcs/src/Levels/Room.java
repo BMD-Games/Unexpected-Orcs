@@ -55,8 +55,8 @@ public class Room {
         int minDist = 10000;
         int index = 0;
         for(int i = 0; i < doors.length; i ++) {
-            int dx = game.abs((x + door.x )- doors[i].x);
-            int dy = game.abs((y + door.y) - doors[i].y);
+            int dx = game.abs((x + doors[i].x) - door.x);
+            int dy = game.abs((y + doors[i].y) - door.y);
             if(dx + dy < minDist) { //use manhattan distance
                 minDist = dx + dy;
                 index = i;
@@ -126,7 +126,12 @@ public class Room {
                 {"FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR","FLOOR"}
         });
 
-        room.doors = new Vec2[] {new Vec2(0, -1) };
+        room.doors = new Vec2[] {
+                new Vec2(4, -1),
+                new Vec2(4, 9),
+                new Vec2(-1, 4),
+                new Vec2(9, 4)
+        };
         return room;
     }
 
@@ -148,6 +153,23 @@ public class Room {
             new Vec2(-1, 1),
             new Vec2(-1, 5),
             new Vec2(7, 3)
+        };
+        return room;
+    }
+
+    public static Room doorTest2() {
+        Room room = new Room();
+        room.setTiles(new String[][] {
+                        {"STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE"},
+                        {"STONE_TILE","WOOD","WOOD","WOOD","STONE_TILE"},
+                        {"STONE_TILE","WOOD","WOOD","WOOD","STONE_TILE"},
+                        {"STONE_TILE","WOOD","WOOD","WOOD","STONE_TILE"},
+                        {"STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE","STONE_TILE"}
+                }
+        );
+        room.doors = new Vec2[] {
+                new Vec2(-1, 2),
+                new Vec2(2, 5)
         };
         return room;
     }

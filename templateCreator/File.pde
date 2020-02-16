@@ -54,7 +54,7 @@ void saveToFile(String path) {
     file.println(")" + (i == doors.size() - 1 ? "" : ","));
   }
   file.println("};");
-  
+  file.print("return room;");
   file.flush();
   file.close();
 }

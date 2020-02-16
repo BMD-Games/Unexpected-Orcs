@@ -7,8 +7,8 @@ int TILE_SIZE = (int)(SPRITE_SIZE * SCALE);
 
 int GUI_WIDTH = SPRITE_SIZE * MAX_SCALE + 20;
 
-int w = 7;
-int h = 7;
+int w = 5;
+int h = 5;
 
 float xoff = 1, yoff = 1;
 
